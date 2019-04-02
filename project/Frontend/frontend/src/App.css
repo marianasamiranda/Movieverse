@@ -1,0 +1,143 @@
+body {
+    background-color: #f2f2f2;
+}
+
+.navbar {
+    background-color: #202020;
+}
+
+.navbar-logo {
+    width: 12%;
+    min-width: 130px;
+}
+
+.navbar-item {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-item-selected {
+    text-decoration: underline;
+}
+
+.jumbotron {
+    /*background-image: url('./img/banner.png'); */
+    background-color: #e2463e;
+    background-size: cover;
+    min-height: 500px;
+}
+
+.header-text {
+    font-family: 'Oswald', sans-serif;
+    color: #f0f0f0;
+}
+
+.title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 35pt;
+    color: #333333;
+    padding-bottom: 20pt;
+}
+
+.footer-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22pt;
+    color: #f0f0f0;
+    margin-top: 20pt;
+}
+
+.footer-item {
+    font-family: 'Roboto light', sans-serif;
+    font-size: 15pt;
+    color: #f0f0f0;
+}
+
+.footer-item-small {
+    font-family: 'Roboto light', sans-serif;
+    font-size: 12pt;
+    color: #f0f0f0;
+    margin-top: 20pt;
+}
+
+.label {
+    font-family: 'Roboto light', sans-serif;
+    font-size: 18pt;
+    color: #333333;
+    line-height: 10pt;
+    padding-top: 10pt;
+}
+
+.bg-light-gray {
+    background-color: #e8e8e8;
+}
+
+.bg-lighter-gray {
+    background-color: #f9f9f9;
+}
+
+.bg-dark-gray {
+    background-color: #202020;
+}
+
+.container-padding {
+    padding-bottom: 75pt;
+}
+
+.padding-top {
+    padding-top: 30pt;
+}
+
+.horizontal-card {
+    border-radius: 10pt;
+    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 18pt;
+    color: #303030;
+    align-items: center;
+    margin-right: 0pt;
+    margin-top: 10pt;
+    min-height: 80pt;
+    padding-top: 10pt;
+}
+
+.about-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #303030;
+    font-size: 15pt;
+}
+
+.stats-margin {
+    margin-bottom: 20pt;
+}
+
+.stats-number {
+    font-family: 'Roboto', sans-serif;
+    color: #303030;
+    font-size: 24pt;
+    margin-bottom: -5pt;
+}
+
+.stats-name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #707070;
+    font-size: 18pt;
+}
+
+.fa-fw {
+    margin-right: 10pt;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+/* TODO */
+@media only screen and (max-width: 600pt) {
+    .movie-card {
+        width: 80pt;
+    }
+}
