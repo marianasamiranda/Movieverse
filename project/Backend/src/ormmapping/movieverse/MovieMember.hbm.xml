@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: mariana(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="movieverse.MovieMember" table="MovieMember" lazy="false">
+		<id name="id" column="Id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="role" column="Role" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="ORM_Member" cascade="lock" column="MemberId" class="movieverse.Member" not-null="true" lazy="false">
+		</many-to-one>
+		<many-to-one name="ORM_Movie" cascade="lock" column="MovieId" class="movieverse.Movie" not-null="true" lazy="false">
+		</many-to-one>
+	</class>
+</hibernate-mapping>

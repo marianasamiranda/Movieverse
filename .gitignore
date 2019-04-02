@@ -3,3 +3,8 @@
 *.vpp.working
 *.vpp.working-journal
 *.lock
+
+# JetBrains Rider
+*.idea/*
+*.sln.iml
+
