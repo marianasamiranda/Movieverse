@@ -13,25 +13,23 @@ export default class FrontPage extends Component {
     return (
       <div>
         <Banner />
-        <Container className="container-padding">
-          <div className="title">
-            NEW RELEASES
+        <div className="container">
+          
+          <div className="row">
+            <div className="col-6 col-sm-3 my-col">
+              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
+            </div>
+            <div className="col-6 col-sm-3 my-col">
+              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
+            </div>
+            <div className="col-6 col-sm-3 my-col">
+              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
+            </div>
+            <div className="col-6 col-sm-3 my-col">
+              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
+            </div>
           </div>
-          <Row>
-            <Col>
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-            <Col>
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-            <Col>
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-            <Col>
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-          </Row>
-        </Container>
+        </div>
         <div className="bg-light-gray">
           <Container className="container-padding">
             <div className="title padding-top">
@@ -60,17 +58,17 @@ export default class FrontPage extends Component {
             STATISTICS
           </div>
           <Row>
-            <Col lg="3" md="3" sm="6" className="stats-margin">
+            <Col xs="12" sm="6" lg="3" className="stats-margin">
               <StatsItem img={require('../img/girl.png')} name="Users" number="123" />
             </Col>
-            <Col lg="3" md="3" sm="6" className="stats-margin">
+            <Col xs="12" sm="6" lg="3" className="stats-margin">
               <StatsItem img={require('../img/watch.png')} name="Movies" number="20000" />
             </Col>
-            <Col lg="3" md="3" sm="6" className="stats-margin">
+            <Col xs="12" sm="6" lg="3" className="stats-margin">
               <StatsItem img={require('../img/actor.png')} name="Actors" number="1000" />
             </Col>
-            <Col lg="3" md="3" sm="6" className="stats-margin">
-              <StatsItem img={require('../img/time.png')} name="Hours" number="962362" />
+            <Col xs="12" sm="6" lg="3" className="stats-margin">
+              <StatsItem img={require('../img/time.png')} name="Hours" number="9623" />
             </Col>
           </Row>
         </Container>
