@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: mariana(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="movieverse.Member" table="Member" lazy="false">
+		<id name="id" column="Id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="image" column="Image" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="birthDate" column="BirthDate" type="date" not-null="false" lazy="false"/>
+		<property name="gender" column="Gender" type="boolean" not-null="true" lazy="false"/>
+		<property name="imdb" column="Imdb" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="biography" column="Biography" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="BirthPlace" column="BirthPlace" type="string" length="255" not-null="false" lazy="false"/>
+		<set name="ORM_MovieMembers" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="MemberId" not-null="true"/>
+			<one-to-many class="movieverse.MovieMember"/>
+		</set>
+	</class>
+</hibernate-mapping>
