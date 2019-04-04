@@ -24,9 +24,9 @@ export default class Datepicker extends React.Component {
   render() {
     return (
       <DatePicker
-        selected={this.state.startDate}
         onChange={this.handleChange}
         dateFormat="dd/MM/YYYY"
+        placeholderText="Birthdate"
       />
     );
   }

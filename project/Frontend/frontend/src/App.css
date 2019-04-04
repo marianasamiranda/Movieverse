@@ -72,11 +72,11 @@ body {
 }
 
 .light-gray {
-    color: #a6a6a6;
+    color: #8e8e8e;
 }
 
 .dark-gray {
-    color: #737373;
+    color: #4d4d4d;
 }
 
 .bg-light-gray {
@@ -197,10 +197,10 @@ body {
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: #e1dddd;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 0rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
     .flag-select img {
@@ -221,7 +221,7 @@ body {
 }
 
 input {
-    display: block;
+    display: inline-block;
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
@@ -229,20 +229,19 @@ input {
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: #e1dddd;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-left: none;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 input:focus {
     color: #495057;
-    background-color: #fff;
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
+}
 
 .react-datepicker-wrapper {
     width: 100%;
@@ -256,3 +255,47 @@ input:focus {
     margin: 0 auto;
     display: block;
 }
+
+.form-control {
+    background-color: #e1dddd;
+    border-radius: 0px;
+    color: #495057;
+    border-left: none;
+}
+
+.form-control:focus {
+    background-color: #e1dddd;
+}
+.input-group-prepend,
+.input-group-append {
+    display:inline-block;
+}
+
+.input-group-text {
+    background-color: #e1dddd;
+    border-right: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0px;
+    height: calc(1.5em + 0.75rem + 2px);
+}
+
+
+.input-group-prepend .btn,
+.input-group-append .btn {
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #495057;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #495057;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #495057;
+  }

@@ -15,7 +15,7 @@ export default class Register extends Component  {
       <Form>
         <InputGroup>
           <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+            <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-at"></i></InputGroup.Text>
           </InputGroup.Prepend>
           <Form.Control
             type="text"
@@ -25,21 +25,46 @@ export default class Register extends Component  {
           />
         </InputGroup>
         <p />
-        <Form.Group controlId="formEmail">
+        <InputGroup controlId="formEmail">
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-envelope"></i></InputGroup.Text>
+          </InputGroup.Prepend>
           <Form.Control type="email" placeholder="Email" />
-        </Form.Group>
-        <Form.Group controlId="formName">
+        </InputGroup>
+        <p />
+        <InputGroup controlId="formName">
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-user"></i></InputGroup.Text>
+          </InputGroup.Prepend>
           <Form.Control type="name" placeholder="Name" />
-        </Form.Group>
-        <Form.Group controlId="formPassword">
+        </InputGroup>
+        <p />
+        <InputGroup controlId="formPassword">
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-key"></i></InputGroup.Text>
+          </InputGroup.Prepend>
           <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Form.Group controlId="formConfirmPassword">
+        </InputGroup>
+        <p />
+        <InputGroup controlId="formConfirmPassword">
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-key"></i></InputGroup.Text>
+          </InputGroup.Prepend>
           <Form.Control type="confirmPassword" placeholder="Confirm Password" />
-          </Form.Group>
-        <Form.Group style={{ 'margin-bottom':'0.7em' }} >
-          <Datepicker />
-          </Form.Group>
+        </InputGroup>
+        <p />
+        <InputGroup style={{ 'margin-bottom':'0.7em' }}>
+          <Row noGutters='true'>
+            <Col xs="2">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-birthday-cake"></i></InputGroup.Text>
+            </InputGroup.Prepend>
+            </Col>
+            <Col>
+            <Datepicker />
+            </Col>
+          </Row>
+        </InputGroup>
         <Row>
           <Col xs="12" sm="6" style={{ 'margin-bottom':'0.7em' }}>
           <div class="left-right">
@@ -54,12 +79,17 @@ export default class Register extends Component  {
           </div>
           </Col>
           <Col xs="12" sm="6">
-            <Form.Control as="select">
-            <option value="" disabled selected>Gender</option>
-              <option>Other</option>
-              <option>Female</option>
-              <option>Male</option>
-            </Form.Control>
+          <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-venus-mars"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+              <Form.Control as="select">
+              <option value="" disabled selected>Gender</option>
+                <option>Other</option>
+                <option>Female</option>
+                <option>Male</option>
+              </Form.Control>
+          </InputGroup>
           </Col>
         </Row>
         <Button className="bg-medium-gray float-right" variant="secondary" type="submit">
