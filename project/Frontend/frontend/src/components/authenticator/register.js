@@ -54,16 +54,18 @@ export default class Register extends Component  {
         </InputGroup>
         <p />
         <InputGroup style={{ 'margin-bottom':'0.7em' }}>
-          <Row noGutters='true'>
-            <Col xs="2">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-birthday-cake"></i></InputGroup.Text>
-            </InputGroup.Prepend>
-            </Col>
-            <Col>
-            <Datepicker />
-            </Col>
-          </Row>
+          <table>
+            <tr>
+            <td>
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroupPrepend"><i class="fas fa-birthday-cake"></i></InputGroup.Text>
+              </InputGroup.Prepend>
+            </td>
+            <td>
+              <Datepicker />
+            </td>            
+          </tr>
+        </table>
         </InputGroup>
         <Row>
           <Col xs="12" sm="6" style={{ 'margin-bottom':'0.7em' }}>
@@ -92,7 +94,7 @@ export default class Register extends Component  {
           </InputGroup>
           </Col>
         </Row>
-        <Button className="bg-medium-gray float-right" variant="secondary" type="submit">
+        <Button className="float-right" variant="secondary" type="submit">
           Submit
         </Button>
         <br />

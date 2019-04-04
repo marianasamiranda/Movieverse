@@ -87,10 +87,6 @@ body {
     background-color: #f9f9f9;
 }
 
-.bg-medium-gray {
-    background-color: #a6a6a6;
-}
-
 .bg-dark-gray {
     background-color: #202020;
 }
@@ -166,7 +162,7 @@ body {
 
 .authenticator {
     border-radius: 10pt;
-    background-color: #f9f9f9;
+    background-color: #efebeb;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 18pt;
@@ -174,8 +170,8 @@ body {
     max-width: 300pt;
     align-items: center;
     margin-right: 0pt;
-    padding: 25pt 35pt;
-    margin-top: 10pt;
+    padding: 15pt 25pt;
+    margin-top: 5pt;
     min-height: 80pt;
 }
 
@@ -210,8 +206,20 @@ body {
         top: 0em;
     }
 
+    .flag-select .flag-options {
+        background-color: #ededed;
+    }
+
+    .flag-select .arrow-down {
+        color: #495057;
+        padding: 2px;
+        margin-left: 10px;
+    }
+
 .label-country {
     font-size: 0.7em;
+    color: #495057;
+    padding-top: 5px;
 }
 
 .left-right {
@@ -290,7 +298,7 @@ input:focus {
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #495057;
     opacity: 1; /* Firefox */
-  }
+}
   
   :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: #495057;
@@ -299,3 +307,32 @@ input:focus {
   ::-ms-input-placeholder { /* Microsoft Edge */
     color: #495057;
   }
+
+.btn-secondary {
+    color: #495057;
+    background-color: #e1dddd;
+    border-color: #ced4da;
+    border-radius: 0;
+}
+
+.btn-secondary:hover {
+    color: #e1dddd;
+    background-color: #495057;
+    border-color: #495057;
+    border-radius: 0;
+}
+
+td, tr {
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+table {
+    width: auto;
+    table-layout: fixed;
+}
+
+table td:last-child {
+    width: 100%;
+}

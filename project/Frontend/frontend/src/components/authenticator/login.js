@@ -21,7 +21,7 @@ export default class Login extends Component  {
           <Form.Control type="password" placeholder="Password" />
         </InputGroup>
         <p />
-        <Button className="bg-medium-gray float-right" variant="secondary" type="submit">
+        <Button className="float-right" variant="secondary" type="submit">
           Submit
         </Button>
         <br/>
