@@ -5,8 +5,62 @@ import FrontPage from './components/frontpage';
 import Axios from 'axios'
 
 import './App.css';
+const backend = 'http://localhost:8080'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.login = this.login.bind(this)
+    this.register = this.register.bind(this)
+    this.state = {
+      loginFail: false,
+      registerFail: false,
+      errorMessage: ""
+    }
+  }
+
+
+  login(data) {
+    Axios.post(backend + '/login', data).then(x =>{
+      console.log("success");
+      this.setState({
+        loginFail: false,
+        registerFail: false
+      })
+    })
+    .catch(x => {
+      this.setState({
+        loginFail: true,
+        registerFail: false,
+        errorMessage: x.response.data
+      })
+    })
+  }
+
+
+  register(data) {
+    this.setState({
+      registeredFail: false,
+    })
+    Axios.post(backend + '/register', data).then(x => {
+      if (x.status === 200) {
+        console.log("success");
+        this.setState({
+          loginFail: false,
+          registerFail: false
+        })
+      }
+    })
+    .catch(x => {
+      this.setState({
+        loginFail: false,
+        registerFail: true,
+        errorMessage: x.response.data
+      })
+    })
+  }
+
+
   render() {
     let navBarLinks = [
       { name: 'Discover Movies', url: '/movie-search', selected: false },
@@ -17,16 +71,18 @@ class App extends Component {
     return (
       <div>
         <NavBar links={navBarLinks}/>
-        <FrontPage />
+        <FrontPage 
+          login={this.login}
+          register={this.register}
+          loginFail={this.state.loginFail}
+          registerFail={this.state.registerFail}
+          errorMessage={this.state.errorMessage}
+        />
         <Footer />
       </div>
     );
   }
 }
-
-
-Axios.get('http://localhost:8080/hello?name=seesrserrse').then(x => console.log(x)).catch(x => console.log(x))
-
 
 
 export default App;

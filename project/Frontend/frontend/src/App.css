@@ -72,7 +72,7 @@ body {
 }
 
 .light-gray {
-    color: #8e8e8e;
+    color: #aaaaaa;
 }
 
 .dark-gray {
@@ -97,6 +97,10 @@ body {
 
 .padding-top {
     padding-top: 30pt;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10pt;
 }
 
 .horizontal-card {
@@ -335,4 +339,27 @@ table {
 
 table td:last-child {
     width: 100%;
+}
+
+.input-group-text {
+    border: 0;
+}
+
+.form-control {
+    border: 0;
+}
+
+.no-validator {
+    background-image: none !important;
+    padding-right: 0 !important;
+}
+
+.cursor-hover {
+    cursor: pointer;
+}
+
+.error-message {
+    font-size: 11pt;
+    color: rgb(255, 40, 40);
+    font-family: 'Roboto', sans-serif;
 }

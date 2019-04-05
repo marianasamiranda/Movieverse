@@ -10,21 +10,23 @@ export default class Datepicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date()
+      date: new Date()
     };
     this.handleChange = this.handleChange.bind(this);
   }
  
   handleChange(date) {
     this.setState({
-      startDate: date
+      date: date
     });
+    this.props.change({target: {name:"birthdate", value:date}})
   }
  
   render() {
     return (
       <DatePicker
         onChange={this.handleChange}
+        selected={this.state.date}
         dateFormat="dd/MM/YYYY"
         placeholderText="Birthdate"
       />

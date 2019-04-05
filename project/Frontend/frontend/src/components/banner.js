@@ -18,7 +18,13 @@ export default class Banner extends Component {
               <h1 className="header-text">MOVIE FRIENDS!</h1>
             </Col>
             <Col lg="6" sm="12">
-              <Authenticator />
+              <Authenticator 
+                login={this.props.login} 
+                register={this.props.register}
+                loginFail={this.props.loginFail}
+                registerFail={this.props.registerFail}
+                errorMessage={this.props.errorMessage}
+              />
             </Col>
           </Row>
         </Container>

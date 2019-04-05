@@ -12,9 +12,14 @@ export default class FrontPage extends Component {
   render() {
     return (
       <div>
-        <Banner />
+        <Banner 
+          login={this.props.login} 
+          register={this.props.register}
+          loginFail={this.props.loginFail}
+          registerFail={this.props.registerFail}
+          errorMessage={this.props.errorMessage}
+        />
         <div className="container">
-          
           <div className="row">
             <div className="col-6 col-sm-3 my-col">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />

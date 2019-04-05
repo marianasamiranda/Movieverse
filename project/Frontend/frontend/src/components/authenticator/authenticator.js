@@ -10,16 +10,16 @@ export default class Authenticator extends Component  {
   constructor(props) {
     super(props)
     this.state = { state: 'login' }
-    this.login = this.login.bind(this)
-    this.register = this.register.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handleRegister = this.handleRegister.bind(this)
   }
 
-  login(event) {
+  handleLogin(event) {
     this.setState({state: 'login'})
 
   }
 
-  register(event) {
+  handleRegister(event) {
     this.setState({state: 'register'})
   }
 
@@ -28,26 +28,34 @@ export default class Authenticator extends Component  {
     let colorLogin
     let colorRegister
     if (this.state.state === 'login') {
-        form = <Login />
+        form = <Login 
+          login={this.props.login}
+          loginFail={this.props.loginFail}
+          errorMessage={this.props.errorMessage}
+          />
         colorLogin = 'dark-gray'
         colorRegister = 'light-gray'
     }
     else {
-       form = <Register />
+       form = <Register 
+          register={this.props.register}
+          registerFail={this.props.registerFail}
+          errorMessage={this.props.errorMessage}
+        />
        colorLogin = 'light-gray'
        colorRegister = 'dark-gray'
     }
     return (
       <div className="authenticator">
         <Row className="justify-content-center">
-          <Col className={"authenticator-tab " + colorLogin} xs="4" onClick={this.login}>
-            <center>LOGIN</center>
+          <Col className={"authenticator-tab " + colorLogin} xs="4" onClick={this.handleLogin}>
+            <center className="cursor-hover">LOGIN</center>
           </Col>
           <Col xs="1" className="light-gray">
             <center>|</center>
           </Col>
-          <Col className={"authenticator-tab " + colorRegister} xs="5" onClick={this.register}>
-            <center>REGISTER</center>
+          <Col className={"authenticator-tab " + colorRegister} xs="5" onClick={this.handleRegister}>
+            <center className="cursor-hover">REGISTER</center>
           </Col>
         </Row>
         <p></p>

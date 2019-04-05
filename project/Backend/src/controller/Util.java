@@ -1,22 +1,18 @@
 package controller;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 public class Util {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    @RequestMapping(method = GET, value = "/login")
     public static Map jsonToMap(String pBody) {
         try {
-            return  mapper.readValue(pBody, new TypeReference<Map<String,String>>(){});
+            return mapper.readValue(pBody, new TypeReference<Map<String,String>>(){});
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -25,5 +21,10 @@ public class Util {
        return null;
     }
 
-
+    public static ResponseEntity<Object> response(String r) {
+        if (r == null)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(r, HttpStatus.BAD_REQUEST);
+    }
 }
