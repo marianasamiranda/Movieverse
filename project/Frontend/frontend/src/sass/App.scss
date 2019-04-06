@@ -1,0 +1,57 @@
+* {
+    box-sizing: border-box;
+}
+
+@import 'Variables';
+@import 'Colors';
+@import 'Utils';
+
+.navbar {
+    background-color: $nav-color;
+
+    .navbar-logo {
+        width: 12%;
+        min-width: 130px;
+    }
+
+    .navbar-item {
+        color: white;
+        font-family: $font-stack;
+    }
+
+    .navbar-item-selected {
+        text-decoration: underline;
+    }
+}
+
+body {
+    background-color: #f2f2f2;
+}
+
+.footer {
+    .footer-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 22pt;
+        color: #f0f0f0;
+        margin-top: 20pt;
+    }
+    
+    .footer-item {
+        font-family: $font-stack-light;
+        font-size: 15pt;
+        color: #f0f0f0;
+    }
+    
+    .footer-item-small {
+        font-family: $font-stack-light;
+        font-size: 12pt;
+        color: #f0f0f0;
+        margin-top: 20pt;
+    }
+}
+
+
+
+
+
+

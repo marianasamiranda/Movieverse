@@ -3,10 +3,11 @@ import Banner from './banner'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import HorizontalCard from './horizontal-card'
+import SellingPoint from './selling-point'
 import MovieCard from './movie-card'
 import StatsItem from './stats-item'
 import logo from '../img/logo.png'
+import '../styles/FrontPage.css'
 
 export default class FrontPage extends Component {
   render() {
@@ -19,7 +20,10 @@ export default class FrontPage extends Component {
           registerFail={this.props.registerFail}
           errorMessage={this.props.errorMessage}
         />
-        <div className="container">
+        <div className="container container-padding">
+          <div className="title">
+            NEW RELEASES
+          </div>
           <div className="row">
             <div className="col-6 col-sm-3 my-col">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
@@ -37,29 +41,29 @@ export default class FrontPage extends Component {
         </div>
         <div className="bg-light-gray">
           <Container className="container-padding">
-            <div className="title padding-top">
+            <div className="title">
               JOIN MOVIEVERSE TODAY!
             </div>
             <Row>
               <Col lg="6">
-                <HorizontalCard img={require('../img/heart.png')} text="Get to know your friends' movie tastes" />
+                <SellingPoint img={require('../img/heart.png')} text="Get to know your friends' movie tastes" />
               </Col>
               <Col lg="6">
-                <HorizontalCard img={require('../img/popcorn.png')} text="Catch up with the hottest new releases" />
+                <SellingPoint img={require('../img/popcorn.png')} text="Catch up with the hottest new releases" />
               </Col>
             </Row>
             <Row>
               <Col lg="6">
-                <HorizontalCard img={require('../img/notebook.png')} text="Keep track of your entire movie history" />
+                <SellingPoint img={require('../img/notebook.png')} text="Keep track of your entire movie history" />
               </Col>
               <Col lg="6">
-                <HorizontalCard img={require('../img/achievement.png')} text="Earn achievements watching movies" />
+                <SellingPoint img={require('../img/achievement.png')} text="Earn achievements watching movies" />
               </Col>
             </Row>
           </Container>
         </div>
-        <Container className="container-padding">
-          <div className="title padding-top">
+        <Container className="container-padding stats">
+          <div className="title">
             STATISTICS
           </div>
           <Row>
@@ -79,7 +83,7 @@ export default class FrontPage extends Component {
         </Container>
         <div className="bg-light-gray">
           <Container className="container-padding">
-            <div className="title padding-top">
+            <div className="title">
               ABOUT US
             </div>
             <Row>

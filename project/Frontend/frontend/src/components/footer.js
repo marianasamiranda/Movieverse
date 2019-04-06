@@ -7,28 +7,28 @@ export default class Footer extends Component  {
   render() {
     return (
       <div className="bg-dark-gray">
-        <Container>
+        <Container className="footer">
           <Row>
             <Col lg="6" md="6" sm="12">
               <div className="footer-title">
                 Contact Us
-                </div>
+              </div>
               <div className="footer-item">
-                <i className="fas fa-envelope fa-fw"></i>
+                <i className="fas fa-envelope fa-fw margin-right-10"></i>
                 asdasdasd@asdasd.com
-                </div>
+              </div>
               <div className="footer-item">
-                <i className="fab fa-facebook-square fa-fw"></i>
+                <i className="fab fa-facebook-square fa-fw margin-right-10"></i>
                 movieverse
-                </div>
+              </div>
               <div className="footer-item">
-                <i className="fab fa-instagram fa-fw"></i>
+                <i className="fab fa-instagram fa-fw margin-right-10"></i>
                 @movieverse
-                </div>
+              </div>
               <div className="footer-item">
-                <i className="fab fa-twitter-square fa-fw"></i>
+                <i className="fab fa-twitter-square fa-fw margin-right-10"></i>
                 @movieverse
-                </div>
+              </div>
               <div className="footer-item-small">
                 <p>© Movieverse 2019. All rights reserved</p>
               </div>

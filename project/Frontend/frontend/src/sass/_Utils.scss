@@ -1,0 +1,108 @@
+
+.font-stack {
+    font-family: $font-stack;
+}
+
+.title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 35pt;
+    color: #333333;
+    padding-bottom: 20pt;
+}
+
+.padding-bottom {
+    padding-bottom: 75pt;
+}
+
+.padding-top {
+    padding-top: 30pt;
+}
+
+.container-padding {
+    @extend .padding-top;
+    @extend .padding-bottom;
+}
+
+.left-right {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.margin-top-10 {
+    margin-top: 10pt;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10pt;
+}
+
+.margin-right-10 {
+    margin-right: 10pt;
+}
+
+.margin-left-10 {
+    margin-left: 10pt;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.center-image {
+    margin: 0 auto;
+    display: block;
+}
+
+
+
+
+td, tr {
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+table {
+    width: auto;
+    table-layout: fixed;
+}
+
+table td:last-child {
+    width: 100%;
+}
+
+.input-group-text {
+    border: 0;
+}
+
+.form-control {
+    border: 0;
+}
+
+.cursor-hover {
+    cursor: pointer;
+}
+
+.movie-card-container {
+    .label {
+        font-family: $font-stack-light;
+        font-size: 18pt;
+        color: #333333;
+        line-height: 10pt;
+        padding-top: 10pt;
+    }
+    
+    .movie-card {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    @media(min-width: 200px) and (max-width: 768px) {
+        .label p {
+            font-size: 20px;
+        }
+    }
+}
+

@@ -1,0 +1,76 @@
+
+input {
+    display: inline-block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #e1dddd;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-left: none;
+    border-style: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    :focus {
+        color: #495057;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+}
+
+.form-control {
+    background-color: #e1dddd;
+    border-radius: 0px;
+    color: #495057;
+    border-left: none;
+
+    :focus {
+        background-color: #e1dddd;
+    }
+}
+
+.input-group-prepend,
+.input-group-append {
+    display:inline-block;
+}
+
+.input-group-text {
+    background-color: #e1dddd;
+    border-right: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0px;
+    height: calc(1.5em + 0.75rem + 2px);
+}
+
+.input-group-prepend .btn,
+.input-group-append .btn {
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-secondary {
+    color: #495057;
+    background-color: #e1dddd;
+    border-color: #ced4da;
+    border-radius: 0;
+
+
+    :hover {
+        color: #e1dddd;
+        background-color: #495057;
+        border-color: #495057;
+        border-radius: 0;
+    }
+}
+
+.error-message {
+    font-size: 11pt;
+    color: rgb(255, 40, 40);
+    font-family: $font-stack;
+}

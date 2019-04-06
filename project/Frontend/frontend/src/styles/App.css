@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box;
+}
+
+.light-gray {
+  color: #aaaaaa;
+}
+
+.dark-gray {
+  color: #4d4d4d;
+}
+
+.bg-light-gray {
+  background-color: #e8e8e8;
+}
+
+.bg-lighter-gray {
+  background-color: #f9f9f9;
+}
+
+.bg-dark-gray {
+  background-color: #202020;
+}
+
+.font-stack {
+  font-family: "Roboto", sans-serif;
+}
+
+.title {
+  font-family: "Oswald", sans-serif;
+  font-size: 35pt;
+  color: #333333;
+  padding-bottom: 20pt;
+}
+
+.padding-bottom, .container-padding {
+  padding-bottom: 75pt;
+}
+
+.padding-top, .container-padding {
+  padding-top: 30pt;
+}
+
+.left-right {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.margin-top-10 {
+  margin-top: 10pt;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10pt;
+}
+
+.margin-right-10 {
+  margin-right: 10pt;
+}
+
+.margin-left-10 {
+  margin-left: 10pt;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
+.center-image {
+  margin: 0 auto;
+  display: block;
+}
+
+td, tr {
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+}
+
+table {
+  width: auto;
+  table-layout: fixed;
+}
+
+table td:last-child {
+  width: 100%;
+}
+
+.input-group-text {
+  border: 0;
+}
+
+.form-control {
+  border: 0;
+}
+
+.cursor-hover {
+  cursor: pointer;
+}
+
+.movie-card-container .label {
+  font-family: "Roboto light", sans-serif;
+  font-size: 18pt;
+  color: #333333;
+  line-height: 10pt;
+  padding-top: 10pt;
+}
+.movie-card-container .movie-card {
+  max-width: 100%;
+  height: auto;
+}
+@media (min-width: 200px) and (max-width: 768px) {
+  .movie-card-container .label p {
+    font-size: 20px;
+  }
+}
+
+.navbar {
+  background-color: #202020;
+}
+.navbar .navbar-logo {
+  width: 12%;
+  min-width: 130px;
+}
+.navbar .navbar-item {
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+.navbar .navbar-item-selected {
+  text-decoration: underline;
+}
+
+body {
+  background-color: #f2f2f2;
+}
+
+.footer .footer-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 22pt;
+  color: #f0f0f0;
+  margin-top: 20pt;
+}
+.footer .footer-item {
+  font-family: "Roboto light", sans-serif;
+  font-size: 15pt;
+  color: #f0f0f0;
+}
+.footer .footer-item-small {
+  font-family: "Roboto light", sans-serif;
+  font-size: 12pt;
+  color: #f0f0f0;
+  margin-top: 20pt;
+}
+
+/*# sourceMappingURL=App.css.map */

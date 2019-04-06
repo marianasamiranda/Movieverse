@@ -1,0 +1,121 @@
+@import 'Variables';
+@import 'Forms';
+
+.jumbotron {
+    /*background-image: url('./img/banner.png'); */
+    background-color: $primary-color;
+    background-size: cover;
+    min-height: 500px;
+    margin-bottom: 0;
+
+    .jumbotron-text {
+        font-family: 'Oswald', sans-serif;
+        color: $body-color;
+    }
+}
+
+.selling-point {
+    border-radius: 10pt;
+    background-color: #f9f9f9;
+    font-family: $font-stack;
+    font-weight: 300;
+    font-size: 18pt;
+    color: #303030;
+    align-items: center;
+    margin: 10pt 0 0 0;
+    min-height: 80pt;
+    padding-top: 10pt;
+    max-width: 100%;
+}
+
+.stats {
+    .stats-margin {
+        margin-bottom: 20pt;
+    }
+    
+    .stats-number {
+        font-family: $font-stack;
+        color: #303030;
+        font-size: 24pt;
+        margin-bottom: -5pt;
+    }
+    
+    .stats-name {
+        font-family: $font-stack;
+        font-weight: 300;
+        color: #707070;
+        font-size: 18pt;
+    }
+}
+
+.about-text {
+    font-family: $font-stack;
+    font-weight: 300;
+    color: #303030;
+    font-size: 15pt;
+}
+
+.authenticator {
+    border-radius: 10pt;
+    background-color: #efebeb;
+    font-family: $font-stack;
+    font-weight: 300;
+    font-size: 18pt;
+    color: #303030;
+    max-width: 300pt;
+    align-items: center;
+    margin-right: 0pt;
+    padding: 15pt 25pt;
+    margin-top: 5pt;
+    min-height: 80pt;
+
+    .authenticator-tab {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .flag-select {
+        position: relative;
+        vertical-align: inherit;
+        display:inline-block;
+        text-align: left;
+        width: auto;
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.3rem 0.3rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #e1dddd;
+        background-clip: padding-box;
+        border-radius: 0rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+        img {
+            width: 1.3em;
+            height: 1.3em;
+            position: relative;
+            top: 0em;
+        }
+
+        .flag-options {
+            background-color: #ededed;
+        }
+
+        .arrow-down {
+            color: #495057;
+            padding: 2px;
+            margin-left: 10px;
+        }
+    }
+
+    .label-country {
+        font-size: 0.7em;
+        color: #495057;
+        padding-top: 5px;
+    }
+
+    
+}
+
+
+
