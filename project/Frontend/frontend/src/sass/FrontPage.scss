@@ -5,13 +5,18 @@
     /*background-image: url('./img/banner.png'); */
     background-color: $primary-color;
     background-size: cover;
-    min-height: 500px;
-    margin-bottom: 0;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
 
     .jumbotron-text {
         font-family: 'Oswald', sans-serif;
         color: $body-color;
     }
+}
+
+.container-banner {
+    min-height: 550px;
+    margin-bottom: -16px;
 }
 
 .selling-point {
@@ -112,7 +117,18 @@
         font-size: 0.7em;
         color: #495057;
         padding-top: 5px;
-    }
+    }    
+}
 
-    
+.banner-bg {
+    background-image: url('../img/banner_large.png');
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    @media screen and (max-width: 990px){
+        background-image: url('../img/banner_small.png');
+        background-position: bottom right;
+    }
+    @media screen and (max-width: 500px){
+        background: none;
+    }
 }

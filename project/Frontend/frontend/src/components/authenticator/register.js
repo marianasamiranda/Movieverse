@@ -6,6 +6,9 @@ import Row from 'react-bootstrap/Row'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Datepicker from '../datepicker'
 import ReactFlagsSelect from 'react-flags-select'
+import Axios from 'axios'
+import ReactLoading from 'react-loading'
+import {backend} from '../../var'
 
 import 'react-flags-select/css/react-flags-select.css';
 
@@ -24,7 +27,10 @@ export default class Register extends Component  {
       birthdate: new Date(),
       country: "PT",
       gender: "Female",
-      validated: false
+      validated: false,
+      fail: false,
+      failMessage: '',
+      loading: false
     }
   }
 
@@ -43,17 +49,43 @@ export default class Register extends Component  {
   }
 
   handleSubmit(e) {
-    let m = this.state
-    delete m.validated
-    this.setState({validated: false})
-    this.props.register(m)
+    this.register()
     e.preventDefault();
+  }
+
+  register() {
+    this.setState({loading: true})
+
+    let data = {}
+    data.email = this.state.email
+    data.username = this.state.username
+    data.password = this.state.password
+    data.name = this.state.name
+    data.birthdate = this.state.birthdate
+    data.country = this.state.country
+    data.gender = this.state.gender
+
+    Axios.post(backend + '/register', data).then(x => {
+      if (x.status === 200) {
+        console.log("success");
+        this.setState({
+          fail: false,
+        })
+      }
+    })
+    .catch(x => {
+      this.setState({
+        fail: true,
+        failMessage: x.response.data
+      })
+    })
+    .then(() => this.setState({loading: false}))
   }
 
   render() {
     return (
       <Form onSubmit={this.handleSubmit} validated={this.state.validated}>
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-at"></i></InputGroup.Text>
           </InputGroup.Prepend>
@@ -68,8 +100,7 @@ export default class Register extends Component  {
             required
           />
         </InputGroup>
-        <p/>
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-envelope"></i></InputGroup.Text>
           </InputGroup.Prepend>
@@ -81,8 +112,7 @@ export default class Register extends Component  {
             required
           />
         </InputGroup>
-        <p/>
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-user"></i></InputGroup.Text>
           </InputGroup.Prepend>
@@ -96,8 +126,7 @@ export default class Register extends Component  {
             required
           />
         </InputGroup>
-        <p/>
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-key"></i></InputGroup.Text>
           </InputGroup.Prepend>
@@ -111,8 +140,7 @@ export default class Register extends Component  {
             required
           />
         </InputGroup>
-        <p/>
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-key"></i></InputGroup.Text>
           </InputGroup.Prepend>
@@ -125,8 +153,7 @@ export default class Register extends Component  {
             required
           />
         </InputGroup>
-        <p/>
-        <InputGroup style={{ 'marginBottom':'0.7em' }}>
+        <InputGroup className="input-margin">
           <table>
             <tbody>
               <tr>
@@ -136,7 +163,7 @@ export default class Register extends Component  {
                 </InputGroup.Prepend>
               </td>
               <td>
-                <Datepicker 
+                <Datepicker style={{maxWidth: "auto"}}
                   selected={this.state.birthdate}
                   change={this.handleChange}
                 />
@@ -145,7 +172,7 @@ export default class Register extends Component  {
           </tbody>
         </table>
         </InputGroup>
-        <Row className="margin-bottom-10">
+        <Row >
           <Col xs="12" sm="6" style={{ 'marginBottom':'0.7em' }}>
           <div className="left-right">
             <span className="label-country">Country</span>
@@ -178,19 +205,24 @@ export default class Register extends Component  {
           </Col>
         </Row>
         <Row>
+        { this.state.fail ?
           <Col md="8" xs="6">
             <div className="error-message">
-              {this.props.registerFail ? this.props.errorMessage : ""}
+              {this.state.failMessage}
             </div>
-          </Col>
+          </Col> : ""
+        }
           <Col>
+          {this.state.loading ? 
+            <ReactLoading type="bars" color="#4d4d4d" width="34pt" height="29pt" className="float-right"/> :
             <Button 
-              className="float-right" 
+              className="float-right"
               variant="secondary" 
-              type="submit" 
+              type="submit"
               onClick={this.handleButton}>
               Submit
             </Button>
+          }
           </Col>
         </Row>
       </Form>
