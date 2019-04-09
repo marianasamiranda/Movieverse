@@ -99,9 +99,15 @@ table td:last-child {
         height: auto;
     }
     
-    @media(min-width: 200px) and (max-width: 768px) {
+    @media(min-width: 450px) and (max-width: 768px) {
         .label p {
             font-size: 20px;
+        }
+    }
+
+    @media(max-width: 450px) {
+        .label p {
+            font-size: 16px;
         }
     }
 }

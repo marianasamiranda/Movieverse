@@ -1,5 +1,6 @@
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .light-gray {
@@ -27,7 +28,7 @@
 }
 
 .title {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 35pt;
   color: #333333;
   padding-bottom: 20pt;
@@ -42,9 +43,14 @@
 }
 
 .left-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-content: center;
-  justify-content: space-between;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .margin-top-10 {
@@ -107,27 +113,38 @@ table td:last-child {
   line-height: 10pt;
   padding-top: 10pt;
 }
+
 .movie-card-container .movie-card {
   max-width: 100%;
   height: auto;
 }
-@media (min-width: 200px) and (max-width: 768px) {
+
+@media (min-width: 450px) and (max-width: 768px) {
   .movie-card-container .label p {
     font-size: 20px;
+  }
+}
+
+@media (max-width: 450px) {
+  .movie-card-container .label p {
+    font-size: 16px;
   }
 }
 
 .navbar {
   background-color: #202020;
 }
+
 .navbar .navbar-logo {
   width: 12%;
   min-width: 130px;
 }
+
 .navbar .navbar-item {
   color: white;
   font-family: "Roboto", sans-serif;
 }
+
 .navbar .navbar-item-selected {
   text-decoration: underline;
 }
@@ -137,21 +154,22 @@ body {
 }
 
 .footer .footer-title {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 22pt;
   color: #f0f0f0;
   margin-top: 20pt;
 }
+
 .footer .footer-item {
   font-family: "Roboto light", sans-serif;
   font-size: 15pt;
   color: #f0f0f0;
 }
+
 .footer .footer-item-small {
   font-family: "Roboto light", sans-serif;
   font-size: 12pt;
   color: #f0f0f0;
   margin-top: 20pt;
 }
-
 /*# sourceMappingURL=App.css.map */

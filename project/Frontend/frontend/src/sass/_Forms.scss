@@ -69,8 +69,30 @@ input {
     }
 }
 
+.input-margin {
+    margin-top: 8pt;
+    margin-bottom: 8pt;
+}
+
+.no-validator {
+    background-image: none !important;
+    padding-right: 0 !important;
+}
+
+@keyframes appearZoom {
+    from {
+        opacity: 0.1;
+        transform: translateY(3px);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .error-message {
-    font-size: 11pt;
+    font-size: 12pt;
+    font-weight: 400;
     color: rgb(255, 40, 40);
     font-family: $font-stack;
+    animation: appearZoom 0.2s ease-in 0s 1;
 }

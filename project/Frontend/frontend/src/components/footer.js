@@ -15,7 +15,7 @@ export default class Footer extends Component  {
               </div>
               <div className="footer-item">
                 <i className="fas fa-envelope fa-fw margin-right-10"></i>
-                asdasdasd@asdasd.com
+                movieverse@movieverse.com
               </div>
               <div className="footer-item">
                 <i className="fab fa-facebook-square fa-fw margin-right-10"></i>

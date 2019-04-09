@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Axios from 'axios'
+import ReactLoading from 'react-loading'
+import {backend} from '../../var'
 
 export default class Login extends Component  {
   constructor(props) {
@@ -14,7 +17,11 @@ export default class Login extends Component  {
     this.state = {
       username: "",
       password: "",
-      validated: false
+      validated: false,
+      fail: false,
+      failMessage: '',
+      loading: false,
+      failKey: 0
     }
   }
 
@@ -29,19 +36,39 @@ export default class Login extends Component  {
   }
 
   handleSubmit(e) {
-    let m = this.state
-    delete m.validated
-    this.setState({validated: false})
-    this.props.login(m)
+    this.login()
     e.preventDefault();
+  }
+
+  login() {
+    this.setState({loading: true})
+
+    let data = {}
+    data['username'] = this.state.username
+    data['password'] = this.state.password
+
+    Axios.post(backend + '/login', data).then(x =>{
+      console.log("success");
+      this.setState({
+        fail: false,
+      })
+    })
+    .catch(x => {
+      this.setState({
+        fail: true,
+        failMessage: x.response.data,
+        failKey: this.state.failKey + 1
+      })
+    })
+    .then(() => this.setState({loading: false}))
   }
 
   render() {
     return (
       <Form onSubmit={this.handleSubmit} validated={this.state.validated}>
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-envelope"></i></InputGroup.Text>
+            <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-at"></i></InputGroup.Text>
           </InputGroup.Prepend>
           <Form.Control 
             type="text" 
@@ -55,8 +82,7 @@ export default class Login extends Component  {
           <Form.Control.Feedback type="invalid">
           </Form.Control.Feedback>
         </InputGroup>
-        <p />
-        <InputGroup>
+        <InputGroup className="input-margin">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-key"></i></InputGroup.Text>
           </InputGroup.Prepend>
@@ -70,21 +96,25 @@ export default class Login extends Component  {
             required
           />
         </InputGroup>
-        <p />
         <Row>
+        {this.state.fail ? 
           <Col md="8" xs="6">
-            <div className="error-message">
-              {this.props.loginFail ? this.props.errorMessage : ""}
+            <div className="error-message" key={this.state.failKey}>
+              {this.state.failMessage}
             </div>
-          </Col>
-          <Col>
+          </Col> : ""
+          }
+          <Col className="text-center">
+          {this.state.loading ? 
+            <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right"/> :
             <Button 
-              className="float-right" 
+              className="float-right"
               variant="secondary" 
-              type="submit" 
+              type="submit"
               onClick={this.handleButton}>
               Submit
             </Button>
+          }
           </Col>
         </Row>
       </Form>

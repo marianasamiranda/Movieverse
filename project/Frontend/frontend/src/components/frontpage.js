@@ -13,13 +13,7 @@ export default class FrontPage extends Component {
   render() {
     return (
       <div>
-        <Banner 
-          login={this.props.login} 
-          register={this.props.register}
-          loginFail={this.props.loginFail}
-          registerFail={this.props.registerFail}
-          errorMessage={this.props.errorMessage}
-        />
+        <Banner />
         <div className="container container-padding">
           <div className="title">
             NEW RELEASES

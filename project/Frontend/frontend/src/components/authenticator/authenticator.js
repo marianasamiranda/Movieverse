@@ -28,20 +28,12 @@ export default class Authenticator extends Component  {
     let colorLogin
     let colorRegister
     if (this.state.state === 'login') {
-        form = <Login 
-          login={this.props.login}
-          loginFail={this.props.loginFail}
-          errorMessage={this.props.errorMessage}
-          />
+        form = <Login />
         colorLogin = 'dark-gray'
         colorRegister = 'light-gray'
     }
     else {
-       form = <Register 
-          register={this.props.register}
-          registerFail={this.props.registerFail}
-          errorMessage={this.props.errorMessage}
-        />
+       form = <Register />
        colorLogin = 'light-gray'
        colorRegister = 'dark-gray'
     }
