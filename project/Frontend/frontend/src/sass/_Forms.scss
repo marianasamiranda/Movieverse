@@ -96,3 +96,11 @@ input {
     font-family: $font-stack;
     animation: appearZoom 0.2s ease-in 0s 1;
 }
+
+.search-input {
+    font-family: $font-stack;
+    background-color: $body-color;
+    color: #303030;
+    outline: none;
+    box-shadow:none !important;
+}

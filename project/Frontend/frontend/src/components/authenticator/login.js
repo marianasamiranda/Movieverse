@@ -118,7 +118,6 @@ export default class Login extends Component  {
           </Col>
         </Row>
       </Form>
-
     )
   }
 }

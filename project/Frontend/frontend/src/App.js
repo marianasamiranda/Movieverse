@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar'
 import Footer from './components/footer'
-import FrontPage from './components/frontpage';
+import FrontPage from './components/frontPage';
 import Feed from './components/feed';
+import MovieSearch from './components/movieSearch'
+import PeopleSearch from './components/peopleSearch'
+import FindUsers from './components/findUsers'
 import Axios from 'axios'
 
 import './styles/App.css';
@@ -22,8 +25,8 @@ class App extends Component {
     return (
       <div>
         <NavBar links={navBarLinks}/>
-        <FrontPage />
-        <Footer />
+        <MovieSearch/>
+        <Footer/>
       </div>
     );
   }

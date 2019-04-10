@@ -18,20 +18,20 @@ export default class FrontPage extends Component {
           <div className="title">
             NEW RELEASES
           </div>
-          <div className="row">
-            <div className="col-6 col-sm-3 my-col">
+          <Row>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-            <div className="col-6 col-sm-3 my-col">
+            </Col>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-            <div className="col-6 col-sm-3 my-col">
+            </Col>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-            <div className="col-6 col-sm-3 my-col">
+            </Col>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
         <div className="bg-light-gray">
           <Container className="container-padding">
