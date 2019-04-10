@@ -34,12 +34,25 @@
   padding-bottom: 20pt;
 }
 
+.title-medium {
+  font-family: 'Oswald', sans-serif;
+  font-size: 24pt;
+  color: #333333;
+  padding-bottom: 20pt;
+}
+
 .padding-bottom, .container-padding {
-  padding-bottom: 75pt;
+  padding-bottom: 60pt;
+}
+
+@media (max-width: 766px) {
+  .padding-bottom, .container-padding {
+    padding-bottom: 30pt;
+  }
 }
 
 .padding-top, .container-padding {
-  padding-top: 30pt;
+  padding-top: 10pt;
 }
 
 .left-right {
@@ -108,7 +121,7 @@ table td:last-child {
 
 .movie-card-container .label {
   font-family: "Roboto light", sans-serif;
-  font-size: 18pt;
+  font-size: 16pt;
   color: #333333;
   line-height: 10pt;
   padding-top: 10pt;
@@ -119,16 +132,35 @@ table td:last-child {
   height: auto;
 }
 
-@media (min-width: 450px) and (max-width: 768px) {
-  .movie-card-container .label p {
-    font-size: 20px;
+@media (min-width: 766px) and (max-width: 990px) {
+  .movie-card-container .label {
+    font-size: 14pt;
   }
 }
 
-@media (max-width: 450px) {
-  .movie-card-container .label p {
-    font-size: 16px;
+@media (max-width: 766px) {
+  .movie-card-container {
+    margin-right: -10px;
+    margin-left: -10px;
+    margin-top: -5px;
   }
+  .movie-card-container .label p {
+    font-size: 12pt;
+  }
+}
+
+.button-slim {
+  padding: 0 5px 0 5px;
+  border-radius: 10px;
+  font-family: "Roboto light", sans-serif;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+}
+
+.flag-icon {
+  width: auto;
+  height: 0.75em;
+  margin-right: 6px;
 }
 
 .navbar {

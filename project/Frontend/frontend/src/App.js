@@ -4,6 +4,9 @@ import Footer from './components/footer'
 import FrontPage from './components/frontpage';
 import Feed from './components/feed';
 import MoviePage from './components/moviepage'
+import MovieSearch from './components/movieSearch'
+import PeopleSearch from './components/peopleSearch'
+import FindUsers from './components/findUsers'
 import Axios from 'axios'
 
 import './styles/App.css';
@@ -34,7 +37,11 @@ class App extends Component {
 
         </Feed>
 
-        <MoviePage />*/}
+        <MoviePage />
+        
+        <MovieSearch/>
+
+        */}
         <FrontPage />
         <Footer />
       </div>

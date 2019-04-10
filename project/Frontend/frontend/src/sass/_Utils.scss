@@ -10,12 +10,23 @@
     padding-bottom: 20pt;
 }
 
+.title-medium {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24pt;
+    color: #333333;
+    padding-bottom: 20pt;
+}
+
 .padding-bottom {
-    padding-bottom: 75pt;
+    padding-bottom: 60pt;
+
+    @media(max-width: 766px) {
+        padding-bottom: 30pt;
+    }
 }
 
 .padding-top {
-    padding-top: 30pt;
+    padding-top: 10pt;
 }
 
 .container-padding {
@@ -88,7 +99,7 @@ table td:last-child {
 .movie-card-container {
     .label {
         font-family: $font-stack-light;
-        font-size: 18pt;
+        font-size: 16pt;
         color: #333333;
         line-height: 10pt;
         padding-top: 10pt;
@@ -99,16 +110,31 @@ table td:last-child {
         height: auto;
     }
     
-    @media(min-width: 450px) and (max-width: 768px) {
-        .label p {
-            font-size: 20px;
+    @media(min-width: 766px) and (max-width: 990px) {
+        .label {
+            font-size: 14pt;
         }
     }
 
-    @media(max-width: 450px) {
+    @media(max-width: 766px) {
         .label p {
-            font-size: 16px;
+            font-size: 12pt;
         }
+        margin-right: -10px;
+        margin-left: -10px;
+        margin-top: -5px;
     }
 }
 
+.button-slim {
+    padding: 0 5px 0 5px;
+    border-radius: 10px;
+    font-family: $font-stack-light;
+    box-sizing: border-box !important;
+}
+
+.flag-icon {
+    width: auto;
+    height: 0.75em;
+    margin-right: 6px;
+}

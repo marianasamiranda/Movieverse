@@ -3,13 +3,15 @@ import Container from 'react-bootstrap/Container';
 import Authenticator from './authenticator/authenticator';
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Jumbotron from 'react-bootstrap/Jumbotron'
+
 
 //TODO
 
 export default class Banner extends Component {
   render() {
     return (
-      <div className="jumbotron jumbotron-fluid">
+      <Jumbotron fluid>
         <Container className="container-banner banner-bg">
           <Row>
             <Col lg="6" sm="12">
@@ -23,7 +25,7 @@ export default class Banner extends Component {
           <Row>
           </Row>
         </Container>
-      </div>
+      </Jumbotron>
     )  
   }
 }

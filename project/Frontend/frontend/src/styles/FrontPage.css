@@ -112,6 +112,15 @@ input :focus {
           animation: appearZoom 0.2s ease-in 0s 1;
 }
 
+.search-input {
+  font-family: "Roboto", sans-serif;
+  background-color: #e9e9e9;
+  color: #303030;
+  outline: none;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
 .jumbotron {
   /*background-image: url('./img/banner.png'); */
   background-color: #e2463e;
@@ -242,7 +251,7 @@ input :focus {
   background-position: bottom left;
 }
 
-@media screen and (max-width: 990px) {
+@media screen and (max-width: 991px) {
   .banner-bg {
     background-image: url("../img/banner_small.png");
     background-position: bottom right;
