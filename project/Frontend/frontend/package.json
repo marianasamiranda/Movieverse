@@ -11,7 +11,9 @@
     "react-datepicker": "^2.3.0",
     "react-dom": "^16.8.6",
     "react-flags-select": "^1.1.10",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-star-rating-component": "^1.4.1",
+    "react-star-ratings": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
