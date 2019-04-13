@@ -3,6 +3,7 @@ import NavBar from './components/navbar'
 import Footer from './components/footer'
 import FrontPage from './components/frontPage';
 import Feed from './components/feed';
+import MoviePage from './components/moviepage'
 import MovieSearch from './components/movieSearch'
 import PeopleSearch from './components/peopleSearch'
 import FindUsers from './components/findUsers'
