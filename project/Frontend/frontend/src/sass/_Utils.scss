@@ -8,6 +8,10 @@
     font-size: 35pt;
     color: #333333;
     padding-bottom: 20pt;
+
+    @media (max-width: 575px) {
+        text-align: center;
+    }
 }
 
 .title-medium {
@@ -15,6 +19,10 @@
     font-size: 24pt;
     color: #333333;
     padding-bottom: 20pt;
+
+    @media (max-width: 575px) {
+        text-align: center;
+    }
 }
 
 .padding-bottom {
@@ -31,6 +39,11 @@
 
 .container-padding {
     @extend .padding-top;
+    @extend .padding-bottom;
+}
+
+.container-padding-large {
+    padding-top: 30pt;
     @extend .padding-bottom;
 }
 
@@ -101,7 +114,7 @@ table td:last-child {
         font-family: $font-stack-light;
         font-size: 16pt;
         color: #333333;
-        line-height: 10pt;
+        line-height: 14pt;
         padding-top: 10pt;
     }
     
@@ -126,10 +139,12 @@ table td:last-child {
     }
 }
 
+
 .button-slim {
     padding: 0 5px 0 5px;
     border-radius: 10px;
     font-family: $font-stack-light;
+    font-size: 10pt;
     box-sizing: border-box !important;
 }
 
@@ -137,4 +152,23 @@ table td:last-child {
     width: auto;
     height: 0.75em;
     margin-right: 6px;
+}
+
+.dropdown-small-center  {
+    @media(max-width: 991px) {
+        text-align: center;
+    }
+}
+
+.custom-button {
+    background-color: $primary-color !important;
+    border: none !important;
+    
+    &:focus {
+        box-shadow: 0 0 0 .2rem rgba($primary-color, .5) !important;
+    }
+    
+    &:hover {
+        background-color: darken($primary-color, 15%) !important;
+    }
 }

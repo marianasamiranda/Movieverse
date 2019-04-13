@@ -10,6 +10,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 //import Axios from 'axios'
 //import {backend} from '../var'
 import Select from 'react-select'
+import {genres} from '../var'
 
 const studios = [
   { value: '21 Century Fox', label: '21 Century Fox' },
@@ -17,17 +18,13 @@ const studios = [
   { value: 'ABC', label: 'ABC'},
 ]
 
-const genres = [
-  {value: 'Adventure', label: 'Adventure'},
-  {value: 'Action', label: 'Action'},
-  {value: 'Drama', label: 'Drama'},
-]
-
 const sort = [
   {value: 'dateAsc', label: 'Date (Ascending)'},
   {value: 'dateDest', label: 'Date (Descending)'},
   {value: 'rating', label: 'Rating'},
 ]
+
+const genres_ = Object.keys(genres).map(x => genres[x])
 
 const selectStyles = {
   control: (base, state) => ({
@@ -48,6 +45,7 @@ const selectStyles = {
   }),
   menuList: base => ({
     ...base,
+    fontFamily: 'Roboto',
     padding: 0
   }),
   clearIndicator: base => ({
@@ -109,7 +107,7 @@ export default class MovieSearch extends Component {
                 <InputGroup className="input-margin">
                   <InputGroup.Prepend>
                     <InputGroup.Text id="inputGroupPrepend" className="bg-light-gray">
-                      <i class="fas fa-search" />
+                      <i className="fas fa-search" />
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <Form.Control 
@@ -153,7 +151,7 @@ export default class MovieSearch extends Component {
                   isSearchable
                   isClearable
                   isMulti
-                  options={genres}
+                  options={genres_}
                   styles={selectStyles}
                   //onChange={this.handleChange}
                   name="genres"

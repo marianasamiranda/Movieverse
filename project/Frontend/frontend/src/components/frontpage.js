@@ -14,7 +14,7 @@ export default class FrontPage extends Component {
     return (
       <div>
         <Banner />
-        <div className="container container-padding">
+        <Container className="container-padding">
           <div className="title">
             NEW RELEASES
           </div>
@@ -32,7 +32,7 @@ export default class FrontPage extends Component {
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
             </Col>
           </Row>
-        </div>
+        </Container>
         <div className="bg-light-gray">
           <Container className="container-padding">
             <div className="title">

@@ -154,23 +154,14 @@ export default class Register extends Component  {
           />
         </InputGroup>
         <InputGroup className="input-margin">
-          <table>
-            <tbody>
-              <tr>
-              <td>
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-birthday-cake"></i></InputGroup.Text>
-                </InputGroup.Prepend>
-              </td>
-              <td>
-                <Datepicker style={{maxWidth: "auto"}}
-                  selected={this.state.birthdate}
-                  change={this.handleChange}
-                />
-              </td>            
-            </tr>
-          </tbody>
-        </table>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-birthday-cake"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+          <div style={{ "margin-top": "-2px" }}>
+            <Datepicker
+              selected={this.state.birthdate}
+              change={this.handleChange} />
+          </div>
         </InputGroup>
         <Row >
           <Col xs="12" sm="6" style={{ 'marginBottom':'0.7em' }}>

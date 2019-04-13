@@ -1,0 +1,198 @@
+@import 'Variables';
+
+$alabaster: #fafafa;
+$alto: #d2d2d2;
+$label: #aaaaaa;
+
+.profile-img {
+    max-width: 200px;
+    max-height: 180px;
+    margin-bottom: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.edit {
+    position: absolute;
+    margin-left: -20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.info-card {
+    background-color: $alabaster;
+    border-radius: 20px;
+    font-family: $font-stack;
+    font-size: 12pt;
+    padding: 13px;
+    padding-right: 16px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 30px;
+
+    .box {
+        max-height: 615px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        @media (max-width: 1199px) {
+            max-height: 515px;
+        }
+
+        @media (max-width: 767px) {
+            max-height: 550px;
+        }
+
+        @media (max-width: 575px) {
+            max-height: 420px;
+        }
+    }
+
+
+    .clickable {
+        text-decoration: underline;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .card-title {
+        font-family: $font-stack;
+        font-size: 17pt;
+        color: #a4a4a4;
+        text-align: center;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.19);
+        margin-top: -15px;
+        margin-right: 2px;
+        margin-left: 2px;
+        background-color: $alabaster;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        &.selected {
+            color: #333333;
+            background-color: #e4e4e4;
+            cursor: inherit;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        &[class*='col'] {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+}
+
+.badge-card{
+    padding: 10px 25px 10px 25px;
+    margin-bottom: 30px;
+
+    @media(max-width: 575px) {
+        margin-bottom: 15px;
+    }
+}
+
+.info-item-label {
+    font-style: italic;
+    color: $label;
+}
+
+.item-border {
+    border-bottom:1px solid $alto;
+    margin-top: 5px;
+}
+
+
+.badge {
+    img {
+        max-width: 45px;
+        max-height: 45px;
+    }
+
+    .faded {
+        opacity: 0.5;
+    }
+}
+
+
+.badge-col {
+    margin-top:-1px;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.user-stats {
+
+    [class*='col'] {
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    img {
+        max-width: 50px;
+        max-height: 50px;
+        height: 50px;
+    }
+
+    .number {
+        font-family: $font-stack;
+        font-size: 19pt;
+        margin-top: 6px;
+        margin-right: 70px;
+    }
+
+    .label {
+        text-align: center;
+        font-family: $font-stack-light;
+        font-style: italic;
+        font-size: 16pt;
+        margin-bottom: 0;
+
+        @media (max-width: 991px) {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.modal {
+    font-family: $font-stack;
+}
+
+.dropzone {
+  border : 2px dashed #aaaaaa;
+  color: #aaaaaa;
+  padding-top: 10px;
+  font-family: $font-stack;
+  font-style: italic;
+  text-align: center;
+
+  p {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.friend {
+    img {
+        max-width: 50px;
+        max-height: 50px;
+        height: 50px;
+        border-radius: 100%;
+    }
+
+    p {
+        font-family: $font-stack;
+        font-size: 12pt;
+        margin-top: 10px;
+    }
+}

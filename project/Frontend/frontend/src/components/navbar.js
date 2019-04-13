@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import logo from '../img/logo-256-nav.png'
 import NavLink from 'react-bootstrap/NavLink';
+import AvatarDropdown from './avatarDropdown'
 
 class NavBarLink extends Component {
   render() {
@@ -33,9 +34,13 @@ export default class NavBar extends Component {
         <Container>
           <img src={logo} className="navbar-logo" alt="Homepage" />
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-dark" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
+          <Navbar.Collapse id="basic-navbar-nav text-center">
+            <Nav className="ml-auto align-items-center">
               {links}
+              {this.props.logged ? 
+              <AvatarDropdown img={require('../img/monster.png')} />
+                : ""
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -8,6 +8,7 @@ import MovieSearch from './components/movieSearch'
 import PeopleSearch from './components/peopleSearch'
 import FindUsers from './components/findUsers'
 import Axios from 'axios'
+import Profile from './components/profile/profile'
 
 import './styles/App.css';
 
@@ -25,8 +26,8 @@ class App extends Component {
 
     return (
       <div>
-        <NavBar links={navBarLinks}/>
-        <MovieSearch/>
+        <NavBar links={navBarLinks} logged/>
+        <Profile />
         <Footer/>
       </div>
     );
