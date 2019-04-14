@@ -18,17 +18,19 @@
   max-width: 100%;
   min-width: 100%;
 }
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .poster {
     margin-left: 40%;
   }
 }
 
 .movie-title-div {
+  color: white;
   height: 7.5%;
   width: 68%;
-  margin-top: -15.5%;
   margin-left: 32%;
+  margin-top: -15.5%;
+  font-weight: bold;
   position: relative;
   background-color: #e2463e;
   padding: 0.2em;
@@ -37,6 +39,17 @@
 .movie-title-div img {
   margin-top: -0.6%;
 }
+@media (max-width: 768px) {
+  .movie-title-div {
+    margin-top: 1em;
+    margin-left: 0;
+    color: white;
+    background-color: transparent;
+    color: #575757;
+    width: 100%;
+    text-align: center;
+  }
+}
 
 .evaluation {
   width: 68%;
@@ -44,9 +57,21 @@
   margin-top: 0%;
   margin-left: 32%;
 }
+@media (max-width: 767px) {
+  .evaluation {
+    width: 100%;
+    margin-left: 0%;
+    margin-bottom: 35px;
+  }
+}
+.evaluation table {
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0.3em;
+}
 
 .rating {
-  width: 100%;
+  min-width: 225px;
   height: 35%;
   line-height: 30%;
   font-size: 40px;
@@ -61,16 +86,8 @@
   border: 0px solid #000000;
 }
 
-table {
-  min-width: 100%;
-}
-
-td {
-  max-width: 50%;
-}
-
 .movie-header {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .sidebar {
@@ -142,6 +159,18 @@ td {
 }
 .movie-content p {
   text-align: justify;
+}
+
+.watched {
+  cursor: default;
+}
+
+.favourited {
+  cursor: default;
+}
+
+.addedToWatchlist {
+  cursor: default;
 }
 
 /*# sourceMappingURL=MoviePage.css.map */

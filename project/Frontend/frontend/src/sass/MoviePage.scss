@@ -21,16 +21,18 @@
         min-width: 100%;
     }
 
-    @media(max-width: 600px) {
+    @media(max-width: 767px) {
         margin-left: 40%;
     }
 }
   
 .movie-title-div {
+    color: white;
     height: 7.5%;
     width: 68%;
-    margin-top: -15.5%;
     margin-left: 32%;
+    margin-top: -15.5%;
+    font-weight: bold;
     position: relative;
     background-color: $primary-color;
     padding: 0.2em;
@@ -39,6 +41,16 @@
     img {
         margin-top: -0.6%;
     }
+
+    @media(max-width: 768px) {
+        margin-top: 1em;
+        margin-left: 0;
+        color: white;
+        background-color: transparent;
+        color: $darker-color;
+        width: 100%;
+        text-align: center;
+    }
 }
 
 .evaluation {
@@ -46,10 +58,22 @@
     padding: 0.5em;
     margin-top: 0%;
     margin-left: 32%;
+
+    @media(max-width: 767px) {
+        width: 100%;
+        margin-left: 0%;
+        margin-bottom: 35px;
+    }
+
+    table {
+        min-width: 100%;
+        border-collapse:separate; 
+        border-spacing:0.3em;
+    }
 }
   
 .rating {
-    width: 100%;
+    min-width: 225px;
     height: 35%;
     line-height: 30%;
     font-size: 40px;
@@ -63,17 +87,9 @@
     -webkit-border-radius: 12px 12px 12px 12px;
     border: 0px solid #000000;
 }
-  
-table {
-    min-width: 100%;
-}
-  
-td {
-    max-width: 50%;
-}
 
 .movie-header {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .sidebar {
@@ -155,4 +171,17 @@ td {
     p {
         text-align: justify;
     }
+}
+
+.watched {
+    cursor: default;
+}
+
+
+.favourited {
+    cursor: default;
+}
+
+.addedToWatchlist {
+    cursor: default;
 }

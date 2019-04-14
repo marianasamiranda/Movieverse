@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Image from 'react-bootstrap/Image'
-import '../styles/Comment.css';
+import '../../styles/Comment.css';
 
 export default class Comment extends Component {
 
