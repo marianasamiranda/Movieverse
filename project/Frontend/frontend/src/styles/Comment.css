@@ -1,0 +1,33 @@
+.comment-container {
+  background-color: white;
+  border: 1px solid #575757;
+  padding: 1em 2em;
+  margin-top: 30px;
+  width: 96%;
+  margin-left: 2%;
+}
+
+.profile-pic {
+  border-radius: 70px;
+  margin-right: 5px;
+}
+
+.info {
+  align-items: center;
+}
+
+.likes {
+  font-size: 18px;
+}
+
+.liked-button {
+  color: #e2463e;
+  transition: 0.2s;
+}
+
+.like-button {
+  color: #575757;
+  transition: 0.2s;
+}
+
+/*# sourceMappingURL=Comment.css.map */

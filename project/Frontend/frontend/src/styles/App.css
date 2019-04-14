@@ -1,6 +1,5 @@
 * {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .light-gray {
@@ -23,17 +22,20 @@
   background-color: #202020;
 }
 
+.bg-red {
+  background-color: #e2463e;
+}
+
 .font-stack {
   font-family: "Roboto", sans-serif;
 }
 
 .title {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 35pt;
   color: #333333;
   padding-bottom: 20pt;
 }
-
 @media (max-width: 575px) {
   .title {
     text-align: center;
@@ -41,24 +43,22 @@
 }
 
 .title-medium {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 24pt;
   color: #333333;
   padding-bottom: 20pt;
 }
-
 @media (max-width: 575px) {
   .title-medium {
     text-align: center;
   }
 }
 
-.padding-bottom, .container-padding, .container-padding-large {
+.padding-bottom, .container-padding-large, .container-padding {
   padding-bottom: 60pt;
 }
-
 @media (max-width: 766px) {
-  .padding-bottom, .container-padding, .container-padding-large {
+  .padding-bottom, .container-padding-large, .container-padding {
     padding-bottom: 30pt;
   }
 }
@@ -72,14 +72,9 @@
 }
 
 .left-right {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-line-pack: center;
-      align-content: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-content: center;
+  justify-content: space-between;
 }
 
 .margin-top-10 {
@@ -142,18 +137,15 @@ table td:last-child {
   line-height: 14pt;
   padding-top: 10pt;
 }
-
 .movie-card-container .movie-card {
   max-width: 100%;
   height: auto;
 }
-
 @media (min-width: 766px) and (max-width: 990px) {
   .movie-card-container .label {
     font-size: 14pt;
   }
 }
-
 @media (max-width: 766px) {
   .movie-card-container {
     margin-right: -10px;
@@ -170,8 +162,7 @@ table td:last-child {
   border-radius: 10px;
   font-family: "Roboto light", sans-serif;
   font-size: 10pt;
-  -webkit-box-sizing: border-box !important;
-          box-sizing: border-box !important;
+  box-sizing: border-box !important;
 }
 
 .flag-icon {
@@ -190,12 +181,9 @@ table td:last-child {
   background-color: #e2463e !important;
   border: none !important;
 }
-
 .custom-button:focus {
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
-          box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
+  box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
 }
-
 .custom-button:hover {
   background-color: #b8231c !important;
 }
@@ -205,21 +193,17 @@ table td:last-child {
   padding: 0.3rem;
   padding-right: 0 !important;
 }
-
 .navbar .navbar-logo {
   width: 12%;
   min-width: 130px;
 }
-
 .navbar .navbar-item {
   color: white;
   font-family: "Roboto", sans-serif;
 }
-
 .navbar .navbar-item-selected {
   text-decoration: underline;
 }
-
 .navbar .navbar-user {
   width: 2.7rem;
   margin-top: -10px;
@@ -229,11 +213,9 @@ table td:last-child {
   border-radius: 50%;
   background-color: #e9e9e9;
 }
-
 .navbar .navbar-user:hover {
   cursor: pointer;
 }
-
 @media (max-width: 991px) {
   .navbar .navbar-user {
     margin-top: 0px;
@@ -246,22 +228,21 @@ body {
 }
 
 .footer .footer-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 22pt;
   color: #f0f0f0;
   margin-top: 20pt;
 }
-
 .footer .footer-item {
   font-family: "Roboto light", sans-serif;
   font-size: 15pt;
   color: #f0f0f0;
 }
-
 .footer .footer-item-small {
   font-family: "Roboto light", sans-serif;
   font-size: 12pt;
   color: #f0f0f0;
   margin-top: 20pt;
 }
+
 /*# sourceMappingURL=App.css.map */
