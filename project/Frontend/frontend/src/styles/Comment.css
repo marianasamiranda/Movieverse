@@ -30,4 +30,30 @@
   transition: 0.2s;
 }
 
+textarea {
+  border: none;
+  resize: none;
+  min-width: 100%;
+}
+
+.form-control {
+  background-color: transparent;
+}
+
+.btn-primary {
+  background-color: #e2463e;
+  border-color: #e2463e;
+  float: right;
+}
+
+.btn-primary:hover {
+  background-color: #cc3e37;
+  border-color: #cc3e37;
+}
+
+.btn-primary:disabled {
+  border: gray;
+  background-color: gray;
+}
+
 /*# sourceMappingURL=Comment.css.map */
