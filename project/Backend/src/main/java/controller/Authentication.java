@@ -2,9 +2,13 @@ package controller;
 import business.UsersManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import security.Security;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 
@@ -18,16 +22,19 @@ public class Authentication {
         String username = ((String) result.get("username"));
         String password = (String) result.get("password");
 
-        String r = UsersManager.login(username, password);
-
-        return Util.response(r);
+        try {
+            String token = UsersManager.login(username, password);
+            return Util.ok(token);
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
     }
 
 
     @RequestMapping(method = POST, value = "/register")
     public ResponseEntity<Object> register(@RequestBody String body) {
         Map result = Util.jsonToMap(body);
-
         String email = (String) result.get("email");
         String username = (String) result.get("username");
         String name = (String) result.get("name");
@@ -38,7 +45,7 @@ public class Authentication {
         char gender = ((String) result.get("gender")).charAt(0);
 
         String r = UsersManager.registerUser(email, username, name, password, country, birthdate, gender);
-
-        return Util.response(r);
+        return null;
+        //return Util.response(r);
     }
 }

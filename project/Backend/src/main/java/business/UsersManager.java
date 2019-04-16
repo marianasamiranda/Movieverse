@@ -4,12 +4,17 @@ import data.movieverse.Country;
 import data.movieverse.MUser;
 import data.movieverse.MUserDAO;
 import org.orm.PersistentException;
+import security.Security;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
 
 public class UsersManager {
+
+    //time until token expires (minutes)
+    private static final int TOKENLIMIT = 10000;
 
     private static void save(MUser m) {
         try {
@@ -58,21 +63,27 @@ public class UsersManager {
         m.setBirthDate(Date.from(birthdate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         Country c = CountryManager.getCountryByCode(country);
         m.setUserCountry(c);
+        m.setToken(Security.generateToken());
+        //m.setTokenLimit(...);
         save(m);
 
         return null;
     }
 
 
-    public static String login(String username, String password) {
+    public static String login(String username, String password) throws Exception {
         MUser u = getUserByUsername(username);
 
         if (u == null)
-            return "User doesn't exist";
+            throw new Exception("User doesn't exist");
 
         if (!u.getPassword().equals(password))
-            return "Wrong password";
+            throw new Exception("Wrong password");
 
-        return null;
+        u.setToken(Security.generateToken());
+        //m.setTokenLimit(...);
+        save(u);
+
+        return u.getToken();
     }
 }

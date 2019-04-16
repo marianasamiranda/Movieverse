@@ -12,6 +12,7 @@ export const theaters = [
   "Cineplace Nova Arcada",
   "Cinemax Braga",
   "Cinemax Barcelos",
+  "Fórum Vizela Cinema",
   "Castello Lopes Espaço Guimarães",
   "Cinemas NOS Gaia Shopping",
   "Cinemas NOS Maia Shopping",

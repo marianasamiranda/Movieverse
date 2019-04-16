@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 
 @SpringBootApplication
-@ComponentScan({"controller","security.*"})
+@ComponentScan({"controller"})
 //@EntityScan("security.domain")
 //@EnableJpaRepositories("security.repository")
 public class Application {

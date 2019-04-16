@@ -21,10 +21,11 @@ public class Util {
        return null;
     }
 
-    public static ResponseEntity<Object> response(String r) {
-        if (r == null)
-            return new ResponseEntity<>(HttpStatus.OK);
-        else
-            return new ResponseEntity<>(r, HttpStatus.BAD_REQUEST);
+    public static ResponseEntity<Object> ok(Object o) {
+        return new ResponseEntity<>(o, HttpStatus.OK);
+    }
+
+    public static ResponseEntity<Object> badRequest(Object error) {
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

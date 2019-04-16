@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Axios from 'axios'
 import ReactLoading from 'react-loading'
 import {backend} from '../../var'
+import { setToken } from '../../cookies'
 
 export default class Login extends Component  {
   constructor(props) {
@@ -48,11 +49,12 @@ export default class Login extends Component  {
     data['password'] = this.state.password
 
     Axios.post(backend + '/login', data).then(x =>{
-      console.log("success");
       this.setState({
         fail: false,
       })
+      setToken(x.data)
       this.props.handleSession()
+      
     })
     .catch(x => {
       this.setState({

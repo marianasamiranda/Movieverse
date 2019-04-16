@@ -10,15 +10,24 @@ import FindUsers from './components/findUsers'
 import Showtimes from './components/showtimes'
 import Axios from 'axios'
 import Profile from './components/profile/profile'
-import {BrowserRouter as Router, Route} from 'react-router-dom/'
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom/'
+import {getToken} from './cookies'
+
 
 import './styles/App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      logged : true
+    if (getToken()) {
+      this.state = {
+        logged : true
+      }
+    }
+    else {
+      this.state = {
+        logged: false
+      }
     }
     this.handleSession = this.handleSession.bind(this)
   }
@@ -37,11 +46,19 @@ class App extends Component {
       { name: 'Find Users', url: '/users', logged: true },
     ]
 
+    let mainPage
+    if (!this.state.logged) {
+      mainPage = <Route exact path="/" render={() => <FrontPage handleSession={this.handleSession} />} />
+    }
+    else { //TODO change to Feed
+      mainPage = <Route exact path="/" component={Profile} />
+    }
+
     return (
       <Router>
         <NavBar links={navBarLinks} logged={this.state.logged} handleSession={this.handleSession}/>
         <main>
-          <Route exact path="/" render={() => <FrontPage handleSession={this.handleSession} />} />
+          {mainPage}
           <Route exact path="/movies" component={MovieSearch} />
           <Route exact path="/showtimes" component={Showtimes} />
           <Route exact path="/people" component={PeopleSearch} />

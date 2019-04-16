@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom'
+import { clearToken } from '../cookies'
 
 class CustomToggle extends Component {
   constructor(props, context) {
@@ -58,12 +59,18 @@ export default class AvatarDropdown extends Component {
       show: false
     }
     this.handleChange = this.handleChange.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
   handleChange() {
     this.setState({
       show: !this.state.show
     })
+  }
+
+  logout() {
+    clearToken()
+    this.props.handleSession()
   }
 
   render() {
@@ -81,7 +88,7 @@ export default class AvatarDropdown extends Component {
           </p>
             <Dropdown.Divider />
           <p className="text-center" onClick={this.handleChange}>
-            <Link to="/" onClick={this.props.handleSession}>
+            <Link to="/" onClick={this.logout}>
               <i className="fas fa-door-open fa-fw margin-right-10"></i>
               Logout
             </Link>

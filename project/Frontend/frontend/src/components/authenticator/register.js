@@ -9,6 +9,7 @@ import ReactFlagsSelect from 'react-flags-select'
 import Axios from 'axios'
 import ReactLoading from 'react-loading'
 import {backend} from '../../var'
+import {setToken} from '../../cookies'
 
 import 'react-flags-select/css/react-flags-select.css';
 
@@ -67,10 +68,10 @@ export default class Register extends Component  {
 
     Axios.post(backend + '/register', data).then(x => {
       if (x.status === 200) {
-        console.log("success");
         this.setState({
-          fail: false,
+          fail: false,  
         })
+        setToken(x.data)
         this.props.handleSession()
       }
     })
@@ -158,7 +159,7 @@ export default class Register extends Component  {
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend"><i className="fas fa-birthday-cake"></i></InputGroup.Text>
           </InputGroup.Prepend>
-          <div style={{ "margin-top": "-2px" }}>
+          <div style={{ marginTop: "-2px" }}>
             <Datepicker
               selected={this.state.birthdate}
               change={this.handleChange} />
