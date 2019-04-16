@@ -71,6 +71,7 @@ export default class Register extends Component  {
         this.setState({
           fail: false,
         })
+        this.props.handleSession()
       }
     })
     .catch(x => {

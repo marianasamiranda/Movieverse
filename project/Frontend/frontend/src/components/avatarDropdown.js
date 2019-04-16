@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown'
+import { Link } from 'react-router-dom'
 
 class CustomToggle extends Component {
   constructor(props, context) {
@@ -50,26 +51,43 @@ class CustomMenu extends Component {
 }
 
 export default class AvatarDropdown extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      show: false
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange() {
+    this.setState({
+      show: !this.state.show
+    })
+  }
+
   render() {
     return (
-      <div>
-        <Dropdown alignRight className="dropdown-small-center">
+      <Dropdown show={this.state.show}  alignRight className="dropdown-small-center" onClick={this.handleChange}>
         <Dropdown.Toggle as={CustomToggle}>
           <img src={this.props.img} className="navbar-user" alt="" />
         </Dropdown.Toggle>
         <Dropdown.Menu as={CustomMenu} >
-          <Dropdown.Item>
-            <i className="far fa-user-circle fa-fw margin-right-10"></i>
-            Profile
-          </Dropdown.Item>
+          <p className="text-center" onClick={this.handleChange}>
+            <Link to="/profile">
+              <i className="far fa-user-circle fa-fw margin-right-10"></i>
+              Profile
+            </Link>
+          </p>
             <Dropdown.Divider />
-          <Dropdown.Item>
-            <i className="fas fa-door-open fa-fw margin-right-10"></i>
-            Logout
-          </Dropdown.Item>
+          <p className="text-center" onClick={this.handleChange}>
+            <Link to="/" onClick={this.props.handleSession}>
+              <i className="fas fa-door-open fa-fw margin-right-10"></i>
+              Logout
+            </Link>
+          </p>
         </Dropdown.Menu>
       </Dropdown>
-      </div>
     )
   }
 }

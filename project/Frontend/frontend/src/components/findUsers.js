@@ -19,6 +19,10 @@ export default class FindPeople extends Component {
     }
   }
 
+  componentDidMount() {
+    document.title = "Find Users | Movieverse"
+  }
+
   render() {
     return (
       <div>
@@ -30,7 +34,7 @@ export default class FindPeople extends Component {
                 <InputGroup className="input-margin">
                   <InputGroup.Prepend>
                     <InputGroup.Text id="inputGroupPrepend" className="bg-light-gray">
-                      <i class="fas fa-search" />
+                      <i className="fas fa-search" />
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <Form.Control

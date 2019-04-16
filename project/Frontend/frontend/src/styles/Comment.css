@@ -13,7 +13,9 @@
 }
 
 .info {
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .likes {
@@ -22,11 +24,13 @@
 
 .liked-button {
   color: #e2463e;
+  -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 
 .like-button {
   color: #575757;
+  -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 
@@ -54,5 +58,4 @@ textarea {
   border: gray;
   background-color: gray;
 }
-
 /*# sourceMappingURL=Comment.css.map */

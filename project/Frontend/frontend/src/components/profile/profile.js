@@ -76,6 +76,10 @@ export default class Profile extends Component {
     this.handleAvatarModal = this.handleAvatarModal.bind(this)
   }
 
+  componentDidMount() {
+    document.title = "Profile | Movieverse"
+  }
+
   handleGenreModal(e) {
     this.setState({
       showGenreModal: !this.state.showGenreModal

@@ -19,7 +19,7 @@ export default class Banner extends Component {
               <h1 className="jumbotron-text">MOVIE FRIENDS!</h1>
             </Col>
             <Col lg="6" sm="12">
-              <Authenticator />
+              <Authenticator handleSession={this.props.handleSession}/>
             </Col>
           </Row>
           <Row>

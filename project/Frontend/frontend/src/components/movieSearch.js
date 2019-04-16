@@ -10,7 +10,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 //import Axios from 'axios'
 //import {backend} from '../var'
 import Select from 'react-select'
-import {genres} from '../var'
+import {genres, selectStyles} from '../var'
 
 const studios = [
   { value: '21 Century Fox', label: '21 Century Fox' },
@@ -26,61 +26,6 @@ const sort = [
 
 const genres_ = Object.keys(genres).map(x => genres[x])
 
-const selectStyles = {
-  control: (base, state) => ({
-    ...base,
-    background: "#e9e9e9",
-    minHeight: '36px',
-    fontFamily: 'Roboto',
-    marginBottom: '10px',
-    hover:  {
-      cursor: 'pointer'
-    }
-    
-  }),
-  menu: base => ({
-    ...base,
-    borderRadius: 0,
-    marginTop: 0,
-  }),
-  menuList: base => ({
-    ...base,
-    fontFamily: 'Roboto',
-    padding: 0
-  }),
-  clearIndicator: base => ({
-    ...base,
-    padding: 4
-  }),
-  valueContainer: base => ({
-    ...base,
-    padding: '0px 10px',
-  }),
-  input: base => ({
-    ...base,
-    margin: 0,
-    padding: 0
-  }),
-  multiValue: (styles, { data }) => {
-    return {
-      ...styles,
-      backgroundColor: '#d0d0d0',
-      marginRight: '5px'
-    };
-  },
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-    color: data.color,
-  }),
-  multiValueRemove: (styles, { data }) => ({
-    ...styles,
-    color: data.color,
-    ':hover': {
-      backgroundColor: data.color,
-      color: 'red',
-    },
-  }),
-};
 
 export default class MovieSearch extends Component {
   constructor(props) {
@@ -90,6 +35,10 @@ export default class MovieSearch extends Component {
       popularLoading: false,
       upcomingLoading: false
     })
+  }
+
+  componentDidMount() {
+    document.title = "Movie Search | Movieverse"
   }
 
   handleChange(e) {

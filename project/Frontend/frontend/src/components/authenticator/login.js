@@ -52,6 +52,7 @@ export default class Login extends Component  {
       this.setState({
         fail: false,
       })
+      this.props.handleSession()
     })
     .catch(x => {
       this.setState({

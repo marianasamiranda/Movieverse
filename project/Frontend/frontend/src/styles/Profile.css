@@ -3,6 +3,7 @@
   max-height: 180px;
   margin-bottom: 20px;
 }
+
 .profile-img:hover {
   cursor: pointer;
 }
@@ -11,6 +12,7 @@
   position: absolute;
   margin-left: -20px;
 }
+
 .edit:hover {
   cursor: pointer;
 }
@@ -22,57 +24,77 @@
   font-size: 12pt;
   padding: 13px;
   padding-right: 16px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 30px;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 60px;
 }
+
+@media (max-width: 991px) {
+  .info-card {
+    margin-bottom: 30px;
+  }
+}
+
 .info-card .box {
   max-height: 615px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
 @media (max-width: 1199px) {
   .info-card .box {
     max-height: 515px;
   }
 }
+
 @media (max-width: 767px) {
   .info-card .box {
     max-height: 550px;
   }
 }
+
 @media (max-width: 575px) {
   .info-card .box {
     max-height: 420px;
   }
 }
+
 .info-card .clickable {
   text-decoration: underline;
 }
+
 .info-card .clickable:hover {
   cursor: pointer;
 }
+
 .info-card .card-title {
   font-family: "Roboto", sans-serif;
   font-size: 17pt;
   color: #a4a4a4;
   text-align: center;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.19);
   margin-top: -15px;
   margin-right: 2px;
   margin-left: 2px;
   background-color: #fafafa;
   cursor: pointer;
 }
+
 .info-card .card-title:hover {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
+
 .info-card .card-title.selected {
   color: #333333;
   background-color: #e4e4e4;
   cursor: inherit;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
-.info-card .card-title[class*=col] {
+
+.info-card .card-title[class*='col'] {
   margin-right: 0;
   margin-left: 0;
 }
@@ -81,6 +103,7 @@
   padding: 10px 25px 10px 25px;
   margin-bottom: 30px;
 }
+
 @media (max-width: 575px) {
   .badge-card {
     margin-bottom: 15px;
@@ -101,6 +124,7 @@
   max-width: 45px;
   max-height: 45px;
 }
+
 .badge .faded {
   opacity: 0.5;
 }
@@ -111,23 +135,26 @@
   padding-left: 0;
 }
 
-.user-stats [class*=col] {
+.user-stats [class*='col'] {
   padding-right: 5px;
   padding-left: 5px;
   margin-right: 0;
   margin-left: 0;
 }
+
 .user-stats img {
   max-width: 50px;
   max-height: 50px;
   height: 50px;
 }
+
 .user-stats .number {
   font-family: "Roboto", sans-serif;
   font-size: 19pt;
   margin-top: 6px;
   margin-right: 70px;
 }
+
 .user-stats .label {
   text-align: center;
   font-family: "Roboto light", sans-serif;
@@ -135,6 +162,7 @@
   font-size: 16pt;
   margin-bottom: 0;
 }
+
 @media (max-width: 991px) {
   .user-stats .label {
     margin-bottom: 20px;
@@ -153,6 +181,7 @@
   font-style: italic;
   text-align: center;
 }
+
 .dropzone p:hover {
   cursor: pointer;
 }
@@ -163,10 +192,10 @@
   height: 50px;
   border-radius: 100%;
 }
+
 .friend p {
   font-family: "Roboto", sans-serif;
   font-size: 12pt;
   margin-top: 10px;
 }
-
 /*# sourceMappingURL=Profile.css.map */
