@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: mariana(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="data.movieverse.Theater" table="Theater" lazy="false">
+		<id name="id" column="Id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<many-to-one name="country" cascade="lock" column="CountryId" class="data.movieverse.Country" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="site" column="Site" type="string" length="255" not-null="false" lazy="false"/>
+		<set name="ORM_Showtime" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="TheaterId" not-null="true"/>
+			<one-to-many class="data.movieverse.Showtime"/>
+		</set>
+	</class>
+</hibernate-mapping>
