@@ -14,6 +14,19 @@ export default class ResizableTextarea extends Component {
 		};
 	}
 	
+	handleSubmit() {
+		this.props.callBackFromParent(this.state.value);
+
+		this.setState({
+			value: '',
+			rows: 1,
+			minRows: 2,
+			maxRows: 5,
+		});
+
+		this.forceUpdate();
+	}
+
 	handleChange = (event) => {
 		const textareaLineHeight = 24;
 		const { minRows, maxRows } = this.state;
@@ -40,7 +53,8 @@ export default class ResizableTextarea extends Component {
 	
 	render() {
 		return <Form>
-				<Form.Control as="textarea"
+				<Form.Control style={{'background-color': 'transparent'}}
+					as="textarea"
 					rows={this.state.rows}
 					value={this.state.value}
 					placeholder={'Add a comment..'}
@@ -48,7 +62,7 @@ export default class ResizableTextarea extends Component {
 				/>
 				<div class="d-flex flex-row-reverse">
 					<div class="p-2">
-						<Button variant="primary" type="submit" disabled={(this.state.value == '')}>
+						<Button variant="primary" onClick={this.handleSubmit.bind(this)} disabled={(this.state.value === '')}>
 							Add comment
 						</Button>
 					</div>

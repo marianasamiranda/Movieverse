@@ -4,7 +4,7 @@ import '../../styles/Comment.css';
 
 export default class Comment extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = { likes: props.likes, liked: false };
   }
 

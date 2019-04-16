@@ -36,10 +36,9 @@ textarea {
   min-width: 100%;
 }
 
-.form-control {
-  background-color: transparent;
-}
-
+/*.form-control {
+    background-color: transparent;
+}*/
 .btn-primary {
   background-color: #e2463e;
   border-color: #e2463e;
