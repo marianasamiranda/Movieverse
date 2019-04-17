@@ -33,7 +33,10 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final StringExpression avatar;
 	public final DateExpression joinDate;
 	public final StringExpression token;
-	public final DateExpression tokenLimit;
+	public final TimestampExpression tokenLimit;
+	public final IntegerExpression commentsCount;
+	public final IntegerExpression ratingsCount;
+	public final IntegerExpression friendsCount;
 	public final CollectionExpression receivedFriendships;
 	public final CollectionExpression comments;
 	public final CollectionExpression feed;
@@ -41,6 +44,7 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final CollectionExpression userMovies;
 	public final CollectionExpression requestedFriendships;
 	public final CollectionExpression friends;
+	public final CollectionExpression favouriteGenres;
 	
 	public MUserDetachedCriteria() {
 		super(data.movieverse.MUser.class, data.movieverse.MUserCriteria.class);
@@ -58,7 +62,10 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 		avatar = new StringExpression("avatar", this.getDetachedCriteria());
 		joinDate = new DateExpression("joinDate", this.getDetachedCriteria());
 		token = new StringExpression("token", this.getDetachedCriteria());
-		tokenLimit = new DateExpression("tokenLimit", this.getDetachedCriteria());
+		tokenLimit = new TimestampExpression("tokenLimit", this.getDetachedCriteria());
+		commentsCount = new IntegerExpression("commentsCount", this.getDetachedCriteria());
+		ratingsCount = new IntegerExpression("ratingsCount", this.getDetachedCriteria());
+		friendsCount = new IntegerExpression("friendsCount", this.getDetachedCriteria());
 		receivedFriendships = new CollectionExpression("ORM_ReceivedFriendships", this.getDetachedCriteria());
 		comments = new CollectionExpression("ORM_Comments", this.getDetachedCriteria());
 		feed = new CollectionExpression("ORM_Feed", this.getDetachedCriteria());
@@ -66,6 +73,7 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 		userMovies = new CollectionExpression("ORM_UserMovies", this.getDetachedCriteria());
 		requestedFriendships = new CollectionExpression("ORM_RequestedFriendships", this.getDetachedCriteria());
 		friends = new CollectionExpression("ORM_Friends", this.getDetachedCriteria());
+		favouriteGenres = new CollectionExpression("ORM_FavouriteGenres", this.getDetachedCriteria());
 	}
 	
 	public MUserDetachedCriteria(DetachedCriteria aDetachedCriteria) {
@@ -84,7 +92,10 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 		avatar = new StringExpression("avatar", this.getDetachedCriteria());
 		joinDate = new DateExpression("joinDate", this.getDetachedCriteria());
 		token = new StringExpression("token", this.getDetachedCriteria());
-		tokenLimit = new DateExpression("tokenLimit", this.getDetachedCriteria());
+		tokenLimit = new TimestampExpression("tokenLimit", this.getDetachedCriteria());
+		commentsCount = new IntegerExpression("commentsCount", this.getDetachedCriteria());
+		ratingsCount = new IntegerExpression("ratingsCount", this.getDetachedCriteria());
+		friendsCount = new IntegerExpression("friendsCount", this.getDetachedCriteria());
 		receivedFriendships = new CollectionExpression("ORM_ReceivedFriendships", this.getDetachedCriteria());
 		comments = new CollectionExpression("ORM_Comments", this.getDetachedCriteria());
 		feed = new CollectionExpression("ORM_Feed", this.getDetachedCriteria());
@@ -92,6 +103,7 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 		userMovies = new CollectionExpression("ORM_UserMovies", this.getDetachedCriteria());
 		requestedFriendships = new CollectionExpression("ORM_RequestedFriendships", this.getDetachedCriteria());
 		friends = new CollectionExpression("ORM_Friends", this.getDetachedCriteria());
+		favouriteGenres = new CollectionExpression("ORM_FavouriteGenres", this.getDetachedCriteria());
 	}
 	
 	public CountryDetachedCriteria createUserCountryCriteria() {
@@ -124,6 +136,10 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 	
 	public FriendshipDetachedCriteria createFriendsCriteria() {
 		return new FriendshipDetachedCriteria(createCriteria("ORM_Friends"));
+	}
+	
+	public GenreDetachedCriteria createFavouriteGenresCriteria() {
+		return new GenreDetachedCriteria(createCriteria("ORM_FavouriteGenres"));
 	}
 	
 	public MUser uniqueMUser(PersistentSession session) {

@@ -42,6 +42,8 @@ public interface ORMConstants extends org.orm.util.ORMBaseConstants {
 	
 	final int KEY_MUSER_COMMENTS = -26211173;
 	
+	final int KEY_MUSER_FAVOURITEGENRES = 43133138;
+	
 	final int KEY_MUSER_FEED = 96436165;
 	
 	final int KEY_MUSER_FRIENDS = -27317746;

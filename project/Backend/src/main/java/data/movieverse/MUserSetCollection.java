@@ -83,6 +83,9 @@ public class MUserSetCollection extends org.orm.util.ORMSet {
 	 * <li>joinDate</li>
 	 * <li>token</li>
 	 * <li>tokenLimit</li>
+	 * <li>commentsCount</li>
+	 * <li>ratingsCount</li>
+	 * <li>friendsCount</li>
 	 * </ul>
 	 * @return The persistent objects sorted array
 	 */
@@ -106,6 +109,9 @@ public class MUserSetCollection extends org.orm.util.ORMSet {
 	 * <li>joinDate</li>
 	 * <li>token</li>
 	 * <li>tokenLimit</li>
+	 * <li>commentsCount</li>
+	 * <li>ratingsCount</li>
+	 * <li>friendsCount</li>
 	 * </ul>
 	 * @param ascending true for ascending, false for descending
 	 * @return The persistent objects sorted array

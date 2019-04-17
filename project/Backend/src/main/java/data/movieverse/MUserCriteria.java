@@ -33,7 +33,10 @@ public class MUserCriteria extends AbstractORMCriteria {
 	public final StringExpression avatar;
 	public final DateExpression joinDate;
 	public final StringExpression token;
-	public final DateExpression tokenLimit;
+	public final TimestampExpression tokenLimit;
+	public final IntegerExpression commentsCount;
+	public final IntegerExpression ratingsCount;
+	public final IntegerExpression friendsCount;
 	public final CollectionExpression receivedFriendships;
 	public final CollectionExpression comments;
 	public final CollectionExpression feed;
@@ -41,6 +44,7 @@ public class MUserCriteria extends AbstractORMCriteria {
 	public final CollectionExpression userMovies;
 	public final CollectionExpression requestedFriendships;
 	public final CollectionExpression friends;
+	public final CollectionExpression favouriteGenres;
 	
 	public MUserCriteria(Criteria criteria) {
 		super(criteria);
@@ -58,7 +62,10 @@ public class MUserCriteria extends AbstractORMCriteria {
 		avatar = new StringExpression("avatar", this);
 		joinDate = new DateExpression("joinDate", this);
 		token = new StringExpression("token", this);
-		tokenLimit = new DateExpression("tokenLimit", this);
+		tokenLimit = new TimestampExpression("tokenLimit", this);
+		commentsCount = new IntegerExpression("commentsCount", this);
+		ratingsCount = new IntegerExpression("ratingsCount", this);
+		friendsCount = new IntegerExpression("friendsCount", this);
 		receivedFriendships = new CollectionExpression("ORM_ReceivedFriendships", this);
 		comments = new CollectionExpression("ORM_Comments", this);
 		feed = new CollectionExpression("ORM_Feed", this);
@@ -66,6 +73,7 @@ public class MUserCriteria extends AbstractORMCriteria {
 		userMovies = new CollectionExpression("ORM_UserMovies", this);
 		requestedFriendships = new CollectionExpression("ORM_RequestedFriendships", this);
 		friends = new CollectionExpression("ORM_Friends", this);
+		favouriteGenres = new CollectionExpression("ORM_FavouriteGenres", this);
 	}
 	
 	public MUserCriteria(PersistentSession session) {
@@ -106,6 +114,10 @@ public class MUserCriteria extends AbstractORMCriteria {
 	
 	public FriendshipCriteria createFriendsCriteria() {
 		return new FriendshipCriteria(createCriteria("ORM_Friends"));
+	}
+	
+	public GenreCriteria createFavouriteGenresCriteria() {
+		return new GenreCriteria(createCriteria("ORM_FavouriteGenres"));
 	}
 	
 	public MUser uniqueMUser() {

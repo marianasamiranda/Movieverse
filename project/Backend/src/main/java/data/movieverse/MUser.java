@@ -39,6 +39,9 @@ public class MUser {
 		else if (key == ORMConstants.KEY_MUSER_FRIENDS) {
 			return ORM_friends;
 		}
+		else if (key == ORMConstants.KEY_MUSER_FAVOURITEGENRES) {
+			return ORM_favouriteGenres;
+		}
 		
 		return null;
 	}
@@ -86,7 +89,13 @@ public class MUser {
 	
 	private String token;
 	
-	private java.util.Date tokenLimit;
+	private java.sql.Timestamp tokenLimit;
+	
+	private int commentsCount;
+	
+	private int ratingsCount;
+	
+	private int friendsCount;
 	
 	private java.util.Set ORM_receivedFriendships = new java.util.HashSet();
 	
@@ -101,6 +110,8 @@ public class MUser {
 	private java.util.Set ORM_requestedFriendships = new java.util.HashSet();
 	
 	private java.util.Set ORM_friends = new java.util.HashSet();
+	
+	private java.util.Set ORM_favouriteGenres = new java.util.HashSet();
 	
 	private void setId(int value) {
 		this.id = value;
@@ -202,12 +213,36 @@ public class MUser {
 		return token;
 	}
 	
-	public void setTokenLimit(java.util.Date value) {
+	public void setTokenLimit(java.sql.Timestamp value) {
 		this.tokenLimit = value;
 	}
 	
-	public java.util.Date getTokenLimit() {
+	public java.sql.Timestamp getTokenLimit() {
 		return tokenLimit;
+	}
+	
+	public void setCommentsCount(int value) {
+		this.commentsCount = value;
+	}
+	
+	public int getCommentsCount() {
+		return commentsCount;
+	}
+	
+	public void setRatingsCount(int value) {
+		this.ratingsCount = value;
+	}
+	
+	public int getRatingsCount() {
+		return ratingsCount;
+	}
+	
+	public void setFriendsCount(int value) {
+		this.friendsCount = value;
+	}
+	
+	public int getFriendsCount() {
+		return friendsCount;
 	}
 	
 	public data.movieverse.MUser[] getReceivedMusers() {
@@ -415,6 +450,21 @@ public class MUser {
 	}
 	
 	public final data.movieverse.FriendshipSetCollection friends = new data.movieverse.FriendshipSetCollection(this, _ormAdapter, ORMConstants.KEY_MUSER_FRIENDS, ORMConstants.KEY_MUL_MANY_TO_MANY);
+	
+	private void setORM_FavouriteGenres(java.util.Set value) {
+		this.ORM_favouriteGenres = value;
+	}
+	
+	private java.util.Set getORM_FavouriteGenres() {
+		return ORM_favouriteGenres;
+	}
+	
+	public final data.movieverse.GenreSetCollection favouriteGenres = new data.movieverse.GenreSetCollection(this, _ormAdapter, ORMConstants.KEY_MUSER_FAVOURITEGENRES, ORMConstants.KEY_MUL_MANY_TO_MANY);
+	
+	public void setTokenLimit(java.util.Date tokenLimit) {
+		//TODO: Implement Method
+		throw new UnsupportedOperationException();
+	}
 	
 	public String toString() {
 		return String.valueOf(getId());

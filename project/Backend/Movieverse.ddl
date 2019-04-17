@@ -1,4 +1,4 @@
-CREATE TABLE MUser (Id SERIAL NOT NULL, CountryId int4 NOT NULL, Username varchar(255) UNIQUE, Password varchar(255), Email varchar(255) UNIQUE, Name varchar(255), BirthDate date, Gender char(1) NOT NULL, MovieCount int4 NOT NULL, HoursCount int4 NOT NULL, Avatar varchar(255), JoinDate date, Token varchar(255), TokenLimit date, PRIMARY KEY (Id));
+CREATE TABLE MUser (Id SERIAL NOT NULL, CountryId int4 NOT NULL, Username varchar(255) UNIQUE, Password varchar(255), Email varchar(255) UNIQUE, Name varchar(255), BirthDate date, Gender char(1) NOT NULL, MovieCount int4 NOT NULL, HoursCount int4 NOT NULL, Avatar varchar(255), JoinDate date, Token varchar(255), TokenLimit timestamp, CommentsCount int4 NOT NULL, RatingsCount int4 NOT NULL, FriendsCount int4 NOT NULL, PRIMARY KEY (Id));
 CREATE TABLE Movie (Id SERIAL NOT NULL, MovieId int4 NOT NULL, Name varchar(255), Poster varchar(255), Backdrop varchar(255), Plot varchar(255), Imdb varchar(255), Release date, Runtime int4 NOT NULL, RatingSum int4 NOT NULL, RatingCount int4 NOT NULL, PRIMARY KEY (Id));
 CREATE TABLE Genre (Id SERIAL NOT NULL, Name varchar(255), PRIMARY KEY (Id));
 CREATE TABLE Company (Id SERIAL NOT NULL, CountryId int4 NOT NULL, Homepage varchar(255), Name varchar(255), Image varchar(255), Country varchar(255), Headquarters varchar(255), PRIMARY KEY (Id));
@@ -18,6 +18,7 @@ CREATE TABLE MUser_Friendship (MUserId int4 NOT NULL, FriendshipId int4 NOT NULL
 CREATE TABLE Theater (Id SERIAL NOT NULL, CountryId int4 NOT NULL, Name varchar(255), City varchar(255), Site varchar(255), PRIMARY KEY (Id));
 CREATE TABLE Showtime (Id SERIAL NOT NULL, MovieId int4 NOT NULL, TheaterId int4 NOT NULL, "Date" date, PRIMARY KEY (Id));
 CREATE TABLE Media (Id SERIAL NOT NULL, MemberId int4 NOT NULL, MovieId int4 NOT NULL, IdType int4 NOT NULL, Path varchar(255), PRIMARY KEY (Id));
+CREATE TABLE MUser_Genre (MUserId int4 NOT NULL, GenreId int4 NOT NULL, PRIMARY KEY (MUserId, GenreId));
 CREATE UNIQUE INDEX MUser_Token ON MUser (Token);
 ALTER TABLE Movie_Genre ADD CONSTRAINT FKMovie_Genr303402 FOREIGN KEY (MovieId) REFERENCES Movie (Id);
 ALTER TABLE Movie_Genre ADD CONSTRAINT FKMovie_Genr617525 FOREIGN KEY (GenreId) REFERENCES Genre (Id);
@@ -46,3 +47,5 @@ ALTER TABLE Theater ADD CONSTRAINT FKTheater750625 FOREIGN KEY (CountryId) REFER
 ALTER TABLE Movie ADD CONSTRAINT FKMovie551407 FOREIGN KEY (MovieId) REFERENCES Movie (Id);
 ALTER TABLE Media ADD CONSTRAINT FKMedia866619 FOREIGN KEY (MovieId) REFERENCES Movie (Id);
 ALTER TABLE Media ADD CONSTRAINT FKMedia492716 FOREIGN KEY (MemberId) REFERENCES Member (Id);
+ALTER TABLE MUser_Genre ADD CONSTRAINT UserGenre FOREIGN KEY (MUserId) REFERENCES MUser (Id);
+ALTER TABLE MUser_Genre ADD CONSTRAINT UserGenre2 FOREIGN KEY (GenreId) REFERENCES Genre (Id);

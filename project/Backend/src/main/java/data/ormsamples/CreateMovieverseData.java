@@ -2,7 +2,7 @@
  * Licensee: mariana(Universidade do Minho)
  * License Type: Academic
  */
-package data.ormsamples;
+package ormsamples;
 
 import org.orm.*;
 public class CreateMovieverseData {
@@ -10,7 +10,7 @@ public class CreateMovieverseData {
 		PersistentTransaction t = data.movieverse.MovieversePersistentManager.instance().getSession().beginTransaction();
 		try {
 			data.movieverse.MUser ldatamovieverseMUser = data.movieverse.MUserDAO.createMUser();
-			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : friends, requestedFriendships, userMovies, achievements, feed, comments, receivedFriendships, hoursCount, movieCount, gender, userCountry
+			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : favouriteGenres, friends, requestedFriendships, userMovies, achievements, feed, comments, receivedFriendships, friendsCount, ratingsCount, commentsCount, hoursCount, movieCount, gender, userCountry
 			data.movieverse.MUserDAO.save(ldatamovieverseMUser);
 			data.movieverse.Movie ldatamovieverseMovie = data.movieverse.MovieDAO.createMovie();
 			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : media, relatedMovies, showtime, movieMembers, comments, companies, genres, userMovies, ratingCount, ratingSum, runtime
