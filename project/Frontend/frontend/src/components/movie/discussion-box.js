@@ -12,17 +12,24 @@ export default class DiscussionBox extends Component {
     {author: 'Emma Stone', time: '10h ago', content: 'ioh my god. you guys are sure as hell aren’t ready for this movie. It’s fucking bonkers. It’s this year’s the lobster for lanthimos. I deeply fell in love with the cinematography, the dark comedic script and the costume design especially for me who loves these kind of films. rachel is fantastic, olivia is amazing and for emma, my queen deserves a oscar nom because I feel like this is a much better performance than la la land. I can’t not wait to see this again with a much bigger crowd.', likes: 10 }
   ]
 
+  replies_comment=[
+    {author: 'Helena', time: '7h ago', content: 'That\'s right! A bigger reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply', likes: 5 },
+    {author: 'Daniel', time: '5h ago', content: 'That\'s right 2!', likes: 5 },
+    {author: 'Nuno', time: '3h ago', content: 'That\'s right 3!', likes: 5 },
+    {author: 'Mariana', time: '2h ago', content: 'That\'s right 4!', likes: 5 }
+  ]
+
   constructor(props) {
     super(props);
     this.state = {
       comments: this.comments.map((comment) =>
-        <Comment profilepic="https://via.placeholder.com/70" author={comment.author} time={comment.time} likes={comment.likes} content={comment.content} />
+        <Comment profilepic="https://via.placeholder.com/70" author={comment.author} time={comment.time} likes={comment.likes} content={comment.content} replies={this.replies_comment} />
       )
     }
   }
 
   getComment = (new_comment) => {
-    let element = <Comment profilepic="https://via.placeholder.com/70" author='Kim Possible' time='now' likes={0} content={new_comment} />;
+    let element = <Comment profilepic="https://via.placeholder.com/70" author='Kim Possible' time='now' likes={0} content={new_comment} replies={this.replies_comment} />;
     this.setState({
       comments: this.state.comments.concat([element])
     });

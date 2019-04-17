@@ -92,7 +92,6 @@ export default class MoviePage extends Component {
               </Row>
               <h1>Discussion</h1>
                 <DiscussionBox />
-              {/* TODO: INSERIR AQUI LOAD MORE DO DANIEL */}
             </div>
             <div class="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div class="sidebar">

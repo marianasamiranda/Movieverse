@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar'
 import Footer from './components/footer'
-import FrontPage from './components/frontPage'
+import FrontPage from './components/frontpage'
 import Feed from './components/feed'
 import MoviePage from './components/movie/moviepage'
 import MovieSearch from './components/movieSearch'
@@ -12,7 +12,6 @@ import Axios from 'axios'
 import Profile from './components/profile/profile'
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom/'
 import {getToken} from './cookies'
-
 
 import './styles/App.css';
 
@@ -64,6 +63,7 @@ class App extends Component {
           <Route exact path="/people" component={PeopleSearch} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/users" component={FindUsers} />
+          <Route exact path="/movie" component={MoviePage} />
         </main>
         <Footer/>
       </Router>

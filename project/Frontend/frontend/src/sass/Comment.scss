@@ -15,12 +15,25 @@
     margin-right: 5px;
 }
 
+.reply-pic {
+    border-radius: 70px;
+    margin-right: 10px;
+}
+
 .info {
     align-items: center;
 }
 
 .likes {
+    display: inline-block;
+    margin-right: 20px;
     font-size: 18px;
+}
+
+.replies {
+    display: inline-block;
+    font-size: 18px;
+    color: $darker-color;
 }
 
 .liked-button {
@@ -57,4 +70,30 @@ textarea {
 .btn-primary:disabled {
     border: gray;
     background-color: gray;
+}
+
+.replies-container {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.reply {
+    padding: 1em;
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid $darker-color;
+    border-top: 0;
+    background-color: $body-color;
+}
+
+.reply-time {
+    margin-top: 5px;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.reply-likes {
+    display: inline-block;
+    margin-left: 6px;
 }
