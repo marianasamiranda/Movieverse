@@ -69,7 +69,7 @@ export default class Register extends Component  {
     Axios.post(backend + '/register', data).then(x => {
       if (x.status === 200) {
         this.setState({
-          fail: false,  
+          fail: false,
         })
         setToken(x.data)
         this.props.handleSession()

@@ -11,5 +11,7 @@ export function getToken() {
 }
 
 export function clearToken() {
+    const token = cookies.get('token')
     cookies.remove('token')
+    return token
 }

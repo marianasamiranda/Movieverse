@@ -171,17 +171,19 @@ $label: #aaaaaa;
 }
 
 .dropzone {
-  border : 2px dashed #aaaaaa;
-  color: #aaaaaa;
-  padding-top: 10px;
-  font-family: $font-stack;
-  font-style: italic;
-  text-align: center;
+    border : 2px dashed #aaaaaa;
+    color: #aaaaaa;
+    padding-top: 10px;
+    font-family: $font-stack;
+    font-style: italic;
+    text-align: center;
 
-  p {
-        &:hover {
-            cursor: pointer;
-        }
+    &:hover {
+        cursor: pointer;
+    }
+
+    input {
+        padding-top: 20px;
     }
 }
 

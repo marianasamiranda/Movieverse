@@ -57,7 +57,7 @@ export default class NavBar extends Component {
               {links}
               {this.props.logged ?
               <AvatarDropdown 
-                img={require('../img/monster.png')} 
+                img={this.props.avatar}
                 onClick={() => this.handleChange(undefined)} 
                 handleSession={this.props.handleSession} />
                 : ""

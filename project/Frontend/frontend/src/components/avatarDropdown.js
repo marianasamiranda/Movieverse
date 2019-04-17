@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom'
 import { clearToken } from '../cookies'
+import Axios from 'axios'
+import { backend } from '../var'
 
 class CustomToggle extends Component {
   constructor(props, context) {
@@ -26,12 +28,7 @@ class CustomToggle extends Component {
 class CustomMenu extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleClick = this.handleClick.bind(this);
     this.state = { value: '' };
-  }
-
-  handleClick(e) {
-    //
   }
 
   render() {
@@ -69,8 +66,10 @@ export default class AvatarDropdown extends Component {
   }
 
   logout() {
-    clearToken()
-    this.props.handleSession()
+    const token = clearToken()
+    Axios.post(backend + '/logout', {token: token}).then(x => {
+      this.props.handleSession()
+    })
   }
 
   render() {

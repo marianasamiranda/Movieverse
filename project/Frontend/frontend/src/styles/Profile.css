@@ -182,8 +182,12 @@
   text-align: center;
 }
 
-.dropzone p:hover {
+.dropzone:hover {
   cursor: pointer;
+}
+
+.dropzone input {
+  padding-top: 20px;
 }
 
 .friend img {

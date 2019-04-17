@@ -2,19 +2,27 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+const stats = [
+  { name: 'Movies', img: 'popcorn.svg' },
+  { name: 'Hours', img: 'pocket-watch.svg' },
+  { name: 'Comments', img: 'chat.svg' },
+  { name: 'Ratings', img: 'star.svg' },
+  { name: 'Friends', img: 'heart.svg' },
+]
+
 export default class StatsCard extends Component {
   render() {
 
     let l = []
-    this.props.stats.forEach(x => {
+    stats.forEach(x => {
       l.push(
-        <Col className="user-stats" key={this.props.stats.indexOf(x)}>
+        <Col className="user-stats" key={stats.indexOf(x)}>
           <Row>
             <Col xs="6" className="text-right">
               <img src={require('../../img/' + x.img)} alt="Stats" />
             </Col>
             <Col xs="6">
-              <p className="number">{x.total}</p>
+              <p className="number">{this.props.stats[x.name]}</p>
             </Col>
           </Row>
           <p className="label">{x.name}</p>

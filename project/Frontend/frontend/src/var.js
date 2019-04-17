@@ -1,5 +1,7 @@
 export const backend = 'http://localhost:8080'
 
+export const avatars = window.location.origin + "/avatars/"
+
 export const genres = {
   'Adventure': { value: 'Adventure', label: '🗺️ Adventure'},
   'Action': { value: 'Action', label: '🔥 Action' },

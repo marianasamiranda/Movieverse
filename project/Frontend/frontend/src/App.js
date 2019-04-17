@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar'
 import Footer from './components/footer'
-import FrontPage from './components/frontpage'
+import FrontPage from './components/frontPage'
 import Feed from './components/feed'
 import MoviePage from './components/movie/moviepage'
 import MovieSearch from './components/movieSearch'
@@ -29,11 +29,18 @@ class App extends Component {
       }
     }
     this.handleSession = this.handleSession.bind(this)
+    this.setAvatar = this.setAvatar.bind(this)
   }
 
   handleSession() {
     this.setState({
       logged: !this.state.logged
+    })
+  }
+
+  setAvatar(img) {
+    this.setState({
+      avatar: img
     })
   }
 
@@ -50,18 +57,18 @@ class App extends Component {
       mainPage = <Route exact path="/" render={() => <FrontPage handleSession={this.handleSession} />} />
     }
     else { //TODO change to Feed
-      mainPage = <Route exact path="/" component={Profile} />
+      mainPage = <Route exact path="/" render={() => <Profile setAvatar={this.setAvatar} />} />
     }
 
     return (
       <Router>
-        <NavBar links={navBarLinks} logged={this.state.logged} handleSession={this.handleSession}/>
+        <NavBar links={navBarLinks} logged={this.state.logged} handleSession={this.handleSession} avatar={this.state.avatar}/>
         <main>
           {mainPage}
           <Route exact path="/movies" component={MovieSearch} />
           <Route exact path="/showtimes" component={Showtimes} />
           <Route exact path="/people" component={PeopleSearch} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar}/>} />
           <Route exact path="/users" component={FindUsers} />
           <Route exact path="/movie" component={MoviePage} />
         </main>
