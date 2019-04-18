@@ -20,6 +20,8 @@ import org.orm.criteria.*;
 
 public class MUserCriteria extends AbstractORMCriteria {
 	public final IntegerExpression id;
+	public final IntegerExpression favouriteGenreId;
+	public final AssociationExpression favouriteGenre;
 	public final IntegerExpression userCountryId;
 	public final AssociationExpression userCountry;
 	public final StringExpression username;
@@ -44,11 +46,12 @@ public class MUserCriteria extends AbstractORMCriteria {
 	public final CollectionExpression userMovies;
 	public final CollectionExpression requestedFriendships;
 	public final CollectionExpression friends;
-	public final CollectionExpression favouriteGenres;
 	
 	public MUserCriteria(Criteria criteria) {
 		super(criteria);
 		id = new IntegerExpression("id", this);
+		favouriteGenreId = new IntegerExpression("favouriteGenre.id", this);
+		favouriteGenre = new AssociationExpression("favouriteGenre", this);
 		userCountryId = new IntegerExpression("userCountry.id", this);
 		userCountry = new AssociationExpression("userCountry", this);
 		username = new StringExpression("username", this);
@@ -73,7 +76,6 @@ public class MUserCriteria extends AbstractORMCriteria {
 		userMovies = new CollectionExpression("ORM_UserMovies", this);
 		requestedFriendships = new CollectionExpression("ORM_RequestedFriendships", this);
 		friends = new CollectionExpression("ORM_Friends", this);
-		favouriteGenres = new CollectionExpression("ORM_FavouriteGenres", this);
 	}
 	
 	public MUserCriteria(PersistentSession session) {
@@ -82,6 +84,10 @@ public class MUserCriteria extends AbstractORMCriteria {
 	
 	public MUserCriteria() throws PersistentException {
 		this(MovieversePersistentManager.instance().getSession());
+	}
+	
+	public GenreCriteria createFavouriteGenreCriteria() {
+		return new GenreCriteria(createCriteria("favouriteGenre"));
 	}
 	
 	public CountryCriteria createUserCountryCriteria() {
@@ -114,10 +120,6 @@ public class MUserCriteria extends AbstractORMCriteria {
 	
 	public FriendshipCriteria createFriendsCriteria() {
 		return new FriendshipCriteria(createCriteria("ORM_Friends"));
-	}
-	
-	public GenreCriteria createFavouriteGenresCriteria() {
-		return new GenreCriteria(createCriteria("ORM_FavouriteGenres"));
 	}
 	
 	public MUser uniqueMUser() {

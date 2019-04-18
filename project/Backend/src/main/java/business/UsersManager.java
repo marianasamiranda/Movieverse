@@ -1,8 +1,6 @@
 package business;
 
-import data.movieverse.Country;
 import data.movieverse.MUser;
-import data.movieverse.MUserCriteria;
 import data.movieverse.MUserDAO;
 import org.orm.PersistentException;
 import org.springframework.util.StringUtils;
@@ -161,7 +159,9 @@ public class UsersManager {
 
         String path = "../Frontend/frontend/public/avatars/";
         String filename = m.getEmail() + "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
-        Files.copy(file.getInputStream(), Path.of(path + filename), StandardCopyOption.REPLACE_EXISTING);
+        String p = path + filename;
+        Path patha = Path.of(path+filename);
+        Files.copy(file.getInputStream(), patha , StandardCopyOption.REPLACE_EXISTING);
 
         m.setAvatar(filename);
         save(m);

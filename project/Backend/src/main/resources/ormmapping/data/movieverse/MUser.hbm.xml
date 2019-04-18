@@ -10,6 +10,8 @@ License Type: Academic
 			<generator class="native">
 			</generator>
 		</id>
+		<many-to-one name="favouriteGenre" cascade="lock" column="GenreId" class="data.movieverse.Genre" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
 		<many-to-one name="userCountry" cascade="lock" column="CountryId" class="data.movieverse.Country" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
 		<property name="username" column="Username" unique="true" type="string" length="255" not-null="false" lazy="false"/>
@@ -54,11 +56,6 @@ License Type: Academic
 		<set name="ORM_Friends" table="MUser_Friendship" lazy="true" cascade="save-update,lock">
 			<key column="MUserId" not-null="true"/>
 			<many-to-many column="FriendshipId" class="data.movieverse.Friendship">
-			</many-to-many>
-		</set>
-		<set name="ORM_FavouriteGenres" table="MUser_Genre" lazy="true" cascade="save-update,lock">
-			<key column="MUserId" not-null="true"/>
-			<many-to-many column="GenreId" class="data.movieverse.Genre">
 			</many-to-many>
 		</set>
 	</class>

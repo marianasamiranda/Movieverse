@@ -39,9 +39,6 @@ public class MUser {
 		else if (key == ORMConstants.KEY_MUSER_FRIENDS) {
 			return ORM_friends;
 		}
-		else if (key == ORMConstants.KEY_MUSER_FAVOURITEGENRES) {
-			return ORM_favouriteGenres;
-		}
 		
 		return null;
 	}
@@ -49,6 +46,10 @@ public class MUser {
 	private void this_setOwner(Object owner, int key) {
 		if (key == ORMConstants.KEY_MUSER_USERCOUNTRY) {
 			this.userCountry = (data.movieverse.Country) owner;
+		}
+		
+		else if (key == ORMConstants.KEY_MUSER_FAVOURITEGENRE) {
+			this.favouriteGenre = (data.movieverse.Genre) owner;
 		}
 	}
 	
@@ -64,6 +65,8 @@ public class MUser {
 	};
 	
 	private int id;
+	
+	private data.movieverse.Genre favouriteGenre;
 	
 	private data.movieverse.Country userCountry;
 	
@@ -110,8 +113,6 @@ public class MUser {
 	private java.util.Set ORM_requestedFriendships = new java.util.HashSet();
 	
 	private java.util.Set ORM_friends = new java.util.HashSet();
-	
-	private java.util.Set ORM_favouriteGenres = new java.util.HashSet();
 	
 	private void setId(int value) {
 		this.id = value;
@@ -451,15 +452,13 @@ public class MUser {
 	
 	public final data.movieverse.FriendshipSetCollection friends = new data.movieverse.FriendshipSetCollection(this, _ormAdapter, ORMConstants.KEY_MUSER_FRIENDS, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
-	private void setORM_FavouriteGenres(java.util.Set value) {
-		this.ORM_favouriteGenres = value;
+	public void setFavouriteGenre(data.movieverse.Genre value) {
+		this.favouriteGenre = value;
 	}
 	
-	private java.util.Set getORM_FavouriteGenres() {
-		return ORM_favouriteGenres;
+	public data.movieverse.Genre getFavouriteGenre() {
+		return favouriteGenre;
 	}
-	
-	public final data.movieverse.GenreSetCollection favouriteGenres = new data.movieverse.GenreSetCollection(this, _ormAdapter, ORMConstants.KEY_MUSER_FAVOURITEGENRES, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public void setTokenLimit(java.util.Date tokenLimit) {
 		//TODO: Implement Method

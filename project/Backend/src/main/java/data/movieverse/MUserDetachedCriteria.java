@@ -20,6 +20,8 @@ import org.orm.criteria.*;
 
 public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final IntegerExpression id;
+	public final IntegerExpression favouriteGenreId;
+	public final AssociationExpression favouriteGenre;
 	public final IntegerExpression userCountryId;
 	public final AssociationExpression userCountry;
 	public final StringExpression username;
@@ -44,11 +46,12 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final CollectionExpression userMovies;
 	public final CollectionExpression requestedFriendships;
 	public final CollectionExpression friends;
-	public final CollectionExpression favouriteGenres;
 	
 	public MUserDetachedCriteria() {
 		super(data.movieverse.MUser.class, data.movieverse.MUserCriteria.class);
 		id = new IntegerExpression("id", this.getDetachedCriteria());
+		favouriteGenreId = new IntegerExpression("favouriteGenre.id", this.getDetachedCriteria());
+		favouriteGenre = new AssociationExpression("favouriteGenre", this.getDetachedCriteria());
 		userCountryId = new IntegerExpression("userCountry.id", this.getDetachedCriteria());
 		userCountry = new AssociationExpression("userCountry", this.getDetachedCriteria());
 		username = new StringExpression("username", this.getDetachedCriteria());
@@ -73,12 +76,13 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 		userMovies = new CollectionExpression("ORM_UserMovies", this.getDetachedCriteria());
 		requestedFriendships = new CollectionExpression("ORM_RequestedFriendships", this.getDetachedCriteria());
 		friends = new CollectionExpression("ORM_Friends", this.getDetachedCriteria());
-		favouriteGenres = new CollectionExpression("ORM_FavouriteGenres", this.getDetachedCriteria());
 	}
 	
 	public MUserDetachedCriteria(DetachedCriteria aDetachedCriteria) {
 		super(aDetachedCriteria, data.movieverse.MUserCriteria.class);
 		id = new IntegerExpression("id", this.getDetachedCriteria());
+		favouriteGenreId = new IntegerExpression("favouriteGenre.id", this.getDetachedCriteria());
+		favouriteGenre = new AssociationExpression("favouriteGenre", this.getDetachedCriteria());
 		userCountryId = new IntegerExpression("userCountry.id", this.getDetachedCriteria());
 		userCountry = new AssociationExpression("userCountry", this.getDetachedCriteria());
 		username = new StringExpression("username", this.getDetachedCriteria());
@@ -103,7 +107,10 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 		userMovies = new CollectionExpression("ORM_UserMovies", this.getDetachedCriteria());
 		requestedFriendships = new CollectionExpression("ORM_RequestedFriendships", this.getDetachedCriteria());
 		friends = new CollectionExpression("ORM_Friends", this.getDetachedCriteria());
-		favouriteGenres = new CollectionExpression("ORM_FavouriteGenres", this.getDetachedCriteria());
+	}
+	
+	public GenreDetachedCriteria createFavouriteGenreCriteria() {
+		return new GenreDetachedCriteria(createCriteria("favouriteGenre"));
 	}
 	
 	public CountryDetachedCriteria createUserCountryCriteria() {
@@ -136,10 +143,6 @@ public class MUserDetachedCriteria extends AbstractORMDetachedCriteria {
 	
 	public FriendshipDetachedCriteria createFriendsCriteria() {
 		return new FriendshipDetachedCriteria(createCriteria("ORM_Friends"));
-	}
-	
-	public GenreDetachedCriteria createFavouriteGenresCriteria() {
-		return new GenreDetachedCriteria(createCriteria("ORM_FavouriteGenres"));
 	}
 	
 	public MUser uniqueMUser(PersistentSession session) {

@@ -13,6 +13,18 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
+    <Column name="GenreId">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>data.movieverse.Genre.Id</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
     <Column name="CountryId">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
@@ -1234,32 +1246,6 @@
       <UserTypes/>
     </Column>
   </Entity>
-  <Entity name="MUser_Genre" Unlogged="false" PKClustered="0">
-    <Column name="MUserId">
-      <PrimaryKey>true</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>data.movieverse.MUser.Id</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>assigned</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="GenreId">
-      <PrimaryKey>true</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>data.movieverse.Genre.Id</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>assigned</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-  </Entity>
   <ForeignKey name="FKMovie_Genr303402">
     <ReferenceTable>Movie_Genre</ReferenceTable>
     <ReferencedTable>Movie</ReferencedTable>
@@ -1530,18 +1516,8 @@
       <Column>Id</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="UserGenre">
-    <ReferenceTable>MUser_Genre</ReferenceTable>
-    <ReferencedTable>MUser</ReferencedTable>
-    <Columns>
-      <Column>MUserId</Column>
-    </Columns>
-    <RefColumns>
-      <Column>Id</Column>
-    </RefColumns>
-  </ForeignKey>
-  <ForeignKey name="UserGenre2">
-    <ReferenceTable>MUser_Genre</ReferenceTable>
+  <ForeignKey name="FKMUser328499">
+    <ReferenceTable>MUser</ReferenceTable>
     <ReferencedTable>Genre</ReferencedTable>
     <Columns>
       <Column>GenreId</Column>
