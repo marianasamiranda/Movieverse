@@ -21,6 +21,9 @@ public class Company {
 		if (key == ORMConstants.KEY_COMPANY_MOVIES) {
 			return ORM_movies;
 		}
+		else if (key == ORMConstants.KEY_COMPANY_CHILDRENCOMPANIES) {
+			return ORM_childrenCompanies;
+		}
 		
 		return null;
 	}
@@ -28,6 +31,10 @@ public class Company {
 	private void this_setOwner(Object owner, int key) {
 		if (key == ORMConstants.KEY_COMPANY_COMPANYCOUNTRY) {
 			this.companyCountry = (data.movieverse.Country) owner;
+		}
+		
+		else if (key == ORMConstants.KEY_COMPANY_PARENTCOMPANY) {
+			this.parentCompany = (data.movieverse.Company) owner;
 		}
 	}
 	
@@ -44,6 +51,8 @@ public class Company {
 	
 	private int id;
 	
+	private data.movieverse.Company parentCompany;
+	
 	private data.movieverse.Country companyCountry;
 	
 	private String homepage;
@@ -56,7 +65,11 @@ public class Company {
 	
 	private String headquarters;
 	
+	private String description;
+	
 	private java.util.Set ORM_movies = new java.util.HashSet();
+	
+	private java.util.Set ORM_childrenCompanies = new java.util.HashSet();
 	
 	private void setId(int value) {
 		this.id = value;
@@ -110,6 +123,14 @@ public class Company {
 		return headquarters;
 	}
 	
+	public void setDescription(String value) {
+		this.description = value;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
 	private void setORM_Movies(java.util.Set value) {
 		this.ORM_movies = value;
 	}
@@ -120,12 +141,46 @@ public class Company {
 	
 	public final data.movieverse.MovieSetCollection movies = new data.movieverse.MovieSetCollection(this, _ormAdapter, ORMConstants.KEY_COMPANY_MOVIES, ORMConstants.KEY_MOVIE_COMPANIES, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
+	private void setORM_ChildrenCompanies(java.util.Set value) {
+		this.ORM_childrenCompanies = value;
+	}
+	
+	private java.util.Set getORM_ChildrenCompanies() {
+		return ORM_childrenCompanies;
+	}
+	
+	public final data.movieverse.CompanySetCollection childrenCompanies = new data.movieverse.CompanySetCollection(this, _ormAdapter, ORMConstants.KEY_COMPANY_CHILDRENCOMPANIES, ORMConstants.KEY_COMPANY_PARENTCOMPANY, ORMConstants.KEY_MUL_ONE_TO_MANY);
+	
 	public void setCompanyCountry(data.movieverse.Country value) {
 		this.companyCountry = value;
 	}
 	
 	public data.movieverse.Country getCompanyCountry() {
 		return companyCountry;
+	}
+	
+	public void setParentCompany(data.movieverse.Company value) {
+		if (parentCompany != null) {
+			parentCompany.childrenCompanies.remove(this);
+		}
+		if (value != null) {
+			value.childrenCompanies.add(this);
+		}
+	}
+	
+	public data.movieverse.Company getParentCompany() {
+		return parentCompany;
+	}
+	
+	/**
+	 * This method is for internal use only.
+	 */
+	public void setORM_ParentCompany(data.movieverse.Company value) {
+		this.parentCompany = value;
+	}
+	
+	private data.movieverse.Company getORM_ParentCompany() {
+		return parentCompany;
 	}
 	
 	public String toString() {

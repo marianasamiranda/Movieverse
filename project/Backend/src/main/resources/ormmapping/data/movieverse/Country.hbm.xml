@@ -10,7 +10,7 @@ License Type: Academic
 			<generator class="native">
 			</generator>
 		</id>
-		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="alphaCode" column="AlphaCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="name" column="Name" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="alphaCode" column="AlphaCode" unique="true" type="string" length="255" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>

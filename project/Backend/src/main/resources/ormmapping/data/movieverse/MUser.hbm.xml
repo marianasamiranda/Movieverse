@@ -14,16 +14,16 @@ License Type: Academic
 		</many-to-one>
 		<many-to-one name="userCountry" cascade="lock" column="CountryId" class="data.movieverse.Country" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
-		<property name="username" column="Username" unique="true" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="email" column="Email" unique="true" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="birthDate" column="BirthDate" type="date" not-null="false" lazy="false"/>
-		<property name="gender" column="Gender" type="character" length="1" not-null="true" lazy="false"/>
+		<property name="username" column="Username" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="password" column="Password" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="email" column="Email" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="birthDate" column="BirthDate" type="date" not-null="true" lazy="false"/>
+		<property name="gender" column="Gender" type="character" length="1" not-null="false" lazy="false"/>
 		<property name="movieCount" column="MovieCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="hoursCount" column="HoursCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="avatar" column="Avatar" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="joinDate" column="JoinDate" type="date" not-null="false" lazy="false"/>
+		<property name="joinDate" column="JoinDate" type="date" not-null="true" lazy="false"/>
 		<property name="token" column="Token" unique="true" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="tokenLimit" column="TokenLimit" type="timestamp" not-null="false" lazy="false"/>
 		<property name="commentsCount" column="CommentsCount" type="integer" length="10" not-null="true" lazy="false"/>

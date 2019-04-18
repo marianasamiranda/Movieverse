@@ -20,32 +20,32 @@ import org.orm.criteria.*;
 
 public class TheaterDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final IntegerExpression id;
-	public final IntegerExpression countryId;
-	public final AssociationExpression country;
 	public final StringExpression name;
 	public final StringExpression city;
 	public final StringExpression site;
+	public final IntegerExpression countryId;
+	public final AssociationExpression country;
 	public final CollectionExpression showtime;
 	
 	public TheaterDetachedCriteria() {
 		super(data.movieverse.Theater.class, data.movieverse.TheaterCriteria.class);
 		id = new IntegerExpression("id", this.getDetachedCriteria());
-		countryId = new IntegerExpression("country.id", this.getDetachedCriteria());
-		country = new AssociationExpression("country", this.getDetachedCriteria());
 		name = new StringExpression("name", this.getDetachedCriteria());
 		city = new StringExpression("city", this.getDetachedCriteria());
 		site = new StringExpression("site", this.getDetachedCriteria());
+		countryId = new IntegerExpression("country.id", this.getDetachedCriteria());
+		country = new AssociationExpression("country", this.getDetachedCriteria());
 		showtime = new CollectionExpression("ORM_Showtime", this.getDetachedCriteria());
 	}
 	
 	public TheaterDetachedCriteria(DetachedCriteria aDetachedCriteria) {
 		super(aDetachedCriteria, data.movieverse.TheaterCriteria.class);
 		id = new IntegerExpression("id", this.getDetachedCriteria());
-		countryId = new IntegerExpression("country.id", this.getDetachedCriteria());
-		country = new AssociationExpression("country", this.getDetachedCriteria());
 		name = new StringExpression("name", this.getDetachedCriteria());
 		city = new StringExpression("city", this.getDetachedCriteria());
 		site = new StringExpression("site", this.getDetachedCriteria());
+		countryId = new IntegerExpression("country.id", this.getDetachedCriteria());
+		country = new AssociationExpression("country", this.getDetachedCriteria());
 		showtime = new CollectionExpression("ORM_Showtime", this.getDetachedCriteria());
 	}
 	

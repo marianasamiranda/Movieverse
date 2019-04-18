@@ -323,9 +323,17 @@ public class CompanyDAO {
 	
 	public static boolean deleteAndDissociate(data.movieverse.Company company)throws PersistentException {
 		try {
+			if (company.getParentCompany() != null) {
+				company.getParentCompany().childrenCompanies.remove(company);
+			}
+			
 			data.movieverse.Movie[] lMoviess = company.movies.toArray();
 			for(int i = 0; i < lMoviess.length; i++) {
 				lMoviess[i].companies.remove(company);
+			}
+			data.movieverse.Company[] lChildrenCompaniess = company.childrenCompanies.toArray();
+			for(int i = 0; i < lChildrenCompaniess.length; i++) {
+				lChildrenCompaniess[i].setParentCompany(null);
 			}
 			return delete(company);
 		}
@@ -337,9 +345,17 @@ public class CompanyDAO {
 	
 	public static boolean deleteAndDissociate(data.movieverse.Company company, org.orm.PersistentSession session)throws PersistentException {
 		try {
+			if (company.getParentCompany() != null) {
+				company.getParentCompany().childrenCompanies.remove(company);
+			}
+			
 			data.movieverse.Movie[] lMoviess = company.movies.toArray();
 			for(int i = 0; i < lMoviess.length; i++) {
 				lMoviess[i].companies.remove(company);
+			}
+			data.movieverse.Company[] lChildrenCompaniess = company.childrenCompanies.toArray();
+			for(int i = 0; i < lChildrenCompaniess.length; i++) {
+				lChildrenCompaniess[i].setParentCompany(null);
 			}
 			try {
 				session.delete(company);

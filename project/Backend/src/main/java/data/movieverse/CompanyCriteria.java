@@ -20,6 +20,8 @@ import org.orm.criteria.*;
 
 public class CompanyCriteria extends AbstractORMCriteria {
 	public final IntegerExpression id;
+	public final IntegerExpression parentCompanyId;
+	public final AssociationExpression parentCompany;
 	public final IntegerExpression companyCountryId;
 	public final AssociationExpression companyCountry;
 	public final StringExpression homepage;
@@ -27,11 +29,15 @@ public class CompanyCriteria extends AbstractORMCriteria {
 	public final StringExpression image;
 	public final StringExpression country;
 	public final StringExpression headquarters;
+	public final StringExpression description;
 	public final CollectionExpression movies;
+	public final CollectionExpression childrenCompanies;
 	
 	public CompanyCriteria(Criteria criteria) {
 		super(criteria);
 		id = new IntegerExpression("id", this);
+		parentCompanyId = new IntegerExpression("parentCompany.id", this);
+		parentCompany = new AssociationExpression("parentCompany", this);
 		companyCountryId = new IntegerExpression("companyCountry.id", this);
 		companyCountry = new AssociationExpression("companyCountry", this);
 		homepage = new StringExpression("homepage", this);
@@ -39,7 +45,9 @@ public class CompanyCriteria extends AbstractORMCriteria {
 		image = new StringExpression("image", this);
 		country = new StringExpression("country", this);
 		headquarters = new StringExpression("headquarters", this);
+		description = new StringExpression("description", this);
 		movies = new CollectionExpression("ORM_Movies", this);
+		childrenCompanies = new CollectionExpression("ORM_ChildrenCompanies", this);
 	}
 	
 	public CompanyCriteria(PersistentSession session) {
@@ -50,12 +58,20 @@ public class CompanyCriteria extends AbstractORMCriteria {
 		this(MovieversePersistentManager.instance().getSession());
 	}
 	
+	public CompanyCriteria createParentCompanyCriteria() {
+		return new CompanyCriteria(createCriteria("parentCompany"));
+	}
+	
 	public CountryCriteria createCompanyCountryCriteria() {
 		return new CountryCriteria(createCriteria("companyCountry"));
 	}
 	
 	public MovieCriteria createMoviesCriteria() {
 		return new MovieCriteria(createCriteria("ORM_Movies"));
+	}
+	
+	public CompanyCriteria createChildrenCompaniesCriteria() {
+		return new CompanyCriteria(createCriteria("ORM_ChildrenCompanies"));
 	}
 	
 	public Company uniqueCompany() {

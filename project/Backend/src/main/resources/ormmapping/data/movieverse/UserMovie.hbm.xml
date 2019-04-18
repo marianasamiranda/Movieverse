@@ -11,7 +11,7 @@ License Type: Academic
 			</generator>
 		</id>
 		<property name="status" column="Status" type="boolean" not-null="true" lazy="false"/>
-		<property name="rating" column="Rating" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="rating" column="Rating" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="favourite" column="Favourite" type="boolean" not-null="true" lazy="false"/>
 		<property name="dateWatched" column="DateWatched" type="date" not-null="false" lazy="false"/>
 		<property name="dateFavourite" column="DateFavourite" type="date" not-null="false" lazy="false"/>

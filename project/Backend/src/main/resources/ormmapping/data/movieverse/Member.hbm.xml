@@ -10,11 +10,11 @@ License Type: Academic
 			<generator class="native">
 			</generator>
 		</id>
-		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="image" column="Image" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="birthDate" column="BirthDate" type="date" not-null="false" lazy="false"/>
-		<property name="gender" column="Gender" type="character" length="1" not-null="true" lazy="false"/>
-		<property name="imdb" column="Imdb" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="gender" column="Gender" type="character" length="1" not-null="false" lazy="false"/>
+		<property name="imdb" column="Imdb" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="biography" column="Biography" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="BirthPlace" column="BirthPlace" type="string" length="255" not-null="false" lazy="false"/>
 		<set name="ORM_MovieMembers" lazy="true" cascade="save-update,lock" inverse="true">

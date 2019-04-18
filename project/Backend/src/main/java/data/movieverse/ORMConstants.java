@@ -26,9 +26,13 @@ public interface ORMConstants extends org.orm.util.ORMBaseConstants {
 	
 	final int KEY_COMMENT_UPVOTER = -1402313971;
 	
+	final int KEY_COMPANY_CHILDRENCOMPANIES = 787297082;
+	
 	final int KEY_COMPANY_COMPANYCOUNTRY = -1985490821;
 	
 	final int KEY_COMPANY_MOVIES = -1292198555;
+	
+	final int KEY_COMPANY_PARENTCOMPANY = 1768151057;
 	
 	final int KEY_FEED_USER = 360231340;
 	

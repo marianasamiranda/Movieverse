@@ -11,6 +11,6 @@ License Type: Academic
 			</generator>
 		</id>
 		<property name="idType" column="IdType" type="integer" length="10" not-null="true" lazy="false"/>
-		<property name="path" column="Path" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="path" column="Path" type="string" length="255" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>

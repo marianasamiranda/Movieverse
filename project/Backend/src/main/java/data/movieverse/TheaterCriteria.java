@@ -20,21 +20,21 @@ import org.orm.criteria.*;
 
 public class TheaterCriteria extends AbstractORMCriteria {
 	public final IntegerExpression id;
-	public final IntegerExpression countryId;
-	public final AssociationExpression country;
 	public final StringExpression name;
 	public final StringExpression city;
 	public final StringExpression site;
+	public final IntegerExpression countryId;
+	public final AssociationExpression country;
 	public final CollectionExpression showtime;
 	
 	public TheaterCriteria(Criteria criteria) {
 		super(criteria);
 		id = new IntegerExpression("id", this);
-		countryId = new IntegerExpression("country.id", this);
-		country = new AssociationExpression("country", this);
 		name = new StringExpression("name", this);
 		city = new StringExpression("city", this);
 		site = new StringExpression("site", this);
+		countryId = new IntegerExpression("country.id", this);
+		country = new AssociationExpression("country", this);
 		showtime = new CollectionExpression("ORM_Showtime", this);
 	}
 	

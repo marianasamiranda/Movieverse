@@ -9,7 +9,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -42,7 +42,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>true</Unique>
       <Index>false</Index>
@@ -53,7 +53,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -64,7 +64,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>true</Unique>
       <Index>false</Index>
@@ -75,7 +75,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -86,7 +86,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>17</Type>
       <Length>0</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -97,7 +97,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>42</Type>
       <Length>1</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -141,7 +141,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>17</Type>
       <Length>0</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -208,10 +208,10 @@
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -220,8 +220,8 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Length>0</Length>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -232,7 +232,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -276,7 +276,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -298,7 +298,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -309,7 +309,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -320,7 +320,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -335,7 +335,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -344,7 +344,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -358,6 +358,18 @@
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>true</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="CompanyId">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>data.movieverse.Company.Id</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -380,7 +392,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -391,7 +403,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -413,13 +425,24 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
     <Column name="Headquarters">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="Description">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
@@ -439,7 +462,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -448,9 +471,9 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -459,9 +482,9 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -474,7 +497,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -494,7 +517,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -549,7 +572,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -574,10 +597,10 @@
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -586,7 +609,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -619,7 +642,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>42</Type>
       <Length>1</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -630,7 +653,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -667,7 +690,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -676,7 +699,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -687,7 +710,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Member.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -699,7 +722,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -715,7 +738,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -724,9 +747,9 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -735,7 +758,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -750,7 +773,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -759,7 +782,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>17</Type>
       <Length>0</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -809,7 +832,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -818,7 +841,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -842,7 +865,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>17</Type>
       <Length>0</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -853,7 +876,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -864,7 +887,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
       <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -890,7 +913,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -937,7 +960,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -946,7 +969,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>17</Type>
       <Length>0</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -983,7 +1006,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>assigned</IDGenerator>
       <Unique>false</Unique>
@@ -1009,7 +1032,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>assigned</IDGenerator>
       <Unique>false</Unique>
@@ -1089,6 +1112,39 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
+      <Unique>true</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="Name">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="City">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="Site">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>false</ForeignKey>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
       <UserTypes/>
@@ -1105,39 +1161,6 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Name">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>27</Type>
-      <Length>255</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="City">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>27</Type>
-      <Length>255</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="Site">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>false</ForeignKey>
-      <Type>27</Type>
-      <Length>255</Length>
-      <Nullable>true</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
   </Entity>
   <Entity name="Showtime" Unlogged="false" PKClustered="0">
     <Column name="Id">
@@ -1147,7 +1170,7 @@
       <Length>10</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -1156,7 +1179,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -1180,7 +1203,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>17</Type>
       <Length>0</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -1192,10 +1215,10 @@
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>false</ForeignKey>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
+      <Unique>true</Unique>
       <Index>false</Index>
       <UserTypes/>
     </Column>
@@ -1204,7 +1227,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Member.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -1216,7 +1239,7 @@
       <ForeignKey>true</ForeignKey>
       <ReferencedColumn>data.movieverse.Movie.Id</ReferencedColumn>
       <Type>9</Type>
-      <Length>10</Length>
+      <Length>0</Length>
       <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
@@ -1239,7 +1262,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>27</Type>
       <Length>255</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -1476,16 +1499,6 @@
       <Column>Id</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKTheater750625">
-    <ReferenceTable>Theater</ReferenceTable>
-    <ReferencedTable>Country</ReferencedTable>
-    <Columns>
-      <Column>CountryId</Column>
-    </Columns>
-    <RefColumns>
-      <Column>Id</Column>
-    </RefColumns>
-  </ForeignKey>
   <ForeignKey name="FKMovie551407">
     <ReferenceTable>Movie</ReferenceTable>
     <ReferencedTable>Movie</ReferencedTable>
@@ -1521,6 +1534,26 @@
     <ReferencedTable>Genre</ReferencedTable>
     <Columns>
       <Column>GenreId</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Id</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKTheater750625">
+    <ReferenceTable>Theater</ReferenceTable>
+    <ReferencedTable>Country</ReferencedTable>
+    <Columns>
+      <Column>CountryId</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Id</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKCompany460995">
+    <ReferenceTable>Company</ReferenceTable>
+    <ReferencedTable>Company</ReferencedTable>
+    <Columns>
+      <Column>CompanyId</Column>
     </Columns>
     <RefColumns>
       <Column>Id</Column>

@@ -10,7 +10,7 @@ License Type: Academic
 			<generator class="native">
 			</generator>
 		</id>
-		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
 		<set name="ORM_Movies" table="Movie_Genre" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="GenreId" not-null="true"/>
 			<many-to-many column="MovieId" class="data.movieverse.Movie">

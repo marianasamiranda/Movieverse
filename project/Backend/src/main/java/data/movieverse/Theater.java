@@ -34,13 +34,13 @@ public class Theater {
 	
 	private int id;
 	
-	private data.movieverse.Country country;
-	
 	private String name;
 	
 	private String city;
 	
 	private String site;
+	
+	private data.movieverse.Country country;
 	
 	private java.util.Set ORM_showtime = new java.util.HashSet();
 	
