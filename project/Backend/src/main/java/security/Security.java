@@ -1,5 +1,8 @@
 package security;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.security.SecureRandom;
 
 public class Security {
@@ -13,6 +16,7 @@ public class Security {
         'e','f','g','h','i','j','k','l','m','n',
         'o','p','q','r','s','t','u','v','w','x',
         'y','z'};
+    private static PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public static String generateToken() {
         SecureRandom rnd = new SecureRandom();
@@ -22,5 +26,13 @@ public class Security {
             sb.append(TOKENCHARS[rnd.nextInt(TOKENCHARS.length)]);
 
         return sb.toString();
+    }
+
+    public static String encode(String password) {
+        return encoder.encode(password);
+    }
+
+    public static boolean checkMatch(String password, String encryptedPassword) {
+        return encoder.matches(password, encryptedPassword);
     }
 }

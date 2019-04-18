@@ -3,7 +3,7 @@ import psycopg2
 import db
 
 struct = {}
-with open('countries.csv') as file:
+with open('data/countries.csv') as file:
     f = csv.reader(file)
     header = f.__next__()
     name_idx = header.index('name')

@@ -1,5 +1,7 @@
 package business;
 
+import data.movieverse.Genre;
+import data.movieverse.GenreDAO;
 import data.movieverse.MUser;
 import data.movieverse.MUserDAO;
 import org.orm.PersistentException;
@@ -7,8 +9,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import security.Security;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,7 +83,7 @@ public class UsersManager {
         m.setEmail(email);
         m.setUsername(username);
         m.setName(name);
-        m.setPassword(password);
+        m.setPassword(Security.encode(password));
         m.setGender(gender);
         m.setBirthDate(Date.from(birthdate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         m.setJoinDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -102,7 +102,7 @@ public class UsersManager {
         if (u == null)
             throw new Exception("User doesn't exist");
 
-        if (!u.getPassword().equals(password))
+        if (!Security.checkMatch(password, u.getPassword()))
             throw new Exception("Wrong password");
 
         u.setToken(Security.generateToken());
@@ -136,6 +136,7 @@ public class UsersManager {
         m.put("birthdate", u.getBirthDate());
         m.put("joindate", u.getJoinDate());
         m.put("country", u.getUserCountry().getAlphaCode());
+        m.put("genre", u.getFavouriteGenre().getName());
         m.put("statsMovies", u.getMovieCount());
         m.put("statsHours", u.getHoursCount());
         m.put("statsComments", 0);//TODO
@@ -166,5 +167,20 @@ public class UsersManager {
         m.setAvatar(filename);
         save(m);
         return filename;
+    }
+
+    public static void newGenre(String token, String genre) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        Genre g = GenreManager.getGenre(genre);
+
+        if (g == null)
+            throw new Exception("No such genre");
+
+        u.setFavouriteGenre(g);
+        save(u);
     }
 }

@@ -67,7 +67,7 @@ export default class AvatarDropdown extends Component {
 
   logout() {
     const token = clearToken()
-    Axios.post(backend + '/logout', {token: token}).then(x => {
+    Axios.post(backend + '/logout', {}, { headers: { Authorization: "Bearer " + token } }).then(x => {
       this.props.handleSession()
     })
   }

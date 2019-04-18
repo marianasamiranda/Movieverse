@@ -15,8 +15,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class Authentication {
 
     @RequestMapping(method = POST, value = "/login")
-    public ResponseEntity<Object> login(@RequestBody String b) {
-        Map body = Util.jsonToMap(b);
+    public ResponseEntity<Object> login(@RequestBody Map body) {
         String username = ((String) body.get("username"));
         String password = (String) body.get("password");
 
@@ -31,9 +30,8 @@ public class Authentication {
 
 
     @RequestMapping(method = POST, value = "/register")
-    public ResponseEntity<Object> register(@RequestBody String b) {
-        Map body = Util.jsonToMap(b);
-        String email = (String) body.get("email");
+    public ResponseEntity<Object> register(@RequestBody Map body) {
+        String email = (String)body.get("email");
         String username = (String) body.get("username");
         String name = (String) body.get("name");
         String password = (String) body.get("password");
@@ -52,10 +50,8 @@ public class Authentication {
     }
 
     @RequestMapping(method = POST, value = "/logout")
-    public ResponseEntity<Object> logout(@RequestBody String b) {
-        Map result = Util.jsonToMap(b);
-        String token = (String) result.get("token");
-
+    public ResponseEntity<Object> logout(@RequestHeader(value = "Authorization") String t) {
+        String token = t.split(" ")[1];
         try {
             UsersManager.logout(token);
             return null;

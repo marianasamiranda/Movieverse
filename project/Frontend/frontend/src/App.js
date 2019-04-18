@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar'
 import Footer from './components/footer'
-import FrontPage from './components/frontPage'
+import FrontPage from './components/frontpage'
 import Feed from './components/feed'
 import MoviePage from './components/movie/moviepage'
 import MovieSearch from './components/movieSearch'

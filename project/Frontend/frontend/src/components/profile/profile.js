@@ -70,9 +70,11 @@ export default class Profile extends Component {
     }
     this.getUserInfo()
     this.handleGenreModal = this.handleGenreModal.bind(this)
-    this.handleAvatarModalChange = this.handleAvatarModalChange.bind(this)
-    this.handleAvatarModalConfirm = this.handleAvatarModalConfirm.bind(this)
+    this.handleAvatarModal = this.handleAvatarModal.bind(this)
+    this.handleNewAvatarConfirm = this.handleNewAvatarConfirm.bind(this)
     this.handleNewAvatar = this.handleNewAvatar.bind(this)
+    this.handleNewGenre = this.handleNewGenre.bind(this)
+    this.handleNewGenreConfirm = this.handleNewGenreConfirm.bind(this)
   }
 
   componentDidMount() {
@@ -107,13 +109,7 @@ export default class Profile extends Component {
     }
   }
 
-  handleGenreModal(e) {
-    this.setState({
-      showGenreModal: !this.state.showGenreModal
-    })
-  }
-
-  handleAvatarModalChange() {
+  handleAvatarModal() {
     this.setState({
       showAvatarModal: !this.state.showAvatarModal
     })
@@ -125,7 +121,7 @@ export default class Profile extends Component {
     })
   }
 
-  handleAvatarModalConfirm(e) {
+  handleNewAvatarConfirm(e) {
     this.setState({
       newAvatarLoading: true
     })
@@ -142,16 +138,50 @@ export default class Profile extends Component {
         newAvatarLoading: false,
       })
       this.props.setAvatar(data['avatarImg'])
-      this.handleAvatarModalChange()
+      this.handleAvatarModal()
     })
-    .catch(x => {
-      console.log(x.response.data);
-      
+    .catch(x => { //TODO remove?
       this.setState({
         newAvatarLoading: false,
       })
     })
   }
+
+  handleGenreModal(e) {
+    const current = this.state.showGenreModal
+    if (current) {
+      this.setState({
+        newGenre: undefined
+      })
+    }
+    this.setState({
+      showGenreModal: !this.state.showGenreModal
+    })
+  }
+  
+  handleNewGenre(e) {
+    this.setState({
+      newGenre: e.value
+    })
+  }
+
+  handleNewGenreConfirm(e) {
+    this.setState({
+      newGenreLoading: true
+    })
+
+    Axios.put(backend + '/genre', {genre: this.state.newGenre}, 
+      { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
+        let data = this.state.data
+        data['genre'] = this.state.newGenre
+        this.setState({
+          data: data,
+          newGenreLoading: false
+        })
+        this.handleGenreModal()
+      })
+  }
+
 
   render() {    
     //TODO add proper loading screen
@@ -174,7 +204,7 @@ export default class Profile extends Component {
             <Row>
               <Col xs="12" lg="6">
                 <Row>
-                  <Col xs="12" sm="5" className="text-center" onClick={this.handleAvatarModalChange}>
+                  <Col xs="12" sm="5" className="text-center" onClick={this.handleAvatarModal}>
                     <img 
                       src={data.avatar ? data.avatarImg : avatars + data.gender + '.svg'} 
                           className="profile-img" 
@@ -184,7 +214,7 @@ export default class Profile extends Component {
                   <Col xs="12" sm="7">
                     <InfoCard 
                       name={data.name}
-                      genre="Action"
+                      genre={data.genre ? data.genre : "None"}
                       birthdate={data.birthdate}
                       joined={data.joindate}
                       country={data.country}
@@ -223,21 +253,28 @@ export default class Profile extends Component {
                 placeholder="Genre"
                 isSearchable
                 options={Object.keys(genres).map(x => genres[x])}
-                //onChange={this.handleChange}
+                onChange={this.handleNewGenre}
                 name="sort" />
             </Modal.Body>
-            <Modal.Footer>
-              <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
-                Cancel
-              </Button>
-              <Button size="sm" className="custom-button" onClick={this.handleGenreModal}>
-                Confirm
-              </Button>
-            </Modal.Footer>
+            {this.state.newGenreLoading ? 
+              <Modal.Footer>
+                <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
+              </Modal.Footer>
+              :
+              <Modal.Footer>
+                <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
+                  Cancel
+                </Button>
+                <Button disabled={this.state.newGenre ? false : true} size="sm" 
+                        className="custom-button" onClick={this.handleNewGenreConfirm}>
+                  Confirm
+                </Button>
+              </Modal.Footer>
+            }
           </Modal>
 
           {/* Change avatar modal */}
-          <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModalChange}>
+          <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModal}>
             <Modal.Header closeButton>
               <Modal.Title>Change Avatar</Modal.Title>
             </Modal.Header>
@@ -265,10 +302,11 @@ export default class Profile extends Component {
                 </Modal.Footer>
                 :
                 <Modal.Footer>
-                  <Button size="sm" variant="secondary" onClick={this.handleAvatarModalChange}>
+                  <Button size="sm" variant="secondary" onClick={this.handleAvatarModal}>
                     Cancel
                   </Button>
-                  <Button size="sm" disabled={this.state.newAvatar ? false : true} className="custom-button" onClick={this.handleAvatarModalConfirm}>
+                  <Button size="sm" disabled={this.state.newAvatar ? false : true} 
+                          className="custom-button" onClick={this.handleNewAvatarConfirm}>
                     Confirm
                   </Button>
                 </Modal.Footer>

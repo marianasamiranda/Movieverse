@@ -3,10 +3,26 @@ export const backend = 'http://localhost:8080'
 export const avatars = window.location.origin + "/avatars/"
 
 export const genres = {
-  'Adventure': { value: 'Adventure', label: '🗺️ Adventure'},
-  'Action': { value: 'Action', label: '🔥 Action' },
-  'Drama': { value: 'Drama', label: '🎭 Drama' },
-  'Horror': { value: 'Horror', label: '👻 Horror' },
+  Action: { value: 'Action', label: '🔥 Action' },
+  Adventure: { value: 'Adventure', label: '🗺️ Adventure' },
+  Animation: { value: 'Animation', label: '🐭 Animation' },
+  Comedy: { value: 'Comedy', label: '😂 Comedy' },
+  Crime: { value: 'Crime', label: '👮 Crime' },
+  Documentary: { value: 'Documentary', label: '💡 Documentary' },
+  Drama: { value: 'Drama', label: '🎭 Drama' },
+  Family: { value: 'Family', label: '👪 Family' },
+  Fantasy: { value: 'Fantasy', label: '🗡️ Fantasy' },
+  History: { value: 'History', label: '📜 History' },
+  Horror: { value: 'Horror', label: '👻 Horror' },
+  Music: { value: 'Music', label: '🎵 Music' },
+  Mystery: { value: 'Mystery', label: '🕵️‍ Mystery' },
+  Romance: { value: 'Romance', label: '❤️ Romance' },
+  'Science Fiction': { value: 'Science Fiction', label: '🤖 Science Fiction' },
+  'TV Movie': { value: 'TV Movie', label: '📺 TV Movie' },
+  Thriller: { value: 'Thriller', label: '🔪 Thriller' },
+  War: { value: 'War', label: '⚔️ War' },
+  Western: { value: 'Western', label: '🤠 Western' },
+  None: { value: 'None', label: 'None'}
 }
 
 export const theaters = [
