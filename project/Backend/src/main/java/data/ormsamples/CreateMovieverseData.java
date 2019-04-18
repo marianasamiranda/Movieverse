@@ -10,7 +10,7 @@ public class CreateMovieverseData {
 		PersistentTransaction t = data.movieverse.MovieversePersistentManager.instance().getSession().beginTransaction();
 		try {
 			data.movieverse.MUser ldatamovieverseMUser = data.movieverse.MUserDAO.createMUser();
-			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : friends, requestedFriendships, userMovies, achievements, feed, comments, receivedFriendships, friendsCount, ratingsCount, commentsCount, joinDate, hoursCount, movieCount, birthDate, name, email, password, username, userCountry, favouriteGenre
+			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : friends, requestedFriendships, userMovies, achievements, feed, comments, receivedFriendships, friendsCount, ratingsCount, commentsCount, joinDate, hoursCount, movieCount, gender, birthDate, name, email, password, username, userCountry
 			data.movieverse.MUserDAO.save(ldatamovieverseMUser);
 			data.movieverse.Movie ldatamovieverseMovie = data.movieverse.MovieDAO.createMovie();
 			// TODO Initialize the properties of the persistent object here, the following properties must be initialized before saving : media, showtime, movieMembers, comments, companies, genres, userMovies, imdb, name

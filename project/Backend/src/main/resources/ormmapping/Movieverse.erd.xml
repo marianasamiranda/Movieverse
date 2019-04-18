@@ -19,7 +19,7 @@
       <ReferencedColumn>data.movieverse.Genre.Id</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
-      <Nullable>false</Nullable>
+      <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
@@ -97,7 +97,7 @@
       <ForeignKey>false</ForeignKey>
       <Type>42</Type>
       <Length>1</Length>
-      <Nullable>true</Nullable>
+      <Nullable>false</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
