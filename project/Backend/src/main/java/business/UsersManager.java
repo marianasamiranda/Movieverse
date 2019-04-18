@@ -123,11 +123,18 @@ public class UsersManager {
         save(u);
     }
 
-    public static Map profileInfo(String token) throws Exception {
+    //if username is null get token's owner's info
+    public static Map profileInfo(String token, String username) throws Exception {
         MUser u = getUserByToken(token);
 
         if (u == null)
             throw new Exception("Wrong token");
+
+        if (username != null) {
+            u = getUserByUsername(username);
+            if (u == null)
+                throw new Exception("User doesn't exists");
+        }
 
         Map<String, Object> m = new HashMap<>();
         m.put("username", u.getUsername());
@@ -136,7 +143,7 @@ public class UsersManager {
         m.put("birthdate", u.getBirthDate());
         m.put("joindate", u.getJoinDate());
         m.put("country", u.getUserCountry().getAlphaCode());
-        m.put("genre", u.getFavouriteGenre().getName());
+        m.put("genre", u.getFavouriteGenre() != null ? u.getFavouriteGenre().getName() : null);
         m.put("statsMovies", u.getMovieCount());
         m.put("statsHours", u.getHoursCount());
         m.put("statsComments", 0);//TODO
@@ -182,5 +189,16 @@ public class UsersManager {
 
         u.setFavouriteGenre(g);
         save(u);
+    }
+
+    public static String getAvatar(String token) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        if (u.getAvatar() != null)
+            return u.getAvatar();
+        else return u.getGender() + ".svg";
     }
 }

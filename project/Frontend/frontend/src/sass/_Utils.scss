@@ -47,6 +47,11 @@
     @extend .padding-bottom;
 }
 
+.container-padding-extra {
+    padding-top: 50pt;
+    padding-bottom: 50pt;
+}
+
 .left-right {
     display: flex;
     align-content: center;
@@ -171,4 +176,11 @@ table td:last-child {
     &:hover {
         background-color: darken($primary-color, 15%) !important;
     }
+}
+
+.link {
+    font-family: $font-stack;
+    color: $primary-color;
+    text-decoration: underline;
+    font-size: 15pt;
 }

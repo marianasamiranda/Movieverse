@@ -75,6 +75,11 @@
   padding-top: 30pt;
 }
 
+.container-padding-extra {
+  padding-top: 50pt;
+  padding-bottom: 50pt;
+}
+
 .left-right {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -202,6 +207,13 @@ table td:last-child {
 
 .custom-button:hover {
   background-color: #b8231c !important;
+}
+
+.link {
+  font-family: "Roboto", sans-serif;
+  color: #e2463e;
+  text-decoration: underline;
+  font-size: 15pt;
 }
 
 .navbar {

@@ -6,6 +6,9 @@ import logo from '../img/logo-256-nav.png'
 import AvatarDropdown from './avatarDropdown'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Link} from 'react-router-dom'
+import Axios from 'axios'
+import {backend, avatars} from './../var'
+import { getToken } from '../cookies';
 
 class NavBarLink extends Component {
   render() {
@@ -24,10 +27,24 @@ export default class NavBar extends Component {
 
   constructor(props) {
     super(props)
+
+    if (this.props.logged && !this.props.avatar) {
+      this.getAvatar()
+    }
+
     this.state = {
-      selected: undefined
+      selected: undefined,
+      avatar: undefined
     }
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  getAvatar() {
+    Axios.get(backend + "/avatar", { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
+      this.setState({
+        avatar: avatars + x.data
+      })
+    })
   }
 
   handleChange(n) {
@@ -56,8 +73,8 @@ export default class NavBar extends Component {
             <Nav className="ml-auto align-items-center">
               {links}
               {this.props.logged ?
-              <AvatarDropdown 
-                img={this.props.avatar}
+              <AvatarDropdown
+                img={this.props.avatar ? this.props.avatar : this.state.avatar}
                 onClick={() => this.handleChange(undefined)} 
                 handleSession={this.props.handleSession} />
                 : ""

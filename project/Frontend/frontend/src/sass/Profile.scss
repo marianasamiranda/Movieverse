@@ -9,8 +9,10 @@ $label: #aaaaaa;
     max-height: 180px;
     margin-bottom: 20px;
 
-    &:hover {
-        cursor: pointer;
+    &.clickable {
+        &:hover{
+            cursor: pointer;
+        }
     }
 }
 

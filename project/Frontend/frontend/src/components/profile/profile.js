@@ -16,6 +16,8 @@ import MoviesCard from './movies-card'
 import ReactLoading from 'react-loading'
 import { getToken } from '../../cookies'
 import Axios from 'axios'
+import Loading from '../loading'
+import NoAuthError from '../noAuthError'
 
 const friends = [
   { username: 'username1', img:require( '../../img/girl.png') },
@@ -62,11 +64,17 @@ const movies = {
 export default class Profile extends Component {
   constructor(props) {
     super(props)
+    
+    let user = undefined
+    if (this.props.match) {
+      user = this.props.match.params.username
+    }
+
     this.state = {
       showGenreModal: false,
       showAvatarModal: false,
       dragOn: false,
-      user: this.props.user,
+      user: user,
     }
     this.getUserInfo()
     this.handleGenreModal = this.handleGenreModal.bind(this)
@@ -83,30 +91,40 @@ export default class Profile extends Component {
 
   getUserInfo() {
     const token = getToken()
+    let query = ""
+    if (this.state.user) {
+      query = "?username=" + this.state.user
+    }
 
-    if (!this.state.user) {
-      return Axios.get(backend + '/profile', { headers: { Authorization: "Bearer " + token } }).then(x => {
-        let stats = {}
-        stats['Movies'] = x.data.statsMovies
-        stats['Hours'] = x.data.statsHours
-        stats['Comments'] = x.data.statsComments
-        stats['Ratings'] = x.data.statsRatings
-        stats['Friends'] = x.data.statsFriends
-        
-        let data = x.data
-        data['avatarImg'] = avatars + data['avatar']
-
-        this.setState({
-          data: x.data,
-          stats: stats
-        })
-
+    return Axios.get(backend + '/profile' + query, 
+        { headers: { Authorization: "Bearer " + token } }).then(x => {
+      let stats = {}
+      stats['Movies'] = x.data.statsMovies
+      stats['Hours'] = x.data.statsHours
+      stats['Comments'] = x.data.statsComments
+      stats['Ratings'] = x.data.statsRatings
+      stats['Friends'] = x.data.statsFriends
+      
+      let data = x.data
+      data['avatarImg'] = avatars + data['avatar']
+      
+      if (!this.state.user) {
         this.props.setAvatar(
           data.avatar ?
-            data['avatarImg'] :
+            data['avatarImg'] : 
             avatars + data.gender + '.svg')
+      }
+
+      this.setState({
+        data: x.data,
+        stats: stats
       })
-    }
+    })
+    .catch(x => {
+      this.setState({
+        noAuth: true
+      })
+    })
   }
 
   handleAvatarModal() {
@@ -183,13 +201,19 @@ export default class Profile extends Component {
   }
 
 
-  render() {    
-    //TODO add proper loading screen
-    if (!this.state.data) {
+  render() {
+    if (this.state.noAuth) {
       return (
-        <div></div>
+        <NoAuthError />
       )
     }
+
+    else if (!this.state.data) {
+      return (
+        <Loading />
+      )
+    }
+
     else {
       const data = this.state.data
     
@@ -207,9 +231,11 @@ export default class Profile extends Component {
                   <Col xs="12" sm="5" className="text-center" onClick={this.handleAvatarModal}>
                     <img 
                       src={data.avatar ? data.avatarImg : avatars + data.gender + '.svg'} 
-                          className="profile-img" 
+                          className={"profile-img " + (!this.state.user ? "clickable" : "")}
                           alt="Profile" />
+                    {!this.state.user ?
                     <i className="far fa-edit align-top edit"></i>
+                    : ""}
                   </Col>
                   <Col xs="12" sm="7">
                     <InfoCard 
@@ -218,7 +244,7 @@ export default class Profile extends Component {
                       birthdate={data.birthdate}
                       joined={data.joindate}
                       country={data.country}
-                      changeGenre={this.handleGenreModal}
+                      changeGenre={!this.state.user ? this.handleGenreModal : ""}
                     />
                   </Col>
                 </Row>
@@ -242,76 +268,79 @@ export default class Profile extends Component {
             </Row>
           </Container>
 
-
-          {/* Change favourite genre modal */}
-          <Modal show={this.state.showGenreModal} onHide={this.handleGenreModal} size="sm">
-            <Modal.Header closeButton>
-              <Modal.Title>Favourite Genre</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Select 
-                placeholder="Genre"
-                isSearchable
-                options={Object.keys(genres).map(x => genres[x])}
-                onChange={this.handleNewGenre}
-                name="sort" />
-            </Modal.Body>
-            {this.state.newGenreLoading ? 
-              <Modal.Footer>
-                <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
-              </Modal.Footer>
-              :
-              <Modal.Footer>
-                <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
-                  Cancel
-                </Button>
-                <Button disabled={this.state.newGenre ? false : true} size="sm" 
-                        className="custom-button" onClick={this.handleNewGenreConfirm}>
-                  Confirm
-                </Button>
-              </Modal.Footer>
-            }
-          </Modal>
-
-          {/* Change avatar modal */}
-          <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Change Avatar</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Dropzone 
-                accept='image/jpeg, image/png, image/svg'
-                multiple={false}
-                onDrop={acceptedFiles => this.handleNewAvatar(acceptedFiles[0])} >
-                {({ getRootProps, getInputProps }) => (
-                  <section >
-                    <div {...getRootProps()} className="dropzone">
-                      <input {...getInputProps()} />
-                      <p>{this.state.newAvatar 
-                          ? this.state.newAvatar.name 
-                          : "Drag an image or click here to select (.jpeg, .png, .svg)"}</p>
-                    </div>
-                  </section>
-                )}
-              </Dropzone>
-            </Modal.Body>
-
-              {this.state.newAvatarLoading ? 
+          {!this.state.user ?
+          <div>
+            {/* Change favourite genre modal */}
+            <Modal show={this.state.showGenreModal} onHide={this.handleGenreModal} size="sm">
+              <Modal.Header closeButton>
+                <Modal.Title>Favourite Genre</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Select 
+                  placeholder="Genre"
+                  isSearchable
+                  options={Object.keys(genres).map(x => genres[x])}
+                  onChange={this.handleNewGenre}
+                  name="sort" />
+              </Modal.Body>
+              {this.state.newGenreLoading ? 
                 <Modal.Footer>
                   <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
                 </Modal.Footer>
                 :
                 <Modal.Footer>
-                  <Button size="sm" variant="secondary" onClick={this.handleAvatarModal}>
+                  <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
                     Cancel
                   </Button>
-                  <Button size="sm" disabled={this.state.newAvatar ? false : true} 
-                          className="custom-button" onClick={this.handleNewAvatarConfirm}>
+                  <Button disabled={this.state.newGenre ? false : true} size="sm" 
+                          className="custom-button" onClick={this.handleNewGenreConfirm}>
                     Confirm
                   </Button>
                 </Modal.Footer>
               }
-          </Modal>
+            </Modal>
+
+            {/* Change avatar modal */}
+            <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Change Avatar</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Dropzone 
+                  accept='image/jpeg, image/png, image/svg'
+                  multiple={false}
+                  onDrop={acceptedFiles => this.handleNewAvatar(acceptedFiles[0])} >
+                  {({ getRootProps, getInputProps }) => (
+                    <section >
+                      <div {...getRootProps()} className="dropzone">
+                        <input {...getInputProps()} />
+                        <p>{this.state.newAvatar 
+                            ? this.state.newAvatar.name 
+                            : "Drag an image or click here to select (.jpeg, .png, .svg)"}</p>
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              </Modal.Body>
+
+                {this.state.newAvatarLoading ? 
+                  <Modal.Footer>
+                    <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
+                  </Modal.Footer>
+                  :
+                  <Modal.Footer>
+                    <Button size="sm" variant="secondary" onClick={this.handleAvatarModal}>
+                      Cancel
+                    </Button>
+                    <Button size="sm" disabled={this.state.newAvatar ? false : true} 
+                            className="custom-button" onClick={this.handleNewAvatarConfirm}>
+                      Confirm
+                    </Button>
+                  </Modal.Footer>
+                }
+              </Modal>
+            </div>
+          : ""}
         </div>
       )
     }

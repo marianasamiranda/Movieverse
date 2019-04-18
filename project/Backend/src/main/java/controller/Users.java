@@ -15,11 +15,23 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 public class Users {
 
     @RequestMapping(method = GET, value = "/profile")
-    public ResponseEntity<Object> profile(@RequestHeader(value = "Authorization") String t) {
+    public ResponseEntity<Object> profile(@RequestHeader(value = "Authorization") String t,
+                                          @RequestParam(value = "username", required = false) String username) {
         String token = t.split(" ")[1];
 
         try {
-            return Util.ok(UsersManager.profileInfo(token));
+            return Util.ok(UsersManager.profileInfo(token, username));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
+    @RequestMapping(method = GET, value = "/avatar")
+    public ResponseEntity<Object> getAvatar(@RequestHeader(value = "Authorization") String t) {
+        String token = t.split(" ")[1];
+        try {
+            return Util.ok(UsersManager.getAvatar(token));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
@@ -27,9 +39,10 @@ public class Users {
     }
 
     @RequestMapping(method = PUT, value = "/avatar")
-    public ResponseEntity<Object> avatar(@RequestHeader(value = "Authorization") String t,
+    public ResponseEntity<Object> setAvatar(@RequestHeader(value = "Authorization") String t,
                                          @RequestParam(value = "image") MultipartFile file) {
         String token = t.split(" ")[1];
+        System.out.println("here");
         try {
             return Util.ok(UsersManager.newAvatar(token, file));
         }

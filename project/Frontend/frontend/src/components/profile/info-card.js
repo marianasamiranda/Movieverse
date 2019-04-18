@@ -20,7 +20,8 @@ export default class InfoCard extends Component {
           <Col xs="6" className="info-item-label">
             Favourite Genre
           </Col>
-          <Col xs="6" className="text-right clickable" onClick={this.props.changeGenre}>
+          <Col xs="6" className={"text-right " + (this.props.changeGenre ? "clickable" : "")} 
+              onClick={this.props.changeGenre ? this.props.changeGenre : undefined}>
             {genres[this.props.genre]['label']}
           </Col>
         </Row>

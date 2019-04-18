@@ -71,6 +71,7 @@ class App extends Component {
           <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar}/>} />
           <Route exact path="/users" component={FindUsers} />
           <Route exact path="/movie" component={MoviePage} />
+          <Route exact path="/u/:username" component={Profile} />
         </main>
         <Footer/>
       </Router>
