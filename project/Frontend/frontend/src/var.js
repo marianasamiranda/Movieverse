@@ -1,3 +1,5 @@
+import { getToken } from "./cookies";
+
 export const backend = 'http://localhost:8080'
 
 export const avatars = window.location.origin + "/avatars/"

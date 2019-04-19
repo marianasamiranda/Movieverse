@@ -18,7 +18,7 @@ export default class Loading extends Component {
               color="#e2463e"
               size={15}
             />
-            <img src={require('../img/logo.png')} width="35%" />
+            <img src={require('../../img/logo.png')} width="35%" alt="Logo" />
           </Col>
         </Row>
       </Container>

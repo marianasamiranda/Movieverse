@@ -216,6 +216,65 @@ table td:last-child {
   font-size: 15pt;
 }
 
+.tab-link {
+  font-family: "Roboto", sans-serif;
+  font-size: 14pt;
+  border-bottom: 0px solid #e2463e;
+}
+
+.tab-link.selected {
+  color: #333333;
+  border-bottom-width: 3px;
+}
+
+.tab-link.selected:hover {
+  cursor: default;
+}
+
+.tab-link.not-selected {
+  color: #999999;
+}
+
+.tab-link.not-selected:hover {
+  border-bottom-width: 3px;
+  border-bottom-color: rgba(226, 70, 62, 0.5);
+  -webkit-transition: border .1s ease-out;
+  transition: border .1s ease-out;
+  cursor: pointer;
+}
+
+.user-info-compact {
+  margin-top: 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 11pt;
+  padding: 5px;
+  padding-left: 15px;
+  line-height: 25px;
+}
+
+.user-info-compact .avatar {
+  width: 160%;
+  border-radius: 50%;
+  margin-top: 6px;
+  margin-left: -2px;
+  border: 2px solid #dddddd;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 65px;
+  max-height: 65px;
+}
+
+.user-info-compact i {
+  vertical-align: middle;
+  color: #333333;
+}
+
+.user-info-compact button {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif;
+}
+
 .navbar {
   background-color: #202020;
   padding: 0.3rem;
@@ -243,6 +302,8 @@ table td:last-child {
   background-size: 0 2px, auto;
   background-repeat: no-repeat;
   background-position: center bottom;
+  margin-top: 5px;
+  margin-bottom: 5px;
   -webkit-transition: all .2s ease-out;
   transition: all .2s ease-out;
 }

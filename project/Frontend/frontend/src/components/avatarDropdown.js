@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { clearToken } from '../cookies'
 import Axios from 'axios'
 import { backend } from '../var'
+import FriendRequests from './friendRequests'
 
 class CustomToggle extends Component {
   constructor(props, context) {
@@ -53,15 +54,23 @@ export default class AvatarDropdown extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      show: false
+      show: false,
+      showRequests: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.logout = this.logout.bind(this)
+    this.handleShowRequests = this.handleShowRequests.bind(this)
   }
 
   handleChange() {
     this.setState({
-      show: !this.state.show
+      show: !this.state.show,
+    })
+  }
+
+  handleShowRequests() {
+    this.setState({
+      showRequests: !this.state.showRequests
     })
   }
 
@@ -74,26 +83,35 @@ export default class AvatarDropdown extends Component {
 
   render() {
     return (
+      <>
       <Dropdown show={this.state.show}  alignRight className="dropdown-small-center" onClick={this.handleChange}>
         <Dropdown.Toggle as={CustomToggle}>
           <img src={this.props.img} className="navbar-user" alt="" />
         </Dropdown.Toggle>
         <Dropdown.Menu as={CustomMenu} >
-          <p className="text-center" onClick={this.handleChange}>
+          <p className="text-center" onClick={() => {this.handleChange(); this.props.handleExpand()}}>
             <Link to="/profile">
-              <i className="far fa-user-circle fa-fw margin-right-10"></i>
+              <i className="far fa-user-circle fa-fw margin-right-10" />
               Profile
             </Link>
           </p>
+            <p className="text-center" onClick={() => { this.handleShowRequests();this.handleChange(); this.props.handleExpand()}}>
+            <Link>
+              <i className="far fa-user-circle fa-fw margin-right-10" />
+              Requests
+            </Link>
+          </p>
             <Dropdown.Divider />
-          <p className="text-center" onClick={this.handleChange}>
+          <p className="text-center" onClick={() => {this.handleChange(); this.props.handleExpand()}}>
             <Link to="/" onClick={this.logout}>
-              <i className="fas fa-door-open fa-fw margin-right-10"></i>
+              <i className="fas fa-door-open fa-fw margin-right-10" />
               Logout
             </Link>
           </p>
         </Dropdown.Menu>
       </Dropdown>
+      <FriendRequests show={this.state.showRequests} handleShowRequests={this.handleShowRequests} />
+      </>
     )
   }
 }

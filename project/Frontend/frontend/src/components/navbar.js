@@ -34,9 +34,11 @@ export default class NavBar extends Component {
 
     this.state = {
       selected: undefined,
-      avatar: undefined
+      avatar: undefined,
+      expanded: false
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleExpand = this.handleExpand.bind(this)
   }
 
   getAvatar() {
@@ -49,6 +51,20 @@ export default class NavBar extends Component {
 
   handleChange(n) {
     this.setState({selected: n})
+    this.handleExpand()
+  }
+
+  handleExpand(e) {
+    if (e) {
+      this.setState({
+        expanded: !this.state.expanded
+      })
+    }
+    else {
+      this.setState({
+        expanded: false
+      })
+    }
   }
 
   render() {
@@ -56,14 +72,16 @@ export default class NavBar extends Component {
     this.props.links.forEach(x => {
       if (!x.logged || (x.logged && this.props.logged)) {
         links.push(
-          <NavBarLink name={x.name} url={x.url} selected={this.state.selected === x.name}
-            key={this.props.links.indexOf(x)} onClick={() => this.handleChange(x.name)} />
+          <NavBarLink name={x.name} url={x.url} selected={this.state.selected === x.name} 
+            handleExpand={this.handleExpand} key={this.props.links.indexOf(x)} 
+            onClick={() => this.handleChange(x.name)} />
         )
       }
     })
 
     return (
-      <Navbar expand="lg" className="sticky-top">
+      <Navbar collapseOnSelect expand="lg" className="sticky-top" 
+        expanded={this.state.expanded}  onToggle={this.handleExpand}>
         <Container>
           <Link to="/" className="navbar-logo">
             <img src={logo} alt="Homepage" onClick={() => this.handleChange(undefined)} />
@@ -75,7 +93,7 @@ export default class NavBar extends Component {
               {this.props.logged ?
               <AvatarDropdown
                 img={this.props.avatar ? this.props.avatar : this.state.avatar}
-                onClick={() => this.handleChange(undefined)} 
+                handleExpand={() => this.handleChange(undefined)} 
                 handleSession={this.props.handleSession} />
                 : ""
               }

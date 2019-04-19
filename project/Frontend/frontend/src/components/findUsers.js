@@ -55,22 +55,22 @@ export default class FindPeople extends Component {
           </div>
           <Row>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad (5)</div>} info="Real Name" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad (5)</>} info="Real Name" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad (5)</div>} info="Real Name" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad (5)</>} info="Real Name" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad (3)</div>} info="Real Name" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad (3)</>} info="Real Name" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad (2)</div>} info="Real Name" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad (2)</>} info="Real Name" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad (2)</div>} info="Real Name" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad (2)</>} info="Real Name" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad (2)</div>} info="Real Name" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad (2)</>} info="Real Name" />
             </Col>
           </Row>
           <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.mightKnowLoading}>
@@ -83,22 +83,22 @@ export default class FindPeople extends Component {
           </div>
           <Row>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad</div>} info="x likes" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad</>} info="x likes" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad</div>} info="x likes" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad</>} info="x likes" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad</div>} info="x likes" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad</>} info="x likes" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad</div>} info="x likes" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad</>} info="x likes" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad</div>} info="x likes" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad</>} info="x likes" />
             </Col>
             <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title={<div><Flag country="pt"/>asdsad</div>} info="x likes" />
+              <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt"/>asdsad</>} info="x likes" />
             </Col>
           </Row>
         </Container>

@@ -32,9 +32,10 @@ class App extends Component {
     this.setAvatar = this.setAvatar.bind(this)
   }
 
-  handleSession() {
+  handleSession(username) {
     this.setState({
-      logged: !this.state.logged
+      logged: !this.state.logged,
+      username: username
     })
   }
 

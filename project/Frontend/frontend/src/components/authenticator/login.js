@@ -51,19 +51,19 @@ export default class Login extends Component  {
     Axios.post(backend + '/login', data).then(x =>{
       this.setState({
         fail: false,
+        loading: false
       })
       setToken(x.data)
-      this.props.handleSession()
-      
+      this.props.handleSession(data['username'])
     })
     .catch(x => {
       this.setState({
         fail: true,
         failMessage: x.response.data,
-        failKey: this.state.failKey + 1
+        failKey: this.state.failKey + 1,
+        loading: false
       })
     })
-    .then(() => this.setState({loading: false}))
   }
 
   render() {

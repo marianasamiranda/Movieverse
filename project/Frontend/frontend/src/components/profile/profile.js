@@ -16,8 +16,8 @@ import MoviesCard from './movies-card'
 import ReactLoading from 'react-loading'
 import { getToken } from '../../cookies'
 import Axios from 'axios'
-import Loading from '../loading'
-import NoAuthError from '../noAuthError'
+import Loading from '../aux_pages/loading'
+import NoAuthError from '../aux_pages/noAuthError'
 
 const friends = [
   { username: 'username1', img:require( '../../img/girl.png') },
@@ -64,9 +64,11 @@ const movies = {
 export default class Profile extends Component {
   constructor(props) {
     super(props)
-    
+
     let user = undefined
-    if (this.props.match) {
+    if (!this.props.self && this.props.match) {
+      console.log(this.props.self);
+      
       user = this.props.match.params.username
     }
 
@@ -83,6 +85,7 @@ export default class Profile extends Component {
     this.handleNewAvatar = this.handleNewAvatar.bind(this)
     this.handleNewGenre = this.handleNewGenre.bind(this)
     this.handleNewGenreConfirm = this.handleNewGenreConfirm.bind(this)
+    this.handleFriendRequest = this.handleFriendRequest.bind(this)
   }
 
   componentDidMount() {
@@ -107,20 +110,16 @@ export default class Profile extends Component {
       
       let data = x.data
       data['avatarImg'] = avatars + data['avatar']
-      
-      if (!this.state.user) {
-        this.props.setAvatar(
-          data.avatar ?
-            data['avatarImg'] : 
-            avatars + data.gender + '.svg')
-      }
 
       this.setState({
         data: x.data,
-        stats: stats
+        stats: stats,
+        user: x.data['self'] ? undefined : this.state.user,
+        isFriend: data['friendship']
       })
     })
     .catch(x => {
+      //TODO separate auth error from user doesn't exists error
       this.setState({
         noAuth: true
       })
@@ -200,6 +199,51 @@ export default class Profile extends Component {
       })
   }
 
+  handleFriendRequest(e) {
+    Axios.post(backend + '/friend-request', {username: this.state.user},
+      { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
+        let data = this.state.data
+        data['friendship'] = 'requested'
+        this.setState({
+          data: data
+        })
+      })
+      .catch(x => console.log(x.response.data))
+  }
+
+  friendStatusButton() {
+    switch (this.state.data.friendship) {
+      case 'friends':
+        return (
+          <Button disabled className="button-slim margin-top-10">
+            Friends
+          </Button>
+        )
+    
+      case 'requested':
+        return (
+          <Button disabled variant="secondary" className="button-slim margin-top-10">
+            Request sent
+          </Button>
+        )
+
+      case 'received':
+        return (
+          <Button disabled variant="warning" className="button-slim margin-top-10">
+            Request received
+          </Button>
+        )
+
+      default:
+        return (
+          <Button variant="success" className="button-slim margin-top-10"
+            onClick={this.handleFriendRequest}>
+            <i className="fas fa-plus" /> Add friend
+          </Button>
+        )
+    }
+  }
+
 
   render() {
     if (this.state.noAuth) {
@@ -216,14 +260,20 @@ export default class Profile extends Component {
 
     else {
       const data = this.state.data
-    
+
       return (
         <div>
           <Container className="container-padding-large">
             <Row>
-              <Col>
+              <Col xs="auto">
                 <h1 className="title">{data.username}</h1>
               </Col>
+              {this.state.user ?
+                <Col xs="auto" >
+                  {this.friendStatusButton()}
+                </Col>
+                : ""
+              }
             </Row>
             <Row>
               <Col xs="12" lg="6">
@@ -238,7 +288,7 @@ export default class Profile extends Component {
                     : ""}
                   </Col>
                   <Col xs="12" sm="7">
-                    <InfoCard 
+                    <InfoCard
                       name={data.name}
                       genre={data.genre ? data.genre : "None"}
                       birthdate={data.birthdate}

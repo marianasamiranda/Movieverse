@@ -20,7 +20,7 @@ export default class NoAuthError extends Component {
             </div>
           </Col>
           <Col xs="12" className="text-center">
-            <img src={require('../img/logo.png')} width="35%" />
+            <img src={require('../../img/logo.png')} width="35%" alt="Logo" />
           </Col>
         </Row>
       </Container>

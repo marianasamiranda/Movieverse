@@ -1,9 +1,6 @@
 package business;
 
-import data.movieverse.Genre;
-import data.movieverse.GenreDAO;
-import data.movieverse.MUser;
-import data.movieverse.MUserDAO;
+import data.movieverse.*;
 import org.orm.PersistentException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,9 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class UsersManager {
@@ -26,9 +21,21 @@ public class UsersManager {
     private static final int TOKENLIMIT = 10000;
     private static final Path AVATARLOCATION = Paths.get("../Frontend/frontend/avatar/");
 
-    private static void save(MUser m) {
+    private static void save(Object o) {
         try {
-            MUserDAO.save(m);
+            if (o instanceof MUser)
+                MUserDAO.save((MUser) o);
+            else if (o instanceof Friendship)
+                FriendshipDAO.save((Friendship) o);
+        }
+        catch (PersistentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void refresh(MUser m) {
+        try {
+            MUserDAO.refresh(m);
         }
         catch (PersistentException e) {
             e.printStackTrace();
@@ -65,6 +72,16 @@ public class UsersManager {
         }
     }
 
+    public static Friendship getFriendship(int sender, int receiver) {
+        try {
+            return FriendshipDAO.loadFriendshipByQuery(
+                    "muserid=" + sender + "and muserid2=" +  receiver, "id");
+        }
+        catch (PersistentException e) {
+            return null;
+        }
+    }
+
 
 
     //////////////////////////////////////////////////
@@ -85,8 +102,8 @@ public class UsersManager {
         m.setName(name);
         m.setPassword(Security.encode(password));
         m.setGender(gender);
-        m.setBirthDate(Date.from(birthdate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        m.setJoinDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        m.setBirthDate(Util.localDateToDate(birthdate));
+        m.setJoinDate(Util.localDateToDate(LocalDate.now()));
         m.setUserCountry(CountryManager.getCountryByCode(country));
         m.setToken(Security.generateToken());
         //m.setTokenLimit(...);
@@ -123,6 +140,7 @@ public class UsersManager {
         save(u);
     }
 
+
     //if username is null get token's owner's info
     public static Map profileInfo(String token, String username) throws Exception {
         MUser u = getUserByToken(token);
@@ -130,11 +148,30 @@ public class UsersManager {
         if (u == null)
             throw new Exception("Wrong token");
 
+        boolean self = false;
+        String friendship = null;
         if (username != null) {
-            u = getUserByUsername(username);
-            if (u == null)
-                throw new Exception("User doesn't exists");
+            if (u.getUsername().equals(username))
+                self = true;
+            else { //TODO não buscar tudo à base de dados
+                if (Arrays.asList(u.getRequestedMusers()).stream()
+                        .anyMatch(x -> x.getUsername().equals(username)))
+                    friendship = "requested";
+                else if (Arrays.asList(u.getReceivedMusers()).stream()
+                        .anyMatch(x -> x.getUsername().equals(username)))
+                    friendship = "received";
+                //TODO
+                //else if (Arrays.asList(u.getFriends()) ...)
+                //friendship = "friends"
+                else
+                    friendship = null;
+                u = getUserByUsername(username);
+                if (u == null)
+                    throw new Exception("User doesn't exists");
+            }
         }
+
+        refresh(u);
 
         Map<String, Object> m = new HashMap<>();
         m.put("username", u.getUsername());
@@ -151,6 +188,8 @@ public class UsersManager {
         m.put("statsFriends", 0);//TODO
         m.put("badges", u.getBadges());
         m.put("avatar", u.getAvatar());
+        m.put("self", self);
+        m.put("friendship", friendship);
         //m.put("recentMovies", u.getMovies()); TODO
         //m.put("favouritesMovies", u.getMovies()) TODO
         //m.put("watchlist", u.getMovies()) TODO
@@ -159,6 +198,7 @@ public class UsersManager {
         return m;
     }
 
+
     public static String newAvatar(String token, MultipartFile file) throws Exception {
         MUser m = getUserByToken(token);
 
@@ -166,7 +206,8 @@ public class UsersManager {
             throw new Exception("Wrong token");
 
         String path = "../Frontend/frontend/public/avatars/";
-        String filename = m.getEmail() + "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
+        String filename = m.getUsername() + "." +
+                StringUtils.getFilenameExtension(file.getOriginalFilename());
         String p = path + filename;
         Path patha = Path.of(path+filename);
         Files.copy(file.getInputStream(), patha , StandardCopyOption.REPLACE_EXISTING);
@@ -175,6 +216,7 @@ public class UsersManager {
         save(m);
         return filename;
     }
+
 
     public static void newGenre(String token, String genre) throws Exception {
         MUser u = getUserByToken(token);
@@ -191,6 +233,7 @@ public class UsersManager {
         save(u);
     }
 
+
     public static String getAvatar(String token) throws Exception {
         MUser u = getUserByToken(token);
 
@@ -200,5 +243,92 @@ public class UsersManager {
         if (u.getAvatar() != null)
             return u.getAvatar();
         else return u.getGender() + ".svg";
+    }
+
+
+    public static List getFriendRequests(String token, String type) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        List<MUser> l;
+        if (type.equals("received"))
+            l = Arrays.asList(u.getReceivedMusers());
+        else
+            l = Arrays.asList(u.getRequestedMusers());
+
+        List r = new ArrayList();
+        for (MUser mu: l) {
+            Map m = new HashMap();
+            m.put("username", mu.getUsername());
+            m.put("name", mu.getName());
+            m.put("country", mu.getUserCountry().getAlphaCode());
+            m.put("avatar", mu.getAvatar() != null ? mu.getAvatar() : mu.getGender() + ".svg");
+            m.put("common", 0); //TODO encontrar número de amigos em comum
+            r.add(m);
+        }
+
+        return r;
+    }
+
+
+    public static void newFriendRequest(String token, String username) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        if (u.getUsername().equals(username))
+            throw new Exception("Can't send a self request");
+
+        MUser target = getUserByUsername(username);
+
+        if (target == null)
+            throw new Exception("No such user");
+
+        Friendship f = new Friendship();
+        f.setRequestedMuser(u);
+        f.setReceivedMuser(target);
+        f.setDate(Util.localDateToDate(LocalDate.now()));
+        f.setPending(true);
+        save(f);
+    }
+
+    //Cancels a sent request
+    public static void processRequest(String token, String username, boolean decision) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        MUser target = getUserByUsername(username);
+
+        if (target == null)
+            throw new Exception("No such user");
+
+        //reject request
+        if (!decision) {
+            FriendshipDAO.deleteAndDissociate(getFriendship(target.getId(), u.getId()));
+        }
+        //add friend
+        else {
+            //TODO
+        }
+    }
+
+    //Cancels a sent request
+    public static void cancelRequest(String token, String username) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        MUser target = getUserByUsername(username);
+
+        if (target == null)
+            throw new Exception("No such user");
+
+        FriendshipDAO.deleteAndDissociate(getFriendship(u.getId(), target.getId()));
     }
 }
