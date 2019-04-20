@@ -38,6 +38,10 @@
   background-color: #202020;
 }
 
+.bg-red {
+  background-color: #e2463e;
+}
+
 .font-stack {
   font-family: "Roboto", sans-serif;
 }
@@ -48,13 +52,44 @@
   color: #333333;
   padding-bottom: 20pt;
 }
+@media (max-width: 575px) {
+  .title {
+    text-align: center;
+  }
+}
 
-.padding-bottom, .container-padding {
-  padding-bottom: 75pt;
+.title-medium {
+  font-family: "Oswald", sans-serif;
+  font-size: 24pt;
+  color: #333333;
+  padding-bottom: 20pt;
+}
+@media (max-width: 575px) {
+  .title-medium {
+    text-align: center;
+  }
+}
+
+.padding-bottom, .container-padding-large, .container-padding {
+  padding-bottom: 60pt;
+}
+@media (max-width: 766px) {
+  .padding-bottom, .container-padding-large, .container-padding {
+    padding-bottom: 30pt;
+  }
 }
 
 .padding-top, .container-padding {
+  padding-top: 10pt;
+}
+
+.container-padding-large {
   padding-top: 30pt;
+}
+
+.container-padding-extra {
+  padding-top: 50pt;
+  padding-bottom: 50pt;
 }
 
 .left-right {
@@ -123,18 +158,28 @@ table td:last-child {
 
 .movie-card-container .label {
   font-family: "Roboto light", sans-serif;
-  font-size: 18pt;
+  font-size: 16pt;
   color: #333333;
-  line-height: 10pt;
+  line-height: 14pt;
   padding-top: 10pt;
 }
 .movie-card-container .movie-card {
   max-width: 100%;
   height: auto;
 }
-@media (min-width: 200px) and (max-width: 768px) {
+@media (min-width: 766px) and (max-width: 990px) {
+  .movie-card-container .label {
+    font-size: 14pt;
+  }
+}
+@media (max-width: 766px) {
+  .movie-card-container {
+    margin-right: -10px;
+    margin-left: -10px;
+    margin-top: -5px;
+  }
   .movie-card-container .label p {
-    font-size: 20px;
+    font-size: 12pt;
   }
 }
 
@@ -196,19 +241,152 @@ table td:last-child {
   display: flex;
 }
 
+.button-slim {
+  padding: 0 5px 0 5px;
+  border-radius: 10px;
+  font-family: "Roboto light", sans-serif;
+  font-size: 10pt;
+  box-sizing: border-box !important;
+}
+
+.flag-icon {
+  width: auto;
+  height: 0.75em;
+  margin-right: 6px;
+}
+
+@media (max-width: 991px) {
+  .dropdown-small-center {
+    text-align: center;
+  }
+}
+
+.custom-button {
+  background-color: #e2463e !important;
+  border: none !important;
+}
+.custom-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
+}
+.custom-button:hover {
+  background-color: #b8231c !important;
+}
+
+.link {
+  font-family: "Roboto", sans-serif;
+  color: #e2463e;
+  text-decoration: underline;
+  font-size: 15pt;
+}
+
+.tab-link {
+  font-family: "Roboto", sans-serif;
+  font-size: 14pt;
+  border-bottom: 0px solid #e2463e;
+}
+.tab-link.selected {
+  color: #333333;
+  border-bottom-width: 3px;
+}
+.tab-link.selected:hover {
+  cursor: default;
+}
+.tab-link.not-selected {
+  color: #999999;
+}
+.tab-link.not-selected:hover {
+  border-bottom-width: 3px;
+  border-bottom-color: rgba(226, 70, 62, 0.5);
+  transition: border 0.1s ease-out;
+  cursor: pointer;
+}
+
+.user-info-compact {
+  margin-top: 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 11pt;
+  padding: 5px;
+  padding-left: 15px;
+  line-height: 25px;
+}
+.user-info-compact .avatar {
+  width: 160%;
+  border-radius: 50%;
+  margin-top: 6px;
+  margin-left: -2px;
+  border: 2px solid #dddddd;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 65px;
+  max-height: 65px;
+}
+.user-info-compact i {
+  vertical-align: middle;
+  color: #333333;
+}
+.user-info-compact button {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif;
+}
+
 .navbar {
   background-color: #202020;
+  padding: 0.3rem;
+  padding-right: 0 !important;
 }
 .navbar .navbar-logo {
+  max-width: 140px;
+}
+.navbar .navbar-logo img {
   width: 12%;
   min-width: 130px;
+}
+.navbar .navbar-logo img:hover {
+  cursor: pointer;
 }
 .navbar .navbar-item {
   color: white;
   font-family: "Roboto", sans-serif;
+  background-image: linear-gradient(#e2463e, #e2463e);
+  background-size: 0 2px, auto;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  transition: all 0.2s ease-out;
+}
+.navbar .navbar-item:hover {
+  cursor: pointer;
+  background-size: 100% 2px, auto;
+}
+@media (min-width: 992px) {
+  .navbar .navbar-item {
+    margin-right: 20px;
+  }
 }
 .navbar .navbar-item-selected {
-  text-decoration: underline;
+  background-size: 100% 2px, auto;
+}
+.navbar .navbar-user {
+  width: 2.7rem;
+  margin-top: -10px;
+  margin-bottom: -10px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: #e9e9e9;
+}
+.navbar .navbar-user:hover {
+  cursor: pointer;
+}
+.navbar .navbar-user .item {
+  color: black;
+}
+@media (max-width: 991px) {
+  .navbar .navbar-user {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 }
 
 body {

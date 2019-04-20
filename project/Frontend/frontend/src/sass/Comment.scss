@@ -1,0 +1,99 @@
+
+@import 'Variables';
+
+.comment-container {
+    background-color: white;
+    border: 1px solid $darker-color;
+    padding: 1em 2em;
+    margin-top: 30px;
+    width: 96%;
+    margin-left: 2%;
+}
+
+.profile-pic {
+    border-radius: 70px;
+    margin-right: 5px;
+}
+
+.reply-pic {
+    border-radius: 70px;
+    margin-right: 10px;
+}
+
+.info {
+    align-items: center;
+}
+
+.likes {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 18px;
+}
+
+.replies {
+    display: inline-block;
+    font-size: 18px;
+    color: $darker-color;
+}
+
+.liked-button {
+    color: $primary-color;
+    transition: 0.2s;
+}
+
+.like-button {
+    color: $darker-color;
+    transition: 0.2s;
+}
+
+textarea {
+    border: none;
+    resize: none;
+    min-width: 100%;
+}
+
+/*.form-control {
+    background-color: transparent;
+}*/
+
+.btn-primary {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    float: right;
+}
+
+.btn-primary:hover {
+    background-color: #cc3e37;
+    border-color: #cc3e37;
+}
+
+.btn-primary:disabled {
+    border: gray;
+    background-color: gray;
+}
+
+.replies-container {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.reply {
+    padding: 1em;
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid $darker-color;
+    border-top: 0;
+    background-color: $body-color;
+}
+
+.reply-time {
+    margin-top: 5px;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.reply-likes {
+    display: inline-block;
+    margin-left: 6px;
+}

@@ -10,35 +10,37 @@ import logo from '../img/logo.png'
 import '../styles/FrontPage.css'
 
 export default class FrontPage extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    document.title = "Movieverse"
+  }
+
   render() {
     return (
       <div>
-        <Banner 
-          login={this.props.login} 
-          register={this.props.register}
-          loginFail={this.props.loginFail}
-          registerFail={this.props.registerFail}
-          errorMessage={this.props.errorMessage}
-        />
-        <div className="container container-padding">
+        <Banner handleSession={this.props.handleSession} />
+        <Container className="container-padding">
           <div className="title">
             NEW RELEASES
           </div>
-          <div className="row">
-            <div className="col-6 col-sm-3 my-col">
+          <Row>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-            <div className="col-6 col-sm-3 my-col">
+            </Col>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-            <div className="col-6 col-sm-3 my-col">
+            </Col>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-            <div className="col-6 col-sm-3 my-col">
+            </Col>
+            <Col sm="3" xs="6">
               <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
         <div className="bg-light-gray">
           <Container className="container-padding">
             <div className="title">

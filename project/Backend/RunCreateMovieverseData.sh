@@ -1,3 +1,3 @@
 #! /bin/sh
 
-./RunSample.sh data.ormsamples.CreateMovieverseData  $@
+./RunSample.sh ormsamples.CreateMovieverseData  $@

@@ -1,3 +1,3 @@
 #! /bin/sh
 
-./RunSample.sh data.ormsamples.DeleteMovieverseData  $@
+./RunSample.sh ormsamples.DeleteMovieverseData  $@

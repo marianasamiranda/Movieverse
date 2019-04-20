@@ -1,3 +1,3 @@
 #! /bin/sh
 
-./RunSample.sh data.ormsamples.DropMovieverseDatabaseSchema  $@
+./RunSample.sh ormsamples.DropMovieverseDatabaseSchema  $@

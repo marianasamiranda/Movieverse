@@ -4,90 +4,83 @@ import Footer from './components/footer'
 import FrontPage from './components/frontpage';
 import Feed from './components/feed/feed';
 import Actor from './components/actor/actor';
+import MoviePage from './components/movie/moviepage'
+import MovieSearch from './components/movieSearch'
+import PeopleSearch from './components/peopleSearch'
+import FindUsers from './components/findUsers'
+import Showtimes from './components/showtimes'
 import Axios from 'axios'
+import Profile from './components/profile/profile'
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom/'
+import {getToken} from './cookies'
 
 import './styles/App.css';
-const backend = 'http://localhost:8080'
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.login = this.login.bind(this)
-    this.register = this.register.bind(this)
-    this.state = {
-      loginFail: false,
-      registerFail: false,
-      errorMessage: ""
-    }
-  }
-
-
-  login(data) {
-    Axios.post(backend + '/login', data).then(x =>{
-      console.log("success");
-      this.setState({
-        loginFail: false,
-        registerFail: false
-      })
-    })
-    .catch(x => {
-      this.setState({
-        loginFail: true,
-        registerFail: false,
-        errorMessage: x.response.data
-      })
-    })
-  }
-
-
-  register(data) {
-    this.setState({
-      registeredFail: false,
-    })
-    Axios.post(backend + '/register', data).then(x => {
-      if (x.status === 200) {
-        console.log("success");
-        this.setState({
-          loginFail: false,
-          registerFail: false
-        })
+    if (getToken()) {
+      this.state = {
+        logged : true
       }
-    })
-    .catch(x => {
-      this.setState({
-        loginFail: false,
-        registerFail: true,
-        errorMessage: x.response.data
-      })
+    }
+    else {
+      this.state = {
+        logged: false
+      }
+    }
+    this.handleSession = this.handleSession.bind(this)
+    this.setAvatar = this.setAvatar.bind(this)
+  }
+
+  handleSession(username) {
+    this.setState({
+      logged: !this.state.logged,
+      username: username
     })
   }
 
+  setAvatar(img) {
+    this.setState({
+      avatar: img
+    })
+  }
 
   render() {
     let navBarLinks = [
-      { name: 'Discover Movies', url: '/movie-search', selected: false },
-      { name: 'Find Actors', url: '/actor-search', selected: false }
-    
+      { name: 'Discover Movies', url: '/movies', logged: false },
+      { name: 'Now Playing', url: '/showtimes', logged: false },
+      { name: 'Search People', url: '/people', logged: false },
+      // { name: 'Feed', url: '/feed', logged: false },
+      // { name: 'Actor', url: '/actor', logged: false },
+      { name: 'Find Users', url: '/users', logged: true },
     ]
 
+    let mainPage
+    if (!this.state.logged) {
+      mainPage = <Route exact path="/" render={() => <FrontPage handleSession={this.handleSession} />} />
+    }
+    else { //TODO change to Feed
+      mainPage = <Route exact path="/" render={() => <Profile setAvatar={this.setAvatar} />} />
+    }
+
     return (
-      <div>
-        <NavBar links={navBarLinks}/>
-        {/* <FrontPage 
-          login={this.login}
-          register={this.register}
-          loginFail={this.state.loginFail}
-          registerFail={this.state.registerFail}
-          errorMessage={this.state.errorMessage}
-        /> */}
-        <Feed>
-
-        </Feed>
-        {/* <Actor>
-
-        </Actor> */}
-        <Footer />
-      </div>
+      <Router>
+        <NavBar links={navBarLinks} logged={this.state.logged} handleSession={this.handleSession} avatar={this.state.avatar}/>
+        <main>
+          {mainPage}
+          <Route exact path="/movies" component={MovieSearch} />
+          {/* <Route exact path="/feed" component={Feed} />
+          <Route exact path="/actor" component={Actor} /> */}
+          <Route exact path="/showtimes" component={Showtimes} />
+          <Route exact path="/people" component={PeopleSearch} />
+          <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar}/>} />
+          <Route exact path="/users" component={FindUsers} />
+          <Route exact path="/movie" component={MoviePage} />
+          <Route exact path="/u/:username" component={Profile} />
+        </main>
+        <Footer/>
+      </Router>
     );
   }
 }

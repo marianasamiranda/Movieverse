@@ -32,7 +32,7 @@ License Type: Academic
 	</target>
 
 	<target name="createSchema" description="Run create data schema sample">
-		<java classname="data.ormsamples.CreateMovieverseDatabaseSchema" fork="true">
+		<java classname="ormsamples.CreateMovieverseDatabaseSchema" fork="true">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
 				<pathelement location="${classes.dir}"/>
@@ -41,7 +41,7 @@ License Type: Academic
 	</target>
 
 	<target name="createdata" description="Run create test data sample">
-		<java classname="data.ormsamples.CreateMovieverseData" fork="true">
+		<java classname="ormsamples.CreateMovieverseData" fork="true">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
 				<pathelement location="${classes.dir}"/>
@@ -50,7 +50,7 @@ License Type: Academic
 	</target>
 
 	<target name="retrievedata" description="Run retrieve data sample">
-		<java classname="data.ormsamples.RetrieveAndUpdateMovieverseData" fork="true">
+		<java classname="ormsamples.RetrieveAndUpdateMovieverseData" fork="true">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
 				<pathelement location="${classes.dir}"/>
@@ -59,7 +59,7 @@ License Type: Academic
 	</target>
 
 	<target name="deletedata" description="Run delete data sample">
-		<java classname="data.ormsamples.DeleteMovieverseData" fork="true">
+		<java classname="ormsamples.DeleteMovieverseData" fork="true">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
 				<pathelement location="${classes.dir}"/>
@@ -68,7 +68,7 @@ License Type: Academic
 	</target>
 
 	<target name="dropschema" description="Run drop schema sample">
-		<java classname="data.ormsamples.DropMovieverseDatabaseSchema" fork="true">
+		<java classname="ormsamples.DropMovieverseDatabaseSchema" fork="true">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
 				<pathelement location="${classes.dir}"/>
@@ -77,7 +77,7 @@ License Type: Academic
 	</target>
 
 	<target name="listdata" description="Run list data sample">
-		<java classname="data.ormsamples.ListMovieverseData" fork="true">
+		<java classname="ormsamples.ListMovieverseData" fork="true">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
 				<pathelement location="${classes.dir}"/>

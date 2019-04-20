@@ -64,22 +64,56 @@ input :focus {
   border-radius: 0;
 }
 
+.input-margin {
+  margin-top: 8pt;
+  margin-bottom: 8pt;
+}
+
+.no-validator {
+  background-image: none !important;
+  padding-right: 0 !important;
+}
+
+@keyframes appearZoom {
+  from {
+    opacity: 0.1;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+  }
+}
 .error-message {
-  font-size: 11pt;
+  font-size: 12pt;
+  font-weight: 400;
   color: #ff2828;
   font-family: "Roboto", sans-serif;
+  animation: appearZoom 0.2s ease-in 0s 1;
+}
+
+.search-input {
+  font-family: "Roboto", sans-serif;
+  background-color: #e9e9e9;
+  color: #303030;
+  outline: none;
+  box-shadow: none !important;
 }
 
 .jumbotron {
   /*background-image: url('./img/banner.png'); */
   background-color: #e2463e;
   background-size: cover;
-  min-height: 500px;
-  margin-bottom: 0;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
 }
 .jumbotron .jumbotron-text {
   font-family: "Oswald", sans-serif;
   color: #e9e9e9;
+}
+
+.container-banner {
+  min-height: 550px;
+  margin-bottom: -16px;
 }
 
 .selling-point {
@@ -171,6 +205,23 @@ input :focus {
   font-size: 0.7em;
   color: #495057;
   padding-top: 5px;
+}
+
+.banner-bg {
+  background-image: url("../img/banner_large.png");
+  background-repeat: no-repeat;
+  background-position: bottom left;
+}
+@media screen and (max-width: 991px) {
+  .banner-bg {
+    background-image: url("../img/banner_small.png");
+    background-position: bottom right;
+  }
+}
+@media screen and (max-width: 500px) {
+  .banner-bg {
+    background: none;
+  }
 }
 
 /*# sourceMappingURL=FrontPage.css.map */

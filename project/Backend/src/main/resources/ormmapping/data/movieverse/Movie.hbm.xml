@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: mariana(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="data.movieverse.Movie" table="Movie" lazy="false">
+		<id name="id" column="Id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="poster" column="Poster" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="backdrop" column="Backdrop" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="plot" column="Plot" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="imdb" column="Imdb" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="release" column="Release" type="date" not-null="false" lazy="false"/>
+		<property name="runtime" column="Runtime" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="ratingSum" column="RatingSum" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="ratingCount" column="RatingCount" type="integer" length="10" not-null="false" lazy="false"/>
+		<set name="ORM_UserMovies" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="MovieId" not-null="true"/>
+			<one-to-many class="data.movieverse.UserMovie"/>
+		</set>
+		<set name="ORM_Genres" table="Movie_Genre" lazy="true" cascade="save-update,lock">
+			<key column="MovieId" not-null="true"/>
+			<many-to-many column="GenreId" class="data.movieverse.Genre">
+			</many-to-many>
+		</set>
+		<set name="ORM_Companies" table="Movie_Company" lazy="true" cascade="save-update,lock">
+			<key column="MovieId" not-null="true"/>
+			<many-to-many column="CompanyId" class="data.movieverse.Company">
+			</many-to-many>
+		</set>
+		<set name="ORM_Comments" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="MovieId" not-null="true"/>
+			<one-to-many class="data.movieverse.Comment"/>
+		</set>
+		<set name="ORM_MovieMembers" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="MovieId" not-null="true"/>
+			<one-to-many class="data.movieverse.MovieMember"/>
+		</set>
+		<set name="ORM_Showtime" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="MovieId" not-null="true"/>
+			<one-to-many class="data.movieverse.Showtime"/>
+		</set>
+		<set name="ORM_RelatedMovies" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="MovieId" not-null="false"/>
+			<one-to-many class="data.movieverse.Movie"/>
+		</set>
+		<set name="ORM_Media" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="MovieId" not-null="true"/>
+			<one-to-many class="data.movieverse.Media"/>
+		</set>
+	</class>
+</hibernate-mapping>

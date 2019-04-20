@@ -16,7 +16,6 @@ export default class Authenticator extends Component  {
 
   handleLogin(event) {
     this.setState({state: 'login'})
-
   }
 
   handleRegister(event) {
@@ -28,22 +27,14 @@ export default class Authenticator extends Component  {
     let colorLogin
     let colorRegister
     if (this.state.state === 'login') {
-        form = <Login 
-          login={this.props.login}
-          loginFail={this.props.loginFail}
-          errorMessage={this.props.errorMessage}
-          />
-        colorLogin = 'dark-gray'
-        colorRegister = 'light-gray'
+      form = <Login handleSession={this.props.handleSession}/>
+      colorLogin = 'dark-gray'
+      colorRegister = 'light-gray'
     }
     else {
-       form = <Register 
-          register={this.props.register}
-          registerFail={this.props.registerFail}
-          errorMessage={this.props.errorMessage}
-        />
-       colorLogin = 'light-gray'
-       colorRegister = 'dark-gray'
+      form = <Register handleSession={this.props.handleSession}/>
+      colorLogin = 'light-gray'
+      colorRegister = 'dark-gray'
     }
     return (
       <div className="authenticator">
@@ -58,7 +49,6 @@ export default class Authenticator extends Component  {
             <center className="cursor-hover">REGISTER</center>
           </Col>
         </Row>
-        <p></p>
         {form}
       </div>
     )

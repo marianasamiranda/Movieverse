@@ -54,7 +54,7 @@ yarn-error.log*
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
@@ -68,7 +68,7 @@ hs_err_pid*
 
 #################
 
-#target/
+target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

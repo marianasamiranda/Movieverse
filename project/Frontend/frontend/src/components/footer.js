@@ -6,8 +6,8 @@ import Col from 'react-bootstrap/Col'
 export default class Footer extends Component  {
   render() {
     return (
-      <div className="bg-dark-gray">
-        <Container className="footer">
+      <footer className="bg-dark-gray">
+        <Container className="footer">  
           <Row>
             <Col lg="6" md="6" sm="12">
               <div className="footer-title">
@@ -15,7 +15,7 @@ export default class Footer extends Component  {
               </div>
               <div className="footer-item">
                 <i className="fas fa-envelope fa-fw margin-right-10"></i>
-                asdasdasd@asdasd.com
+                movieverse@movieverse.com
               </div>
               <div className="footer-item">
                 <i className="fab fa-facebook-square fa-fw margin-right-10"></i>
@@ -35,7 +35,7 @@ export default class Footer extends Component  {
             </Col>
           </Row>
         </Container>
-      </div>
+      </footer>
     )
   }
 }

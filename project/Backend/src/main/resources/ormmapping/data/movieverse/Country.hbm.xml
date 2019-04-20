@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: mariana(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="data.movieverse.Country" table="Country" lazy="false">
+		<id name="id" column="Id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="name" column="Name" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="alphaCode" column="AlphaCode" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>
