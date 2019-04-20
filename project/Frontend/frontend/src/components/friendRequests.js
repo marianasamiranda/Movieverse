@@ -8,6 +8,7 @@ import Axios from 'axios';
 import {backend, avatars} from '../var'
 import { getToken } from '../cookies';
 import { PulseLoader } from 'react-spinners'
+import { Link } from 'react-router-dom'
 
 export default class FriendRequests extends Component {
   constructor(props) {
@@ -76,7 +77,9 @@ export default class FriendRequests extends Component {
         <Col xs="12" sm="6" lg="4" key={this.state[this.state.current].indexOf(x)} className="user-info-compact">
           <Row>
             <Col xs="3" className="text-center">
-              <img className="avatar" src={avatars + x.avatar} alt="Avatar" />
+              <Link to={"/u/" + x.username}>
+                <img className="avatar" src={avatars + x.avatar} alt="Avatar" />
+              </Link>
             </Col>
             <Col xs="9">
               <Row>

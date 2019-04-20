@@ -330,6 +330,10 @@ table td:last-child {
   font-family: "Roboto", sans-serif;
 }
 
+.aux-page-img {
+  min-width: 200px;
+}
+
 .navbar {
   background-color: #202020;
   padding: 0.3rem;

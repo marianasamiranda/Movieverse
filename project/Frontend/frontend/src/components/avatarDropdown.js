@@ -53,6 +53,7 @@ export default class AvatarDropdown extends Component {
 
   constructor(props) {
     super(props)
+    this.props.getAvatar()
     this.state = {
       show: false,
       showRequests: false
@@ -73,6 +74,7 @@ export default class AvatarDropdown extends Component {
       showRequests: !this.state.showRequests
     })
   }
+  
 
   logout() {
     const token = clearToken()

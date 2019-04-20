@@ -78,14 +78,16 @@ $label: #aaaaaa;
         cursor: pointer;
 
         &:hover {
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+            border-bottom: 2px solid rgba($primary-color, 0.5);
+            //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
         }
 
         &.selected {
             color: #333333;
-            background-color: #e4e4e4;
+            //background-color: #e4e4e4;
             cursor: inherit;
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+            //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+            border-bottom: 3px solid $primary-color;
         }
 
         &[class*='col'] {

@@ -18,6 +18,7 @@ import { getToken } from '../../cookies'
 import Axios from 'axios'
 import Loading from '../aux_pages/loading'
 import NoAuthError from '../aux_pages/noAuthError'
+import NotFoundError from '../aux_pages/notFoundError';
 
 const friends = [
   { username: 'username1', img:require( '../../img/girl.png') },
@@ -67,8 +68,6 @@ export default class Profile extends Component {
 
     let user = undefined
     if (!this.props.self && this.props.match) {
-      console.log(this.props.self);
-      
       user = this.props.match.params.username
     }
 
@@ -78,7 +77,7 @@ export default class Profile extends Component {
       dragOn: false,
       user: user,
     }
-    this.getUserInfo()
+    this.getUserInfo(user)
     this.handleGenreModal = this.handleGenreModal.bind(this)
     this.handleAvatarModal = this.handleAvatarModal.bind(this)
     this.handleNewAvatarConfirm = this.handleNewAvatarConfirm.bind(this)
@@ -92,11 +91,15 @@ export default class Profile extends Component {
     document.title = "Profile | Movieverse"
   }
 
-  getUserInfo() {
+  componentDidUpdate(prevProps, prevState) {
+    this.checkReload()
+  }
+
+  getUserInfo(user) {
     const token = getToken()
     let query = ""
-    if (this.state.user) {
-      query = "?username=" + this.state.user
+    if (user) {
+      query = "?username=" + user
     }
 
     return Axios.get(backend + '/profile' + query, 
@@ -114,15 +117,21 @@ export default class Profile extends Component {
       this.setState({
         data: x.data,
         stats: stats,
-        user: x.data['self'] ? undefined : this.state.user,
+        user: x.data['self'] ? undefined : user,
         isFriend: data['friendship']
       })
     })
     .catch(x => {
-      //TODO separate auth error from user doesn't exists error
-      this.setState({
-        noAuth: true
-      })
+      if (x.response.data === 'Wrong token') {
+        this.setState({
+          noAuth: true
+        })
+      }
+      else {
+        this.setState({
+          noUser: true
+        })
+      }
     })
   }
 
@@ -245,10 +254,23 @@ export default class Profile extends Component {
   }
 
 
+  checkReload() {
+    if (this.props.match && this.props.match.params.username !== this.state.user) {
+      this.getUserInfo(this.props.match.params.username)
+    }
+  }
+
+
   render() {
     if (this.state.noAuth) {
       return (
         <NoAuthError />
+      )
+    }
+
+    else if (this.state.noUser) {
+      return (
+        <NotFoundError />
       )
     }
 
@@ -258,141 +280,139 @@ export default class Profile extends Component {
       )
     }
 
-    else {
-      const data = this.state.data
+    const data = this.state.data
 
-      return (
-        <div>
-          <Container className="container-padding-large">
-            <Row>
-              <Col xs="auto">
-                <h1 className="title">{data.username}</h1>
+    return (
+      <div>
+        <Container className="container-padding-large">
+          <Row>
+            <Col xs="auto">
+              <h1 className="title">{data.username}</h1>
+            </Col>
+            {this.state.user ?
+              <Col xs="auto" >
+                {this.friendStatusButton()}
               </Col>
-              {this.state.user ?
-                <Col xs="auto" >
-                  {this.friendStatusButton()}
+              : ""
+            }
+          </Row>
+          <Row>
+            <Col xs="12" lg="6">
+              <Row>
+                <Col xs="12" sm="5" className="text-center" onClick={this.handleAvatarModal}>
+                  <img 
+                    src={data.avatar ? data.avatarImg : avatars + data.gender + '.svg'} 
+                        className={"profile-img " + (!this.state.user ? "clickable" : "")}
+                        alt="Profile" />
+                  {!this.state.user ?
+                  <i className="far fa-edit align-top edit"></i>
+                  : ""}
                 </Col>
-                : ""
-              }
-            </Row>
-            <Row>
-              <Col xs="12" lg="6">
-                <Row>
-                  <Col xs="12" sm="5" className="text-center" onClick={this.handleAvatarModal}>
-                    <img 
-                      src={data.avatar ? data.avatarImg : avatars + data.gender + '.svg'} 
-                          className={"profile-img " + (!this.state.user ? "clickable" : "")}
-                          alt="Profile" />
-                    {!this.state.user ?
-                    <i className="far fa-edit align-top edit"></i>
-                    : ""}
-                  </Col>
-                  <Col xs="12" sm="7">
-                    <InfoCard
-                      name={data.name}
-                      genre={data.genre ? data.genre : "None"}
-                      birthdate={data.birthdate}
-                      joined={data.joindate}
-                      country={data.country}
-                      changeGenre={!this.state.user ? this.handleGenreModal : ""}
-                    />
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs="12" lg="6" xl={{span: 5, offset: 1}}>
-                <BadgesCard />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <StatsCard stats={this.state.stats}/>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs="12" lg="9">
-                <MoviesCard movies={movies} />
-              </Col>
-              <Col xs="12" lg="3">
-                <FriendsCard friends={friends} />
-              </Col>
-            </Row>
-          </Container>
+                <Col xs="12" sm="7">
+                  <InfoCard
+                    name={data.name}
+                    genre={data.genre ? data.genre : "None"}
+                    birthdate={data.birthdate}
+                    joined={data.joindate}
+                    country={data.country}
+                    changeGenre={!this.state.user ? this.handleGenreModal : ""}
+                  />
+                </Col>
+              </Row>
+            </Col>
+            <Col xs="12" lg="6" xl={{span: 5, offset: 1}}>
+              <BadgesCard />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <StatsCard stats={this.state.stats}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12" lg="9">
+              <MoviesCard movies={movies} />
+            </Col>
+            <Col xs="12" lg="3">
+              <FriendsCard friends={friends} />
+            </Col>
+          </Row>
+        </Container>
 
-          {!this.state.user ?
-          <div>
-            {/* Change favourite genre modal */}
-            <Modal show={this.state.showGenreModal} onHide={this.handleGenreModal} size="sm">
-              <Modal.Header closeButton>
-                <Modal.Title>Favourite Genre</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Select 
-                  placeholder="Genre"
-                  isSearchable
-                  options={Object.keys(genres).map(x => genres[x])}
-                  onChange={this.handleNewGenre}
-                  name="sort" />
-              </Modal.Body>
-              {this.state.newGenreLoading ? 
+        {!this.state.user ?
+        <div>
+          {/* Change favourite genre modal */}
+          <Modal show={this.state.showGenreModal} onHide={this.handleGenreModal} size="sm">
+            <Modal.Header closeButton>
+              <Modal.Title>Favourite Genre</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Select 
+                placeholder="Genre"
+                isSearchable
+                options={Object.keys(genres).map(x => genres[x])}
+                onChange={this.handleNewGenre}
+                name="sort" />
+            </Modal.Body>
+            {this.state.newGenreLoading ? 
+              <Modal.Footer>
+                <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
+              </Modal.Footer>
+              :
+              <Modal.Footer>
+                <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
+                  Cancel
+                </Button>
+                <Button disabled={this.state.newGenre ? false : true} size="sm" 
+                        className="custom-button" onClick={this.handleNewGenreConfirm}>
+                  Confirm
+                </Button>
+              </Modal.Footer>
+            }
+          </Modal>
+
+          {/* Change avatar modal */}
+          <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Change Avatar</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Dropzone 
+                accept='image/jpeg, image/png, image/svg'
+                multiple={false}
+                onDrop={acceptedFiles => this.handleNewAvatar(acceptedFiles[0])} >
+                {({ getRootProps, getInputProps }) => (
+                  <section >
+                    <div {...getRootProps()} className="dropzone">
+                      <input {...getInputProps()} />
+                      <p>{this.state.newAvatar 
+                          ? this.state.newAvatar.name 
+                          : "Drag an image or click here to select (.jpeg, .png, .svg)"}</p>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+            </Modal.Body>
+
+              {this.state.newAvatarLoading ? 
                 <Modal.Footer>
                   <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
                 </Modal.Footer>
                 :
                 <Modal.Footer>
-                  <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
+                  <Button size="sm" variant="secondary" onClick={this.handleAvatarModal}>
                     Cancel
                   </Button>
-                  <Button disabled={this.state.newGenre ? false : true} size="sm" 
-                          className="custom-button" onClick={this.handleNewGenreConfirm}>
+                  <Button size="sm" disabled={this.state.newAvatar ? false : true} 
+                          className="custom-button" onClick={this.handleNewAvatarConfirm}>
                     Confirm
                   </Button>
                 </Modal.Footer>
               }
             </Modal>
-
-            {/* Change avatar modal */}
-            <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModal}>
-              <Modal.Header closeButton>
-                <Modal.Title>Change Avatar</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Dropzone 
-                  accept='image/jpeg, image/png, image/svg'
-                  multiple={false}
-                  onDrop={acceptedFiles => this.handleNewAvatar(acceptedFiles[0])} >
-                  {({ getRootProps, getInputProps }) => (
-                    <section >
-                      <div {...getRootProps()} className="dropzone">
-                        <input {...getInputProps()} />
-                        <p>{this.state.newAvatar 
-                            ? this.state.newAvatar.name 
-                            : "Drag an image or click here to select (.jpeg, .png, .svg)"}</p>
-                      </div>
-                    </section>
-                  )}
-                </Dropzone>
-              </Modal.Body>
-
-                {this.state.newAvatarLoading ? 
-                  <Modal.Footer>
-                    <ReactLoading type="bars" color="#4d4d4d" width="40pt" height="29pt" className="float-right" />
-                  </Modal.Footer>
-                  :
-                  <Modal.Footer>
-                    <Button size="sm" variant="secondary" onClick={this.handleAvatarModal}>
-                      Cancel
-                    </Button>
-                    <Button size="sm" disabled={this.state.newAvatar ? false : true} 
-                            className="custom-button" onClick={this.handleNewAvatarConfirm}>
-                      Confirm
-                    </Button>
-                  </Modal.Footer>
-                }
-              </Modal>
-            </div>
-          : ""}
-        </div>
-      )
-    }
+          </div>
+        : ""}
+      </div>
+    )
   }
 }

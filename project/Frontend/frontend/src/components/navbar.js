@@ -39,6 +39,8 @@ export default class NavBar extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
+    this.handleSession = this.handleSession.bind(this)
+    this.getAvatar = this.getAvatar.bind(this)
   }
 
   getAvatar() {
@@ -67,6 +69,13 @@ export default class NavBar extends Component {
     }
   }
 
+  handleSession(e) {
+    this.setState({
+      avatar: undefined
+    })
+    this.props.handleSession()
+  }
+
   render() {
     let links = []
     this.props.links.forEach(x => {
@@ -80,27 +89,30 @@ export default class NavBar extends Component {
     })
 
     return (
-      <Navbar collapseOnSelect expand="lg" className="sticky-top" 
-        expanded={this.state.expanded}  onToggle={this.handleExpand}>
-        <Container>
-          <Link to="/" className="navbar-logo">
-            <img src={logo} alt="Homepage" onClick={() => this.handleChange(undefined)} />
-          </Link>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-dark" />
-          <Navbar.Collapse id="basic-navbar-nav text-center">
-            <Nav className="ml-auto align-items-center">
-              {links}
-              {this.props.logged ?
-              <AvatarDropdown
-                img={this.props.avatar ? this.props.avatar : this.state.avatar}
-                handleExpand={() => this.handleChange(undefined)} 
-                handleSession={this.props.handleSession} />
-                : ""
-              }
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <nav>
+        <Navbar collapseOnSelect expand="lg" className="sticky-top" 
+          expanded={this.state.expanded}  onToggle={this.handleExpand}>
+          <Container>
+            <Link to="/" className="navbar-logo">
+              <img src={logo} alt="Homepage" onClick={() => this.handleChange(undefined)} />
+            </Link>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-dark" />
+            <Navbar.Collapse id="basic-navbar-nav text-center">
+              <Nav className="ml-auto align-items-center">
+                {links}
+                {this.props.logged ?
+                <AvatarDropdown
+                  img={this.props.avatar ? this.props.avatar : this.state.avatar}
+                  handleExpand={() => this.handleChange(undefined)} 
+                  handleSession={this.handleSession}
+                  getAvatar={this.getAvatar} />
+                  : ""
+                }
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </nav>
     )
   }
 }

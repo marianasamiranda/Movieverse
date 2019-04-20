@@ -11,10 +11,11 @@ import FindUsers from './components/findUsers'
 import Showtimes from './components/showtimes'
 import Axios from 'axios'
 import Profile from './components/profile/profile'
-import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom/'
+import {BrowserRouter as Router, Route, withRouter, Switch} from 'react-router-dom/'
 import {getToken} from './cookies'
 
 import './styles/App.css';
+import NotFoundError from './components/aux_pages/notFoundError';
 
 class App extends Component {
   constructor(props) {
@@ -68,16 +69,19 @@ class App extends Component {
       <Router>
         <NavBar links={navBarLinks} logged={this.state.logged} handleSession={this.handleSession} avatar={this.state.avatar}/>
         <main>
-          {mainPage}
-          <Route exact path="/movies" component={MovieSearch} />
-          {/* <Route exact path="/feed" component={Feed} />
-          <Route exact path="/actor" component={Actor} /> */}
-          <Route exact path="/showtimes" component={Showtimes} />
-          <Route exact path="/people" component={PeopleSearch} />
-          <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar}/>} />
-          <Route exact path="/users" component={FindUsers} />
-          <Route exact path="/movie" component={MoviePage} />
-          <Route exact path="/u/:username" component={Profile} />
+            <Switch>
+              {mainPage}
+              <Route exact path="/movies" component={MovieSearch} />
+              <Route exact path="/showtimes" component={Showtimes} />
+              <Route exact path="/people" component={PeopleSearch} />
+              <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar}/>} />
+              <Route exact path="/users" component={FindUsers} />
+              <Route exact path="/movie" component={MoviePage} />
+              <Route exact path="/u/:username" component={Profile} />
+              {/* <Route exact path="/feed" component={Feed} />
+              <Route exact path="/actor" component={Actor} /> */}
+              <Route component={NotFoundError} />
+            </Switch>
         </main>
         <Footer/>
       </Router>

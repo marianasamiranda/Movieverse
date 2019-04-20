@@ -4,23 +4,23 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router-dom'
 
-export default class NoAuthError extends Component {
+export default class NotFoundError extends Component {
   render() {
     return (
       <Container className="container-padding-extra">
         <Row>
           <Col xs="12" className="text-center">
             <div className="title-medium">
-              You must be logged in to access this page
+              404 - Page not found
             </div>
           </Col>
           <Col xs="12" className="text-center">
-            <img src={require('../../img/monster_nologin.svg')} 
-              width="35%" className="aux-page-img" alt="Logo" />
+            <img src={require('../../img/monster_404.svg')} 
+              width="35%" className="aux-page-img" alt="404" />
           </Col>
           <Col xs="12" className="text-center margin-top-10">
             <Link to="/" className="link">
-              To the front page!
+              To the main page!
             </Link>
           </Col>
         </Row>

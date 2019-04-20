@@ -6,8 +6,6 @@ import Row from 'react-bootstrap/Row'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 
 
-//TODO
-
 export default class Banner extends Component {
   render() {
     return (
