@@ -2,8 +2,24 @@
   box-sizing: border-box;
 }
 
+.red {
+  color: #F10633;
+}
+
+.brown {
+  color: #594849;
+}
+
 .light-gray {
   color: #aaaaaa;
+}
+
+.gray {
+  color: #7C7C7C;
+}
+
+.strong-gray {
+  color: #707070;
 }
 
 .dark-gray {
@@ -73,6 +89,11 @@
   display: block;
 }
 
+.align-contents-center {
+  display: flex;
+  justify-content: center;
+}
+
 td, tr {
   padding: 0;
   margin: 0;
@@ -115,6 +136,64 @@ table td:last-child {
   .movie-card-container .label p {
     font-size: 20px;
   }
+}
+
+.section-divider {
+  margin-top: 0;
+  margin-bottom: 20px;
+  border: 1px solid;
+}
+
+.img-ratio-fill {
+  width: 100%;
+  height: auto;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px;
+}
+
+.margin-bottom-30 {
+  margin-bottom: 30px;
+}
+
+.padding-0 {
+  margin: 0;
+}
+
+.padding-l-0 {
+  padding-left: 0;
+}
+
+.padding-r-0 {
+  padding-right: 0;
+}
+
+.font-15pt {
+  font-size: 15pt;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.vertical-align-column {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
 }
 
 .navbar {

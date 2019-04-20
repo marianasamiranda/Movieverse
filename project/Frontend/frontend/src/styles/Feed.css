@@ -1,17 +1,313 @@
+.red {
+  color: #F10633;
+}
+
+.brown {
+  color: #594849;
+}
+
+.light-gray {
+  color: #aaaaaa;
+}
+
+.gray {
+  color: #7C7C7C;
+}
+
+.strong-gray {
+  color: #707070;
+}
+
+.dark-gray {
+  color: #4d4d4d;
+}
+
+.bg-light-gray {
+  background-color: #e8e8e8;
+}
+
+.bg-lighter-gray {
+  background-color: #f9f9f9;
+}
+
+.bg-dark-gray {
+  background-color: #202020;
+}
+
 .main {
   width: 60%;
-  background-color: red;
-  height: 400px;
+}
+
+.aside-container {
+  position: -webkit-sticky;
+  position: sticky;
+  height: 100px;
+  top: 2.95em;
+  font-size: 20px;
+  width: 40%;
 }
 
 .aside {
-  background-color: green;
-  width: 40%;
-  height: 100px;
+  background-color: #E7E7E7;
+  align-content: center;
+  width: 15em;
+  margin: 0 auto;
+  padding: 15px 30px;
 }
 
-.flex {
-  display: flex;
+.aside-col {
+  padding: 0 5px;
+  margin-bottom: 1rem;
+}
+.aside-col .movie-card-container .label {
+  padding-top: 0;
+}
+.aside-col .movie-card-container .label p {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  line-height: 12pt;
+  font-size: 11pt;
+  margin-top: 0.2rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .aside-container {
+    display: none;
+  }
+
+  .main {
+    width: 100%;
+  }
+}
+.feed-container {
+  margin: 30px auto;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.post-container {
+  background-color: #F9F9F9;
+  border: 1px solid #C8C8C8;
+  height: auto;
+}
+@media (min-width: 768px) {
+  .post-container {
+    margin: 30px auto;
+    width: 90%;
+    padding: 30px 30px;
+  }
+}
+@media (min-width: 375px) and (max-width: 768px) {
+  .post-container {
+    margin: 30px auto;
+    width: 90%;
+    padding: 20px 20px;
+  }
+}
+@media (max-width: 400px) {
+  .post-container {
+    margin: 30px auto;
+    width: 90%;
+    padding: 10px 10px;
+  }
+}
+
+#main-feed-title {
+  margin: 30px auto;
+  width: 90%;
+  padding: 0 20px;
+  font-family: "Oswald", sans-serif;
+  font-weight: 500;
+  font-size: 18pt;
+  color: #8A8A8A;
+}
+
+#aside-feed-title {
+  margin: 30px auto;
+  width: 70%;
+  padding: 0 20px;
+  font-family: "Oswald", sans-serif;
+  font-weight: 500;
+  font-size: 18pt;
+  color: #8A8A8A;
+}
+
+.button {
+  background-color: #E7E7E7;
+  border: 1px solid #D5D5D5;
+  color: #888888;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 10px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 200px;
+}
+
+.post-header .avatar img {
+  overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+@media (min-width: 768px) {
+  .post-header .avatar img {
+    width: 80px;
+    height: 80px;
+  }
+}
+@media (min-width: 200px) and (max-width: 768px) {
+  .post-header .avatar img {
+    width: 50px;
+    height: 50px;
+  }
+}
+@media (min-width: 768px) {
+  .post-header {
+    font-size: 15pt;
+    padding-bottom: 30px;
+  }
+}
+@media (min-width: 375px) and (max-width: 768px) {
+  .post-header {
+    font-size: 12pt;
+    padding-bottom: 20px;
+  }
+}
+@media (max-width: 400px) {
+  .post-header {
+    font-size: 8pt;
+    padding-bottom: 20px;
+  }
+}
+
+.rating {
+  width: auto;
+  height: 30%;
+  padding: 2%;
+  line-height: 30%;
+  font-size: 40px;
+  background-color: #E7E7E7;
+  border-radius: 12px 12px 12px 12px;
+  -moz-border-radius: 12px 12px 12px 12px;
+  -webkit-border-radius: 12px 12px 12px 12px;
+  border: 1px solid #C8C8C8;
+}
+
+.gold-bgimg-star {
+  background-image: url("../img/gold-star.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.black-bgimg-star {
+  background-image: url("../img/black-star.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+#rating-table {
+  width: 100%;
+  height: 100%;
+}
+#rating-table td {
+  width: 20%;
+}
+
+.body-caption {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  color: #8A8A8A;
+}
+@media (min-width: 768px) {
+  .body-caption {
+    font-size: 15pt;
+  }
+}
+@media (min-width: 375px) and (max-width: 768px) {
+  .body-caption {
+    font-size: 12pt;
+  }
+}
+@media (max-width: 400px) {
+  .body-caption {
+    font-size: 8pt;
+  }
+}
+
+.post-comment p {
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .post-comment p {
+    font-size: 15pt;
+    /* use this value to count block height */
+    line-height: 1.2em;
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 7.2em;
+  }
+}
+@media (min-width: 375px) and (max-width: 768px) {
+  .post-comment p {
+    font-size: 12pt;
+    /* use this value to count block height */
+    line-height: 1.2em;
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 6em;
+  }
+}
+@media (max-width: 400px) {
+  .post-comment p {
+    font-size: 8pt;
+    /* use this value to count block height */
+    line-height: 1.2em;
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 3.6em;
+  }
+}
+
+.body-text {
+  width: 100%;
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* for set '...' in absolute position */
+  position: relative;
+  /* fix problem when last visible word doesn't adjoin right side  */
+  margin-right: -1em;
+  padding-right: 1em;
+}
+
+.body-text:before {
+  /* points in the end */
+  content: '..."';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of block */
+  right: 0;
+  bottom: 0;
+}
+
+.body-text:after {
+  /* points in the end */
+  content: "";
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of text */
+  right: 0;
+  width: 1em;
+  /* set width and height */
+  height: 1em;
+  margin-top: 0.2em;
+  background: #F9F9F9;
 }
 
 /*# sourceMappingURL=Feed.css.map */

@@ -1,11 +1,35 @@
+//Variables
+$brown: #594849;
+$light-gray: #aaaaaa;
+$gray: #7C7C7C;
+$strong-gray: #707070;
+$dark-gray: #4d4d4d;
+$red: #F10633;
+
 // ====================== Text Colors ========================//
 
+.red {
+    color: #F10633;
+}
+
+.brown {
+    color: $brown;
+}
+
 .light-gray {
-    color: #aaaaaa;
+    color: $light-gray;
+}
+
+.gray {
+    color: $gray;
+}
+
+.strong-gray {
+    color: $strong-gray;
 }
 
 .dark-gray {
-    color: #4d4d4d;
+    color: $dark-gray;
 }
 
 // =================== Background Colors =====================//

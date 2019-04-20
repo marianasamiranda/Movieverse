@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import NavBar from './components/navbar'
 import Footer from './components/footer'
 import FrontPage from './components/frontpage';
-import Feed from './components/feed';
+import Feed from './components/feed/feed';
+import Actor from './components/actor/actor';
 import Axios from 'axios'
 
 import './styles/App.css';
@@ -82,6 +83,9 @@ class App extends Component {
         <Feed>
 
         </Feed>
+        {/* <Actor>
+
+        </Actor> */}
         <Footer />
       </div>
     );

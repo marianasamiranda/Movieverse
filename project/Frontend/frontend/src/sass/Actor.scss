@@ -1,0 +1,76 @@
+@import 'Variables';
+@import 'Colors';
+
+$light-gray: #E7E7E7;
+$gray: #7B7B7B;
+$strong-gray: #707070;
+
+@mixin title-actor($size) {
+    @extend .brown;
+    font-weight: bold;
+    font-size: $size;
+}
+
+.actor-info {
+    p {
+        margin: 0;
+    }
+
+    .info-lable {
+        @include title-actor(15pt);
+    }
+
+    .info-value {
+        @extend .brown;
+        font-size: 13pt;
+    }
+}
+
+.actor-aside {
+    background-color: $light-gray;
+    border: 1px solid $gray;
+    align-content: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 40px;
+
+    @media(max-width: 767px) {
+        display: none;
+    }
+}
+
+#actor-info-main {
+    @media(min-width: 768px) {
+        display: none;
+    }
+}
+
+.actor-name {
+    display: inline-block;
+    margin-top: 100px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    @include title-actor(40pt);
+}
+
+.title-actor-18 {
+    @include title-actor(18pt);
+}
+
+#actor-movies {
+    .movie-card-container{
+        .label{
+            line-height: 12pt;
+
+            #movie-name {
+                font-weight: bold;
+                color: $strong-gray;
+                font-size: 11pt;
+            }
+            #movie-info {
+                font-size: 10pt;
+                color: $strong-gray;
+            }
+        }
+    }
+}
