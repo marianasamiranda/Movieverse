@@ -155,7 +155,9 @@
   font-family: "Oswald", sans-serif;
   color: #575757;
   border-bottom: 1px solid #575757;
+  margin-bottom: 20px;
   padding-top: 20px;
+  margin-right: 10px;
 }
 .movie-content p {
   text-align: justify;
@@ -171,6 +173,57 @@
 
 .addedToWatchlist {
   cursor: default;
+}
+
+.react-tabs {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.react-tabs__tab-list {
+  display: inline-block;
+  border-bottom: 1px solid #575757;
+  padding: 0;
+  color: #575757;
+  font-size: 1.2em;
+  width: 100%;
+}
+
+.react-tabs__tab {
+  display: inline-block;
+  padding: 0px 6px;
+  font-family: "Oswald", sans-serif;
+  list-style: none;
+  cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+  color: #e2463e;
+  border-radius: 5px 5px 0 0;
+}
+
+.react-tabs__tab--disabled {
+  color: #575757;
+  cursor: default;
+}
+
+.react-tabs__tab:focus {
+  box-shadow: 0 0 5px #0188fe;
+  border-color: #0188fe;
+  outline: none;
+}
+
+.react-tabs__tab:focus:after {
+  content: "";
+  height: 5px;
+  background: #fff;
+}
+
+.react-tabs__tab-panel {
+  display: none;
+}
+
+.react-tabs__tab-panel--selected {
+  display: block;
 }
 
 /*# sourceMappingURL=MoviePage.css.map */

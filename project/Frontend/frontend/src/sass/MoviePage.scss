@@ -165,7 +165,9 @@
         font-family: $font-title;
         color: $darker-color;
         border-bottom: 1px solid $darker-color;
+        margin-bottom: 20px;
         padding-top: 20px;
+        margin-right: 10px;
     }
     
     p {
@@ -184,3 +186,54 @@
 .addedToWatchlist {
     cursor: default;
 }
+
+.react-tabs {
+    -webkit-tap-highlight-color: transparent;
+}
+  
+.react-tabs__tab-list {
+    display: inline-block;
+    border-bottom: 1px solid $darker-color;
+    padding: 0;
+    color: $darker-color;
+    font-size: 1.2em;
+    width: 100%;
+}
+
+.react-tabs__tab {
+    display: inline-block;
+    padding: 0px 6px;
+    font-family: $font-title;
+    list-style: none;
+    cursor: pointer;
+  }
+  
+  .react-tabs__tab--selected {
+    color: $primary-color;
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .react-tabs__tab--disabled {
+    color: $darker-color;
+    cursor: default;
+  }
+  
+  .react-tabs__tab:focus {
+    box-shadow: 0 0 5px hsl(208, 99%, 50%);
+    border-color: hsl(208, 99%, 50%);
+    outline: none;
+  }
+  
+  .react-tabs__tab:focus:after {
+    content: "";
+    height: 5px;
+    background: #fff;
+  }
+  
+  .react-tabs__tab-panel {
+    display: none;
+  }
+  
+  .react-tabs__tab-panel--selected {
+    display: block;
+  }

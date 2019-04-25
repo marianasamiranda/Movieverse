@@ -6,8 +6,9 @@ import Col from 'react-bootstrap/Col'
 import star from '../../img/star.png'
 import MovieCard from '../movie-card'
 import DiscussionBox from './discussion-box'
-import '../../styles/MoviePage.css'
 import MovieEvaluation from './movie-evaluation'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import '../../styles/MoviePage.css'
 
 export default class MoviePage extends Component {
 
@@ -90,8 +91,22 @@ export default class MoviePage extends Component {
                   <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
                 </Col>
               </Row>
+              <Tabs>
+                <TabList>
+                  <h1 style={{ 'display': 'inline-block', 'border': '0', 'padding-bottom': 0, 'margin-bottom': 0 }}
+                  >Media</h1>
+                  <Tab>Videos</Tab>
+                  <Tab>Backdrops</Tab>
+                </TabList>
+                <TabPanel>
+                  <h2>...</h2>
+                </TabPanel>
+                <TabPanel>
+                  <h2>...</h2>
+                </TabPanel>
+              </Tabs>
               <h1>Discussion</h1>
-                <DiscussionBox />
+              <DiscussionBox />
             </div>
             <div class="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div class="sidebar">
