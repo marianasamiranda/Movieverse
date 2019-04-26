@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Flag extends Component{
+export default class Flag extends Component {
   render() {
     const name = this.props.country.toUpperCase()
     let img

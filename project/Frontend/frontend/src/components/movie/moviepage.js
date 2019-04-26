@@ -7,6 +7,7 @@ import star from '../../img/star.png'
 import MovieCard from '../movie-card'
 import DiscussionBox from './discussion-box'
 import MovieEvaluation from './movie-evaluation'
+import Language from '../language'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/MoviePage.css'
 
@@ -111,8 +112,9 @@ export default class MoviePage extends Component {
             <div class="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div class="sidebar">
                 <h6>Original Language</h6>
+                  <Language language="en" />
                 <h6>Runtime</h6>
-                <p>81m</p>
+                  <p>81m</p>
                 <h6>Genres</h6>
                 <div class="movie-genre">
                   <ul>
