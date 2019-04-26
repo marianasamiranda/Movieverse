@@ -76,7 +76,7 @@ export default class MoviePage extends Component {
           <div class="row">
             <div class="movie-content col-lg-8 order-lg-1 order-sm-2 order-2">
               <h1>Summary</h1>
-              <p>In the early 18th century, England is at war with the French. Nevertheless, duck racing and pineapple eating are thriving. A frail Queen Anne occupies the throne, and her close friend, Lady Sarah, governs the country in her stead, while tending to Anne's ill health and mercurial temper. When a new servant, Abigail, arrives, her charm endears her to Sarah. Sarah takes Abigail under her wing, and Abigail sees a chance to return to her aristocratic roots.</p>
+                <p>In the early 18th century, England is at war with the French. Nevertheless, duck racing and pineapple eating are thriving. A frail Queen Anne occupies the throne, and her close friend, Lady Sarah, governs the country in her stead, while tending to Anne's ill health and mercurial temper. When a new servant, Abigail, arrives, her charm endears her to Sarah. Sarah takes Abigail under her wing, and Abigail sees a chance to return to her aristocratic roots.</p>
               <h1>Top Billed Cast</h1>
               <Row>
                 <Col lg="3" md="3" xs="3">
@@ -100,10 +100,46 @@ export default class MoviePage extends Component {
                   <Tab>Backdrops</Tab>
                 </TabList>
                 <TabPanel>
-                  <h2>...</h2>
+                  <div class="hcontainer">
+                    <div class="hitem">
+                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g" target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g" target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g" target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g"  target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="#" class="showMoreMedia vertical-align">
+                        Show More&#160;<i class="fas fa-plus-circle"></i>
+                      </a>
+                    </div>
+                  </div>
                 </TabPanel>
                 <TabPanel>
-                  <h2>...</h2>
+                <div class="hcontainer">
+                    <div class="hitem">
+                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
+                    </div>
+                    <div class="hitem">
+                      <a href="#" class="showMoreMedia vertical-align">
+                        Show More&#160;<i class="fas fa-plus-circle"></i>
+                      </a>
+                    </div>
+                  </div>
                 </TabPanel>
               </Tabs>
               <h1>Discussion</h1>
@@ -124,7 +160,8 @@ export default class MoviePage extends Component {
                   </ul>
                 </div>
                 <h6>Prod. Companies</h6>
-                <p>Pixar
+                <p>
+                  Pixar
                   <br />
                   United States of America
                 </p>

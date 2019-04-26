@@ -1,4 +1,5 @@
 @import 'Variables';
+@import 'Utils';
 
 .backdrop {
     min-width: 100%;
@@ -206,34 +207,67 @@
     font-family: $font-title;
     list-style: none;
     cursor: pointer;
-  }
+}
   
-  .react-tabs__tab--selected {
+.react-tabs__tab--selected {
     color: $primary-color;
     border-radius: 5px 5px 0 0;
-  }
+}
   
-  .react-tabs__tab--disabled {
+.react-tabs__tab--disabled {
     color: $darker-color;
     cursor: default;
-  }
+}
   
-  .react-tabs__tab:focus {
+.react-tabs__tab:focus {
     box-shadow: 0 0 5px hsl(208, 99%, 50%);
     border-color: hsl(208, 99%, 50%);
     outline: none;
-  }
+}
   
-  .react-tabs__tab:focus:after {
+.react-tabs__tab:focus:after {
     content: "";
     height: 5px;
     background: #fff;
-  }
+}
   
-  .react-tabs__tab-panel {
+.react-tabs__tab-panel {
     display: none;
-  }
+}
   
-  .react-tabs__tab-panel--selected {
+.react-tabs__tab-panel--selected {
     display: block;
-  }
+}
+
+.movieThumbnail { 
+    z-index: 1;
+    height: 150px;
+    width: auto;
+}
+
+.hcontainer {
+    height: 150px;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    overflow-y: hidden;
+}
+
+.hitem {
+    width: auto;
+    margin: 2px;
+    height: 144px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.showMoreMedia {
+    padding: 1em;
+    background-color: $body-color;
+    width: 200px;
+    color: $darker-color;
+}
+
+.showMoreMedia:hover {
+    color: $darker-color;
+}
