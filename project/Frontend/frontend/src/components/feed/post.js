@@ -114,7 +114,7 @@ function PostBodyRating(props){
 
   return (
     <div className="vertical-align-column">
-      <div className="rating container">
+      <div className="static-rating container">
         <table id="rating-table">
           <tr>
             {items}
