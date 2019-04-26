@@ -146,7 +146,7 @@
     }
 }
 
-.rating {
+.static-rating {
     width: auto;
     height: 30%;
     padding: 2%;
@@ -180,6 +180,7 @@
     height: 100%;
 
     td {
+        // padding: 3px;
         width: 20%;
     }
 }
