@@ -271,3 +271,113 @@
 .showMoreMedia:hover {
     color: $darker-color;
 }
+
+.galleryItem {
+    padding: 1em;
+    background-color: $body-color;
+    -webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.31);
+    box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.31);
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.galleryItem img {
+    width: 100%;
+}
+
+.nav {
+    padding: 0;
+}
+
+.media-nav {
+    height: 60px              !important;
+    padding-bottom: 0px       !important;
+}
+
+.nav-link {
+    color: $darker-color;
+    margin: 0;
+    padding: 15px;
+    background-image: linear-gradient($primary-color, $primary-color);
+    background-size: 0 2px, auto;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    transition: all .2s ease-out;
+
+    &:hover {
+        color: $darker-color;
+    }
+}
+
+.active {
+    color: $darker-color;
+    cursor: pointer;
+    background-size: 100% 3px, auto;
+}
+
+.media-header {
+    margin-bottom: 0;
+    color: white;
+    font-family: $font-title;
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    h1 {
+        display: inline-block;
+    }
+
+    h3 {
+        display: inline-block;
+    }
+    
+    h5 a {
+        color: white;
+    }
+
+    h5 a:hover {
+        text-decoration: none;
+        color: $body-color;
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: black;
+}
+
+.galleryContainer {
+    position: relative;
+}
+
+.galleryContainer:hover .overlay {
+    opacity: 0.4;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+  
+.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
