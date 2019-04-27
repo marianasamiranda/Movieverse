@@ -5,7 +5,7 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.UserMovie" table="UserMovie" lazy="false">
+	<class name="data.entities.UserMovie" table="UserMovie" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
@@ -16,9 +16,9 @@ License Type: Academic
 		<property name="dateWatched" column="DateWatched" type="date" not-null="false" lazy="false"/>
 		<property name="dateFavourite" column="DateFavourite" type="date" not-null="false" lazy="false"/>
 		<property name="visible" column="Visible" type="boolean" not-null="true" lazy="false"/>
-		<many-to-one name="ORM_Movie" cascade="lock" column="MovieId" class="data.movieverse.Movie" not-null="true" lazy="false">
+		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="false">
 		</many-to-one>
-		<many-to-one name="ORM_mUser" cascade="lock" column="MUserId" class="data.movieverse.MUser" not-null="true" lazy="false">
+		<many-to-one name="mUser" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="false">
 		</many-to-one>
 	</class>
 </hibernate-mapping>

@@ -5,16 +5,16 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Badge" table="Badge" lazy="false">
+	<class name="data.entities.Badge" table="Badge" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="image" column="Image" type="string" length="255" not-null="false" lazy="false"/>
-		<set name="ORM_Achievements" lazy="true" cascade="save-update,lock" inverse="true">
+		<property name="name" column="Name" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="image" column="Image" type="string" length="255" not-null="true" lazy="false"/>
+		<set name="achievements" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="BadgeId" not-null="true"/>
-			<one-to-many class="data.movieverse.Achievement"/>
+			<one-to-many class="data.entities.Achievement"/>
 		</set>
 	</class>
 </hibernate-mapping>

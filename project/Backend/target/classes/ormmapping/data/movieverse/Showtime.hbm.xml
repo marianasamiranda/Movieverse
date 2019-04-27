@@ -5,15 +5,15 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Showtime" table="Showtime" lazy="false">
+	<class name="data.entities.Showtime" table="Showtime" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.movieverse.Movie" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="proxy">
 		</many-to-one>
-		<many-to-one name="theater" cascade="lock" column="TheaterId" class="data.movieverse.Theater" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="theater" cascade="lock" column="TheaterId" class="data.entities.Theater" not-null="true" lazy="proxy">
 		</many-to-one>
-		<property name="date" column="`Date`" type="date" not-null="false" lazy="false"/>
+		<property name="date" column="`Date`" type="date" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>

@@ -5,22 +5,28 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Company" table="Company" lazy="false">
+	<class name="data.entities.Company" table="Company" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<many-to-one name="companyCountry" cascade="lock" column="CountryId" class="data.movieverse.Country" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="parentCompany" cascade="lock" column="CompanyId" class="data.entities.Company" not-null="false" lazy="proxy">
 		</many-to-one>
-		<property name="homepage" column="Homepage" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="companyCountry" cascade="lock" column="CountryId" class="data.entities.Country" not-null="true" lazy="proxy">
+		</many-to-one>
+		<property name="homepage" column="Homepage" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="image" column="Image" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="country" column="Country" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="headquarters" column="Headquarters" type="string" length="255" not-null="false" lazy="false"/>
-		<set name="ORM_Movies" table="Movie_Company" lazy="true" cascade="save-update,lock" inverse="true">
+		<property name="headquarters" column="Headquarters" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="description" column="Description" type="string" length="255" not-null="false" lazy="false"/>
+		<set name="movies" table="MovieCompany" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="CompanyId" not-null="true"/>
-			<many-to-many column="MovieId" class="data.movieverse.Movie">
+			<many-to-many column="MovieId" class="data.entities.Movie">
 			</many-to-many>
+		</set>
+		<set name="childrenCompanies" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="CompanyId" not-null="false"/>
+			<one-to-many class="data.entities.Company"/>
 		</set>
 	</class>
 </hibernate-mapping>

@@ -1,17 +1,18 @@
 package business;
 
-import data.movieverse.Country;
-import data.movieverse.CountryDAO;
-import org.orm.PersistentException;
+import data.daos.CountryDAO;
+import data.entities.Country;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CountryManager {
 
-    public static Country getCountryByCode(String code) {
-        try {
-            return (Country) CountryDAO.queryCountry("alphacode='" + code.toUpperCase() + "'", "id").get(0);
-        }
-        catch (PersistentException e) {
-            return null;
-        }
+    @Autowired
+    private CountryDAO countryDAO;
+
+    public  Country getCountryByCode(String code) {
+        return countryDAO.loadEntity("alphacode='" + code.toLowerCase() + "'", "id");
+
     }
 }

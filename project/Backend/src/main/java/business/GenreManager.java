@@ -1,17 +1,18 @@
 package business;
 
-import data.movieverse.Genre;
-import data.movieverse.GenreDAO;
-import org.orm.PersistentException;
+import data.daos.GenreDAO;
+import data.entities.Genre;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GenreManager {
 
-    public static Genre getGenre(String name) {
-        try {
-            return (Genre) GenreDAO.queryGenre("name='" + name + "'", "id").get(0);
-        }
-        catch (PersistentException e) {
-            return null;
-        }
+    @Autowired
+    private GenreDAO genreDAO;
+
+    public Genre getGenre(String name) {
+        return genreDAO.loadEntity("name='" + name + "'", "id");
+
     }
 }

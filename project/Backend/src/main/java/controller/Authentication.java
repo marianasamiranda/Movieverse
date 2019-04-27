@@ -1,5 +1,6 @@
 package controller;
 import business.UsersManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +15,21 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class Authentication {
 
+    @Autowired
+    UsersManager usersManager;
+
     @RequestMapping(method = POST, value = "/login")
     public ResponseEntity<Object> login(@RequestBody Map body) {
         String username = ((String) body.get("username"));
         String password = (String) body.get("password");
+        System.out.println(username);
 
         try {
-            String token = UsersManager.login(username, password);
+            String token = usersManager.login(username, password);
             return Util.ok(token);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }
@@ -39,9 +45,8 @@ public class Authentication {
         String d = (String) body.get("birthdate");
         LocalDate birthdate = LocalDate.parse(d.substring(0, d.length()-2), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         char gender = ((String) body.get("gender")).charAt(0);
-
         try {
-            String r = UsersManager.registerUser(email, username, name, password, country, birthdate, gender);
+            String r = usersManager.registerUser(email, username, name, password, country, birthdate, gender);
             return Util.ok(r);
         }
         catch (Exception e) {
@@ -53,7 +58,7 @@ public class Authentication {
     public ResponseEntity<Object> logout(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
         try {
-            UsersManager.logout(token);
+            usersManager.logout(token);
             return null;
         }
         catch (Exception e) {

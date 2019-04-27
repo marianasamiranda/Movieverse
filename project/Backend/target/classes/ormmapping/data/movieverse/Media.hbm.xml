@@ -5,12 +5,12 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Media" table="Media" lazy="false">
+	<class name="data.entities.Media" table="Media" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<property name="idType" column="IdType" type="integer" length="10" not-null="true" lazy="false"/>
-		<property name="path" column="Path" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="type" column="Type" type="character" length="1" not-null="true" lazy="false"/>
+		<property name="path" column="Path" type="string" length="255" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>

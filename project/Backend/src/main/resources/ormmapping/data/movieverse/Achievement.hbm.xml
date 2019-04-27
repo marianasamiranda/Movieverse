@@ -5,15 +5,15 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Achievement" table="Achievement" lazy="false">
+	<class name="data.entities.Achievement" table="Achievement" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
 		<property name="date" column="`Date`" type="date" not-null="true" lazy="false"/>
-		<many-to-one name="ORM_Badge" cascade="lock" column="BadgeId" class="data.movieverse.Badge" not-null="true" lazy="false">
+		<many-to-one name="badge" cascade="lock" column="BadgeId" class="data.entities.Badge" not-null="true" lazy="false">
 		</many-to-one>
-		<many-to-one name="ORM_mUser" cascade="lock" column="MUserId" class="data.movieverse.MUser" not-null="true" lazy="false">
+		<many-to-one name="mUser" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="false">
 		</many-to-one>
 	</class>
 </hibernate-mapping>

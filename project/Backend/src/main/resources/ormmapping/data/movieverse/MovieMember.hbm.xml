@@ -5,15 +5,15 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.MovieMember" table="MovieMember" lazy="false">
+	<class name="data.entities.MovieMember" table="MovieMember" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
 		<property name="role" column="Role" type="string" length="255" not-null="true" lazy="false"/>
-		<many-to-one name="ORM_Member" cascade="lock" column="MemberId" class="data.movieverse.Member" not-null="true" lazy="false">
+		<many-to-one name="member" cascade="lock" column="MemberId" class="data.entities.Member" not-null="true" lazy="false">
 		</many-to-one>
-		<many-to-one name="ORM_Movie" cascade="lock" column="MovieId" class="data.movieverse.Movie" not-null="true" lazy="false">
+		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="false">
 		</many-to-one>
 	</class>
 </hibernate-mapping>

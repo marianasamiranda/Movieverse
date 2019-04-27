@@ -5,22 +5,22 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Comment" table="Comment" lazy="false">
+	<class name="data.entities.Comment" table="Comment" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.movieverse.Movie" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="proxy">
 		</many-to-one>
-		<many-to-one name="commenter" cascade="lock" column="MUserId" class="data.movieverse.MUser" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="commenter" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="proxy">
 		</many-to-one>
-		<property name="date" column="`Date`" type="date" not-null="false" lazy="false"/>
-		<property name="content" column="Content" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="parent" column="Parent" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="date" column="`Date`" type="date" not-null="true" lazy="false"/>
+		<property name="content" column="Content" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="parent" column="Parent" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="likes" column="Likes" type="integer" length="10" not-null="true" lazy="false"/>
-		<set name="ORM_Upvoter" table="MUser_Comment" lazy="true" cascade="save-update,lock" inverse="false">
+		<set name="upvoter" table="MUserComment" lazy="true" cascade="save-update,lock" inverse="false">
 			<key column="CommentId" not-null="true"/>
-			<many-to-many column="MUserId" class="data.movieverse.MUser">
+			<many-to-many column="MUserId" class="data.entities.MUser">
 			</many-to-many>
 		</set>
 	</class>

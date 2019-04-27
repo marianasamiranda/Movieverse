@@ -5,12 +5,12 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.Feed" table="Feed" lazy="false">
+	<class name="data.entities.Feed" table="Feed" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<many-to-one name="user" cascade="lock" column="MUserId" class="data.movieverse.MUser" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="user" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="proxy">
 		</many-to-one>
 		<property name="type" column="Type" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="idContent" column="IdContent" type="integer" length="10" not-null="true" lazy="false"/>

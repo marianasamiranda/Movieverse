@@ -5,14 +5,14 @@ License Type: Academic
 -->
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="data.movieverse.MUser" table="MUser" lazy="false">
+	<class name="data.entities.MUser" table="MUser" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
 		</id>
-		<many-to-one name="favouriteGenre" cascade="lock" column="GenreId" class="data.movieverse.Genre" not-null="false" lazy="proxy" access="field">
+		<many-to-one name="favouriteGenre" cascade="lock" column="GenreId" class="data.entities.Genre" not-null="false" lazy="proxy">
 		</many-to-one>
-		<many-to-one name="userCountry" cascade="lock" column="CountryId" class="data.movieverse.Country" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="userCountry" cascade="lock" column="CountryId" class="data.entities.Country" not-null="true" lazy="proxy">
 		</many-to-one>
 		<property name="username" column="Username" unique="true" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="password" column="Password" type="string" length="255" not-null="true" lazy="false"/>
@@ -29,33 +29,34 @@ License Type: Academic
 		<property name="commentsCount" column="CommentsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="ratingsCount" column="RatingsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="friendsCount" column="FriendsCount" type="integer" length="10" not-null="true" lazy="false"/>
-		<set name="ORM_ReceivedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="MUserId" not-null="true"/>
-			<one-to-many class="data.movieverse.Friendship"/>
+		<property name="likesCount" column="LikesCount" type="integer" length="10" not-null="true" lazy="false"/>
+		<set name="receivedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="Sender" not-null="true"/>
+			<one-to-many class="data.entities.Friendship"/>
 		</set>
-		<set name="ORM_Comments" lazy="true" cascade="save-update,lock" inverse="true">
+		<set name="comments" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="MUserId" not-null="true"/>
-			<one-to-many class="data.movieverse.Comment"/>
+			<one-to-many class="data.entities.Comment"/>
 		</set>
-		<set name="ORM_Feed" lazy="true" cascade="save-update,lock" inverse="true">
+		<set name="feed" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="MUserId" not-null="true"/>
-			<one-to-many class="data.movieverse.Feed"/>
+			<one-to-many class="data.entities.Feed"/>
 		</set>
-		<set name="ORM_Achievements" lazy="true" cascade="save-update,lock" inverse="true">
+		<set name="achievements" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="MUserId" not-null="true"/>
-			<one-to-many class="data.movieverse.Achievement"/>
+			<one-to-many class="data.entities.Achievement"/>
 		</set>
-		<set name="ORM_UserMovies" lazy="true" cascade="save-update,lock" inverse="true">
+		<set name="userMovies" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="MUserId" not-null="true"/>
-			<one-to-many class="data.movieverse.UserMovie"/>
+			<one-to-many class="data.entities.UserMovie"/>
 		</set>
-		<set name="ORM_RequestedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="MUserId2" not-null="true"/>
-			<one-to-many class="data.movieverse.Friendship"/>
+		<set name="requestedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="Receiver" not-null="true"/>
+			<one-to-many class="data.entities.Friendship"/>
 		</set>
-		<set name="ORM_Friends" table="MUser_Friendship" lazy="true" cascade="save-update,lock">
+		<set name="friends" table="MUserFriendship" lazy="true" cascade="save-update,lock">
 			<key column="MUserId" not-null="true"/>
-			<many-to-many column="FriendshipId" class="data.movieverse.Friendship">
+			<many-to-many column="FriendshipId" class="data.entities.Friendship">
 			</many-to-many>
 		</set>
 	</class>
