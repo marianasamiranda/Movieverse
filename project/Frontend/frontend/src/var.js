@@ -23,8 +23,7 @@ export const genres = {
   'TV Movie': { value: 'TV Movie', label: '📺 TV Movie' },
   Thriller: { value: 'Thriller', label: '🔪 Thriller' },
   War: { value: 'War', label: '⚔️ War' },
-  Western: { value: 'Western', label: '🤠 Western' },
-  None: { value: 'None', label: 'None'}
+  Western: { value: 'Western', label: '🤠 Western' }
 }
 
 export const theaters = [

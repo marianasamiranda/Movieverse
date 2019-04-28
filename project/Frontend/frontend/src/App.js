@@ -80,8 +80,8 @@ class App extends Component {
               <Route exact path="/movie" component={MoviePage} />
               <Route exact path="/moviemedia" component={MediaPage} />
               <Route exact path="/u/:username" component={Profile} />
-              {/* <Route exact path="/feed" component={Feed} />
-              <Route exact path="/actor" component={Actor} /> */}
+              <Route exact path="/feed" component={Feed} />
+              <Route exact path="/actor" component={Actor} />
               <Route component={NotFoundError} />
             </Switch>
         </main>

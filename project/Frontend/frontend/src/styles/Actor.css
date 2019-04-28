@@ -2,7 +2,7 @@
   color: #F10633;
 }
 
-.brown, .title-actor-18, .actor-name, .actor-info .info-value, .actor-info .info-lable {
+.brown, .actor-info .info-lable, .actor-info .info-value, .actor-name, .title-actor-18 {
   color: #594849;
 }
 
@@ -41,10 +41,12 @@
 .actor-info p {
   margin: 0;
 }
+
 .actor-info .info-lable {
   font-weight: bold;
   font-size: 15pt;
 }
+
 .actor-info .info-value {
   font-size: 13pt;
 }
@@ -52,11 +54,13 @@
 .actor-aside {
   background-color: #E7E7E7;
   border: 1px solid #7B7B7B;
-  align-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
   width: 100%;
   margin: 0 auto;
   padding: 30px 40px;
 }
+
 @media (max-width: 767px) {
   .actor-aside {
     display: none;
@@ -86,14 +90,15 @@
 #actor-movies .movie-card-container .label {
   line-height: 12pt;
 }
+
 #actor-movies .movie-card-container .label #movie-name {
   font-weight: bold;
   color: #707070;
   font-size: 11pt;
 }
+
 #actor-movies .movie-card-container .label #movie-info {
   font-size: 10pt;
   color: #707070;
 }
-
 /*# sourceMappingURL=Actor.css.map */

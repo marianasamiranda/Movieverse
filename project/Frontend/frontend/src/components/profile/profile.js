@@ -18,7 +18,7 @@ import { getToken } from '../../cookies'
 import Axios from 'axios'
 import Loading from '../aux_pages/loading'
 import NoAuthError from '../aux_pages/noAuthError'
-import NotFoundError from '../aux_pages/notFoundError';
+import NotFoundError from '../aux_pages/notFoundError'
 
 const friends = [
   { username: 'username1', img:require( '../../img/girl.png') },

@@ -10,9 +10,6 @@ import logo from '../img/logo.png'
 import '../styles/FrontPage.css'
 
 export default class FrontPage extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     document.title = "Movieverse"
