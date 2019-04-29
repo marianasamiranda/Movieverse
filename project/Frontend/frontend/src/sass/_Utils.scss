@@ -117,14 +117,19 @@ table td:last-child {
 }
 
 .movie-card-container {
+    margin-bottom: 30px;
     .label {
         font-family: $font-stack-light;
         font-size: 16pt;
         color: #333333;
-        line-height: 14pt;
-        padding-top: 10pt;
+        line-height: 15pt;
+        padding-top: 8pt;
     }
-    
+
+    p {
+        margin-bottom: 5px;
+    }
+
     .movie-card {
         max-width: 100%;
         height: auto;
@@ -143,6 +148,7 @@ table td:last-child {
         margin-right: -10px;
         margin-left: -10px;
         margin-top: -5px;
+        margin-bottom: 15px;
     }
 }
 
@@ -306,4 +312,8 @@ table td:last-child {
 
 .aux-page-img {
     min-width: 200px;
+}
+
+.muted {
+    color: #888888;
 }

@@ -1,3 +1,6 @@
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -36,7 +39,15 @@ public class Application {
         return Persistence.createEntityManagerFactory("movieverse").createEntityManager();
     }
 
+    @Autowired
+    public RestHighLevelClient client;
 
+    @Bean
+    public RestHighLevelClient client() {
+        return new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost", 9200, "http"))
+        );
+    }
 
 
     public static void main(String[] args) {
