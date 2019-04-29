@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.MUser" table="MUser" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<many-to-one name="favouriteGenre" cascade="lock" column="GenreId" class="data.entities.Genre" not-null="false" lazy="proxy">

@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Comment" table="Comment" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="proxy">

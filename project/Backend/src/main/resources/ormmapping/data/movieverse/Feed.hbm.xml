@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Feed" table="Feed" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<many-to-one name="user" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="proxy">

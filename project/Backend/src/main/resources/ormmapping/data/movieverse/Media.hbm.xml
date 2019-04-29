@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Media" table="Media" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<property name="type" column="Type" type="character" length="1" not-null="true" lazy="false"/>

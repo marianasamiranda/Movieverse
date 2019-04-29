@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.MovieMember" table="MovieMember" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<property name="role" column="Role" type="string" length="255" not-null="true" lazy="false"/>

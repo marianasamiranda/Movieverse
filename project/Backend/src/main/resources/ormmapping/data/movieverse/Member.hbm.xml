@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Member" table="Member" lazy="false">
 		<id name="tmdb" column="Tmdb" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>

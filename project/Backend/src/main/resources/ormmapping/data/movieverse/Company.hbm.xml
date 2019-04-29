@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Company" table="Company" lazy="false">
 		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="native">
+			<generator class="identity">
 			</generator>
 		</id>
 		<many-to-one name="parentCompany" cascade="lock" column="CompanyId" class="data.entities.Company" not-null="false" lazy="proxy">
