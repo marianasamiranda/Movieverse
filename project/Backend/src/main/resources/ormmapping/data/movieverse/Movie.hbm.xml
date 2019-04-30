@@ -7,21 +7,21 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Movie" table="Movie" lazy="false">
 		<id name="tmdb" column="Tmdb" type="integer" unsaved-value="0">
-			<generator class="identity">
+			<generator class="native">
 			</generator>
 		</id>
 		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="poster" column="Poster" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="backdrop" column="Backdrop" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="plot" column="Plot" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="imdb" column="Imdb" unique="true" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="plot" column="Plot" type="text" not-null="false" lazy="false"/>
+		<property name="imdb" column="Imdb" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="release" column="Release" type="date" not-null="false" lazy="false"/>
 		<property name="runtime" column="Runtime" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="ratingSum" column="RatingSum" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="ratingCount" column="RatingCount" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="budget" column="Budget" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="language" column="Language" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="tagline" column="Tagline" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="tagline" column="Tagline" type="text" not-null="false" lazy="false"/>
 		<set name="userMovies" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.UserMovie"/>
@@ -41,14 +41,14 @@ License Type: Academic
 			<one-to-many class="data.entities.Comment"/>
 		</set>
 		<set name="movieMembers" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="MovieId" not-null="true"/>
+			<key column="MovieId" not-null="false"/>
 			<one-to-many class="data.entities.MovieMember"/>
 		</set>
 		<set name="showtime" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.Showtime"/>
 		</set>
-		<set name="relatedMovies" table="MovieMovie" lazy="true" cascade="save-update,lock">
+		<set name="relatedMovies" table="Recommended" lazy="true" cascade="save-update,lock">
 			<key column="MovieId" not-null="true"/>
 			<many-to-many column="MovieId2" class="data.entities.Movie">
 			</many-to-many>

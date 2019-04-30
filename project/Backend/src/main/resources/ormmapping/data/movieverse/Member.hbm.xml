@@ -7,7 +7,7 @@ License Type: Academic
 <hibernate-mapping>
 	<class name="data.entities.Member" table="Member" lazy="false">
 		<id name="tmdb" column="Tmdb" type="integer" unsaved-value="0">
-			<generator class="identity">
+			<generator class="native">
 			</generator>
 		</id>
 		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
@@ -18,7 +18,7 @@ License Type: Academic
 		<property name="biography" column="Biography" type="text" not-null="false" lazy="false"/>
 		<property name="BirthPlace" column="BirthPlace" type="string" length="255" not-null="false" lazy="false"/>
 		<set name="movieMembers" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="MemberId" not-null="true"/>
+			<key column="MemberId" not-null="false"/>
 			<one-to-many class="data.entities.MovieMember"/>
 		</set>
 		<set name="media" lazy="true" cascade="save-update,lock" inverse="false">
