@@ -81,7 +81,7 @@ class App extends Component {
               {/*<Route exact path="/media/:id" component={MediaPage} />*/}
               <Route exact path="/u/:username" component={Profile} />
               <Route exact path="/feed" component={Feed} />
-              <Route exact path="/actor" component={Actor} />
+              <Route exact path="/actor" render={() => <Actor id='12345'/>} />
               <Route component={NotFoundError} />
             </Switch>
         </main>

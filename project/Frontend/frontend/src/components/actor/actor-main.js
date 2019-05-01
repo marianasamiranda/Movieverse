@@ -4,9 +4,18 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import MovieCard from '../movie-card'
+import HorizontalSlider from '../horizontal-slider';
 
 
 export default function ActorMain(props){
+
+    const backdrops = [
+        {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
+        {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
+        {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
+        {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"}
+      ]
+
     return (
       <div className="actor-main col-xs-12 col-md-8">
         <div>
@@ -33,6 +42,13 @@ export default function ActorMain(props){
             </h4>
             <hr className="section-divider light-gray"></hr>
             <p className="font-15pt gray">{props.biography}</p>
+        </div>
+        <div style={{paddingBottom:"20px"}}>
+            <h4 className="title-actor-18">
+                Photo Gallery
+            </h4>
+            <hr className="section-divider light-gray"></hr>
+            <HorizontalSlider more="/media" content={backdrops}/>
         </div>
         <div>
             <h4 className="title-actor-18">
