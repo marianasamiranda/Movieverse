@@ -77,7 +77,6 @@ body {
 }
 
 .footer {
-
     .footer-title {
         font-family: 'Oswald', sans-serif;
         font-size: 22pt;
@@ -99,8 +98,29 @@ body {
     }
 }
 
-.main {
+.hcontainer {
+    height: 150px;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    overflow-y: hidden;
 }
 
-.aside {
+.hitem {
+    width: auto;
+    margin: 2px;
+    height: 144px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.showMoreMedia {
+    padding: 1em;
+    background-color: $body-color;
+    width: 200px;
+    color: $darker-color;
+}
+
+.showMoreMedia:hover {
+    color: $darker-color;
 }

@@ -7,9 +7,13 @@ import star from '../../img/star.png'
 import MovieCard from '../movie-card'
 import DiscussionBox from './discussion-box'
 import MovieEvaluation from './movie-evaluation'
+import Axios from 'axios';
+import Loading from '../aux_pages/loading'
+import {backend} from '../../var'
 import Language from '../language'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/MoviePage.css'
+import HorizontalSlider from '../horizontal-slider';
 
 export default class MoviePage extends Component {
 
@@ -17,6 +21,7 @@ export default class MoviePage extends Component {
     super(props);
     this.state = {
       windowSize: window.innerWidth,
+      movie: undefined
     };
   }
 
@@ -31,6 +36,13 @@ export default class MoviePage extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
+    const { movie_id } = this.props.match.params.id
+
+    return Axios.get(backend + '/movie/' + movie_id)
+      .then(x => {
+        const movie_info = x.data;
+        this.setState({ movie: movie_info });
+      })
   }
 
   componentWillUnmount() {
@@ -38,10 +50,32 @@ export default class MoviePage extends Component {
   }
 
   render() {
+
+    // TODO: Fazer isto de outra forma
+    const videos = [
+      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"},
+      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"},
+      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"},
+      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"}
+    ]
+
+    const backdrops = [
+      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
+      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
+      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
+      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"}
+    ]
+
+    if (!this.state.movie) {
+      return (
+        <Loading />
+      )
+    }
+
     let headerTitle;
     if(this.state.windowSize < 768) {
-      headerTitle = <div class="movie-title-div">
-        <span>The Favourite </span>
+      headerTitle = <div className="movie-title-div">
+        <span>{this.state.movie.name} </span>
         <span><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></span>
         <br />
         <Image src={star} height="30vh" /> 4.1
@@ -50,14 +84,14 @@ export default class MoviePage extends Component {
     }
     else {
       headerTitle = <div className="movie-title-div d-flex">
-          <div class="mr-auto p-2">
-            <span>The Favourite </span>
+          <div className="mr-auto p-2">
+            <span>{this.state.movie.name} </span>
             <span><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></span>
           </div>
-          <div class="p-2">
+          <div className="p-2">
             <Image src={star} height="30vh" />
           </div>
-          <div class="p-2">
+          <div className="p-2">
             4.1
           </div>
         </div>
@@ -65,18 +99,18 @@ export default class MoviePage extends Component {
     return (
       <Container>
         <div className="movie-header">
-          <div className="backdrop" style={{'background': 'url(https://image.tmdb.org/t/p/original/l7iBeeotCkkJeT5NfGD3yZ6rvSs.jpg) no-repeat center center', 'background-size': 'cover'}}></div>
+          <div className="backdrop" style={{'background': 'url(https://image.tmdb.org/t/p/original/l7iBeeotCkkJeT5NfGD3yZ6rvSs.jpg) no-repeat center center', 'backgroundSize': 'cover'}}></div>
           <div className="poster">
             <Image src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/cwBq0onfmeilU5xgqNNjJAMPfpw.jpg" />
           </div>
           { headerTitle }
           <MovieEvaluation />
         </div>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="movie-content col-lg-8 order-lg-1 order-sm-2 order-2">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="movie-content col-lg-8 order-lg-1 order-sm-2 order-2">
               <h1>Summary</h1>
-                <p>In the early 18th century, England is at war with the French. Nevertheless, duck racing and pineapple eating are thriving. A frail Queen Anne occupies the throne, and her close friend, Lady Sarah, governs the country in her stead, while tending to Anne's ill health and mercurial temper. When a new servant, Abigail, arrives, her charm endears her to Sarah. Sarah takes Abigail under her wing, and Abigail sees a chance to return to her aristocratic roots.</p>
+                <p>{this.state.movie.summary}</p>
               <h1>Top Billed Cast</h1>
               <Row>
                 <Col lg="3" md="3" xs="3">
@@ -94,65 +128,29 @@ export default class MoviePage extends Component {
               </Row>
               <Tabs>
                 <TabList>
-                  <h1 style={{ 'display': 'inline-block', 'border': '0', 'padding-bottom': 0, 'margin-bottom': 0 }}
+                  <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
                   >Media</h1>
                   <Tab>Videos</Tab>
                   <Tab>Backdrops</Tab>
                 </TabList>
                 <TabPanel>
-                  <div class="hcontainer">
-                    <div class="hitem">
-                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g" target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g" target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g" target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="https://www.youtube.com/watch?v=SYb-wkehT1g"  target="_blank"><Image className="movieThumbnail" src="http://img.youtube.com/vi/SYb-wkehT1g/0.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="#" class="showMoreMedia vertical-align">
-                        Show More&#160;<i class="fas fa-plus-circle"></i>
-                      </a>
-                    </div>
-                  </div>
+                  <HorizontalSlider more="/media" content={videos}/>
                 </TabPanel>
                 <TabPanel>
-                <div class="hcontainer">
-                    <div class="hitem">
-                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" class="movieThumbnail" target="_blank"><Image className="movieThumbnail" src="https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg" /></a>
-                    </div>
-                    <div class="hitem">
-                      <a href="#" class="showMoreMedia vertical-align">
-                        Show More&#160;<i class="fas fa-plus-circle"></i>
-                      </a>
-                    </div>
-                  </div>
+                  <HorizontalSlider more="/media" content={backdrops}/>   
                 </TabPanel>
               </Tabs>
               <h1>Discussion</h1>
               <DiscussionBox />
             </div>
-            <div class="col-lg-4 order-lg-2 order-sm-1 order-1">
-              <div class="sidebar">
+            <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
+              <div className="sidebar">
                 <h6>Original Language</h6>
                   <Language language="en" />
                 <h6>Runtime</h6>
                   <p>81m</p>
                 <h6>Genres</h6>
-                <div class="movie-genre">
+                <div className="movie-genre">
                   <ul>
                     <li><a href="#">Animation</a></li>
                     <li><a href="#">Comedy</a></li>

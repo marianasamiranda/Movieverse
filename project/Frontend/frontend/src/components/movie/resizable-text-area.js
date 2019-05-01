@@ -53,15 +53,15 @@ export default class ResizableTextarea extends Component {
 	
 	render() {
 		return <Form>
-				<Form.Control style={{'background-color': 'transparent'}}
+				<Form.Control style={{'backgroundColor': 'transparent'}}
 					as="textarea"
 					rows={this.state.rows}
 					value={this.state.value}
 					placeholder={'Add a comment..'}
 					onChange={this.handleChange}
 				/>
-				<div class="d-flex flex-row-reverse">
-					<div class="p-2">
+				<div className="d-flex flex-row-reverse">
+					<div className="p-2">
 						<Button variant="primary" onClick={this.handleSubmit.bind(this)} disabled={(this.state.value === '')}>
 							Add comment
 						</Button>

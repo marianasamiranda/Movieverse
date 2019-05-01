@@ -77,8 +77,8 @@ class App extends Component {
               <Route exact path="/people" component={PeopleSearch} />
               <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar}/>} />
               <Route exact path="/users" component={FindUsers} />
-              <Route exact path="/movie" component={MoviePage} />
-              <Route exact path="/moviemedia" component={MediaPage} />
+              <Route exact path="/movie/:id" component={MoviePage} />
+              {/*<Route exact path="/media/:id" component={MediaPage} />*/}
               <Route exact path="/u/:username" component={Profile} />
               <Route exact path="/feed" component={Feed} />
               <Route exact path="/actor" component={Actor} />

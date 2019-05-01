@@ -40,10 +40,10 @@ export default class Comment extends Component {
     let liked_div;
 
     if(this.state.liked) {
-      liked_div = <div class="liked-button"><i class="fas fa-heart"></i> { this.state.likes }</div>;
+      liked_div = <div className="liked-button"><i className="fas fa-heart"></i> { this.state.likes }</div>;
     }
     else {
-      liked_div = <div class="like-button"><i class="far fa-heart"> </i> { this.state.likes }</div>;
+      liked_div = <div className="like-button"><i className="far fa-heart"> </i> { this.state.likes }</div>;
     }
     return <div className="comment">
       <div className="comment-container">
@@ -52,7 +52,7 @@ export default class Comment extends Component {
             <div className="info-author p-2">
               by {this.props.author}
               <br />
-              <i class="far fa-clock"></i> {this.props.time}
+              <i className="far fa-clock"></i> {this.props.time}
             </div>
         </div>
         <p>
@@ -62,7 +62,7 @@ export default class Comment extends Component {
           { liked_div } 
         </div>
         <div className="replies" onClick={this.handleReply.bind(this)}>
-          <i class="far fa-comment-dots"></i> {this.props.replies.length }
+          <i className="far fa-comment-dots"></i> {this.props.replies.length }
         </div>
       </div>
       <div className="replies-container">

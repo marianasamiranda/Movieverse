@@ -38,7 +38,7 @@ export default class DiscussionBox extends Component {
   
   render() {
     return <div>
-      <div class="comment-container">
+      <div className="comment-container">
 				<div className="info d-flex">
 					<Image className="profile-pic p-2" src="https://via.placeholder.com/70" />
 					<div className="info-author p-2">
