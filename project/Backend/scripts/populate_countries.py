@@ -14,10 +14,8 @@ with open('data/countries.csv') as file:
 conn = psycopg2.connect(dbname=db.db_name, user=db.db_user, password=db.db_pass, host=db.db_host)
 cursor = conn.cursor()
 
-id = 1
 for n,c in struct.items():
-    cursor.execute('INSERT INTO Country (id, name, alphacode) VALUES (%s,%s,%s)', (id, n, c))
-    id +=1
+    cursor.execute('INSERT INTO Country ( name, alphacode) VALUES (%s,%s)', (n, c))
 
 conn.commit()
 cursor.close()

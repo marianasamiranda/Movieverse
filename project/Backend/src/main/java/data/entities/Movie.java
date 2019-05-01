@@ -174,7 +174,7 @@ public class Movie {
 		}
 		return (MUser[])lValues.toArray(new MUser[lValues.size()]);
 	}
-	
+
 	public void removemUser(MUser amUser) {
 		UserMovie[] lUserMovies = (UserMovie[])userMovies.toArray(new UserMovie[userMovies.size()]);
 		for(int i = 0; i < lUserMovies.length; i++) {
@@ -183,12 +183,12 @@ public class Movie {
 			}
 		}
 	}
-	
+
 	public void addmUser(UserMovie aUserMovie, MUser amUser) {
 		aUserMovie.setmUser(amUser);
 		userMovies.add(aUserMovie);
 	}
-	
+
 	public UserMovie getUserMovieBymUser(MUser amUser) {
 		UserMovie[] lUserMovies = (UserMovie[])userMovies.toArray(new UserMovie[userMovies.size()]);
 		for(int i = 0; i < lUserMovies.length; i++) {
@@ -198,43 +198,43 @@ public class Movie {
 		}
 		return null;
 	}
-	
+
 	public void setUserMovies(java.util.Set value) {
 		this.userMovies = value;
 	}
-	
+
 	public java.util.Set getUserMovies() {
 		return userMovies;
 	}
-	
-	
+
+
 	public void setGenres(java.util.Set value) {
 		this.genres = value;
 	}
-	
+
 	public java.util.Set getGenres() {
 		return genres;
 	}
-	
-	
+
+
 	public void setCompanies(java.util.Set value) {
 		this.companies = value;
 	}
-	
+
 	public java.util.Set getCompanies() {
 		return companies;
 	}
-	
-	
+
+
 	public void setComments(java.util.Set value) {
 		this.comments = value;
 	}
-	
+
 	public java.util.Set getComments() {
 		return comments;
 	}
-	
-	
+
+
 	public Member[] getMembers() {
 		java.util.ArrayList lValues = new java.util.ArrayList(5);
 		for(java.util.Iterator lIter = movieMembers.iterator();lIter.hasNext();) {
@@ -242,7 +242,7 @@ public class Movie {
 		}
 		return (Member[])lValues.toArray(new Member[lValues.size()]);
 	}
-	
+
 	public void removeMember(Member aMember) {
 		MovieMember[] lMovieMembers = (MovieMember[])movieMembers.toArray(new MovieMember[movieMembers.size()]);
 		for(int i = 0; i < lMovieMembers.length; i++) {
@@ -251,12 +251,12 @@ public class Movie {
 			}
 		}
 	}
-	
+
 	public void addMember(MovieMember aMovieMember, Member aMember) {
 		aMovieMember.setMember(aMember);
 		movieMembers.add(aMovieMember);
 	}
-	
+
 	public MovieMember getMovieMemberByMember(Member aMember) {
 		MovieMember[] lMovieMembers = (MovieMember[])movieMembers.toArray(new MovieMember[movieMembers.size()]);
 		for(int i = 0; i < lMovieMembers.length; i++) {
@@ -266,55 +266,46 @@ public class Movie {
 		}
 		return null;
 	}
-	
+
 	public void setMovieMembers(java.util.Set value) {
 		this.movieMembers = value;
 	}
-	
+
 	public java.util.Set getMovieMembers() {
 		return movieMembers;
 	}
-	
-	
+
+
 	public void setShowtime(java.util.Set value) {
 		this.showtime = value;
 	}
-	
+
 	public java.util.Set getShowtime() {
 		return showtime;
 	}
-	
-	
+
+
 	public void setRelatedMovies(java.util.Set value) {
 		this.relatedMovies = value;
 	}
-	
+
 	public java.util.Set getRelatedMovies() {
 		return relatedMovies;
 	}
-	
-	
+
+
 	public void setMedia(java.util.Set value) {
 		this.media = value;
 	}
-	
+
 	public java.util.Set getMedia() {
 		return media;
 	}
-	
-	
-	public void getId_int() {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
-	}
-	
-	public void setId_int(int id_int) {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
-	}
-	
+
+
 	public String toString() {
 		return String.valueOf(getTmdb());
 	}
+
 	
 }

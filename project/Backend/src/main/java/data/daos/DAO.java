@@ -9,10 +9,7 @@ public interface DAO<K, E> {
 
     void persist(E entity);
 
-    void save(E entity);
-
     void merge(E entity);
-
 
     void remove(E entity);
 
@@ -22,6 +19,10 @@ public interface DAO<K, E> {
 
     public void rollBack();
 
+    E loadEntity(String condition);
+
     E loadEntity(String condition, String orderBy);
+
+    void removeEntity(String condition);
 
 }

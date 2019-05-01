@@ -4,23 +4,30 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"controller2", "data.daos.*", "data.daos.impl.*", "controller","business"})
-
+@ComponentScan(basePackages = {"e   rdata.daos", "data.daos.impl", "controller","business"})
 //@ComponentScan({"controller","security.*"})
 //@EntityScan("security.domain")
 //@EnableJpaRepositories("security.repository")
+@EnableTransactionManagement
 public class Application {
 
 //    @Bean
@@ -30,6 +37,7 @@ public class Application {
 //        return DataSourceBuilder.create().type(HikariDataSource.class).build();
 //    }
 
+/*
     @Autowired
     private EntityManager entityManager;
 
@@ -38,7 +46,46 @@ public class Application {
     public EntityManager entityManager(){
         return Persistence.createEntityManagerFactory("movieverse").createEntityManager();
     }
+*/
+/*
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
+        em.setPersistenceUnitName("movieverse");
+        em.setPackagesToScan("controller2", "data.daos.*", "data.daos.impl.*", "controller","business");
+        return em;
+    }*/
 
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+
+     @Bean
+     public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
+          LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
+          factory.setPersistenceUnitName("movieverse");
+          return factory;
+     }
+
+/*
+    @PersistenceContext(unitName = "movieverse")
+    private EntityManager entityManager;
+
+
+    */
+
+    /*
+    @Bean
+    public LocalEntityManagerFactoryBean geEntityManagerFactoryBean() {
+       LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
+       factoryBean.setPersistenceUnitName("movieverse");
+       return factoryBean;
+    }
+    */
     @Autowired
     public RestHighLevelClient client;
 
@@ -52,40 +99,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-/*
-        Configuration configuration = new Configuration().configure();
 
-
-        // Extract the properties from the configuration file.
-		Properties prop = configuration.getProperties();
-
-		// Create StandardServiceRegistryBuilder using the properties.
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-		builder.applySettings(prop);
-
-		// Build a ServiceRegistry
-		ServiceRegistry registry = builder.build();
-
-		// Create the SessionFactory using the ServiceRegistry
-        SessionFactory SESSION_FACTORY = configuration.buildSessionFactory(registry);
-*/
-/*
-        SessionFactory factory = configuration.buildSessionFactory();
-		// 3. Retrieve a Session
-		Session session = factory.openSession();
-		// 4. Start a Transaction
-		Transaction tx = session.beginTransaction();
-		// 5. Check the status of the transaction and session
-		System.out.println("tx.isActive() => " + tx.isActive());
-		System.out.println("session.isConnected() => " + session.isConnected());
-		// 6. Commit the transaction
-		tx.commit();
-		System.out.println("tx.isActive() => " + tx.isActive());
-		// 7. Close the session
-		session.close();
-		// 8. Close the transaction
-        factory.close();
-*/
 
         //EntityManagerFactory entityManagerFactory = ;
 

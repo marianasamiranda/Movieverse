@@ -13,6 +13,9 @@
  */
 package data.entities;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class MUser {
 	public MUser() {
 	}
@@ -246,9 +249,14 @@ public class MUser {
 	}
 	
 	public java.util.Set getReceivedFriendships() {
+		//receivedFriendships = (Set) receivedFriendships.stream().filter(f -> ((Friendship) f).getPending() == true).collect(Collectors.toSet());
 		return receivedFriendships;
 	}
-	
+
+	public void removeReceivedFriendships(Friendship friendship) {
+		 receivedFriendships.remove(friendship);
+	}
+
 	
 	public void setUserCountry(Country value) {
 		this.userCountry = value;
@@ -278,8 +286,8 @@ public class MUser {
 	
 	public Badge[] getBadges() {
 		java.util.ArrayList lValues = new java.util.ArrayList(5);
-		for(java.util.Iterator lIter = achievements.iterator();lIter.hasNext();) {
-			lValues.add(((Achievement)lIter.next()).getBadge());
+		for (Object achievement : achievements) {
+			lValues.add(((Achievement) achievement).getBadge());
 		}
 		return (Badge[])lValues.toArray(new Badge[lValues.size()]);
 	}
@@ -397,8 +405,8 @@ public class MUser {
 	public java.util.Set getRequestedFriendships() {
 		return requestedFriendships;
 	}
-	
-	
+
+
 	public void setFriends(java.util.Set value) {
 		this.friends = value;
 	}
@@ -406,7 +414,12 @@ public class MUser {
 	public java.util.Set getFriends() {
 		return friends;
 	}
-	
+
+
+	public void addFriend(Friendship friend) {
+		friends.add(friend);
+		friendsCount++;
+	}
 	
 	public void setFavouriteGenre(Genre value) {
 		this.favouriteGenre = value;
