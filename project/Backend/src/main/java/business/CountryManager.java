@@ -12,7 +12,7 @@ public class CountryManager {
     private CountryDAO countryDAO;
 
     public  Country getCountryByCode(String code) {
-        return countryDAO.loadEntity("alphacode='" + code.toLowerCase() + "'", "id");
+        return countryDAO.loadEntity("alphacode='" + code.toUpperCase() + "'", "id");
 
     }
 }
