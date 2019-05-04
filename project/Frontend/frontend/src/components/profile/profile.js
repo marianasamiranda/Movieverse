@@ -67,7 +67,7 @@ export default class Profile extends Component {
     super(props)
 
     let user = undefined
-    if (!this.props.self && this.props.match) {
+    if (this.props.match) {
       user = this.props.match.params.username
     }
 
@@ -167,6 +167,7 @@ export default class Profile extends Component {
       this.handleAvatarModal()
     })
     .catch(x => { //TODO remove?
+      console.log(x.response.data)
       this.setState({
         newAvatarLoading: false,
       })
@@ -257,6 +258,9 @@ export default class Profile extends Component {
   checkReload() {
     if (this.props.match && this.props.match.params.username !== this.state.user) {
       this.getUserInfo(this.props.match.params.username)
+    }
+    else if (!this.props.match) {
+      this.getUserInfo()
     }
   }
 

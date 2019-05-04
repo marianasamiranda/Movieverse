@@ -1,7 +1,6 @@
 package business;
 
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -10,11 +9,8 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MovieManager {
@@ -24,7 +20,7 @@ public class MovieManager {
 
     public MovieManager() {}
 
-    public List search(String title, String sort, String genre) throws IOException {
+    public List search(String title, String sort, String genre) throws Exception {
         if (title.equals("") && sort == null && genre == null)
             return null;
 
