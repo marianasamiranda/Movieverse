@@ -5,7 +5,6 @@ import data.daos.MovieDAO;
 import data.entities.Genre;
 import data.entities.Movie;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -15,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +47,7 @@ public class MovieManager {
 
         Integer auxI = 0;
         String auxS = null;
+
         Map<String, Object> result = new HashMap<>();
         result.put("tmdb", m.getTmdb());
         result.put("name", m.getName());
@@ -81,7 +78,7 @@ public class MovieManager {
         return true;
     }
 
-    public List search(String title, String sort, String genre) throws IOException {
+    public List search(String title, String sort, String genre) throws Exception {
         if (title.equals("") && sort == null && genre == null)
             return null;
 

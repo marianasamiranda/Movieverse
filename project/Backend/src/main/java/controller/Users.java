@@ -124,4 +124,16 @@ public class Users {
             return Util.badRequest(e.getMessage());
         }
     }
+
+    @RequestMapping(method = GET, value = "/users-search")
+    public ResponseEntity<Object> search(@RequestHeader(value = "Authorization") String t,
+                                         @RequestParam(value = "name") String name) {
+        String token = t.split(" ")[1];
+        try {
+            return Util.ok(usersManager.search(token, name));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
 }

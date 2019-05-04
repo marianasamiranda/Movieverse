@@ -39,14 +39,14 @@ public class Movies {
     }
 
     @RequestMapping(method = GET, value = "/movie-search")
-    public ResponseEntity<Object> login(@RequestParam (value = "title") String title,
+    public ResponseEntity<Object> search(@RequestParam (value = "title") String title,
                                         @RequestParam (value = "sort", required = false) String sort,
                                         @RequestParam (value = "genre", required = false) String genre) {
 
         try {
             return Util.ok(movieManager.search(title, sort, genre));
         }
-        catch (IOException e) {
+        catch (Exception e) {
             return Util.badRequest("");
         }
     }

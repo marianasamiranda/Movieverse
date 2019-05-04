@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+import Flag from './flag';
 
 export default class MovieCard extends Component {
   render() {
@@ -10,6 +11,7 @@ export default class MovieCard extends Component {
         <div className="label">
           <p id="movie-name">{this.props.title}</p>
           <p id="movie-info" className="small muted">{this.props.info}</p>
+          {this.props.country ? <Flag country={this.props.country} /> : ""}
         </div>
       </div>
 

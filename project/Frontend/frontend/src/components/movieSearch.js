@@ -51,7 +51,7 @@ export default class MovieSearch extends Component {
 
     this.setState({
       title: e.target.value,
-      titleTimeout: setTimeout(x => this.search(), 300)
+      titleTimeout: setTimeout(x => this.search(), 200)
     })
   }
 
@@ -74,9 +74,7 @@ export default class MovieSearch extends Component {
   search() {
     let query = '?title=' + (this.state.title ? this.state.title : '')
     query += (this.state.genre ? '&genre=' + this.state.genre : '')
-    query += (this.state.sort ? '&sort=' + this.state.sort : '')
-    console.log(query);
-    
+    query += (this.state.sort ? '&sort=' + this.state.sort : '')    
 
     Axios.get(backend + '/movie-search' + query).then(x => {
       this.setState({
@@ -90,14 +88,14 @@ export default class MovieSearch extends Component {
     let to_render
 
     if (this.state.results) {
-      let results = []
+      let results = [], i = 0
       Object.entries(this.state.results).forEach(x => {
         results.push(
-          <Col lg="2" md="3" xs="4">
+          <Col lg="2" md="3" xs="4" key={i++}>
             <MovieCard small 
               img={'http://image.tmdb.org/t/p/w200/' + x[1].poster}
               title={x[1].name}
-              info={x[1].release === '9999-01.01' ? 'TBA' : x[1].release + ' (' + x[1].rating + ')'} 
+              info={x[1].release === '9999-01-01' ? 'TBA' : x[1].release + ' (' + x[1].rating + ')'} 
               id={x[1].id}
               />
           </Col>
@@ -202,7 +200,7 @@ export default class MovieSearch extends Component {
     }
 
     return (
-      <div>
+      <>
         <Jumbotron fluid>
           <Container className="text-center">
             <h1 className="jumbotron-text">Movie Search</h1>
@@ -254,7 +252,7 @@ export default class MovieSearch extends Component {
           </Container>
         </Jumbotron>
         {to_render}
-      </div> 
+      </> 
     )
   }
 }

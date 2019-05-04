@@ -5,6 +5,13 @@ import data.daos.MUserDAO;
 import data.entities.Friendship;
 import data.entities.Genre;
 import data.entities.MUser;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +41,9 @@ public class UsersManager {
 
     @Autowired
     private MUserDAO mUserDAO;
+
+    @Autowired
+    private RestHighLevelClient client;
 
     //time until token expires (minutes)
     private final int TOKENLIMIT = 10000;
@@ -136,6 +146,15 @@ public class UsersManager {
         m.setToken(Security.generateToken());
         //m.setTokenLimit(...);
         save(m);
+
+        //elasticsearch
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", username);
+        map.put("name", name);
+        map.put("country", country);
+        map.put("avatar", gender + ".svg");
+        IndexRequest request = new IndexRequest("movieverse_users").id(m.getId() + "").source(map);
+        client.index(request, RequestOptions.DEFAULT);
 
         return m.getToken();
     }
@@ -244,6 +263,13 @@ public class UsersManager {
 
         m.setAvatar(filename);
         mUserDAO.merge(m);
+
+        //elasticsearch
+        Map<String, Object> map = new HashMap<>();
+        map.put("avatar", filename);
+        UpdateRequest request = new UpdateRequest("movieverse_users", m.getId() + "").doc(map);
+        client.update(request, RequestOptions.DEFAULT);
+
         return filename;
     }
 
@@ -371,5 +397,36 @@ public class UsersManager {
             throw new Exception("No such user");
 
         friendshipDAO.removeEntity("sender=" + u.getId() + "and receiver= " +  target.getId());
+    }
+
+
+    public List search(String token, String name) throws Exception {
+        if (getUserByToken(token) == null)
+            throw new Exception("Wrong token");
+
+        if (name == null || name.equals(""))
+            return null;
+
+        var search = new SearchRequest("movieverse_users");
+        var builder = new SearchSourceBuilder();
+        var boolQuery = QueryBuilders.boolQuery();
+
+        for (var n: name.split("\\s+")) {
+            boolQuery.should(QueryBuilders.fuzzyQuery("username", n));
+            boolQuery.should(QueryBuilders.fuzzyQuery("name", n));
+        }
+
+        builder.query(boolQuery);
+        builder.size(30);
+        search.source(builder);
+        var response = client.search(search, RequestOptions.DEFAULT);
+
+        var result = new ArrayList<>();
+        for (var r: response.getHits()) {
+            var m = r.getSourceAsMap();
+            m.put("id", r.getId());
+            result.add(m);
+        }
+        return result;
     }
 }
