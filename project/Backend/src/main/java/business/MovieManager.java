@@ -1,5 +1,9 @@
 package business;
 
+import data.daos.GenreDAO;
+import data.daos.MovieDAO;
+import data.entities.Genre;
+import data.entities.Movie;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -11,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +29,57 @@ public class MovieManager {
     @Autowired
     private RestHighLevelClient client;
 
+    @Autowired
+    private MovieDAO movieDAO;
+
+    @Autowired
+    private GenreDAO genreDAO;
+
     public MovieManager() {}
+
+    public Map<String, Object> get(Integer id) throws Exception {
+        Movie m = movieDAO.loadEntity("tmdb=" + id);
+        double rating = 0;
+
+        try {
+            rating = (double) m.getRatingSum()/m.getRatingCount();
+            rating = Math.round(rating * 10) / 10.0;
+        }
+        catch (Exception e) {
+
+        }
+
+        Integer auxI = 0;
+        String auxS = null;
+        Map<String, Object> result = new HashMap<>();
+        result.put("tmdb", m.getTmdb());
+        result.put("name", m.getName());
+        result.put("poster", m.getPoster());
+        result.put("backdrop", m.getBackdrop());
+        result.put("plot", m.getPlot());
+        result.put("imdb", m.getImdb());
+        result.put("release", m.getRelease());
+        result.put("runtime", m.getRuntime());
+        result.put("rating", rating);
+        if ((auxI = m.getBudget()) != null) {
+            result.put("budget", auxI);
+        }
+        if ((auxS = m.getLanguage()) != null) {
+            result.put("language", auxS);
+        }
+        if ((auxS = m.getTagline()) != null) {
+            result.put("tagline", auxS);
+        }
+        return result;
+    }
+
+    public boolean addComment(Map<String, String> comment) throws IOException {
+        if (false) {
+            throw new IOException();
+        }
+        // TODO: quando tiver DAOs
+        return true;
+    }
 
     public List search(String title, String sort, String genre) throws IOException {
         if (title.equals("") && sort == null && genre == null)

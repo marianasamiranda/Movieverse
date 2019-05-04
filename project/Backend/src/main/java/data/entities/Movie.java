@@ -37,7 +37,7 @@ public class Movie {
 	
 	private int ratingCount;
 	
-	private int budget;
+	private Integer budget;
 	
 	private String language;
 	
@@ -143,11 +143,11 @@ public class Movie {
 		return ratingCount;
 	}
 	
-	public void setBudget(int value) {
+	public void setBudget(Integer value) {
 		this.budget = value;
 	}
 	
-	public int getBudget() {
+	public Integer getBudget() {
 		return budget;
 	}
 	

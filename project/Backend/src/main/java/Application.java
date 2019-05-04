@@ -1,3 +1,4 @@
+
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -23,7 +24,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"e   rdata.daos", "data.daos.impl", "controller","business"})
+@ComponentScan(basePackages = {"data.daos", "data.daos.impl", "controller","business"})
 //@ComponentScan({"controller","security.*"})
 //@EntityScan("security.domain")
 //@EnableJpaRepositories("security.repository")
@@ -64,14 +65,14 @@ public class Application {
     }
 
 
-     @Bean
-     public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
-          LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
-          factory.setPersistenceUnitName("movieverse");
-          return factory;
-     }
+    @Bean
+    public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
+        LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
+        factory.setPersistenceUnitName("movieverse");
+        return factory;
+    }
 
-/*
+ /*
     @PersistenceContext(unitName = "movieverse")
     private EntityManager entityManager;
 
