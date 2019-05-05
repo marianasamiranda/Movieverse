@@ -36,15 +36,15 @@ export default class MoviePage extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
-    const { movie_id } = this.props.match.params.id
 
-    return Axios.get(backend + '/movie/' + movie_id)
+    return Axios.get(backend + '/movie/' + this.props.match.params.id)
       .then(x => {
+        
         const movie_info = x.data;
         this.setState({ movie: movie_info });
       })
   }
-
+ 
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
   }
@@ -76,9 +76,9 @@ export default class MoviePage extends Component {
     if(this.state.windowSize < 768) {
       headerTitle = <div className="movie-title-div">
         <span>{this.state.movie.name} </span>
-        <span><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></span>
+        <span><a target="_blank" href={`http://www.imdb.com/ + ${this.state.movie.imdb}`}><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></a></span>
         <br />
-        <Image src={star} height="30vh" /> 4.1
+        <Image src={star} height="30vh" /> {this.state.movie.rating}
         <hr />
       </div>
     }
@@ -92,16 +92,18 @@ export default class MoviePage extends Component {
             <Image src={star} height="30vh" />
           </div>
           <div className="p-2">
-            4.1
+            {this.state.movie.rating}
           </div>
         </div>
     }
+    const poster = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + this.state.movie.poster
+    const backdrop = "https://image.tmdb.org/t/p/original/" + this.state.movie.backdrop
     return (
       <Container>
         <div className="movie-header">
-          <div className="backdrop" style={{'background': 'url(https://image.tmdb.org/t/p/original/l7iBeeotCkkJeT5NfGD3yZ6rvSs.jpg) no-repeat center center', 'backgroundSize': 'cover'}}></div>
+          <div className="backdrop" style={{'background': `url("${backdrop}") no-repeat center center`, 'backgroundSize': 'cover'}}></div>
           <div className="poster">
-            <Image src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/cwBq0onfmeilU5xgqNNjJAMPfpw.jpg" />
+            <Image src={poster} />
           </div>
           { headerTitle }
           <MovieEvaluation />
@@ -109,8 +111,9 @@ export default class MoviePage extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="movie-content col-lg-8 order-lg-1 order-sm-2 order-2">
+              {this.state.movie.tagline}
               <h1>Summary</h1>
-                <p>{this.state.movie.summary}</p>
+                <p>{this.state.movie.plot}</p>
               <h1>Top Billed Cast</h1>
               <Row>
                 <Col lg="3" md="3" xs="3">
@@ -146,9 +149,9 @@ export default class MoviePage extends Component {
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
                 <h6>Original Language</h6>
-                  <Language language="en" />
+                  <Language language={this.state.movie.language} />
                 <h6>Runtime</h6>
-                  <p>81m</p>
+                  <p>{this.state.movie.runtime}m</p>
                 <h6>Genres</h6>
                 <div className="movie-genre">
                   <ul>
