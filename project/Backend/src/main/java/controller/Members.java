@@ -3,10 +3,7 @@ package controller;
 import business.MemberManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -24,6 +21,16 @@ public class Members {
         }
         catch (Exception e) {
             return Util.badRequest("");
+        }
+    }
+
+    @RequestMapping(method = GET, value = "/member/{id}")
+    public ResponseEntity<Object> profile(@PathVariable(value = "id", required = true) int id) {
+        try {
+            return Util.ok(memberManager.memberInfo(id));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
         }
     }
 }

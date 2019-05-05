@@ -18,11 +18,8 @@ export default class Actor extends Component{
     }
 
     get_actor_info(id){
-
-        let query = "?id=" + id
-
     
-        return Axios.get(backend + '/member' + query).then(x => {
+        return Axios.get(backend + '/member/' + id).then(x => {
 
           console.log(x.data.biography)
           this.setState({
@@ -63,8 +60,8 @@ export default class Actor extends Component{
                     <div className="row">
                         <ActorAside
                             info = {actor_info}
-                            photo = {this.state.photo}
-                            // photo="http://placehold.it/228x337"
+                            photo = {this.state.image}
+                            //photo="http://placehold.it/228x337"
                         >
                         </ActorAside>
                         
