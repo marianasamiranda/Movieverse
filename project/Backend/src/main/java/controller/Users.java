@@ -26,6 +26,7 @@ public class Users {
             return Util.ok(usersManager.profileInfo(token, username));
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }
@@ -80,7 +81,7 @@ public class Users {
 
     @RequestMapping(method = POST, value = "/friend-request")
     public ResponseEntity<Object> friendRequest(@RequestHeader(value = "Authorization") String t,
-                                        @RequestBody Map body) {
+                                                @RequestBody Map body) {
         String token = t.split(" ")[1];
         String username = (String) body.get("username");
         try {
@@ -92,7 +93,7 @@ public class Users {
         }
     }
 
-    //Cancels a sent request
+    //Processes a friend request
     @RequestMapping(method = PUT, value = "/process-request")
     public ResponseEntity<Object> process(@RequestHeader(value = "Authorization") String t,
                                           @RequestBody Map body) {

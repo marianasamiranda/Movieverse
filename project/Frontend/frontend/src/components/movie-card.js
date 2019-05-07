@@ -23,7 +23,16 @@ export default class MovieCard extends Component {
       )
     }
 
-    return card
+    else if (this.props.user) {
+      return (
+        <Link to={'/u/' + this.props.title}>
+          {card}
+        </Link>
+      )
+    }
+
+    else
+      return card
   }
 }
 

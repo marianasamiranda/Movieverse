@@ -20,17 +20,6 @@ import Loading from '../aux_pages/loading'
 import NoAuthError from '../aux_pages/noAuthError'
 import NotFoundError from '../aux_pages/notFoundError'
 
-const friends = [
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') },
-  { username: 'username1', img:require( '../../img/girl.png') }
-]
-
 const movies = {
   recent: [
     {title: 'Movie Title', img:require('../../img/movie_card.png')},
@@ -92,7 +81,7 @@ export default class Profile extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.checkReload()
+    this.checkReload(prevProps)
   }
 
   getUserInfo(user) {
@@ -114,10 +103,13 @@ export default class Profile extends Component {
       let data = x.data
       data['avatarImg'] = avatars + data['avatar']
 
+      console.log(x.data['friends'])
+      
       this.setState({
         data: x.data,
         stats: stats,
         user: x.data['self'] ? undefined : user,
+        friends: x.data['friends'],
         isFriend: data['friendship']
       })
     })
@@ -128,6 +120,7 @@ export default class Profile extends Component {
         })
       }
       else {
+        console.log(x)
         this.setState({
           noUser: true
         })
@@ -255,11 +248,11 @@ export default class Profile extends Component {
   }
 
 
-  checkReload() {
+  checkReload(prevProps) {
     if (this.props.match && this.props.match.params.username !== this.state.user) {
       this.getUserInfo(this.props.match.params.username)
     }
-    else if (!this.props.match) {
+    else if (!this.props.match && prevProps.match) {
       this.getUserInfo()
     }
   }
@@ -338,7 +331,7 @@ export default class Profile extends Component {
               <MoviesCard movies={movies} />
             </Col>
             <Col xs="12" lg="3">
-              <FriendsCard friends={friends} />
+              <FriendsCard friends={this.state.friends} />
             </Col>
           </Row>
         </Container>
