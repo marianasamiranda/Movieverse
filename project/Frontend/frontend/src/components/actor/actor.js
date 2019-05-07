@@ -8,31 +8,38 @@ import ActorAside from './actor-aside'
 import ActorInfo from './actor-info'
 import {backend} from '../../var'
 import '../../styles/Actor.css'
+import Loading from '../aux_pages/loading'
 
 export default class Actor extends Component{
 
     constructor(props){
         super(props)
-        this.get_actor_info(props.id)
-        this.state = {}
+        this.state = {
+            id: props.id,
+            showLoader: true
+        }
+        this.get_actor_info.bind(this)
     }
 
-    get_actor_info(id){
-    
-        return Axios.get(backend + '/member/' + id).then(x => {
+    componentWillMount() { 
+        this.get_actor_info(this.props.id) 
+    };
 
-          console.log(x.data.biography)
+    async get_actor_info(id){
+
+        return await Axios.get(backend + '/member/' + id).then(x => {
+
           this.setState({
+            showLoader: false,
             biography: x.data.biography,
             birthdate: x.data.birthdate,
             birthplace: x.data.birthplace,
             gender: x.data.gender,
             image: x.data.image,
             imdb: x.data.imdb,
-            name: x.data.name
+            name: x.data.name,
+            movies: x.data.movies
           })
-          console.log(this.state)
-
         })
         .catch(x => {alert("WTFF")})
     }
@@ -55,61 +62,37 @@ export default class Actor extends Component{
         )
 
         return (
+
             <div>
-                <div className="container">
-                    <div className="row">
-                        <ActorAside
-                            info = {actor_info}
-                            photo = {this.state.image}
-                            //photo="http://placehold.it/228x337"
-                        >
-                        </ActorAside>
-                        
-                        <ActorMain
-                            // Para ecrâs pequenos
-                            // photo="http://placehold.it/228x337"
-                            // info = {actor_info}
-                            // // ======================
-                            // name="Tom Hanks"
-                            // imdb="https://www.imdb.com/name/nm0000158/"
-                            // biography="Thomas Jeffrey Hanks (born July 9, 1956) is an American actor, producer, writer and director. Hanks worked in television and family-friendly comedies, gaining wide notice in 1988's Big, before achieving success as a dramatic actor in several notable roles, including Andrew Beckett in Philadelphia, the title role in Forrest Gump, Commander James A. Lovell in Apollo 13, Captain John H. Miller in Saving Private Ryan, Joe Fox in You've Got Mail and Chuck Noland in Cast Away. Hanks won consecutive Best Actor Academy Awards, in 1993 for Philadelphia and in 1994 for Forrest Gump. U.S. domestic box office totals for his films exceed $3.9 billion."
-                            // films="?"
-                            
-                            info = {actor_info}
-                            photo = {this.state.photo}
-                            // ======================
-                            name={this.state.name}
-                            imdb={this.state.imdb}
-                            biography={this.state.biography}
-                            films={this.state.films}
-                        >
-                        </ActorMain>
-                    </div>
-                </div>
+                {
+                    this.state.showLoader ? 
+                        <Loading/>
+                    : (
+                        <div className="container">
+                            <div className="row">
+                                <ActorAside
+                                    info = {actor_info}
+                                    photo = {this.state.image}
+                                >
+                                </ActorAside>
+                                
+                                <ActorMain
+                                    info = {actor_info}
+                                    photo = {this.state.image}
+                                    // ======================
+                                    name={this.state.name}
+                                    imdb={this.state.imdb}
+                                    biography={this.state.biography}
+                                    movies={this.state.movies}
+                                    id={this.state.id}
+                                >
+                                </ActorMain>
+                            </div>
+                        </div>
+                    )
+                }
+                
             </div>
-            // <div>
-            //     <div className="container">
-            //         <div className="row">
-            //             <ActorAside
-            //                 info = {actor_info}
-            //                 photo="http://placehold.it/228x337"
-            //             >
-            //             </ActorAside>
-                        
-            //             <ActorMain
-            //                 // Para ecrâs pequenos
-            //                 photo="http://placehold.it/228x337"
-            //                 info = {actor_info}
-            //                 // ======================
-            //                 name="Tom Hanks"
-            //                 imdb="https://www.imdb.com/name/nm0000158/"
-            //                 biography="Thomas Jeffrey Hanks (born July 9, 1956) is an American actor, producer, writer and director. Hanks worked in television and family-friendly comedies, gaining wide notice in 1988's Big, before achieving success as a dramatic actor in several notable roles, including Andrew Beckett in Philadelphia, the title role in Forrest Gump, Commander James A. Lovell in Apollo 13, Captain John H. Miller in Saving Private Ryan, Joe Fox in You've Got Mail and Chuck Noland in Cast Away. Hanks won consecutive Best Actor Academy Awards, in 1993 for Philadelphia and in 1994 for Forrest Gump. U.S. domestic box office totals for his films exceed $3.9 billion."
-            //                 films="?"
-            //             >
-            //             </ActorMain>
-            //         </div>
-            //     </div>
-            // </div>
         )
     }
 }

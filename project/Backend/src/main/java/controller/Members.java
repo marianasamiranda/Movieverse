@@ -33,4 +33,14 @@ public class Members {
             return Util.badRequest(e.getMessage());
         }
     }
+
+    @RequestMapping(method = GET, value = "/member-movies/{id}/{page}")
+    public ResponseEntity<Object> memberMovies(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "page", required = true) int page) {
+        try {
+            return Util.ok(memberManager.memberMovies(id,page));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
 }
