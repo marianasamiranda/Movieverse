@@ -17,7 +17,7 @@ export default class MovieCard extends Component {
 
     if (this.props.id) {
       return (
-        <Link to={'/movie?id=' + this.props.id}>
+        <Link to={'/movie/' + this.props.id}>
           {card}
         </Link>
       )

@@ -102,8 +102,6 @@ export default class Profile extends Component {
       
       let data = x.data
       data['avatarImg'] = avatars + data['avatar']
-
-      console.log(x.data['friends'])
       
       this.setState({
         data: x.data,

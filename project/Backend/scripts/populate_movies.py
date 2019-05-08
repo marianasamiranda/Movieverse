@@ -11,6 +11,11 @@ with open('data/genres.json', encoding='utf8') as f:
 
 (conn, cursor) = db.open_sql()
 
+processed = set()
+cursor.execute('SELECT tmdb FROM Movie')
+for i in cursor.fetchall():
+    processed.add(i[0])
+
 people = set()
 cursor.execute('SELECT tmdb FROM MEMBER')
 for i in cursor.fetchall():
@@ -82,7 +87,6 @@ def populate_es(docs):
 
 
 docs = []
-processed = set()
 current = 0
 for line in file:
     if current % 1000 == 0:

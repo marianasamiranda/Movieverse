@@ -50,4 +50,14 @@ public class Movies {
             return Util.badRequest("");
         }
     }
+
+    @RequestMapping(method = GET, value = "/showtimes")
+    public ResponseEntity<Object> showtimes(@RequestParam (value = "theater") int theater) {
+        try {
+            return Util.ok(movieManager.showtimes(theater));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
 }

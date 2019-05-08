@@ -6,10 +6,14 @@ from elasticsearch import helpers
 (conn, cursor) = db.open_sql()
 
 file = open('data/people_processed.json', encoding='utf8')
+
 processed = set()
+cursor.execute('SELECT tmdb FROM Member')
+for i in cursor.fetchall():
+    processed.add(i[0])
+
 
 def populate_sql(person):
-    person['biography'] = 'bio'  # TODO apagar
     cursor.execute('''
         INSERT INTO Member (tmdb, name, image, birthdate, gender, imdb, biography, birthplace)
         VALUES (%(id)s,%(name)s,%(image)s,%(birthdate)s,%(gender)s,%(imdb)s,%(biography)s,%(birthplace)s)
@@ -39,16 +43,16 @@ for line in file:
         populate_sql(person)
         processed.add(person['id'])
 
-    #docs.append({
-    #    '_index': 'movieverse_people',
-    #    '_id': person['id'],
-    #    '_source': {
-    #        'name': person['name'],
-    #        'image': person['image']
-    #    }
-    #})
+        docs.append({
+            '_index': 'movieverse_people',
+            '_id': person['id'],
+            '_source': {
+                'name': person['name'],
+                'image': person['image']
+            }
+        })
 
 file.close()
 conn.commit()
 conn.close()
-#populate_es(docs)
+populate_es(docs)

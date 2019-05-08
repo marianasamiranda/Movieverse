@@ -2,6 +2,8 @@ package business;
 
 import data.daos.GenreDAO;
 import data.daos.MovieDAO;
+import data.daos.ShowtimeDAO;
+import data.daos.impl.ShowtimeDAOImpl;
 import data.entities.Genre;
 import data.entities.Movie;
 import org.elasticsearch.action.search.SearchRequest;
@@ -30,6 +32,9 @@ public class MovieManager {
 
     @Autowired
     private GenreDAO genreDAO;
+
+    @Autowired
+    private ShowtimeDAO showtimeDAO;
 
     public MovieManager() {}
 
@@ -119,5 +124,10 @@ public class MovieManager {
             result.add(m);
         }
         return result;
+    }
+
+
+    public List showtimes(int theater) {
+        return showtimeDAO.getShowtimes(theater);
     }
 }
