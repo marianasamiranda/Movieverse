@@ -5,5 +5,5 @@ import data.entities.Movie;
 
 public interface MovieDAO extends DAO<Integer, Movie> {
 
-
+    Movie loadEntityEager(String condition);
 }
