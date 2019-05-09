@@ -202,10 +202,10 @@ public class UsersManager {
             else { //TODO não buscar tudo à base de dados
                 if (Arrays.asList(u.getRequestedMusers()).stream()
                         .anyMatch(x -> x.getUsername().equals(username)))
-                    friendship = "requested";
+                    friendship = "received";
                 else if (Arrays.asList(u.getReceivedMusers()).stream()
                         .anyMatch(x -> x.getUsername().equals(username)))
-                    friendship = "received";
+                    friendship = "requested";
                 //TODO
                 //else if (Arrays.asList(u.getFriends()) ...)
                 //friendship = "friends"
@@ -240,11 +240,16 @@ public class UsersManager {
         //m.put("favouritesMovies", u.getMovies()) TODO
         //m.put("watchlist", u.getMovies()) TODO
         //m.put("recommended", u.getMovies()) TODO
-        //m.put("friends", u.getFriends()); TODO
-
+        m.put("friends", new ArrayList<>());
+        for (var f: u.getFriends()) {
+            MUser friend = ((Friendship) f).getRequestedMuser();
+            Map map = new HashMap<>();
+            map.put("username", friend.getUsername());
+            map.put("avatar", friend.getAvatar() != null ? friend.getAvatar() : friend.getGender() + ".svg");
+            ((List) m.get("friends")).add(map);
+        }
 
         return m;
-
     }
 
 

@@ -63,7 +63,7 @@ export default class FindPeople extends Component {
               title={x[1].username}
               country={x[1].country}
               info={x[1].name}
-              id={x[1].id}
+              user
             />
           </Col>
         )

@@ -31,7 +31,7 @@ public class Movie {
 	
 	private java.util.Date release;
 	
-	private int runtime;
+	private Integer runtime;
 	
 	private int ratingSum;
 	
@@ -119,11 +119,11 @@ public class Movie {
 		return release;
 	}
 	
-	public void setRuntime(int value) {
+	public void setRuntime(Integer value) {
 		this.runtime = value;
 	}
 	
-	public int getRuntime() {
+	public Integer getRuntime() {
 		return runtime;
 	}
 	

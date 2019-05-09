@@ -9,7 +9,12 @@ with open('data/countries.json') as file:
 (conn, cursor) = db.open_sql()
 
 for n,c in struct.items():
-    cursor.execute('INSERT INTO Country (alphacode, name) VALUES (%s,%s)', (n, c))
+    cursor.execute('''
+        INSERT INTO Country (alphacode, name) 
+        VALUES (%s,%s)
+        ON CONFLICT (name)
+        DO NOTHING    
+    ''', (n, c))
 
 conn.commit()
 cursor.close()

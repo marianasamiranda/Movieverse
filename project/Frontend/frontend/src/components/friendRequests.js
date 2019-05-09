@@ -40,6 +40,7 @@ export default class FriendRequests extends Component {
     })
   }
 
+  //accept or ignore received request
   handleReceivedRequest(u, d) {
     Axios.put(backend + '/process-request', {username: u, decision: d},
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
@@ -49,6 +50,7 @@ export default class FriendRequests extends Component {
       }).catch(x => console.log(x.response.data)) //TODO remove
   }
 
+  //cancel sent request
   handleSentRequest(u) {
     Axios.put(backend + '/cancel-request', { username: u },
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
