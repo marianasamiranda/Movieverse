@@ -434,4 +434,9 @@ public class UsersManager {
         }
         return result;
     }
+
+
+    public int estimatedCount() {
+        return mUserDAO.estimatedSize();
+    }
 }

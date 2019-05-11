@@ -88,6 +88,13 @@ public abstract class DAOImpl<K, E> implements DAO<K, E> {
 		query.executeUpdate();
     }
 
-
-
+	@Transactional(readOnly=true)
+	public int estimatedSize() {
+		Query query = entityManager.createNativeQuery(
+				"SELECT reltuples AS estimate " +
+				"FROM pg_class " +
+				"WHERE relname='" + entityClass.getSimpleName().toLowerCase() + "'"
+		);
+		return Math.round((float) query.getSingleResult());
+	}
 }

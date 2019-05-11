@@ -1,11 +1,7 @@
 package business;
 
-import data.daos.GenreDAO;
-import data.daos.MUserDAO;
-import data.daos.MovieDAO;
-import data.daos.UserMovieDAO;
+import data.daos.*;
 import data.entities.*;
-import data.daos.ShowtimeDAO;
 import data.daos.impl.ShowtimeDAOImpl;
 import data.entities.Genre;
 import data.entities.Movie;
@@ -43,6 +39,9 @@ public class MovieManager {
 
     @Autowired
     private ShowtimeDAO showtimeDAO;
+
+    @Autowired
+    private CommentDAO commentDAO;
 
     public MovieManager() {}
 
@@ -188,5 +187,17 @@ public class MovieManager {
 
     public List showtimes(int theater) {
         return showtimeDAO.getShowtimes(theater);
+    }
+
+    public int estimatedCount() {
+        return movieDAO.estimatedSize();
+    }
+
+    public int estimatedNumberOfComments() {
+        return commentDAO.estimatedSize();
+    }
+
+    public List latestMovies(int begin, int limit) {
+        return movieDAO.getLatestMovies(begin, limit);
     }
 }

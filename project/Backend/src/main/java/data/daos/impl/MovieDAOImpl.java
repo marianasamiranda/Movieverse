@@ -66,6 +66,31 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
         return res;
     }
 
+
+    public List getLatestMovies(int begin, int limit) {
+        Query query = entityManager.createNativeQuery(
+                "SELECT * " +
+                "FROM LatestMovies " +
+                "OFFSET ?1 " +
+                "LIMIT ?2"
+        ).setParameter(1, begin)
+         .setParameter(2, limit);
+
+        List<Object[]> l = query.getResultList();
+        List<Map> r = new ArrayList<>();
+
+        l.forEach(x -> {
+            Map m = new HashMap<>();
+            m.put("id", x[0]);
+            m.put("name", x[1]);
+            m.put("poster", x[2]);
+            m.put("date", x[3]);
+            r.add(m);
+        });
+
+        return r;
+    }
+
 }
 
 

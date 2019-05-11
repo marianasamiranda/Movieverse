@@ -9,5 +9,7 @@ import java.util.Map;
 public interface MovieDAO extends DAO<Integer, Movie> {
 
     Movie loadEntityEager(String condition);
-    public List<Map<String, Object>> getMemberMoviesFromTo(int memberId, int offset, int limit);
+    List<Map<String, Object>> getMemberMoviesFromTo(int memberId, int offset, int limit);
+    List getLatestMovies(int begin, int limit);
+
 }

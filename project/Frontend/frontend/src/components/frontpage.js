@@ -8,11 +8,55 @@ import MovieCard from './movie-card'
 import StatsItem from './stats-item'
 import logo from '../img/logo.png'
 import '../styles/FrontPage.css'
+import Axios from 'axios';
+import { backend } from '../var';
 
 export default class FrontPage extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: {
+        users: '',
+        movies: '',
+        members: '',
+        comments: '',
+        releases: [],
+        cards: undefined
+      }
+    }
+    this.getInfo()
+  }
+
+  getInfo() {
+    Axios.get(backend + '/frontpage').then(x => {
+      this.setState({
+        data: x.data
+      })
+      this.buildCards()
+    })
+  }
+
   componentDidMount() {
     document.title = "Movieverse"
+  }
+
+  buildCards() {
+    let l = []
+    this.state.data.releases.forEach(x => {
+      l.push(
+        <Col sm="3" xs="6" key={this.state.data.releases.indexOf(x)}>
+          <MovieCard 
+            img={'http://image.tmdb.org/t/p/w200/' + x.poster} 
+            title={x.name} 
+            info={x.date}
+            id={x.id} />
+        </Col>
+      )
+    })
+    this.setState({
+      cards: l
+    })
   }
 
   render() {
@@ -24,18 +68,7 @@ export default class FrontPage extends Component {
             NEW RELEASES
           </div>
           <Row>
-            <Col sm="3" xs="6">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-            <Col sm="3" xs="6">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-            <Col sm="3" xs="6">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
-            <Col sm="3" xs="6">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="(dd/mm/yyyy)" />
-            </Col>
+            {this.state.cards}
           </Row>
         </Container>
         <div className="bg-light-gray">
@@ -67,16 +100,16 @@ export default class FrontPage extends Component {
           </div>
           <Row>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/girl.png')} name="Users" number="123" />
+              <StatsItem img={require('../img/girl.png')} name="Users" number={this.state.data.users} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/watch.png')} name="Movies" number="20000" />
+              <StatsItem img={require('../img/watch.png')} name="Movies" number={this.state.data.movies} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/actor.png')} name="Actors" number="1000" />
+              <StatsItem img={require('../img/actor.png')} name="Members" number={this.state.data.members} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/time.png')} name="Hours" number="9623" />
+              <StatsItem img={require('../img/comments.png')} name="Comments" number={this.state.data.comments} />
             </Col>
           </Row>
         </Container>
