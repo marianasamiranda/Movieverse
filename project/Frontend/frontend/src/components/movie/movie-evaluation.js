@@ -8,16 +8,22 @@ import watchlistDisabled from '../../img/watchlist-disabled.png'
 import favourite from '../../img/favourite.png'
 import favouriteDisabled from '../../img/favourite-disabled.png'
 import '../../styles/MoviePage.css'
+import Axios from 'axios';
 
 export default class MovieEvaluation extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { watched: false, favourited: false, addedWatchlist: false };
+    this.state = { watched: this.props.watched,
+                   favourited: this.props.favourited,
+                   addedWatchlist: this.props.watchlist };
   }
 
   handleWatched() {
-    if (this.state.watched == false) {
+    if (this.state.watched == false & this.state.addedWatchlist == true) {
+      this.setState( { watched: true, addedWatchlist: false });
+    }
+    else if (this.state.watched == false) {
       this.setState( { watched: true });
     }
     else {
@@ -27,6 +33,12 @@ export default class MovieEvaluation extends Component {
 
   handleFavourited() {
     if (this.state.favourited == false) {
+      if(this.state.watched == false) {
+        this.setState( {watched: true} );
+      }
+      if(this.state.addedWatchlist == true) {
+        this.setState( { addedWatchlist: false })
+      }
       this.setState( { favourited: true });
     }
     else {
@@ -36,6 +48,12 @@ export default class MovieEvaluation extends Component {
 
   handleAddedWatchlist() {
     if (this.state.addedWatchlist == false) {
+      if(this.state.watched == true) {
+        this.setState( {watched: false} );
+      }
+      if(this.state.favourited == true) {
+        this.setState( { favourited: false })
+      }
       this.setState( { addedWatchlist: true });
     }
     else {

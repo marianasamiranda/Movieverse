@@ -11,6 +11,7 @@ import Axios from 'axios';
 import Loading from '../aux_pages/loading'
 import {backend} from '../../var'
 import Language from '../language'
+import { getToken } from '../../cookies'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/MoviePage.css'
 import HorizontalSlider from '../horizontal-slider';
@@ -21,7 +22,10 @@ export default class MoviePage extends Component {
     super(props);
     this.state = {
       windowSize: window.innerWidth,
-      movie: undefined
+      movie: undefined,
+      watched: undefined,
+      favourited: undefined,
+      watchlist: undefined
     };
   }
 
@@ -35,15 +39,27 @@ export default class MoviePage extends Component {
   };
 
   componentDidMount() {
+    
     window.addEventListener("resize", this.handleResize);
 
-    return Axios.get(backend + '/movie/' + this.props.match.params.id)
+    Axios.get(backend + '/movie/' + this.props.match.params.id)
       .then(x => {
+        const token = getToken()
         
         const movie_info = x.data;
-        this.setState({ movie: movie_info });
+
+        return Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
+          { headers: { Authorization: "Bearer " + token } })
+          .then(y => {
+            this.setState({
+              movie: movie_info,
+              watched: (y.data.watched && y.data.watched == true)  ? true : false,
+              favourited: (y.data.favourite && y.data.favourite == true) ? true : false,
+              watchlist: (y.data.watchlist && y.data.watchlist == true) ? true : false
+            })
+          })
       })
-  }
+    };
  
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
@@ -106,7 +122,7 @@ export default class MoviePage extends Component {
             <Image src={poster} />
           </div>
           { headerTitle }
-          <MovieEvaluation />
+          <MovieEvaluation watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} />
         </div>
         <div className="container-fluid">
           <div className="row">

@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
@@ -29,7 +27,7 @@ public class Movies {
         }
     }
 
-    @RequestMapping(method = POST, value = "/movie/{id}")
+    /*@RequestMapping(method = POST, value = "/movie/{id}")
     public ResponseEntity<Object> postComment(@RequestBody Map<String, String> comment) {
         try {
             return Util.ok(movieManager.addComment(comment));
@@ -37,59 +35,30 @@ public class Movies {
         catch(IOException e) {
             return Util.badRequest("");
         }
-    }
-
-    @RequestMapping(method = POST, value = "/movie/{id}/watched")
-    public ResponseEntity<Object> markWatched(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
-
-        try {
-            return Util.ok(movieManager.markWatched(t, Integer.parseInt(id)));
-        }
-        catch(IOException e) {
-            return Util.badRequest("");
-        }
-    }
-
-    @RequestMapping(method = DELETE, value = "/movie/{id}/watched")
-    public ResponseEntity<Object> removeWatched(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
-        try {
-            return Util.ok(movieManager.markUnwatched(t, Integer.parseInt(id)));
-        }
-        catch(IOException e) {
-            return Util.badRequest("");
-        }
-    }
-
-    @RequestMapping(method = POST, value = "/movie/{id}/rating/{value}")
-    public ResponseEntity<Object> postRating(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id, @PathVariable("value") String value) {
-        try {
-            return Util.ok(movieManager.rateMovie(t, Integer.parseInt(id), Integer.parseInt(value)));
-        }
-        catch(IOException e) {
-            return Util.badRequest("");
-        }
-    }
-
-    /*@RequestMapping(method = POST, value = "/movie/{id}/watchlist")
-    public ResponseEntity<Object> addToWatchlist(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
-        try {
-            return Util.ok(movieManager.markWatched(t, Integer.parseInt(id)));
-        }
-        catch(IOException e) {
-            return Util.badRequest("");
-        }
-    }
-
-    @RequestMapping(method = DELETE, value = "/movie/{id}/watchlist")
-    public ResponseEntity<Object> removeFromWatchlist(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
-        try {
-            return Util.ok(movieManager.markWatched(t, Integer.parseInt(id)));
-        }
-        catch(IOException e) {
-            return Util.badRequest("");
-        }
     }*/
 
+    @RequestMapping(method = GET, value = "/movie/{id}/me")
+    public ResponseEntity<Object> getMovieMeInfo(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
+
+        String token = t.split(" ")[1];
+
+        try {
+            return Util.ok(movieManager.getMovieMeInfo(token, Integer.parseInt(id)));
+        }
+        catch(IOException e) {
+            return Util.badRequest("");
+        }
+    }
+
+    @RequestMapping(method = PATCH, value = "/movie/{id}/me")
+    public ResponseEntity<Object> removeWatched(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
+        try {
+            return Util.ok(movieManager.patchMovieMeInfo(t, Integer.parseInt(id)));
+        }
+        catch(IOException e) {
+            return Util.badRequest("");
+        }
+    }
 
     @RequestMapping(method = GET, value = "/movie-search")
     public ResponseEntity<Object> search(@RequestParam (value = "title") String title,

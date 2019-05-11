@@ -46,6 +46,15 @@ public class MovieManager {
 
     public MovieManager() {}
 
+    public MUser getUserByToken(String token) {
+        try {
+            return mUserDAO.loadEntityInitalize("token='" + token + "'", "id");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
         double rating = 0;
@@ -97,50 +106,66 @@ public class MovieManager {
         return result;
     }
 
-    public boolean addComment(Map<String, String> comment) throws IOException {
+    /*public boolean addComment(Map<String, String> comment) throws IOException {
         if (false) {
             throw new IOException();
         }
         // TODO: quando tiver DAOs
         return true;
-    }
+    }*/
 
-    public boolean markWatched(String token, Integer movieId) throws IOException {
+    public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws IOException {
 
-        var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
-        var movie = movieDAO.loadEntity("tmdb=" + movieId);
+        System.out.println("ola1");
+        var user = getUserByToken(token);
+        System.out.println("ola2");
         var userMovie = new UserMovie();
-        var today = new Date();
-        today.setTime(0);
-        userMovie.setDateWatched(today);
+        System.out.println(token);
+        System.out.println(user == null);
 
-        userMovie.setmUser(user);
-        userMovie.setStatus(true);
-        userMovie.setMovie(movie);
+        try {
+            userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+        }
+        catch(Exception e) {
+            throw new IOException();
+        }
+        System.out.println("ola3");
 
-        userMovieDAO.persist(userMovie);
+        var result = new HashMap<>();
 
-        return true;
+        if(userMovie.getStatus()) {
+            result.put("watched", true);
+            result.put("dateWatched", userMovie.getDateWatched());
+            Integer r;
+            if((r = userMovie.getRating()) != null) {
+                result.put("isRated", true);
+                result.put("rating", r);
+            }
+            if(userMovie.getFavourite()) {
+                result.put("favourite", true);
+                result.put("dateFavourited", userMovie.getDateFavourite());
+            }
+        }
+        else {
+            result.put("watchlist", !userMovie.getStatus());
+        }
+
+        return result;
     }
 
-    public boolean markUnwatched(String token, Integer movieId) throws IOException {
+    public boolean patchMovieMeInfo(String token, Integer movieId) throws IOException {
+
         var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
-        var userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
-        userMovieDAO.remove(userMovie);
-        return true;
-    }
+        var userMovie = new UserMovie();
+        try {
+            userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+        }
+        catch(Exception ignored) {}
 
-    public boolean rateMovie(String token, Integer movieId, Integer rating) throws IOException {
-        var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
-        var movie = movieDAO.loadEntity("tmdb=" + movieId);
-        var userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
-
-        userMovie.setRating(rating);
-
-        userMovieDAO.merge(userMovie);
 
         return true;
     }
+
 
     public List search(String title, String sort, String genre) throws IOException {
         if (title.equals("") && sort == null && genre == null)
