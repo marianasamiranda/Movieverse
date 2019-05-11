@@ -25,4 +25,5 @@ public interface DAO<K, E> {
 
     void removeEntity(String condition);
 
+    int estimatedSize();
 }

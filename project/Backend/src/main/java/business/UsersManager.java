@@ -45,6 +45,9 @@ public class UsersManager {
     @Autowired
     private RestHighLevelClient client;
 
+    @Autowired
+    private Util util;
+
     //time until token expires (minutes)
     private final int TOKENLIMIT = 10000;
     private final Path AVATARLOCATION = Paths.get("../Frontend/frontend/avatar/");
@@ -140,8 +143,8 @@ public class UsersManager {
         m.setName(name);
         m.setPassword(Security.encode(password));
         m.setGender(gender);
-        m.setBirthDate(Util.localDateToDate(birthdate));
-        m.setJoinDate(Util.localDateToDate(LocalDate.now()));
+        m.setBirthDate(util.localDateToDate(birthdate));
+        m.setJoinDate(util.localDateToDate(LocalDate.now()));
         m.setUserCountry(countryManager.getCountryByCode(country));
         m.setToken(Security.generateToken());
         //m.setTokenLimit(...);
@@ -351,7 +354,7 @@ public class UsersManager {
         Friendship f = new Friendship();
         f.setRequestedMuser(u);
         f.setReceivedMuser(target);
-        f.setDate(Util.localDateToDate(LocalDate.now()));
+        f.setDate(util.localDateToDate(LocalDate.now()));
         f.setPending(true);
         save(f);
     }
@@ -378,7 +381,7 @@ public class UsersManager {
             friendship.setReceivedMuser(null);
             friendship.setRequestedMuser(null);
             friendship.setPending(false);
-            friendship.setDate(Util.localDateToDate(LocalDate.now()));
+            friendship.setDate(util.localDateToDate(LocalDate.now()));
 
             u.addFriend(friendship);
             target.addFriend(friendship);
@@ -433,5 +436,10 @@ public class UsersManager {
             result.add(m);
         }
         return result;
+    }
+
+
+    public int estimatedCount() {
+        return mUserDAO.estimatedSize();
     }
 }

@@ -87,4 +87,8 @@ public class MemberManager {
         List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, page * 8, 8);
         return moviesInfo;
     }
+
+    public int estimatedCount() {
+        return memberDAO.estimatedSize();
+    }
 }
