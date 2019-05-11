@@ -200,4 +200,12 @@ public class MovieManager {
     public List latestMovies(int begin, int limit) {
         return movieDAO.getLatestMovies(begin, limit);
     }
+
+    public Map movieSearchPage() {
+        Map m = new HashMap();
+        m.put("latest", movieDAO.getLatestMovies(0, 30));
+        m.put("popular", movieDAO.getPopularMovies(0, 30));
+        m.put("upcoming", movieDAO.getUpcomingMovies(0, 30));
+        return m;
+    }
 }

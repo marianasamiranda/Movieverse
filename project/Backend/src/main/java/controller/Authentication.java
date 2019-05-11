@@ -29,7 +29,6 @@ public class Authentication {
             return Util.ok(token);
         }
         catch (Exception e) {
-            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }
