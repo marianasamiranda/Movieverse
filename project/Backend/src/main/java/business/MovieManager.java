@@ -115,12 +115,8 @@ public class MovieManager {
 
     public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws IOException {
 
-        System.out.println("ola1");
         var user = getUserByToken(token);
-        System.out.println("ola2");
         var userMovie = new UserMovie();
-        System.out.println(token);
-        System.out.println(user == null);
 
         try {
             userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
@@ -128,7 +124,6 @@ public class MovieManager {
         catch(Exception e) {
             throw new IOException();
         }
-        System.out.println("ola3");
 
         var result = new HashMap<>();
 

@@ -4,6 +4,7 @@ import business.MovieManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,16 +28,6 @@ public class Movies {
         }
     }
 
-    /*@RequestMapping(method = POST, value = "/movie/{id}")
-    public ResponseEntity<Object> postComment(@RequestBody Map<String, String> comment) {
-        try {
-            return Util.ok(movieManager.addComment(comment));
-        }
-        catch(IOException e) {
-            return Util.badRequest("");
-        }
-    }*/
-
     @RequestMapping(method = GET, value = "/movie/{id}/me")
     public ResponseEntity<Object> getMovieMeInfo(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
 
@@ -51,7 +42,9 @@ public class Movies {
     }
 
     @RequestMapping(method = PATCH, value = "/movie/{id}/me")
-    public ResponseEntity<Object> removeWatched(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
+    public ResponseEntity<Object> patchMovieMeInfo(
+            @RequestHeader(value = "Authorization") String t,
+            @PathVariable("id") String id) {
         try {
             return Util.ok(movieManager.patchMovieMeInfo(t, Integer.parseInt(id)));
         }

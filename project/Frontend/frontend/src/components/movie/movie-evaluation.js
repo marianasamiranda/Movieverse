@@ -8,15 +8,20 @@ import watchlistDisabled from '../../img/watchlist-disabled.png'
 import favourite from '../../img/favourite.png'
 import favouriteDisabled from '../../img/favourite-disabled.png'
 import '../../styles/MoviePage.css'
+import { getToken } from '../../cookies'
+import { backend } from '../../var'
 import Axios from 'axios';
 
 export default class MovieEvaluation extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { watched: this.props.watched,
-                   favourited: this.props.favourited,
-                   addedWatchlist: this.props.watchlist };
+    this.state = {
+      movieId: this.props.id,
+      watched: this.props.watched,
+      favourited: this.props.favourited,
+      addedWatchlist: this.props.watchlist
+    };
   }
 
   handleWatched() {
@@ -27,6 +32,9 @@ export default class MovieEvaluation extends Component {
       this.setState( { watched: true });
     }
     else {
+      if (this.state.favourited == true) {
+        this.setState( { favourited: false } )
+      }
       this.setState( { watched: false }) ;
     }
   }
@@ -39,6 +47,7 @@ export default class MovieEvaluation extends Component {
       if(this.state.addedWatchlist == true) {
         this.setState( { addedWatchlist: false })
       }
+
       this.setState( { favourited: true });
     }
     else {

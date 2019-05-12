@@ -8,7 +8,7 @@ export default class HorizontalSlider extends Component {
 
     this.state = {
       content: this.props.content,
-      more_link: this.props.more
+      moreLink: this.props.more
     }
   }
 
@@ -23,7 +23,7 @@ export default class HorizontalSlider extends Component {
     return <div className="hcontainer">
       { content }
       <div className="hitem">
-        <a href={this.state.more_link} className="showMoreMedia vertical-align">
+        <a href={this.state.moreLink} className="showMoreMedia vertical-align">
           Show More&#160;<i className="fas fa-plus-circle"></i>
         </a>
       </div>

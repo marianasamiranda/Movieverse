@@ -9,7 +9,7 @@ import DiscussionBox from './discussion-box'
 import MovieEvaluation from './movie-evaluation'
 import Axios from 'axios';
 import Loading from '../aux_pages/loading'
-import {backend} from '../../var'
+import { backend } from '../../var'
 import Language from '../language'
 import { getToken } from '../../cookies'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -46,13 +46,13 @@ export default class MoviePage extends Component {
       .then(x => {
         const token = getToken()
         
-        const movie_info = x.data;
+        const movieInfo = x.data;
 
         return Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
           { headers: { Authorization: "Bearer " + token } })
           .then(y => {
             this.setState({
-              movie: movie_info,
+              movie: movieInfo,
               watched: (y.data.watched && y.data.watched == true)  ? true : false,
               favourited: (y.data.favourite && y.data.favourite == true) ? true : false,
               watchlist: (y.data.watchlist && y.data.watchlist == true) ? true : false
@@ -122,7 +122,7 @@ export default class MoviePage extends Component {
             <Image src={poster} />
           </div>
           { headerTitle }
-          <MovieEvaluation watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} />
+          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} />
         </div>
         <div className="container-fluid">
           <div className="row">
