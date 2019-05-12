@@ -160,7 +160,7 @@ export default class MovieSearch extends Component {
           {this.state.latestCurrent < 5 ?
             <Button variant="secondary" size="sm" className="button-slim"
               onClick={() => this.handleShowMore('latest')}>
-              {!this.state.recentLoading ? "Show more" : "Loading ..."}
+              Show more
             </Button>
           : ""}
         </Container>
@@ -174,7 +174,7 @@ export default class MovieSearch extends Component {
           {this.state.popularCurrent < 5 ?
             <Button variant="secondary" size="sm" className="button-slim"
               onClick={() => this.handleShowMore('popular')}>
-              {!this.state.popularLoading ? "Show more" : "Loading ..."}
+             Show more
             </Button>
           : ""}
         </Container>
@@ -188,7 +188,7 @@ export default class MovieSearch extends Component {
           {this.state.upcomingCurrent < 5 ?
             <Button variant="secondary" size="sm" className="button-slim" 
               onClick={() => this.handleShowMore('upcoming')}>
-              {!this.state.upcomingLoading ? "Show more" : "Loading ..."}
+              Show more
             </Button>
           : ""}
         </Container>

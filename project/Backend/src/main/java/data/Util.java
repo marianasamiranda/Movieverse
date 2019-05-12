@@ -49,6 +49,32 @@ public class Util {
             ")"
         ).executeUpdate();
 
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS BornToday " +
+            "AS (" +
+                "SELECT tmdb, name, image, DATE_PART('year', NOW()) - DATE_PART('year', birthdate) AS age, COUNT(tmdb) AS total " +
+                "FROM member " +
+                "JOIN moviemember ON memberid = tmdb " +
+                "WHERE TO_CHAR(birthdate, 'MM-DD') = TO_CHAR(NOW(), 'MM-DD') " +
+                    "AND image IS NOT NULL " +
+                "GROUP BY tmdb " +
+                "ORDER BY total DESC " +
+                "LIMIT 100" +
+            ")"
+        ).executeUpdate();
+
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS MostCredits " +
+            "AS (" +
+                "SELECT tmdb, name, image, COUNT(tmdb) AS total " +
+                "FROM member " +
+                "JOIN moviemember ON memberid = tmdb " +
+                "GROUP BY tmdb " +
+                "ORDER BY total DESC " +
+                "LIMIT 100" +
+            ")"
+        ).executeUpdate();
+
         entityManager.getTransaction().commit();
         entityManager.close();
     }

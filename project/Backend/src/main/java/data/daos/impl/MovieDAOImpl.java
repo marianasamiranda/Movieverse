@@ -72,10 +72,10 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
 
     public List getLatestMovies(int begin, int limit) {
         Query query = entityManager.createNativeQuery(
-                "SELECT * " +
-                "FROM LatestMovies " +
-                "OFFSET ?1 " +
-                "LIMIT ?2"
+            "SELECT * " +
+            "FROM LatestMovies " +
+            "OFFSET ?1 " +
+            "LIMIT ?2"
         ).setParameter(1, begin)
          .setParameter(2, limit);
 
@@ -86,10 +86,10 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
 
     public List getPopularMovies(int begin, int limit) {
         Query query = entityManager.createNativeQuery(
-                "SELECT * " +
-                "FROM PopularMovies " +
-                "OFFSET ?1 " +
-                "LIMIT ?2"
+            "SELECT * " +
+            "FROM PopularMovies " +
+            "OFFSET ?1 " +
+            "LIMIT ?2"
         ).setParameter(1, begin)
          .setParameter(2, limit);
 
@@ -105,7 +105,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
             "OFFSET ?1 " +
             "LIMIT ?2"
         ).setParameter(1, begin)
-                .setParameter(2, limit);
+         .setParameter(2, limit);
 
         List<Object[]> l = query.getResultList();
         return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));

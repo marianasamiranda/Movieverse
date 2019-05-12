@@ -179,6 +179,7 @@ public class MovieManager {
                 for (var g: genre.split(","))
                     boolQuery.must(QueryBuilders.matchQuery("genre", g));
             }
+            boolQuery.should(QueryBuilders.existsQuery("poster"));
             builder.query(boolQuery);
         }
 
@@ -192,6 +193,7 @@ public class MovieManager {
         }
 
         builder.size(30);
+        builder.minScore(1.001f);
         search.source(builder);
         var response = client.search(search, RequestOptions.DEFAULT);
 
