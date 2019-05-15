@@ -1,11 +1,13 @@
 package controller;
 
+import business.MovieManager;
 import business.UsersManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -16,6 +18,9 @@ public class Users {
 
     @Autowired
     UsersManager usersManager;
+
+    @Autowired
+    MovieManager movieManager;
 
     @RequestMapping(method = GET, value = "/profile")
     public ResponseEntity<Object> profile(@RequestHeader(value = "Authorization") String t,
@@ -28,6 +33,20 @@ public class Users {
         catch (Exception e) {
             e.printStackTrace();
             return Util.badRequest(e.getMessage());
+        }
+    }
+
+    @RequestMapping(method = GET, value = "/feed")
+    public ResponseEntity<Object> feed(@RequestHeader(value = "Authorization") String t,
+                                       @RequestParam(value = "username", required = false) String username) {
+        String token = t.split(" ")[1];
+
+        try {
+            return Util.ok(usersManager.feedInfo(token, username));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return Util.badRequest("");
         }
     }
 

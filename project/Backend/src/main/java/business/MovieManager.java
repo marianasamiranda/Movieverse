@@ -230,4 +230,8 @@ public class MovieManager {
         m.put("upcoming", movieDAO.getUpcomingMovies(0, 30));
         return m;
     }
+
+    public List randomUpcomingMovies(int limit) {
+        return movieDAO.getRandomUpcomingMovies(limit);
+    }
 }

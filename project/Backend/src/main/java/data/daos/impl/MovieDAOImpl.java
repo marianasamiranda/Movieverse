@@ -103,6 +103,17 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
         List<Object[]> l = query.getResultList();
         return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
     }
+
+    public List getRandomUpcomingMovies(int limit) {
+        Query query = entityManager.createNativeQuery(
+                "SELECT * " +
+                   "FROM UpcomingMovies " + "" +
+                   "OFFSET floor(random() * (select count(*) from upcomingmovies))"
+        ).setMaxResults(limit);
+
+        List<Object[]> l = query.getResultList();
+        return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
+    }
 }
 
 

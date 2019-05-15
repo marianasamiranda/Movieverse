@@ -13,5 +13,6 @@ public interface MovieDAO extends DAO<Integer, Movie> {
     List getLatestMovies(int begin, int limit);
     List getPopularMovies(int begin, int limit);
     List getUpcomingMovies(int begin, int limit);
+    List getRandomUpcomingMovies(int limit);
 
 }

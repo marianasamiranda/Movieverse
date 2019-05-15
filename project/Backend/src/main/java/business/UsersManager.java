@@ -34,6 +34,9 @@ public class UsersManager {
     private GenreManager genreManager;
 
     @Autowired
+    private MovieManager movieManager;
+
+    @Autowired
     private CountryManager countryManager;
 
     @Autowired
@@ -190,6 +193,21 @@ public class UsersManager {
         mUserDAO.merge(u);
     }
 
+
+    public Map feedInfo(String token, String username) throws Exception{
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+        boolean self = false;
+
+
+        Map<String, Object> m = new HashMap<>();
+        m.put("upcomingMovies", movieManager.randomUpcomingMovies(4));
+        m.put("self", self);
+
+        return m;
+    }
 
     //if username is null get token's owner's info
     public Map profileInfo(String token, String username) throws Exception {
@@ -442,4 +460,5 @@ public class UsersManager {
     public int estimatedCount() {
         return mUserDAO.estimatedSize();
     }
+
 }
