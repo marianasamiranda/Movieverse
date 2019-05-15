@@ -1,5 +1,6 @@
 package business;
 
+import data.daos.MediaDAO;
 import data.daos.MemberDAO;
 import data.daos.MovieDAO;
 import data.entities.MUser;
@@ -32,6 +33,9 @@ public class MemberManager {
     @Autowired
     private MovieDAO movieDAO;
 
+    @Autowired
+    private MediaDAO mediaDAO;
+
     public MemberManager() {}
 
     public Object memberInfo(int id) {
@@ -42,6 +46,8 @@ public class MemberManager {
         Member m = memberDAO.loadEntity("tmdb=" + id);
 
         List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, 0, 8);
+        List<Object> backdrops = mediaDAO.getMemberBackdrops(id);
+
 
         Map<String, Object> info = new HashMap<>();
         info.put("biography", m.getBiography());
@@ -52,6 +58,7 @@ public class MemberManager {
         info.put("imdb", "https://www.imdb.com/name/" + m.getImdb());
         info.put("name", m.getName());
         info.put("movies", moviesInfo);
+        info.put("backdrops", backdrops);
 
         return info;
 

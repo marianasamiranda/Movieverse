@@ -29,6 +29,13 @@ export default class Actor extends Component{
 
         return await Axios.get(backend + '/member/' + id).then(x => {
 
+          var backdrops = []  
+          x.data.backdrops.map(path => {
+            let shortImage = "https://image.tmdb.org/t/p/w200" + path
+            let largeImage = "https://image.tmdb.org/t/p/w500" + path
+            backdrops.push({"href": largeImage, "src": shortImage})
+          })
+
           this.setState({
             showLoader: false,
             biography: x.data.biography,
@@ -38,21 +45,16 @@ export default class Actor extends Component{
             image: x.data.image,
             imdb: x.data.imdb,
             name: x.data.name,
-            movies: x.data.movies
+            movies: x.data.movies,
+            backdrops: backdrops
           })
         })
-        .catch(x => {alert("WTFF")})
+        .catch(x => {alert("Erro")})
     }
 
     render(){
 
         let actor_info = (
-            // <ActorInfo
-            //     gender="M"
-            //     birthday="1956-07-09"
-            //     birthplace="Concord, California, USA"
-            // >
-            // </ActorInfo>
             <ActorInfo
                 gender={this.state.gender}
                 birthday={this.state.birthdate}
@@ -83,6 +85,7 @@ export default class Actor extends Component{
                                     name={this.state.name}
                                     imdb={this.state.imdb}
                                     biography={this.state.biography}
+                                    backdrops={this.state.backdrops}
                                     movies={this.state.movies}
                                     id={this.state.id}
                                 >

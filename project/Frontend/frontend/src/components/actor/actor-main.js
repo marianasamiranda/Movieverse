@@ -24,7 +24,8 @@ export default class ActorMain extends Component{
             photo: props.photo,
             biography: props.biography,
             info: props.info,
-            movies: props.movies
+            movies: props.movies,
+            backdrops: props.backdrops
         }
         this.loadItems.bind(this)
     }
@@ -60,13 +61,6 @@ export default class ActorMain extends Component{
     render(){
         const loader = <div className="loader">Loading ...</div>;
 
-        const backdrops = [
-            {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
-            {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
-            {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
-            {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"}
-        ]
-
         return (
         <div className="actor-main col-xs-12 col-md-8">
             <div>
@@ -99,7 +93,7 @@ export default class ActorMain extends Component{
                     Photo Gallery
                 </h4>
                 <hr className="section-divider light-gray"></hr>
-                <HorizontalSlider more="/media" content={backdrops}/>
+                <HorizontalSlider more="/media" content={this.state.backdrops} loadMore={false}/>
             </div>
             <div>
                 <h4 className="title-actor-18">
@@ -117,7 +111,7 @@ export default class ActorMain extends Component{
                                 this.state.movies.map(element => {
                                 return(
                                     <Col xs="6" sm="3" >
-                                        <MovieCard img={"https://image.tmdb.org/t/p/w200/" + element.poster} title={element.name} info={element.role}/>
+                                        <MovieCard img={"https://image.tmdb.org/t/p/w200/" + element.poster} title={element.name} info={element.role} class="max-height-100"/>
                                     </Col>)
                             })}
                         </Row>

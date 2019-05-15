@@ -22,15 +22,8 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
 
     @Transactional(readOnly=true)
     public List<Map<String, Object>> getMemberMoviesFromTo(int memberId, int offset, int limit){
-/*
-        Query query = entityManager.createQuery("SELECT m FROM Movie m join fetch m.movieMembers mm where mm.member.tmdb = " + memberId)
-                .setFirstResult(offset)
-                .setMaxResults(limit);
 
-        List<Movie> movies = query.getResultList();
-*/
-
-        Query query = entityManager.createNativeQuery("SELECT m.name, m.poster, mm.role FROM Movie m join MovieMember mm on (m.tmdb = mm.movieid) where mm.memberid = " + memberId)
+        Query query = entityManager.createNativeQuery("SELECT m.name, m.poster, mm.role FROM Movie m join MovieMember mm on (m.tmdb = mm.movieid) where mm.memberid = " + memberId + "order by m.tmdb")
                 .setFirstResult(offset)
                 .setMaxResults(limit);
 
