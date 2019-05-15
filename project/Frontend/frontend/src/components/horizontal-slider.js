@@ -16,12 +16,12 @@ export default class HorizontalSlider extends Component {
 
   render() {
     console.log(this.state.content)
-    var content = this.state.content.map((entry) => <div class="hitem">
+    var content = this.state.content.map((entry) => <div className="hitem">
       <a href={entry.href} target="_blank">
         <Image className="movieThumbnail" src={entry.src} />
       </a>
     </div>);
-    return <div class="hcontainer">
+    return <div className="hcontainer">
       { content }
       {
         this.state.loadMore ? (

@@ -1,7 +1,8 @@
 package business;
 
-import data.daos.GenreDAO;
-import data.daos.MovieDAO;
+import data.daos.*;
+import data.entities.*;
+import data.daos.impl.ShowtimeDAOImpl;
 import data.entities.Genre;
 import data.entities.Movie;
 import org.elasticsearch.action.search.SearchRequest;
@@ -14,10 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieManager {
@@ -29,12 +29,33 @@ public class MovieManager {
     private MovieDAO movieDAO;
 
     @Autowired
+    private UserMovieDAO userMovieDAO;
+
+    @Autowired
+    private MUserDAO mUserDAO;
+
+    @Autowired
     private GenreDAO genreDAO;
+
+    @Autowired
+    private ShowtimeDAO showtimeDAO;
+
+    @Autowired
+    private CommentDAO commentDAO;
 
     public MovieManager() {}
 
+    public MUser getUserByToken(String token) {
+        try {
+            return mUserDAO.loadEntityInitalize("token='" + token + "'", "id");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
     public Map<String, Object> get(Integer id) throws Exception {
-        Movie m = movieDAO.loadEntity("tmdb=" + id);
+        Movie m = movieDAO.loadEntityEager("tmdb=" + id);
         double rating = 0;
 
         try {
@@ -67,18 +88,80 @@ public class MovieManager {
         if ((auxS = m.getTagline()) != null) {
             result.put("tagline", auxS);
         }
+        var genres = new ArrayList<String>();
+        for(Object g : m.getGenres()) {
+            Genre genre = (Genre) g;
+            genres.add(genre.getName());
+        }
+        result.put("genres", genres);
+
+        var companies = new ArrayList<String>();
+        for(Object c : m.getCompanies()) {
+            Company company = (Company) c;
+            companies.add(company.getName());
+        }
+        result.put("companies", companies);
+
         return result;
     }
 
-    public boolean addComment(Map<String, String> comment) throws IOException {
+    /*public boolean addComment(Map<String, String> comment) throws IOException {
         if (false) {
             throw new IOException();
         }
         // TODO: quando tiver DAOs
         return true;
+    }*/
+
+    public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws IOException {
+
+        var user = getUserByToken(token);
+        var userMovie = new UserMovie();
+
+        try {
+            userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+        }
+        catch(Exception e) {
+            throw new IOException();
+        }
+
+        var result = new HashMap<>();
+
+        if(userMovie.getStatus()) {
+            result.put("watched", true);
+            result.put("dateWatched", userMovie.getDateWatched());
+            Integer r;
+            if((r = userMovie.getRating()) != null) {
+                result.put("isRated", true);
+                result.put("rating", r);
+            }
+            if(userMovie.getFavourite()) {
+                result.put("favourite", true);
+                result.put("dateFavourited", userMovie.getDateFavourite());
+            }
+        }
+        else {
+            result.put("watchlist", !userMovie.getStatus());
+        }
+
+        return result;
     }
 
-    public List search(String title, String sort, String genre) throws Exception {
+    public boolean patchMovieMeInfo(String token, Integer movieId) throws IOException {
+
+        var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
+        var userMovie = new UserMovie();
+        try {
+            userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+        }
+        catch(Exception ignored) {}
+
+
+        return true;
+    }
+
+
+    public List search(String title, String sort, String genre) throws IOException {
         if (title.equals("") && sort == null && genre == null)
             return null;
 
@@ -96,6 +179,7 @@ public class MovieManager {
                 for (var g: genre.split(","))
                     boolQuery.must(QueryBuilders.matchQuery("genre", g));
             }
+            boolQuery.should(QueryBuilders.existsQuery("poster"));
             builder.query(boolQuery);
         }
 
@@ -109,6 +193,7 @@ public class MovieManager {
         }
 
         builder.size(30);
+        builder.minScore(1.001f);
         search.source(builder);
         var response = client.search(search, RequestOptions.DEFAULT);
 
@@ -119,5 +204,30 @@ public class MovieManager {
             result.add(m);
         }
         return result;
+    }
+
+
+    public List showtimes(int theater) {
+        return showtimeDAO.getShowtimes(theater);
+    }
+
+    public int estimatedCount() {
+        return movieDAO.estimatedSize();
+    }
+
+    public int estimatedNumberOfComments() {
+        return commentDAO.estimatedSize();
+    }
+
+    public List latestMovies(int begin, int limit) {
+        return movieDAO.getLatestMovies(begin, limit);
+    }
+
+    public Map movieSearchPage() {
+        Map m = new HashMap();
+        m.put("latest", movieDAO.getLatestMovies(0, 30));
+        m.put("popular", movieDAO.getPopularMovies(0, 30));
+        m.put("upcoming", movieDAO.getUpcomingMovies(0, 30));
+        return m;
     }
 }

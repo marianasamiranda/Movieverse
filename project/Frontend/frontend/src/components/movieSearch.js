@@ -24,24 +24,29 @@ export default class MovieSearch extends Component {
   constructor(props) {
     super(props)
     this.state = ({
-      recentLoading: false,
-      popularLoading: false,
-      upcomingLoading: false,
       title: undefined,
       sort: undefined,
       genre: undefined,
       titleTimeout: 0,
-      results: undefined
+      results: undefined,
+      latest: [],
+      popular: [],
+      upcoming: [],
+      latestCurrent: 1,
+      popularCurrent: 1,
+      upcomingCurrent: 1
     })
 
     this.handleTitle = this.handleTitle.bind(this)
     this.handleSort = this.handleSort.bind(this)
     this.handleGenre = this.handleGenre.bind(this)
     this.search = this.search.bind(this)
+    this.handleShowMore = this.handleShowMore.bind(this)
   }
 
   componentDidMount() {
     document.title = "Movie Search | Movieverse"
+    this.getInfo()
   }
 
   handleTitle(e) {
@@ -71,6 +76,27 @@ export default class MovieSearch extends Component {
     }, () => this.search())
   }
 
+  handleShowMore(type) {
+    if (type === 'latest')
+      this.setState({ latestCurrent : this.state.latestCurrent + 1})
+
+    if (type === 'popular')
+      this.setState({ popularCurrent: this.state.popularCurrent + 1 })
+
+    if (type === 'upcoming')
+      this.setState({ upcomingCurrent: this.state.upcomingCurrent + 1 })
+  }
+
+  getInfo() {
+    Axios.get(backend + '/movie-search-page').then(x => {
+      this.setState({
+        latest: x.data.latest,
+        popular: x.data.popular,
+        upcoming: x.data.upcoming
+      })
+    })
+  }
+
   search() {
     let query = '?title=' + (this.state.title ? this.state.title : '')
     query += (this.state.genre ? '&genre=' + this.state.genre : '')
@@ -83,28 +109,40 @@ export default class MovieSearch extends Component {
     })
   }
 
-  render() {
+  buildCards(movies) {
+    let l = []
+    movies.forEach(x => {
+      let info
+      
+      if (x.release && x.rating)
+        info = x.release === '9999-01-01' ? 'TBA' : x.release + ' (' + x.rating + ')'
+      else if (x.release)
+        info = x.release
+      else
+        info = x.rating
+      
+      l.push(
+        <Col lg="2" md="3" xs="4" key={movies.indexOf(x)}>
+          <MovieCard small
+            img={'http://image.tmdb.org/t/p/w200/' + x.poster}
+            title={x.name}
+            info={info}
+            id={x.id}
+          />
+        </Col>
+      )
+    })
+    return l
+  }
 
+  render() {
     let to_render
 
     if (this.state.results) {
-      let results = [], i = 0
-      Object.entries(this.state.results).forEach(x => {
-        results.push(
-          <Col lg="2" md="3" xs="4" key={i++}>
-            <MovieCard small 
-              img={'http://image.tmdb.org/t/p/w200/' + x[1].poster}
-              title={x[1].name}
-              info={x[1].release === '9999-01-01' ? 'TBA' : x[1].release + ' (' + x[1].rating + ')'} 
-              id={x[1].id}
-              />
-          </Col>
-        )
-      })
       to_render =
         <Container className="container-padding">
           <Row>
-            {results}
+            {this.buildCards(this.state.results)}
           </Row>
         </Container>
     }
@@ -117,84 +155,42 @@ export default class MovieSearch extends Component {
             New Releases
           </div>
           <Row>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard small img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
+            {this.buildCards(this.state.latest.slice(0, this.state.latestCurrent * 6))}
           </Row>
-          <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.recentLoading}>
-            {!this.state.recentLoading ? "Show more" : "Loading ..."}
-          </Button>
+          {this.state.latestCurrent < 5 ?
+            <Button variant="secondary" size="sm" className="button-slim"
+              onClick={() => this.handleShowMore('latest')}>
+              Show more
+            </Button>
+          : ""}
         </Container>
         <Container className="container-padding">
           <div className="title-medium">
             Popular
           </div>
           <Row>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
+            {this.buildCards(this.state.popular.slice(0, this.state.popularCurrent * 6))}
           </Row>
-          <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.popularLoading}>
-            {!this.state.popularLoading ? "Show more" : "Loading ..."}
-          </Button>
+          {this.state.popularCurrent < 5 ?
+            <Button variant="secondary" size="sm" className="button-slim"
+              onClick={() => this.handleShowMore('popular')}>
+             Show more
+            </Button>
+          : ""}
         </Container>
         <Container className="container-padding">
           <div className="title-medium">
             Upcoming
           </div>
           <Row>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
-            <Col lg="2" md="3" xs="4">
-              <MovieCard img="http://placehold.it/228x337" title="Movie Title" info="* * * * *" />
-            </Col>
+            {this.buildCards(this.state.upcoming.slice(0, this.state.upcomingCurrent * 6))}
           </Row>
-          <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.upcomingLoading}>
-            {!this.state.upcomingLoading ? "Show more" : "Loading ..."}
-          </Button>
+          {this.state.upcomingCurrent < 5 ?
+            <Button variant="secondary" size="sm" className="button-slim" 
+              onClick={() => this.handleShowMore('upcoming')}>
+              Show more
+            </Button>
+          : ""}
         </Container>
         </>
     }

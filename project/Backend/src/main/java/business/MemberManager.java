@@ -74,9 +74,11 @@ public class MemberManager {
 
         for (var n: name.split("\\s+"))
             boolQuery.should(QueryBuilders.fuzzyQuery("name", n));
+        boolQuery.should(QueryBuilders.existsQuery("image"));
 
         builder.query(boolQuery);
         builder.size(30);
+        builder.minScore(1.001f);
         search.source(builder);
         var response = client.search(search, RequestOptions.DEFAULT);
 
@@ -93,5 +95,17 @@ public class MemberManager {
     public Object memberMovies(int id, int page) {
         List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, page * 8, 8);
         return moviesInfo;
+    }
+
+    public int estimatedCount() {
+        return memberDAO.estimatedSize();
+    }
+
+    public List bornToday(int begin, int limit) {
+        return memberDAO.bornToday(begin, limit);
+    }
+
+    public List mostCredits(int begin, int limit) {
+        return memberDAO.mostCredits(begin, limit);
     }
 }

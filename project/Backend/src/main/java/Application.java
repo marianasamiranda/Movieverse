@@ -1,4 +1,5 @@
 
+import data.Util;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -100,7 +101,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-
+        Util.createViews();
 
         //EntityManagerFactory entityManagerFactory = ;
 

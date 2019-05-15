@@ -14,18 +14,22 @@ export default class PeopleSearch extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      bornTodayLoading: false,
-      topLoading: false,
       name: undefined,
       nameTimeout: 0,
-      results: undefined
+      results: undefined,
+      bornToday: [],
+      mostCredits: [],
+      bornTodayCurrent: 1,
+      mostCreditsCurrent: 1
     }
     this.handleName = this.handleName.bind(this)
     this.search = this.search.bind(this)
+    this.handleShowMore = this.handleShowMore.bind(this)
   }
 
   componentDidMount() {
     document.title = "People Search | Movieverse"
+    this.getInfo()
   }
 
   handleName(e) {
@@ -37,6 +41,52 @@ export default class PeopleSearch extends Component {
       name: e.target.value,
       nameTimeout: setTimeout(x => this.search(), 300)
     })
+  }
+
+  handleShowMore(type) {
+    if (type === 'bornToday')
+      this.setState({
+        bornTodayCurrent: this.state.bornTodayCurrent + 1
+      })
+    
+    else
+      this.setState({
+        mostCreditsCurrent: this.state.mostCreditsCurrent + 1
+      })
+  }
+
+  getInfo() {
+    Axios.get(backend + '/people-search-page').then(x => {
+      this.setState({
+        bornToday: x.data.bornToday,
+        mostCredits: x.data.mostCredits
+      })
+    })
+  }
+
+  buildCards(people) {
+    let l = []
+    
+    people.forEach(x => {
+      let info
+      if (x.total)
+        info = x.total + ' credits'
+      else if (x.age)
+        info = x.age + ' years'
+
+      l.push(
+        <Col lg="2" md="3" xs="4" key={people.indexOf(x)}>
+          <MovieCard small
+            img={'http://image.tmdb.org/t/p/w200/' + x.image}
+            title={x.name}
+            member={x.id}
+            info={info}
+          />
+        </Col>
+      )
+    })
+
+    return l
   }
 
   search() {
@@ -52,22 +102,10 @@ export default class PeopleSearch extends Component {
     let to_render
 
     if (this.state.results) {
-      let results = [], i = 0
-      Object.entries(this.state.results).forEach(x => {
-        results.push(
-          <Col lg="2" md="3" xs="4" key={i++}>
-            <MovieCard small
-              img={'http://image.tmdb.org/t/p/w200/' + x[1].image}
-              title={x[1].name}
-              id={x[1].id}
-            />
-          </Col>
-        )
-      })
       to_render = 
         <Container className="container-padding">
           <Row>
-            {results}
+            {this.buildCards(this.state.results)}
           </Row>
         </Container>
     }
@@ -79,56 +117,28 @@ export default class PeopleSearch extends Component {
           Born today
           </div>
         <Row>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
+          {this.buildCards(this.state.bornToday.slice(0, this.state.bornTodayCurrent * 6))}
         </Row>
-        <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.bornTodayLoading}>
-          {!this.state.bornTodayLoading ? "Show more" : "Loading ..."}
-        </Button>
+        {this.state.bornTodayCurrent < 18 ?
+          <Button variant="secondary" size="sm" className="button-slim"
+            onClick={() => this.handleShowMore('bornToday')}>
+            Show more
+          </Button>
+          : ""}
       </Container>
       <Container className="container-padding">
         <div className="title-medium">
           People with most credits
           </div>
         <Row>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title="Name" info="xx years" />
-          </Col>
+          {this.buildCards(this.state.mostCredits.slice(0, this.state.mostCreditsCurrent * 6))}
         </Row>
-        <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.topLoading}>
-          {!this.state.topLoading ? "Show more" : "Loading ..."}
-        </Button>
+        {this.state.mostCreditsCurrent < 18 ?
+          <Button variant="secondary" size="sm" className="button-slim"
+            onClick={() => this.handleShowMore('mostCredits')}>
+            Show more
+          </Button>
+          : ""}
       </Container>
       </>
 

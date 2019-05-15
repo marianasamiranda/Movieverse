@@ -21,7 +21,7 @@ public class UserMovie {
 	
 	private boolean status;
 	
-	private int rating;
+	private Integer rating;
 	
 	private boolean favourite;
 	
@@ -55,11 +55,11 @@ public class UserMovie {
 		return status;
 	}
 	
-	public void setRating(int value) {
+	public void setRating(Integer value) {
 		this.rating = value;
 	}
 	
-	public int getRating() {
+	public Integer getRating() {
 		return rating;
 	}
 	
