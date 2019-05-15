@@ -18,13 +18,14 @@ export default class ActorMain extends Component{
         this.state = {
             id: props.id,
             currentPage: 0,
-            hasMoreItems: props.movies != [] ? true: false,
             name: props.name,
             imdb: props.imdb,
             photo: props.photo,
             biography: props.biography,
             info: props.info,
-            movies: props.movies,
+            moviesNotRendered: props.movies.slice(8),
+            moviesRendered: props.movies.slice(0,8),
+            moreMovies: props.moreMovies,
             backdrops: props.backdrops
         }
         this.loadItems.bind(this)
@@ -32,30 +33,41 @@ export default class ActorMain extends Component{
 
     loadItems(page) {
 
-        var url = backend + '/member-movies/' + this.state.id + "/";
+        if(this.state.moviesNotRendered.length > 8){
+            let nextMovies = this.state.moviesNotRendered.slice(0,8);
+            var movies = this.state.moviesRendered
+            nextMovies.map( (movie) => {
+                movies.push(movie)
+            } )
 
-        var nextPage = this.state.currentPage + 1
-        
-        Axios.get( url + nextPage).then(x => {
+            this.setState({
+                moviesRendered: movies,
+                moviesNotRendered: this.state.moviesNotRendered.slice(8)
+            })
 
-            var movies = this.state.movies;
+        }else{
+            var url = backend + '/member-movies/' + this.state.id + "/";
 
-            if (x.data.length > 0){
+            var nextPage = this.state.currentPage + 1
+            
+            Axios.get( url + nextPage).then(x => {
+    
+                var movies = this.state.moviesRendered;
+                var nextMovies = x.data.movies.slice(0,8)
 
-                x.data.map( (movie) => {
+
+                nextMovies.map( (movie) => {
                     movies.push(movie)
                 } )
                 
                 this.setState({
-                    movies: movies,
+                    moviesRendered: movies,
+                    moviesNotRendered: this.state.moviesNotRendered.concat(x.data.movies.slice(8)),
+                    moreMovies: x.data.moreMovies,
                     currentPage: nextPage
                 })
-            }else{
-                this.setState({
-                    hasMoreItems: false
-                })
-            }
-          });
+              });
+        } 
     }
 
     render(){
@@ -104,11 +116,11 @@ export default class ActorMain extends Component{
                     <InfiniteScroll
                         pageStart={0}
                         loadMore={this.loadItems.bind(this)}
-                        hasMore={this.state.hasMoreItems}
+                        hasMore={this.state.moreMovies}
                         loader={loader}>
                         <Row>
                             {
-                                this.state.movies.map(element => {
+                                this.state.moviesRendered.map(element => {
                                 return(
                                     <Col xs="6" sm="3" >
                                         <MovieCard img={"https://image.tmdb.org/t/p/w200/" + element.poster} title={element.name} info={element.role} class="max-height-100"/>

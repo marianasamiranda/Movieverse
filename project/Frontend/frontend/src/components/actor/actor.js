@@ -15,14 +15,14 @@ export default class Actor extends Component{
     constructor(props){
         super(props)
         this.state = {
-            id: props.id,
+            id: props.match.params.id,
             showLoader: true
         }
         this.get_actor_info.bind(this)
     }
 
     componentWillMount() { 
-        this.get_actor_info(this.props.id) 
+        this.get_actor_info(this.state.id) 
     };
 
     async get_actor_info(id){
@@ -46,6 +46,7 @@ export default class Actor extends Component{
             imdb: x.data.imdb,
             name: x.data.name,
             movies: x.data.movies,
+            moreMovies: x.data.moreMovies,
             backdrops: backdrops
           })
         })
@@ -87,6 +88,7 @@ export default class Actor extends Component{
                                     biography={this.state.biography}
                                     backdrops={this.state.backdrops}
                                     movies={this.state.movies}
+                                    moreMovies={this.state.moreMovies}
                                     id={this.state.id}
                                 >
                                 </ActorMain>

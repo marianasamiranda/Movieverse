@@ -45,7 +45,8 @@ public class MemberManager {
 
         Member m = memberDAO.loadEntity("tmdb=" + id);
 
-        List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, 0, 8);
+        List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, 0, 50);
+        boolean moreMovies = !(moviesInfo.size() < 50);
         List<Object> backdrops = mediaDAO.getMemberBackdrops(id);
 
 
@@ -59,6 +60,7 @@ public class MemberManager {
         info.put("name", m.getName());
         info.put("movies", moviesInfo);
         info.put("backdrops", backdrops);
+        info.put("moreMovies", moreMovies);
 
         return info;
 
@@ -93,8 +95,14 @@ public class MemberManager {
 
 
     public Object memberMovies(int id, int page) {
-        List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, page * 8, 8);
-        return moviesInfo;
+        List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, page * 50, 50);
+        boolean moreMovies = !(moviesInfo.size() < 50);
+
+        Map<String, Object> info = new HashMap<>();
+        info.put("movies", moviesInfo);
+        info.put("moreMovies", moreMovies);
+
+        return info;
     }
 
     public int estimatedCount() {
