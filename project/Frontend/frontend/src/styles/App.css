@@ -1,5 +1,6 @@
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .red {
@@ -47,11 +48,12 @@
 }
 
 .title {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 35pt;
   color: #333333;
   padding-bottom: 20pt;
 }
+
 @media (max-width: 575px) {
   .title {
     text-align: center;
@@ -59,22 +61,24 @@
 }
 
 .title-medium {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 24pt;
   color: #333333;
   padding-bottom: 20pt;
 }
+
 @media (max-width: 575px) {
   .title-medium {
     text-align: center;
   }
 }
 
-.padding-bottom, .container-padding-large, .container-padding {
+.padding-bottom, .container-padding, .container-padding-large {
   padding-bottom: 60pt;
 }
+
 @media (max-width: 766px) {
-  .padding-bottom, .container-padding-large, .container-padding {
+  .padding-bottom, .container-padding, .container-padding-large {
     padding-bottom: 30pt;
   }
 }
@@ -93,9 +97,14 @@
 }
 
 .left-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-content: center;
-  justify-content: space-between;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .margin-top-10 {
@@ -125,8 +134,12 @@
 }
 
 .align-contents-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 td, tr {
@@ -159,6 +172,7 @@ table td:last-child {
 .movie-card-container {
   margin-bottom: 30px;
 }
+
 .movie-card-container .label {
   font-family: "Roboto light", sans-serif;
   font-size: 16pt;
@@ -166,18 +180,22 @@ table td:last-child {
   line-height: 15pt;
   padding-top: 8pt;
 }
+
 .movie-card-container p {
   margin-bottom: 5px;
 }
+
 .movie-card-container .movie-card {
   max-width: 100%;
   height: auto;
 }
+
 @media (min-width: 766px) and (max-width: 990px) {
   .movie-card-container .label {
     font-size: 14pt;
   }
 }
+
 @media (max-width: 766px) {
   .movie-card-container {
     margin-right: -10px;
@@ -226,25 +244,44 @@ table td:last-child {
 }
 
 .vertical-align {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 100%;
 }
 
 .flex-align-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .vertical-align-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 100%;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -253,7 +290,8 @@ table td:last-child {
   border-radius: 10px;
   font-family: "Roboto light", sans-serif;
   font-size: 10pt;
-  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
 }
 
 .flag-icon {
@@ -272,9 +310,12 @@ table td:last-child {
   background-color: #e2463e !important;
   border: none !important;
 }
+
 .custom-button:focus {
-  box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
+          box-shadow: 0 0 0 0.2rem rgba(226, 70, 62, 0.5) !important;
 }
+
 .custom-button:hover {
   background-color: #b8231c !important;
 }
@@ -291,20 +332,25 @@ table td:last-child {
   font-size: 14pt;
   border-bottom: 0px solid #e2463e;
 }
+
 .tab-link.selected {
   color: #333333;
   border-bottom-width: 3px;
 }
+
 .tab-link.selected:hover {
   cursor: default;
 }
+
 .tab-link.not-selected {
   color: #999999;
 }
+
 .tab-link.not-selected:hover {
   border-bottom-width: 3px;
   border-bottom-color: rgba(226, 70, 62, 0.5);
-  transition: border 0.1s ease-out;
+  -webkit-transition: border .1s ease-out;
+  transition: border .1s ease-out;
   cursor: pointer;
 }
 
@@ -316,6 +362,7 @@ table td:last-child {
   padding-left: 15px;
   line-height: 25px;
 }
+
 .user-info-compact .avatar {
   width: 160%;
   border-radius: 50%;
@@ -327,10 +374,12 @@ table td:last-child {
   max-width: 65px;
   max-height: 65px;
 }
+
 .user-info-compact i {
   vertical-align: middle;
   color: #333333;
 }
+
 .user-info-compact button {
   margin-top: 15px;
   margin-bottom: 10px;
@@ -345,44 +394,60 @@ table td:last-child {
   color: #888888;
 }
 
+.bingmap {
+  margin-top: -50px;
+  margin-bottom: 50px;
+  height: 400px;
+}
+
 .navbar {
   background-color: #202020;
   padding: 0.3rem;
   padding-right: 0 !important;
 }
+
 .navbar .navbar-logo {
   max-width: 140px;
 }
+
 .navbar .navbar-logo img {
   width: 12%;
   min-width: 130px;
 }
+
 .navbar .navbar-logo img:hover {
   cursor: pointer;
 }
+
 .navbar .navbar-item {
   color: white;
   font-family: "Roboto", sans-serif;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#e2463e), to(#e2463e));
   background-image: linear-gradient(#e2463e, #e2463e);
   background-size: 0 2px, auto;
   background-repeat: no-repeat;
   background-position: center bottom;
   margin-top: 5px;
   margin-bottom: 5px;
-  transition: all 0.2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
 }
+
 .navbar .navbar-item:hover {
   cursor: pointer;
   background-size: 100% 2px, auto;
 }
+
 @media (min-width: 992px) {
   .navbar .navbar-item {
     margin-right: 20px;
   }
 }
+
 .navbar .navbar-item-selected {
   background-size: 100% 2px, auto;
 }
+
 .navbar .navbar-user {
   width: 2.7rem;
   margin-top: -10px;
@@ -391,12 +456,15 @@ table td:last-child {
   border-radius: 50%;
   background-color: #e9e9e9;
 }
+
 .navbar .navbar-user:hover {
   cursor: pointer;
 }
+
 .navbar .navbar-user .item {
   color: black;
 }
+
 @media (max-width: 991px) {
   .navbar .navbar-user {
     margin-top: 0px;
@@ -409,16 +477,18 @@ body {
 }
 
 .footer .footer-title {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 22pt;
   color: #f0f0f0;
   margin-top: 20pt;
 }
+
 .footer .footer-item {
   font-family: "Roboto light", sans-serif;
   font-size: 15pt;
   color: #f0f0f0;
 }
+
 .footer .footer-item-small {
   font-family: "Roboto light", sans-serif;
   font-size: 12pt;
@@ -452,5 +522,4 @@ body {
 .showMoreMedia:hover {
   color: #575757;
 }
-
 /*# sourceMappingURL=App.css.map */

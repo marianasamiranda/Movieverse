@@ -16,6 +16,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -30,6 +31,7 @@ import javax.persistence.PersistenceContext;
 //@EntityScan("security.domain")
 //@EnableJpaRepositories("security.repository")
 @EnableTransactionManagement
+@EnableScheduling
 public class Application {
 
 //    @Bean
@@ -100,8 +102,6 @@ public class Application {
 
 
     public static void main(String[] args) {
-
-        Util.createViews();
 
         //EntityManagerFactory entityManagerFactory = ;
 
