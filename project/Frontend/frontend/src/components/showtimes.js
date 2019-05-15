@@ -8,6 +8,7 @@ import Select from 'react-select'
 import Axios from 'axios'
 import {selectStyles, theaters, backend} from '../var'
 import Loading from './aux_pages/loading'
+import { ReactBingmaps } from 'react-bingmaps'
 
 const theaters_ = []
 Object.keys(theaters).forEach(x => theaters_.push({ value: x, label: x}))
@@ -40,7 +41,7 @@ export default class PeopleSearch extends Component {
     this.setState({
       loading: true
     })
-    const query = '?theater=' + theaters[t]
+    const query = '?theater=' + theaters[t].id
     Axios.get(backend + '/showtimes' + query).then(x => {
       this.setState({
         movies: x.data,
@@ -110,6 +111,19 @@ export default class PeopleSearch extends Component {
           <Row>
             {to_render}
           </Row>
+        </Container>
+        <Container className="bingmap">
+          <ReactBingmaps 
+            bingmapKey="AuvmdtQruFEHYwV4TzEgx3Of7HXtENaYE9V23iezTkG2gbesv1gCpjHc40o1DFHX" 
+            center={theaters[this.state.theater].coords}
+            infoboxesWithPushPins={[{ 
+              location: theaters[this.state.theater].coords,
+              "addHandler": "mouseover",
+              "infoboxOption": {title: undefined},
+              "pushPinOption":{title: this.state.theater}
+            }]}
+            zoom={15}
+            />
         </Container>
       </div>
     )

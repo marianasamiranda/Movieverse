@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import java.util.Arrays;
+import java.util.List;
 
 public class Util {
 
@@ -77,5 +79,21 @@ public class Util {
 
         entityManager.getTransaction().commit();
         entityManager.close();
+    }
+
+    @Transactional
+    public static void refreshViews() {
+        EntityManager entityManager = Persistence.createEntityManagerFactory("movieverse").createEntityManager();
+        entityManager.getTransaction().begin();
+
+        List<String> views = Arrays.asList(
+            "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies"
+        );
+
+        views.forEach(x -> entityManager.createNativeQuery("REFRESH MATERIALIZED VIEW " + x).executeUpdate());
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        System.out.println("views refreshed");
     }
 }
