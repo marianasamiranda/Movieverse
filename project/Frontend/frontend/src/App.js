@@ -80,7 +80,7 @@ class App extends Component {
               <Route exact path="/movie/:id" component={MoviePage} />
               {/*<Route exact path="/media/:id" component={MediaPage} />*/}
               <Route exact path="/u/:username" component={Profile} />
-              <Route exact path="/feed" component={Feed} />
+              <Route exact path="/feed" render={() => <Feed user="useruser1"/>} />
               <Route exact path="/member/:id" component={Actor} />
               <Route component={NotFoundError} />
             </Switch>

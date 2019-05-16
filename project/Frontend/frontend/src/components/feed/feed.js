@@ -6,6 +6,7 @@ import Main from './main'
 import Aside from './aside'
 import '../../styles/Feed.css'
 import Axios from 'axios'
+import Loading from '../aux_pages/loading'
 import {backend} from '../../var'
 
 export default class Feed extends Component {
@@ -13,12 +14,17 @@ export default class Feed extends Component {
     constructor(props){
       super(props)
       this.state = {
-        user: props.user,
+        user: props.user
       }
-      this.getFeedInfo(props.user)
+      this.getFeedInfo.bind(this)
     }
 
-    getFeedInfo(user) {
+    componentWillMount() { 
+      this.getFeedInfo(this.state.user) 
+    };
+
+    async getFeedInfo(user) {
+      console.log(user)
       const token = getToken()
       let query = ""
       if (user) {
@@ -55,17 +61,24 @@ export default class Feed extends Component {
           <NoAuthError />
         )
       }
-
+      else if (!this.state.upcomings) {
+        return (
+          <Loading />
+        )
+      }
+      console.log("HELP")
+      console.log(this.state.upcomings)
       return (
 
         <div>
             <Container className="flex">
-                <Main>
-
+                <Main
+                  user={this.state.user}
+                >
                 </Main>
-
+          
                 <Aside
-                    movies={this.state.upcomings}
+                  movies={this.state.upcomings}
                 >
                 </Aside>
             </Container>

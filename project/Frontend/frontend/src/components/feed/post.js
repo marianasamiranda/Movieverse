@@ -170,11 +170,18 @@ function PostBody(props){
 
 export default class Post extends Component {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      user: props.user
+    }
+  }
+
   render() {
     return (
       <div className="post-container">
           <PostHeader 
-            user="Daniel"
+            user={this.state.user}
             action="view" 
             movie="Toy Story 3"
             date="15/03/2019 - 03:53 PM"
