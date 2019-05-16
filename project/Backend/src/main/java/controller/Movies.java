@@ -42,11 +42,16 @@ public class Movies {
     }
 
     @RequestMapping(method = PATCH, value = "/movie/{id}/me")
+
     public ResponseEntity<Object> patchMovieMeInfo(
             @RequestHeader(value = "Authorization") String t,
-            @PathVariable("id") String id) {
+            @PathVariable("id") String id,
+            @RequestBody Map<String, Object> updates) {
+
+        String token = t.split(" ")[1];
+
         try {
-            return Util.ok(movieManager.patchMovieMeInfo(t, Integer.parseInt(id)));
+            return Util.ok(movieManager.patchMovieMeInfo(token, Integer.parseInt(id), updates));
         }
         catch(IOException e) {
             return Util.badRequest("");

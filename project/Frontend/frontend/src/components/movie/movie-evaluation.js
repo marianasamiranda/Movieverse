@@ -10,6 +10,7 @@ import favouriteDisabled from '../../img/favourite-disabled.png'
 import '../../styles/MoviePage.css'
 import { getToken } from '../../cookies'
 import { backend } from '../../var'
+import { getCurrentDate } from '../../utils'
 import Axios from 'axios';
 
 export default class MovieEvaluation extends Component {
@@ -27,16 +28,44 @@ export default class MovieEvaluation extends Component {
   handleWatched() {
     if (this.state.watched == false & this.state.addedWatchlist == true) {
       this.setState( { watched: true, addedWatchlist: false });
+      var f = {
+        'watched': true,
+        'watchlist': false,
+        'dateWatched': getCurrentDate()
+      }
     }
     else if (this.state.watched == false) {
       this.setState( { watched: true });
+      var f = {
+        'watched': true,
+        'dateWatched': getCurrentDate()
+      }
     }
     else {
       if (this.state.favourited == true) {
         this.setState( { favourited: false } )
+        var f = {
+          'watched': false,
+          'favourited': false
+        }
       }
-      this.setState( { watched: false }) ;
+      else {
+        this.setState( { watched: false });
+        var f = {
+          'watched': false
+        }
+      }
+
     }
+
+    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    f,
+    { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      console.log('saved successfully')}
+    ).catch((e) =>
+      console.log(e)
+    )
   }
 
   handleFavourited() {

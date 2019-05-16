@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -147,15 +149,42 @@ public class MovieManager {
         return result;
     }
 
-    public boolean patchMovieMeInfo(String token, Integer movieId) throws IOException {
+    public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
+
+        System.out.println(updates);
+        boolean update = false;
 
         var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
         var userMovie = new UserMovie();
         try {
             userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+            update = true;
         }
-        catch(Exception ignored) {}
+        catch(Exception e) {
+            userMovie.setMovie(movieDAO.findById(movieId));
+            userMovie.setmUser(user);
+        }
 
+        if(updates.containsKey("watched")) {
+            boolean watched = (boolean) updates.get("watched");
+
+            if(watched) {
+                var dateWatched = new Date();
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+                    dateWatched = sdf.parse((String) updates.get("dateWatched"));
+                }
+                catch(ParseException e) {
+                    e.printStackTrace();
+                }
+                userMovie.setStatus(true);
+                userMovie.setDateWatched(dateWatched);
+                userMovieDAO.persist(userMovie);
+            }
+            else {
+                userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+            }
+        }
 
         return true;
     }

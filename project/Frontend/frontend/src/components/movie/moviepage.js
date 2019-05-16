@@ -58,6 +58,14 @@ export default class MoviePage extends Component {
               watchlist: (y.data.watchlist && y.data.watchlist == true) ? true : false
             })
           })
+          .catch(e => {
+            this.setState({
+              movie: movieInfo,
+              watched: false,
+              favourited: false,
+              watchlist: false
+            })
+          })
       })
     };
  
@@ -108,7 +116,7 @@ export default class MoviePage extends Component {
             <Image src={star} height="30vh" />
           </div>
           <div className="p-2">
-            {this.state.movie.rating}
+            {this.state.movie.rating }
           </div>
         </div>
     }
@@ -171,9 +179,9 @@ export default class MoviePage extends Component {
                 <h6>Genres</h6>
                 <div className="movie-genre">
                   <ul>
-                    <li><a href="#">Animation</a></li>
-                    <li><a href="#">Comedy</a></li>
-                    <li><a href="#">Family</a></li>         
+                    { this.state.movie.genres.map((genre) =>
+                        <li><a href="#">{genre}</a></li>
+                    )}      
                   </ul>
                 </div>
                 <h6>Prod. Companies</h6>
