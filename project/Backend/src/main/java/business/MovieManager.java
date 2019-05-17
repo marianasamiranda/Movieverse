@@ -151,14 +151,11 @@ public class MovieManager {
 
     public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
 
-        System.out.println(updates);
-        boolean update = false;
-
         var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
         var userMovie = new UserMovie();
+
         try {
             userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
-            update = true;
         }
         catch(Exception e) {
             userMovie.setMovie(movieDAO.findById(movieId));
@@ -177,16 +174,74 @@ public class MovieManager {
                 catch(ParseException e) {
                     e.printStackTrace();
                 }
+                if(updates.containsKey("favourited")) {
+                    setFavourite(updates, userMovie);
+                }
                 userMovie.setStatus(true);
                 userMovie.setDateWatched(dateWatched);
-                userMovieDAO.persist(userMovie);
+
+                userMovieDAO.merge(userMovie);
+                userMovieDAO.flush();
+            }
+            else {
+                if(updates.containsKey("addedToWatchlist")) {
+                    userMovie.setStatus(false);
+                    userMovie.setDateWatched(null);
+                    userMovie.setFavourite(false);
+                    userMovie.setDateFavourite(null);
+
+                    userMovieDAO.merge(userMovie);
+                    userMovieDAO.flush();
+                }
+                else {
+                    userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+                }
+            }
+        }
+        else if(updates.containsKey("addedToWatchlist")) {
+            boolean addedToWatchlist = (boolean) updates.get("addedToWatchlist");
+
+            if(addedToWatchlist) {
+                userMovie.setStatus(false);
+
+                userMovieDAO.merge(userMovie);
+                userMovieDAO.flush();
             }
             else {
                 userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
             }
         }
+        else if(updates.containsKey("favourited")) {
+            boolean favourite = (boolean) updates.get("favourited");
+            if (favourite) {
+                setFavourite(updates, userMovie);
+
+                userMovieDAO.merge(userMovie);
+                userMovieDAO.flush();
+            }
+            else {
+                userMovie.setFavourite(false);
+                userMovie.setDateFavourite(null);
+
+                userMovieDAO.merge(userMovie);
+                userMovieDAO.flush();
+            }
+        }
 
         return true;
+    }
+
+    private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
+        var dateFavourited = new Date();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            dateFavourited = sdf.parse((String) updates.get("dateFavourited"));
+        }
+        catch(ParseException e) {
+            e.printStackTrace();
+        }
+        userMovie.setFavourite(true);
+        userMovie.setDateFavourite(dateFavourited);
     }
 
 

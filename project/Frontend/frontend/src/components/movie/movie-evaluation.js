@@ -43,7 +43,7 @@ export default class MovieEvaluation extends Component {
     }
     else {
       if (this.state.favourited == true) {
-        this.setState( { favourited: false } )
+        this.setState( { favourited: false, watched: false } )
         var f = {
           'watched': false,
           'favourited': false
@@ -55,7 +55,6 @@ export default class MovieEvaluation extends Component {
           'watched': false
         }
       }
-
     }
 
     Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
@@ -70,33 +69,74 @@ export default class MovieEvaluation extends Component {
 
   handleFavourited() {
     if (this.state.favourited == false) {
+      var f = {}
+      var date = getCurrentDate()
       if(this.state.watched == false) {
         this.setState( {watched: true} );
+        var f = {
+          watched: true,
+          dateWatched: date
+        }
       }
       if(this.state.addedWatchlist == true) {
         this.setState( { addedWatchlist: false })
+        var f = {
+          watched: true,
+          dateWatched: date,
+          addedToWatchlist: false
+        }
       }
 
       this.setState( { favourited: true });
+      f['favourited'] = true
+      f['dateFavourited'] = date
     }
     else {
-      this.setState( { favourited: false }) ;
+      this.setState( { favourited: false });
+      var f = {
+        favourited: false
+      }
     }
+
+    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    f,
+    { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      console.log('saved successfully')}
+    ).catch((e) =>
+      console.log(e)
+    )
   }
 
   handleAddedWatchlist() {
     if (this.state.addedWatchlist == false) {
+      var f = {}
       if(this.state.watched == true) {
-        this.setState( {watched: false} );
+        this.setState( { watched: false } )
+        f['watched'] = false
       }
       if(this.state.favourited == true) {
         this.setState( { favourited: false })
+        f['favourited'] = false
       }
+      f['addedToWatchlist'] = true
       this.setState( { addedWatchlist: true });
     }
     else {
       this.setState( { addedWatchlist: false }) ;
+      var f = {
+        addedToWatchlist: false,
+      }
     }
+
+    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    f,
+    { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      console.log('saved successfully')}
+    ).catch((e) =>
+      console.log(e)
+    )
   }
 
   render() {
