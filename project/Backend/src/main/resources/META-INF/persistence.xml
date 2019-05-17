@@ -3,8 +3,8 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
    <persistence-unit name="movieverse">
-	   <!-- <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-	    <mapping-file>ormmapping/data/movieverse/Achievement.hbm.xml</mapping-file>-->
+	    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+	    <mapping-file>ormmapping/data/movieverse/Achievement.hbm.xml</mapping-file>
 		<mapping-file>ormmapping/data/movieverse/Badge.hbm.xml</mapping-file>
 		<mapping-file>ormmapping/data/movieverse/Comment.hbm.xml</mapping-file>
 		<mapping-file>ormmapping/data/movieverse/Company.hbm.xml</mapping-file>
@@ -20,14 +20,18 @@
 		<mapping-file>ormmapping/data/movieverse/Showtime.hbm.xml</mapping-file>
 		<mapping-file>ormmapping/data/movieverse/Theater.hbm.xml</mapping-file>
 		<mapping-file>ormmapping/data/movieverse/UserMovie.hbm.xml</mapping-file>
+		<mapping-file>ormmapping/data/movieverse/News.hbm.xml</mapping-file>
 		<properties>
 		<!-- properties -->
 		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
 		<property name="hibernate.connection.driver_class"  value="org.postgresql.Driver"/>
 		<property name="hibernate.connection.url"  value="jdbc:postgresql://localhost:5432/movieverse"/>
-		<property name="hibernate.connection.username"  value="mariana"/>
-		<property name="hibernate.connection.password"  value="210697"/>
+		<property name="hibernate.connection.username"  value="postgres"/>
+		<property name="hibernate.connection.password"  value="postgres"/>
 		<property name="hibernate.connection.provider_class"  value="org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider"/>
+		<!--<property name="hibernate.cache.use_second_level_cache" value="true"/>
+		<property name="hibernate.cache.use_query_cache" value="true" />
+		<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>-->
 		<property name="hibernate.c3p0.acquire_increment"  value="1"/>
 		<property name="hibernate.c3p0.idle_test_period"  value="0"/>
 		<property name="hibernate.c3p0.min_size" value="1"/>

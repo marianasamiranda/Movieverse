@@ -10,6 +10,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import Select from 'react-select'
 import {genres, selectStyles, backend} from '../var'
 import Axios from 'axios'
+import queryString from 'query-string'
 
 const sort = [
   {value: 'dateAsc', label: 'Date (Ascending)'},
@@ -19,14 +20,13 @@ const sort = [
 
 const genres_ = Object.keys(genres).map(x => genres[x])
 
-
 export default class MovieSearch extends Component {
   constructor(props) {
     super(props)
     this.state = ({
       title: undefined,
       sort: undefined,
-      genre: undefined,
+      genres: undefined,
       titleTimeout: 0,
       results: undefined,
       latest: [],
@@ -47,6 +47,10 @@ export default class MovieSearch extends Component {
   componentDidMount() {
     document.title = "Movie Search | Movieverse"
     this.getInfo()
+    const q = queryString.parse(this.props.location.search)
+    if (q.genre) {
+      this.handleGenre([{value: q.genre}])
+    }
   }
 
   handleTitle(e) {
@@ -69,10 +73,11 @@ export default class MovieSearch extends Component {
 
   handleGenre(o) {
     clearTimeout(this.state.titleTimeout)
-    let g = ''
-    o.forEach(x => g += x.value + ',')
+    let g = []
+    o.forEach(x => g.push(x.value))
+    
     this.setState({
-      genre: g,
+      genres: g,
     }, () => this.search())
   }
 
@@ -99,7 +104,7 @@ export default class MovieSearch extends Component {
 
   search() {
     let query = '?title=' + (this.state.title ? this.state.title : '')
-    query += (this.state.genre ? '&genre=' + this.state.genre : '')
+    query += (this.state.genres ? '&genre=' + this.state.genres.join() : '')
     query += (this.state.sort ? '&sort=' + this.state.sort : '')    
 
     Axios.get(backend + '/movie-search' + query).then(x => {
@@ -107,6 +112,7 @@ export default class MovieSearch extends Component {
         results: x.data
       })      
     })
+    
   }
 
   buildCards(movies) {
@@ -136,6 +142,7 @@ export default class MovieSearch extends Component {
   }
 
   render() {
+    
     let to_render
 
     if (this.state.results) {
@@ -225,6 +232,9 @@ export default class MovieSearch extends Component {
                   isSearchable
                   isClearable
                   isMulti
+                  value={this.state.genres ? 
+                    genres_.filter(x => this.state.genres.includes(x.value))
+                    : ""}
                   options={genres_}
                   styles={selectStyles}
                   onChange={this.handleGenre}

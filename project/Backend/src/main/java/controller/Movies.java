@@ -66,6 +66,7 @@ public class Movies {
             return Util.ok(movieManager.search(title, sort, genre));
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest("");
         }
     }

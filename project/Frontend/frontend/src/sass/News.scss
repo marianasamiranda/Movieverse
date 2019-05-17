@@ -1,0 +1,46 @@
+@import 'Variables';
+
+
+.news-card {
+    font-family: $font-stack;
+    width: 350px;
+    text-decoration: none !important;
+    color: #333333;
+    text-align: center;
+    align-self: center;
+    margin-bottom: 20px;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+
+    .card-title {
+        font-family: $font-title;
+        margin-bottom: 15px;
+    }
+
+    @media(max-width: 1200px) {
+        width: 300px;
+    }
+
+    @media(max-width: 991px) {
+        width: 350px;
+    }
+
+    @media(max-width: 375px) {
+        width: 240px;
+    }
+}
+
+.news-container {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.masonry {
+  margin: 0 auto;
+}
+
+.centerBlock {
+  display: table;
+  margin: auto;
+}

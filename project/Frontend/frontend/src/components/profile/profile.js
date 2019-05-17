@@ -154,6 +154,7 @@ export default class Profile extends Component {
         data: data,
         newAvatarLoading: false,
       })
+      
       this.props.setAvatar(data['avatarImg'])
       this.handleAvatarModal()
     })

@@ -295,7 +295,6 @@ public class UsersManager {
         map.put("avatar", filename);
         UpdateRequest request = new UpdateRequest("movieverse_users", m.getId() + "").doc(map);
         client.update(request, RequestOptions.DEFAULT);
-
         return filename;
     }
 

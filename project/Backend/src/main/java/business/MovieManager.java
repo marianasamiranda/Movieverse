@@ -277,7 +277,10 @@ public class MovieManager {
         }
 
         builder.size(30);
-        builder.minScore(1.001f);
+        if (genre.split(",").length != 1)
+            builder.minScore(1.001f);
+        System.out.println(builder.toString());
+
         search.source(builder);
         var response = client.search(search, RequestOptions.DEFAULT);
 

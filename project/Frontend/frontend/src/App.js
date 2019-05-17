@@ -10,13 +10,13 @@ import MovieSearch from './components/movieSearch'
 import PeopleSearch from './components/peopleSearch'
 import FindUsers from './components/findUsers'
 import Showtimes from './components/showtimes'
-import Axios from 'axios'
 import Profile from './components/profile/profile'
 import {BrowserRouter as Router, Route, withRouter, Switch} from 'react-router-dom/'
 import {getToken} from './cookies'
 
 import './styles/App.css';
 import NotFoundError from './components/aux_pages/notFoundError';
+import NewsPage from './components/newsPage';
 
 class App extends Component {
   constructor(props) {
@@ -50,12 +50,13 @@ class App extends Component {
 
   render() {
     let navBarLinks = [
-      { name: 'Discover Movies', url: '/movies', logged: false },
+      { name: 'News', url: '/news', logged: false },
+      { name: 'Movies', url: '/movies', logged: false },
       { name: 'Now Playing', url: '/showtimes', logged: false },
-      { name: 'Search People', url: '/people', logged: false },
+      { name: 'People', url: '/people', logged: false },
       // { name: 'Feed', url: '/feed', logged: false },
       // { name: 'Actor', url: '/actor', logged: false },
-      { name: 'Find Users', url: '/users', logged: true },
+      { name: 'Users', url: '/users', logged: true },
     ]
 
     let mainPage
@@ -72,6 +73,7 @@ class App extends Component {
         <main>
             <Switch>
               {mainPage}
+              <Route exact path="/news" component={NewsPage} />
               <Route exact path="/movies" component={MovieSearch} />
               <Route exact path="/showtimes" component={Showtimes} />
               <Route exact path="/people" component={PeopleSearch} />

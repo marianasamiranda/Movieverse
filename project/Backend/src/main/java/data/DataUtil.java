@@ -1,21 +1,22 @@
 package data;
 
-
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
 
-public class Util {
+@Service
+public class DataUtil {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional
-    public static void createViews() {
-        EntityManager entityManager =
-                Persistence.createEntityManagerFactory("movieverse").createEntityManager();
-        entityManager.getTransaction().begin();
-
+    public void createViews() {
         entityManager.createNativeQuery(
             "CREATE MATERIALIZED VIEW IF NOT EXISTS LatestMovies " +
             "AS (" +
@@ -76,24 +77,17 @@ public class Util {
                 "LIMIT 100" +
             ")"
         ).executeUpdate();
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
     }
 
     @Transactional
-    public static void refreshViews() {
-        EntityManager entityManager = Persistence.createEntityManagerFactory("movieverse").createEntityManager();
-        entityManager.getTransaction().begin();
-
+    public void refreshViews(boolean startUp) {
         List<String> views = Arrays.asList(
             "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies"
         );
 
         views.forEach(x -> entityManager.createNativeQuery("REFRESH MATERIALIZED VIEW " + x).executeUpdate());
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        System.out.println("views refreshed");
+        if (startUp)
+            entityManager.close();
     }
 }
