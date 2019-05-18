@@ -9,7 +9,7 @@ import favourite from '../../img/favourite.png'
 import favouriteDisabled from '../../img/favourite-disabled.png'
 import '../../styles/MoviePage.css'
 import { getToken } from '../../cookies'
-import { backend } from '../../var'
+import { backend, labels } from '../../var'
 import { getCurrentDate } from '../../utils'
 import Axios from 'axios';
 
@@ -26,32 +26,33 @@ export default class MovieEvaluation extends Component {
   }
 
   handleWatched() {
-    if (this.state.watched == false & this.state.addedWatchlist == true) {
+    var f = {}
+    if (this.state.watched === false & this.state.addedWatchlist === true) {
       this.setState( { watched: true, addedWatchlist: false });
-      var f = {
+      f = {
         'watched': true,
         'watchlist': false,
         'dateWatched': getCurrentDate()
       }
     }
-    else if (this.state.watched == false) {
+    else if (this.state.watched === false) {
       this.setState( { watched: true });
-      var f = {
+      f = {
         'watched': true,
         'dateWatched': getCurrentDate()
       }
     }
     else {
-      if (this.state.favourited == true) {
+      if (this.state.favourited === true) {
         this.setState( { favourited: false, watched: false } )
-        var f = {
+        f = {
           'watched': false,
           'favourited': false
         }
       }
       else {
         this.setState( { watched: false });
-        var f = {
+        f = {
           'watched': false
         }
       }
@@ -68,19 +69,19 @@ export default class MovieEvaluation extends Component {
   }
 
   handleFavourited() {
-    if (this.state.favourited == false) {
-      var f = {}
+    var f = {}
+    if (this.state.favourited === false) {
       var date = getCurrentDate()
-      if(this.state.watched == false) {
+      if(this.state.watched === false) {
         this.setState( {watched: true} );
-        var f = {
+        f = {
           watched: true,
           dateWatched: date
         }
       }
-      if(this.state.addedWatchlist == true) {
+      if(this.state.addedWatchlist === true) {
         this.setState( { addedWatchlist: false })
-        var f = {
+        f = {
           watched: true,
           dateWatched: date,
           addedToWatchlist: false
@@ -93,7 +94,7 @@ export default class MovieEvaluation extends Component {
     }
     else {
       this.setState( { favourited: false });
-      var f = {
+      f = {
         favourited: false
       }
     }
@@ -109,13 +110,13 @@ export default class MovieEvaluation extends Component {
   }
 
   handleAddedWatchlist() {
-    if (this.state.addedWatchlist == false) {
-      var f = {}
-      if(this.state.watched == true) {
+    var f = {}
+    if (this.state.addedWatchlist === false) {
+      if(this.state.watched === true) {
         this.setState( { watched: false } )
         f['watched'] = false
       }
-      if(this.state.favourited == true) {
+      if(this.state.favourited === true) {
         this.setState( { favourited: false })
         f['favourited'] = false
       }
@@ -124,7 +125,7 @@ export default class MovieEvaluation extends Component {
     }
     else {
       this.setState( { addedWatchlist: false }) ;
-      var f = {
+      f = {
         addedToWatchlist: false,
       }
     }
@@ -144,7 +145,7 @@ export default class MovieEvaluation extends Component {
     let favouritedMovie;
     let addedWatchlist;
     
-    if(this.state.watched == true) {
+    if(this.state.watched === true) {
         watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
           <Image src={ watched } width="30em" style={{ 'marginRight': '0.5em'}} />
           Watched!
@@ -157,7 +158,7 @@ export default class MovieEvaluation extends Component {
       </td>
     }
     
-    if(this.state.favourited == true) {
+    if(this.state.favourited === true) {
       favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favourite } width="30em" style={{ 'marginRight': '0.5em'}} />
         Added to favourites!
@@ -170,7 +171,7 @@ export default class MovieEvaluation extends Component {
       </td>
     }
 
-    if(this.state.addedWatchlist == true) {
+    if(this.state.addedWatchlist === true) {
       addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlist } width="30em" style={{ 'marginRight': '0.5em'}} />
         Added to watchlist!

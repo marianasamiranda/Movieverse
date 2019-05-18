@@ -16,7 +16,7 @@ export default class Comment extends Component {
   }
 
   handleLike() {
-    if (this.state.liked == false) {
+    if (this.state.liked === false) {
       this.setState( { likes: this.state.likes + 1, liked: true });
     }
     else {
@@ -25,7 +25,7 @@ export default class Comment extends Component {
   }
 
   handleReply() {
-    if (this.state.showing_replies == false) {
+    if (this.state.showing_replies === false) {
       this.setState( { display_replies: this.props.replies.map((reply) =>
         <Reply time={reply.time} content={reply.content} likes={reply.likes} />
       ), showing_replies: true })}

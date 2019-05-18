@@ -12,7 +12,7 @@ export default class Reply extends Component {
   }
 
   handleLike() {
-    if (this.state.liked == false) {
+    if (this.state.liked === false) {
       this.setState( { likes: this.state.likes + 1, liked: true });
     }
     else {

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
+import rocket from '../img/rocket.png'
 import { labels } from '../var';
 
 export default class Footer extends Component  {
@@ -10,7 +12,10 @@ export default class Footer extends Component  {
       <footer className="bg-dark-gray">
         <Container className="footer">  
           <Row>
-            <Col lg="6" md="6" sm="12">
+            <Col md="2" className="d-none d-lg-block d-md-block">
+              <Image src={rocket} className="rocket" />
+            </Col>
+            <Col md="10" sm="12">
               <div className="footer-title">
                 {labels[this.props.lang].contactUs}
               </div>

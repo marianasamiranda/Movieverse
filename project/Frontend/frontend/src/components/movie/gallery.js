@@ -5,18 +5,15 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image'
 
 export default class Gallery extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     createGallery = () => {
         let gallery = []
         let i = 0
 
-        if(this.props.type == 'video') {
+        if(this.props.type === 'video') {
             this.symbol = <i className="fas fa-play-circle fa-5x"></i>;
         }
-        else if (this.props.type == 'image') {
+        else if (this.props.type === 'image') {
             this.symbol = <i className="fas fa-search fa-5x"></i>;
         }
 
@@ -26,7 +23,7 @@ export default class Gallery extends Component {
                     <div className="galleryItem">
                         <div className="galleryContainer">
                             <Image className="image" src={this.props.data[i].src} />
-                            <a target='_blank' href={this.props.data[i].href} className="overlay">
+                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i].href} className="overlay">
                                 <div className="text">{this.symbol}</div>
                             </a>
                         </div>
@@ -36,7 +33,7 @@ export default class Gallery extends Component {
                     <div className="galleryItem">
                         <div className="galleryContainer">
                             <Image className="image" src={this.props.data[i].src} />
-                            <a target='_blank' href={this.props.data[i].href} className="overlay">
+                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i].href} className="overlay">
                                 <div className="text">{this.symbol}</div>
                             </a>
                         </div>
@@ -51,7 +48,7 @@ export default class Gallery extends Component {
                     <div className="galleryItem">
                         <div className="galleryContainer">
                             <Image className="image" src={this.props.data[i].src} />
-                            <a target='_blank' href={this.props.data[i].href} className="overlay">
+                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i].href} className="overlay">
                                 <div className="text">{this.symbol}</div>
                             </a>
                         </div>

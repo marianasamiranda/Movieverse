@@ -9,12 +9,12 @@ import DiscussionBox from './discussion-box'
 import MovieEvaluation from './movie-evaluation'
 import Axios from 'axios';
 import Loading from '../aux_pages/loading'
-import { backend } from '../../var'
+import { backend, labels } from '../../var'
 import Language from '../language'
 import { getToken } from '../../cookies'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import '../../styles/MoviePage.css'
 import HorizontalSlider from '../horizontal-slider';
+import '../../styles/MoviePage.css'
 
 export default class MoviePage extends Component {
 
@@ -53,9 +53,9 @@ export default class MoviePage extends Component {
           .then(y => {
             this.setState({
               movie: movieInfo,
-              watched: (y.data.watched && y.data.watched == true)  ? true : false,
-              favourited: (y.data.favourite && y.data.favourite == true) ? true : false,
-              watchlist: (y.data.watchlist && y.data.watchlist == true) ? true : false
+              watched: (y.data.watched && y.data.watched === true)  ? true : false,
+              favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
+              watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false
             })
           })
           .catch(e => {
@@ -92,7 +92,7 @@ export default class MoviePage extends Component {
 
     if (!this.state.movie) {
       return (
-        <Loading />
+        <Loading lang={this.props.lang} />
       )
     }
 
@@ -100,7 +100,7 @@ export default class MoviePage extends Component {
     if(this.state.windowSize < 768) {
       headerTitle = <div className="movie-title-div">
         <span>{this.state.movie.name} </span>
-        <span><a target="_blank" href={`http://www.imdb.com/ + ${this.state.movie.imdb}`}><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></a></span>
+        <span><a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/ + ${this.state.movie.imdb}`}><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></a></span>
         <br />
         <Image src={star} height="30vh" /> {this.state.movie.rating}
         <hr />

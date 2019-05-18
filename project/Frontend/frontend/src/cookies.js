@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie'
 const cookies = new Cookies()
 
 export function setToken(value) {
-    cookies.set('token', value, {path: '/', expires: new Date(Date.now()+259200000000)})
+    cookies.set('token', value, { path: '/', expires: new Date(Date.now() + 259200000000) } )
 }
 
 export function getToken() {

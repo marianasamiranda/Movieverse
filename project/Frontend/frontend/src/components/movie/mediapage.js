@@ -53,7 +53,7 @@ export default class MediaPage extends Component {
   }
 
   handleSelect(eventKey) {
-    if(eventKey==1) {
+    if(eventKey === 1) {
       this.setState({ activeKey: 1, selected_tab: <Gallery type='video' data={this.videos} />})
     }
     else {
