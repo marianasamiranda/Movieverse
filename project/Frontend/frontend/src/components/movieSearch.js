@@ -8,17 +8,18 @@ import Col from 'react-bootstrap/Col'
 import MovieCard from './movie-card'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Select from 'react-select'
-import {genres, selectStyles, backend} from '../var'
+import {genres, selectStyles, backend, labels} from '../var'
 import Axios from 'axios'
 import queryString from 'query-string'
+import NoResultsFound from './aux_pages/noResultsFound';
 
-const sort = [
-  {value: 'dateAsc', label: 'Date (Ascending)'},
-  {value: 'dateDesc', label: 'Date (Descending)'},
-  {value: 'rating', label: 'Rating'},
-]
+//const sort = [
+//  {value: 'dateAsc', label: 'Date (Ascending)'},
+//  {value: 'dateDesc', label: 'Date (Descending)'},
+//  {value: 'rating', label: 'Rating'},
+//]
 
-const genres_ = Object.keys(genres).map(x => genres[x])
+const sort = ['dateAsc', 'dateDesc', 'rating']
 
 export default class MovieSearch extends Component {
   constructor(props) {
@@ -142,16 +143,23 @@ export default class MovieSearch extends Component {
   }
 
   render() {
-    
     let to_render
 
     if (this.state.results) {
+      if (this.state.results.length === 0) {
+        to_render =
+          <Container className="container-padding">
+            <NoResultsFound lang={this.props.lang}/>
+        </Container>
+      }
+      else {
       to_render =
         <Container className="container-padding">
           <Row>
             {this.buildCards(this.state.results)}
           </Row>
         </Container>
+      }
     }
 
     else {
@@ -159,7 +167,7 @@ export default class MovieSearch extends Component {
         <>
         <Container className="container-padding">
           <div className="title-medium">
-            New Releases
+            {labels[this.props.lang].newReleases}
           </div>
           <Row>
             {this.buildCards(this.state.latest.slice(0, this.state.latestCurrent * 6))}
@@ -167,13 +175,13 @@ export default class MovieSearch extends Component {
           {this.state.latestCurrent < 5 ?
             <Button variant="secondary" size="sm" className="button-slim"
               onClick={() => this.handleShowMore('latest')}>
-              Show more
+              {labels[this.props.lang].showMore}
             </Button>
           : ""}
         </Container>
         <Container className="container-padding">
           <div className="title-medium">
-            Popular
+            {labels[this.props.lang].popular}
           </div>
           <Row>
             {this.buildCards(this.state.popular.slice(0, this.state.popularCurrent * 6))}
@@ -181,13 +189,13 @@ export default class MovieSearch extends Component {
           {this.state.popularCurrent < 5 ?
             <Button variant="secondary" size="sm" className="button-slim"
               onClick={() => this.handleShowMore('popular')}>
-             Show more
+              {labels[this.props.lang].showMore}
             </Button>
           : ""}
         </Container>
         <Container className="container-padding">
           <div className="title-medium">
-            Upcoming
+            {labels[this.props.lang].upcoming}
           </div>
           <Row>
             {this.buildCards(this.state.upcoming.slice(0, this.state.upcomingCurrent * 6))}
@@ -195,7 +203,7 @@ export default class MovieSearch extends Component {
           {this.state.upcomingCurrent < 5 ?
             <Button variant="secondary" size="sm" className="button-slim" 
               onClick={() => this.handleShowMore('upcoming')}>
-              Show more
+              {labels[this.props.lang].showMore}
             </Button>
           : ""}
         </Container>
@@ -206,7 +214,7 @@ export default class MovieSearch extends Component {
       <>
         <Jumbotron fluid>
           <Container className="text-center">
-            <h1 className="jumbotron-text">Movie Search</h1>
+            <h1 className="jumbotron-text">{labels[this.props.lang].movieSearch}</h1>
             <Row>
               <Col md={{span: 6, offset: 3}} xs="12">
                 <InputGroup className="input-margin">
@@ -219,7 +227,7 @@ export default class MovieSearch extends Component {
                     className="search-input"
                     type="text" 
                     name="title" 
-                    placeholder="Movie Title" 
+                    placeholder={labels[this.props.lang].name}
                     onChange={this.handleTitle} 
                   />
                 </InputGroup>
@@ -228,14 +236,15 @@ export default class MovieSearch extends Component {
             <Row>
               <Col md={{ span: 6, offset: 3 }} xs="12">
                 <Select
-                  placeholder="Genres"
+                  placeholder={labels[this.props.lang].genres}
                   isSearchable
                   isClearable
                   isMulti
                   value={this.state.genres ? 
-                    genres_.filter(x => this.state.genres.includes(x.value))
+                    genres.filter(x => this.state.genres.includes(x))
+                          .map(x => { return { value: x, label: labels[this.props.lang][x] } })
                     : ""}
-                  options={genres_}
+                  options={genres.map(x => {return {value: x, label: labels[this.props.lang][x]}})}
                   styles={selectStyles}
                   onChange={this.handleGenre}
                   name="genres"
@@ -245,10 +254,10 @@ export default class MovieSearch extends Component {
             <Row>
               <Col md={{ span: 6, offset: 3 }} xs="12">
                 <Select
-                  placeholder="Sort By"
+                  placeholder={labels[this.props.lang].sortBy}
                   isSearchable
                   isClearable
-                  options={sort}
+                  options={sort.map(x => {return {value: x, label: labels[this.props.lang][x]}})}
                   styles={selectStyles}
                   onChange={this.handleSort}
                   name="sort"

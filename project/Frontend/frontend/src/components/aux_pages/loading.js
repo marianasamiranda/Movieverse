@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import {PulseLoader} from 'react-spinners'
+import { PulseLoader } from 'react-spinners'
+import { labels } from '../../var'
 
 export default class Loading extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class Loading extends Component {
         <Row>
           <Col className="text-center">
             <div className="title">
-              Loading
+              {labels[this.props.lang].loading}
             </div>
             <PulseLoader 
               css={{marginBottom: '30px'}}

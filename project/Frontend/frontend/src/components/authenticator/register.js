@@ -10,8 +10,8 @@ import Axios from 'axios'
 import ReactLoading from 'react-loading'
 import {backend} from '../../var'
 import {setToken} from '../../cookies'
-
 import 'react-flags-select/css/react-flags-select.css';
+import { labels } from '../../var'
 
 export default class Register extends Component  {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class Register extends Component  {
       name: "",
       birthdate: new Date(),
       country: "PT",
-      gender: "Female",
+      gender: labels[this.props.lang].female,
       validated: false,
       fail: false,
       failMessage: '',
@@ -94,10 +94,10 @@ export default class Register extends Component  {
           <Form.Control
             name="username"
             type="text"
-            placeholder="Username" 
+            placeholder={labels[this.props.lang].username} 
             aria-describedby="inputGroupPrepend" 
             pattern=".{3,30}" 
-            title="Username must have between 3 and 30 chars"
+            title={labels[this.props.lang].usernamePattern}
             onChange={this.handleChange}
             required
           />
@@ -109,7 +109,7 @@ export default class Register extends Component  {
           <Form.Control
             name="email"
             type="email" 
-            placeholder="Email" 
+            placeholder={labels[this.props.lang].email} 
             onChange={this.handleChange}
             required
           />
@@ -121,9 +121,9 @@ export default class Register extends Component  {
           <Form.Control
             name="name"
             type="text" 
-            placeholder="Name" 
+            placeholder={labels[this.props.lang].name} 
             pattern=".{3,50}" 
-            title="Name must have between 3 and 50 chars"
+            title={labels[this.props.lang].namePattern}
             onChange={this.handleChange}
             required
           />
@@ -135,9 +135,9 @@ export default class Register extends Component  {
           <Form.Control
             name="password"
             type="password" 
-            placeholder="Password"
+            placeholder={labels[this.props.lang].password} 
             pattern=".{8,30}" 
-            title="Password must have between 8 and 30 chars" 
+            title={labels[this.props.lang].passwordPattern} 
             onChange={this.handleChange}
             required
           />
@@ -149,9 +149,9 @@ export default class Register extends Component  {
           <Form.Control 
             name="cpassword"
             type="password" 
-            placeholder="Confirm Password"
+            placeholder={labels[this.props.lang].cPassword} 
             pattern={this.state.password}
-            title="Password must match"
+            title={labels[this.props.lang].passwordMatch}
             required
           />
         </InputGroup>
@@ -168,12 +168,12 @@ export default class Register extends Component  {
         <Row >
           <Col xs="12" sm="6" style={{ 'marginBottom':'0.7em' }}>
           <div className="left-right">
-            <span className="label-country">Country</span>
+              <span className="label-country">{labels[this.props.lang].country}</span>
             <ReactFlagsSelect
               name="country"
               searchable={true}
               defaultCountry="PT"
-              searchPlaceholder="Country"
+              searchPlaceholder={labels[this.props.lang].country} 
               showSelectedLabel={false}
               onSelect={this.handleCountry}
             />
@@ -190,9 +190,9 @@ export default class Register extends Component  {
                 name="gender"
                 onChange={this.handleChange}
                 value={this.state.gender}>
-                <option>Female</option>
-                <option>Male</option>
-                <option>Other</option>
+                <option value="Female">{labels[this.props.lang].female}</option>
+                <option value="Male">{labels[this.props.lang].male}</option>
+                <option value="Other">{labels[this.props.lang].other}</option>
               </Form.Control>
             </InputGroup>
           </Col>
@@ -213,7 +213,7 @@ export default class Register extends Component  {
               variant="secondary" 
               type="submit"
               onClick={this.handleButton}>
-              Submit
+              {labels[this.props.lang].submit} 
             </Button>
           }
           </Col>

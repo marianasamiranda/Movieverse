@@ -9,7 +9,7 @@ import MovieCard from './movie-card'
 import Button from 'react-bootstrap/Button'
 import Flag from './flag'
 import Axios from 'axios'
-import { backend, avatars } from '../var'
+import { backend, avatars, labels } from '../var'
 import { getToken } from '../cookies';
 
 export default class FindPeople extends Component {
@@ -80,8 +80,8 @@ export default class FindPeople extends Component {
       <>
       <Container className="container-padding">
         <div className="title-medium">
-          Users you might know
-          </div>
+          {labels[this.props.lang].userMightKnow}
+        </div>
         <Row>
           <Col lg="2" md="3" xs="4">
             <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (5)</>} info="Real Name" />
@@ -108,26 +108,26 @@ export default class FindPeople extends Component {
       </Container>
       <Container className="container-padding">
         <div className="title-medium">
-          Most upvoted
+          {labels[this.props.lang].mostUpvoted}
           </div>
         <Row>
           <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info="x likes" />
+            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
           </Col>
           <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info="x likes" />
+            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
           </Col>
           <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info="x likes" />
+            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
           </Col>
           <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info="x likes" />
+            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
           </Col>
           <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info="x likes" />
+            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
           </Col>
           <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info="x likes" />
+            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
           </Col>
         </Row>
       </Container>
@@ -137,7 +137,7 @@ export default class FindPeople extends Component {
       <>
         <Jumbotron fluid>
           <Container className="text-center">
-            <h1 className="jumbotron-text">Find Users</h1>
+            <h1 className="jumbotron-text">{labels[this.props.lang].findUsers}</h1>
             <Row>
               <Col md={{ span: 6, offset: 3 }}>
                 <InputGroup className="input-margin">
@@ -150,7 +150,7 @@ export default class FindPeople extends Component {
                     className="search-input"
                     type="text"
                     name="title"
-                    placeholder="Username/Real Name"
+                    placeholder={labels[this.props.lang].usernameRealName}
                     onChange={this.handleName}
                   />
                 </InputGroup>

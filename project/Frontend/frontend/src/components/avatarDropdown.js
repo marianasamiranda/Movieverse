@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom'
 import { clearToken } from '../cookies'
 import Axios from 'axios'
-import { backend } from '../var'
+import { backend, labels } from '../var'
 import FriendRequests from './friendRequests'
 
 class CustomToggle extends Component {
@@ -94,20 +94,20 @@ export default class AvatarDropdown extends Component {
           <p className="text-center" onClick={() => {this.handleChange(); this.props.handleExpand()}}>
             <Link to="/profile">
               <i className="far fa-user-circle fa-fw margin-right-10" />
-              Profile
+               {labels[this.props.lang].profile}
             </Link>
           </p>
             <p className="text-center" onClick={() => { this.handleShowRequests();this.handleChange(); this.props.handleExpand()}}>
             <Link>
               <i className="far fa-user-circle fa-fw margin-right-10" />
-              Requests
+                {labels[this.props.lang].requests}
             </Link>
           </p>
             <Dropdown.Divider />
           <p className="text-center" onClick={() => {this.handleChange(); this.props.handleExpand()}}>
             <Link to="/" onClick={this.logout}>
               <i className="fas fa-door-open fa-fw margin-right-10" />
-              Logout
+                {labels[this.props.lang].logout}
             </Link>
           </p>
         </Dropdown.Menu>

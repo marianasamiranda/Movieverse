@@ -15,3 +15,15 @@ export function clearToken() {
     cookies.remove('token')
     return token
 }
+
+export function getLanguage() {
+    const lang = cookies.get('lang')
+    if (lang)
+        return lang
+    else
+        return 'en'
+}
+
+export function setLanguage(l) {
+    cookies.set('lang', l)
+}

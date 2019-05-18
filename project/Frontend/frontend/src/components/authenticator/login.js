@@ -8,6 +8,7 @@ import Axios from 'axios'
 import ReactLoading from 'react-loading'
 import {backend} from '../../var'
 import { setToken } from '../../cookies'
+import { labels } from '../../var'
 
 export default class Login extends Component  {
   constructor(props) {
@@ -76,11 +77,11 @@ export default class Login extends Component  {
           <Form.Control 
             type="text" 
             name="username" 
-            placeholder="Username" 
+            placeholder={labels[this.props.lang].username} 
             onChange={this.handleChange} 
             pattern=".{3,30}" 
-            title="Username must have between 3 and 30 chars" 
-              required
+            title={labels[this.props.lang].usernamePattern} 
+            required
           />
           <Form.Control.Feedback type="invalid">
           </Form.Control.Feedback>
@@ -92,18 +93,18 @@ export default class Login extends Component  {
           <Form.Control 
             type="password" 
             name="password" 
-            placeholder="Password" 
+            placeholder={labels[this.props.lang].password} 
             onChange={this.handleChange} 
             pattern=".{9,30}" 
-            title="Password must have between 8 and 30 chars" 
+            title={labels[this.props.lang].passwordPattern} 
             required
           />
         </InputGroup>
         <Row>
         {this.state.fail ? 
-          <Col md="8" xs="6">
+          <Col md="7" xs="6">
             <div className="error-message" key={this.state.failKey}>
-              {this.state.failMessage}
+              {labels[this.props.lang][this.state.failMessage]}
             </div>
           </Col> : ""
           }
@@ -115,7 +116,7 @@ export default class Login extends Component  {
               variant="secondary" 
               type="submit"
               onClick={this.handleButton}>
-              Submit
+              {labels[this.props.lang].submit} 
             </Button>
           }
           </Col>

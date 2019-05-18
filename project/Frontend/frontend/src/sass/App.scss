@@ -70,6 +70,19 @@
             margin-bottom: 0px;
         }
     }
+
+    .nav-dropdown > a {
+        padding: 0px !important;
+        margin-bottom: 10px;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .nav-dropdown > .dropdown-menu {
+        @media(min-width: 992px){
+            margin-left: -120px;
+        }
+    }
 }
 
 body {

@@ -6,9 +6,10 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import MovieCard from './movie-card'
 import Select from 'react-select'
 import Axios from 'axios'
-import {selectStyles, theaters, backend} from '../var'
+import {selectStyles, theaters, backend, labels} from '../var'
 import Loading from './aux_pages/loading'
 import { ReactBingmaps } from 'react-bingmaps'
+import NoResultsFound from './aux_pages/noResultsFound';
 
 const theaters_ = []
 Object.keys(theaters).forEach(x => theaters_.push({ value: x, label: x}))
@@ -73,7 +74,7 @@ export default class PeopleSearch extends Component {
     let to_render
 
     if (this.state.loading) {
-      to_render = <Loading />
+      to_render = <Loading lang={this.props.lang}/>
     }
     else if (this.state.movies.length > 0) {
       to_render = this.buildCards()
@@ -81,7 +82,7 @@ export default class PeopleSearch extends Component {
     else {
       to_render = 
         <Col>
-          <p>No movies found</p>
+          <NoResultsFound lang={this.props.lang} />
         </Col>
     }
 
@@ -89,7 +90,7 @@ export default class PeopleSearch extends Component {
       <div>
         <Jumbotron fluid>
           <Container className="text-center">
-            <h1 className="jumbotron-text">Showtimes</h1>
+            <h1 className="jumbotron-text">{labels[this.props.lang].showtimes}</h1>
             <Row >
               <Col md={{ span: 6, offset: 3 }} className="input-margin">
                 <Select

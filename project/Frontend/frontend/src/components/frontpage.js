@@ -9,7 +9,7 @@ import StatsItem from './stats-item'
 import logo from '../img/logo.png'
 import '../styles/FrontPage.css'
 import Axios from 'axios';
-import { backend } from '../var';
+import { backend, labels } from '../var';
 
 export default class FrontPage extends Component {
 
@@ -62,10 +62,10 @@ export default class FrontPage extends Component {
   render() {
     return (
       <div>
-        <Banner handleSession={this.props.handleSession} />
+        <Banner handleSession={this.props.handleSession} lang={this.props.lang} />
         <Container className="container-padding">
           <div className="title">
-            NEW RELEASES
+            {labels[this.props.lang].newReleases}
           </div>
           <Row>
             {this.state.cards}
@@ -74,60 +74,74 @@ export default class FrontPage extends Component {
         <div className="bg-light-gray">
           <Container className="container-padding">
             <div className="title">
-              JOIN MOVIEVERSE TODAY!
+              {labels[this.props.lang].joinMovieverse}
             </div>
             <Row>
               <Col lg="6">
-                <SellingPoint img={require('../img/heart.png')} text="Get to know your friends' movie tastes" />
+                <SellingPoint 
+                  img={require('../img/heart.png')} 
+                  text={labels[this.props.lang].sellPoint1} />
               </Col>
               <Col lg="6">
-                <SellingPoint img={require('../img/popcorn.png')} text="Catch up with the hottest new releases" />
+                <SellingPoint 
+                  img={require('../img/popcorn.png')} 
+                  text={labels[this.props.lang].sellPoint2} />
               </Col>
             </Row>
             <Row>
               <Col lg="6">
-                <SellingPoint img={require('../img/notebook.png')} text="Keep track of your entire movie history" />
+                <SellingPoint 
+                  img={require('../img/notebook.png')} 
+                  text={labels[this.props.lang].sellPoint3} />
               </Col>
               <Col lg="6">
-                <SellingPoint img={require('../img/achievement.png')} text="Earn achievements watching movies" />
+                <SellingPoint 
+                  img={require('../img/achievement.png')} 
+                  text={labels[this.props.lang].sellPoint4} />
               </Col>
             </Row>
           </Container>
         </div>
         <Container className="container-padding stats">
           <div className="title">
-            STATISTICS
+            {labels[this.props.lang].statistics}
           </div>
           <Row>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/girl.png')} name="Users" number={this.state.data.users} />
+              <StatsItem 
+                img={require('../img/girl.png')} 
+                name={labels[this.props.lang].users}
+                number={this.state.data.users} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/watch.png')} name="Movies" number={this.state.data.movies} />
+              <StatsItem 
+                img={require('../img/watch.png')} 
+                name={labels[this.props.lang].movies} 
+                number={this.state.data.movies} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/actor.png')} name="Members" number={this.state.data.members} />
+              <StatsItem 
+                img={require('../img/actor.png')} 
+                name={labels[this.props.lang].members}
+                number={this.state.data.members} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
-              <StatsItem img={require('../img/comments.png')} name="Comments" number={this.state.data.comments} />
+              <StatsItem 
+                img={require('../img/comments.png')} 
+                name={labels[this.props.lang].comments}
+                number={this.state.data.comments} />
             </Col>
           </Row>
         </Container>
         <div className="bg-light-gray">
           <Container className="container-padding">
             <div className="title">
-              ABOUT US
+              {labels[this.props.lang].aboutUs}
             </div>
             <Row>
               <Col lg="6">
                 <div className="about-text">
-                  Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. Curabitur nec magna lorem.  Etiam quis sapien convallis, eleifend arcu vel,
-                  euismod tellus. Suspendisse porttitor est
-                  nibh, id semper enim eleifend in.
-                  Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo.
-                  Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo.
-                  Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo.
+                  {labels[this.props.lang].aboutUsText}
                 </div>
               </Col>
               <Col lg="6" md="auto" className="text-right">

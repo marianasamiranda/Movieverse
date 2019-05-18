@@ -8,7 +8,8 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import MovieCard from './movie-card'
 import Button from 'react-bootstrap/Button'
 import Axios from 'axios'
-import {backend} from '../var'
+import {backend, labels} from '../var'
+import NoResultsFound from './aux_pages/noResultsFound';
 
 export default class PeopleSearch extends Component {
   constructor(props) {
@@ -70,9 +71,9 @@ export default class PeopleSearch extends Component {
     people.forEach(x => {
       let info
       if (x.total)
-        info = x.total + ' credits'
+        info = x.total + ' ' + labels[this.props.lang].credits
       else if (x.age)
-        info = x.age + ' years'
+        info = x.age + ' ' + labels[this.props.lang].years
 
       l.push(
         <Col lg="2" md="3" xs="4" key={people.indexOf(x)}>
@@ -102,19 +103,27 @@ export default class PeopleSearch extends Component {
     let to_render
 
     if (this.state.results) {
-      to_render = 
-        <Container className="container-padding">
-          <Row>
-            {this.buildCards(this.state.results)}
-          </Row>
-        </Container>
+      if (this.state.results.length === 0) {
+        to_render =
+          <Container className="container-padding">
+            <NoResultsFound lang={this.props.lang} />
+          </Container>
+      }
+      else {
+        to_render = 
+          <Container className="container-padding">
+            <Row>
+              {this.buildCards(this.state.results)}
+            </Row>
+          </Container>
+      }
     }
 
     else to_render = 
       <>
       <Container className="container-padding">
         <div className="title-medium">
-          Born today
+          {labels[this.props.lang].bornToday}
           </div>
         <Row>
           {this.buildCards(this.state.bornToday.slice(0, this.state.bornTodayCurrent * 6))}
@@ -122,13 +131,13 @@ export default class PeopleSearch extends Component {
         {this.state.bornTodayCurrent < 18 ?
           <Button variant="secondary" size="sm" className="button-slim"
             onClick={() => this.handleShowMore('bornToday')}>
-            Show more
+            {labels[this.props.lang].showMore}
           </Button>
           : ""}
       </Container>
       <Container className="container-padding">
         <div className="title-medium">
-          People with most credits
+          {labels[this.props.lang].peopleMostCredits}
           </div>
         <Row>
           {this.buildCards(this.state.mostCredits.slice(0, this.state.mostCreditsCurrent * 6))}
@@ -136,7 +145,7 @@ export default class PeopleSearch extends Component {
         {this.state.mostCreditsCurrent < 18 ?
           <Button variant="secondary" size="sm" className="button-slim"
             onClick={() => this.handleShowMore('mostCredits')}>
-            Show more
+            {labels[this.props.lang].showMore}
           </Button>
           : ""}
       </Container>
@@ -146,7 +155,7 @@ export default class PeopleSearch extends Component {
       <>
         <Jumbotron fluid>
           <Container className="text-center">
-            <h1 className="jumbotron-text">Search Cast and Crew Members</h1>
+            <h1 className="jumbotron-text">{labels[this.props.lang].peopleSearch}</h1>
             <Row>
               <Col md={{ span: 6, offset: 3 }}>
                 <InputGroup className="input-margin">
@@ -159,7 +168,7 @@ export default class PeopleSearch extends Component {
                     className="search-input"
                     type="text"
                     name="title"
-                    placeholder="Name"
+                    placeholder={labels[this.props.lang].name}
                     onChange={this.handleName}
                   />
                 </InputGroup>

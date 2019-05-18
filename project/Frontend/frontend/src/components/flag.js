@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 
 export default class Flag extends Component {
   render() {
-    const name = this.props.country.toUpperCase()
+    let name
+    if (this.props.language) 
+      name = languages[this.props.country]
+    else
+      name = this.props.country.toUpperCase()
+
     let img
     try {
       img = require('../img/flags/' + name + '.png')
@@ -10,6 +15,7 @@ export default class Flag extends Component {
     catch (e) {
       img = require('../img/flags/worldwide.png')
     }
+
     return (
       <img className="flag-icon" 
            src={img} 
@@ -17,6 +23,11 @@ export default class Flag extends Component {
            title={isoCountries[name]} />
     )
   }
+}
+
+const languages = {
+  'en': 'GB',
+  'pt': 'PT'
 }
 
 const isoCountries = {

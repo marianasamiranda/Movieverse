@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router-dom'
+import { labels } from '../../var';
 
 export default class NoAuthError extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class NoAuthError extends Component {
         <Row>
           <Col xs="12" className="text-center">
             <div className="title-medium">
-              You must be logged in to access this page
+              {labels[this.props.lang].noAuth}
             </div>
           </Col>
           <Col xs="12" className="text-center">
@@ -20,7 +21,7 @@ export default class NoAuthError extends Component {
           </Col>
           <Col xs="12" className="text-center margin-top-10">
             <Link to="/" className="link">
-              To the front page!
+              {labels[this.props.lang].toTheMainPage}
             </Link>
           </Col>
         </Row>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { labels } from '../var';
 
 export default class Footer extends Component  {
   render() {
@@ -11,7 +12,7 @@ export default class Footer extends Component  {
           <Row>
             <Col lg="6" md="6" sm="12">
               <div className="footer-title">
-                Contact Us
+                {labels[this.props.lang].contactUs}
               </div>
               <div className="footer-item">
                 <i className="fas fa-envelope fa-fw margin-right-10"></i>
@@ -30,7 +31,7 @@ export default class Footer extends Component  {
                 @movieverse
               </div>
               <div className="footer-item-small">
-                <p>© Movieverse 2019. All rights reserved</p>
+                <p>{labels[this.props.lang].rightsReserved}</p>
               </div>
             </Col>
           </Row>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Flag from '../flag';
-import {genres} from '../../var'
+import {genres, labels} from '../../var'
 
 export default class InfoCard extends Component {
   render() {
@@ -10,7 +10,7 @@ export default class InfoCard extends Component {
       <div className="info-card">
         <Row className="item-border">
           <Col xs="6" className="info-item-label">
-              Name
+            {labels[this.props.lang].name}
           </Col>
           <Col xs="6" className="text-right">
             {this.props.name}
@@ -18,16 +18,16 @@ export default class InfoCard extends Component {
         </Row>
         <Row className="item-border">
           <Col xs="6" className="info-item-label">
-            Favourite Genre
+            {labels[this.props.lang].favouriteGenre}
           </Col>
           <Col xs="6" className={"text-right " + (this.props.changeGenre ? "clickable" : "")} 
               onClick={this.props.changeGenre ? this.props.changeGenre : undefined}>
-            {genres[this.props.genre]['label']}
+            {labels[this.props.lang][this.props.genre]}
           </Col>
         </Row>
         <Row className="item-border">
           <Col xs="6" className="info-item-label">
-            Birthdate
+            {labels[this.props.lang].birthdate}
           </Col>
           <Col xs="6" className="text-right">
             {this.props.birthdate}
@@ -35,7 +35,7 @@ export default class InfoCard extends Component {
         </Row>
         <Row className="item-border">
           <Col xs="6" className="info-item-label">
-            Joined
+            {labels[this.props.lang].joined}
           </Col>
           <Col xs="6" className="text-right">
             {this.props.joined}
@@ -43,7 +43,7 @@ export default class InfoCard extends Component {
         </Row>
         <Row>
           <Col xs="6" className="info-item-label">
-            Country
+            {labels[this.props.lang].country}
           </Col>
           <Col xs="6" className="text-right">
             <Flag country={this.props.country} />

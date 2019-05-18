@@ -45,7 +45,7 @@
 .aside-container {
   position: -webkit-sticky;
   position: sticky;
-  height: 100px;
+  height: 800px;
   top: 2.95em;
   font-size: 20px;
   width: 40%;

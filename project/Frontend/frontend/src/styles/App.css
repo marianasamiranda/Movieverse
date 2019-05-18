@@ -472,6 +472,19 @@ table td:last-child {
   }
 }
 
+.navbar .nav-dropdown > a {
+  padding: 0px !important;
+  margin-bottom: 10px;
+  text-align: center;
+  margin-right: 10px;
+}
+
+@media (min-width: 992px) {
+  .navbar .nav-dropdown > .dropdown-menu {
+    margin-left: -120px;
+  }
+}
+
 body {
   background-color: #f2f2f2;
 }

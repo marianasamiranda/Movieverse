@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import MovieCard from '../movie-card'
 import Button from 'react-bootstrap/Button'
+import { labels } from '../../var';
 
 export default class MoviesCard extends Component {
   
@@ -46,26 +47,26 @@ export default class MoviesCard extends Component {
         <Row>
           <Col lg="3" onClick={() => this.handleChange('recent')}
             className={"card-title " + (this.state.currentTab === "recent" ? "selected" : "")}>
-            Recent
+            {labels[this.props.lang].recent}
           </Col>
           <Col lg="3" onClick={() => this.handleChange('favourites')}
             className={"card-title " + (this.state.currentTab === "favourites" ? "selected" : "")}>
-            Favourites
+            {labels[this.props.lang].favourites}
           </Col>
           <Col lg="3" onClick={() => this.handleChange('watchlist')}
             className={"card-title " + (this.state.currentTab === "watchlist" ? "selected" : "")}>
-            Watchlist
+            {labels[this.props.lang].watchlist}
           </Col>
           <Col lg="3" onClick={() => this.handleChange('recommended')}
             className={"card-title " + (this.state.currentTab === "recommended" ? "selected" : "")}>
-            Recommended
+            {labels[this.props.lang].recommended}
           </Col>
         </Row>
         <Row className="box">
           {this.state[this.state.currentTab]}
         </Row>
         <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.loading}>
-          {!this.state.loading ? "Show more" : "Loading ..."}
+          {!this.state.loading ? labels[this.props.lang].showMore : labels[this.props.lang].loading }
         </Button>
       </div>
     )

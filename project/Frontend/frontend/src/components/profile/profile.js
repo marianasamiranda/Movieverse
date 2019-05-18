@@ -9,7 +9,7 @@ import InfoCard from './info-card'
 import BadgesCard from './badges-card'
 import StatsCard from './stats-card'
 import Select from 'react-select'
-import {genres, backend, avatars} from '../../var'
+import {genres, backend, avatars, labels} from '../../var'
 import Dropzone from 'react-dropzone'
 import FriendsCard from './friends-card'
 import MoviesCard from './movies-card'
@@ -260,19 +260,19 @@ export default class Profile extends Component {
   render() {
     if (this.state.noAuth) {
       return (
-        <NoAuthError />
+        <NoAuthError lang={this.props.lang} />
       )
     }
 
     else if (this.state.noUser) {
       return (
-        <NotFoundError />
+        <NotFoundError lang={this.props.lang} />
       )
     }
 
     else if (!this.state.data) {
       return (
-        <Loading />
+        <Loading lang={this.props.lang}/>
       )
     }
 
@@ -312,6 +312,7 @@ export default class Profile extends Component {
                     joined={data.joindate}
                     country={data.country}
                     changeGenre={!this.state.user ? this.handleGenreModal : ""}
+                    lang={this.props.lang}
                   />
                 </Col>
               </Row>
@@ -322,15 +323,15 @@ export default class Profile extends Component {
           </Row>
           <Row>
             <Col>
-              <StatsCard stats={this.state.stats}/>
+              <StatsCard stats={this.state.stats} lang={this.props.lang}/>
             </Col>
           </Row>
           <Row>
             <Col xs="12" lg="9">
-              <MoviesCard movies={movies} />
+              <MoviesCard movies={movies} lang={this.props.lang}/>
             </Col>
             <Col xs="12" lg="3">
-              <FriendsCard friends={this.state.friends} />
+              <FriendsCard friends={this.state.friends} lang={this.props.lang}/>
             </Col>
           </Row>
         </Container>
@@ -340,13 +341,13 @@ export default class Profile extends Component {
           {/* Change favourite genre modal */}
           <Modal show={this.state.showGenreModal} onHide={this.handleGenreModal} size="sm">
             <Modal.Header closeButton>
-              <Modal.Title>Favourite Genre</Modal.Title>
+              <Modal.Title>{labels[this.props.lang].favouriteGenre}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Select 
                 placeholder="Genre"
                 isSearchable
-                options={Object.keys(genres).map(x => genres[x])}
+                  options={genres.map(x => { return { value: x, label: labels[this.props.lang][x] } })}
                 onChange={this.handleNewGenre}
                 name="sort" />
             </Modal.Body>
@@ -357,11 +358,11 @@ export default class Profile extends Component {
               :
               <Modal.Footer>
                 <Button size="sm" variant="secondary" onClick={this.handleGenreModal}>
-                  Cancel
+                  {labels[this.props.lang].cancel}
                 </Button>
                 <Button disabled={this.state.newGenre ? false : true} size="sm" 
                         className="custom-button" onClick={this.handleNewGenreConfirm}>
-                  Confirm
+                  {labels[this.props.lang].confirm}
                 </Button>
               </Modal.Footer>
             }
@@ -370,7 +371,7 @@ export default class Profile extends Component {
           {/* Change avatar modal */}
           <Modal show={this.state.showAvatarModal} onHide={this.handleAvatarModal}>
             <Modal.Header closeButton>
-              <Modal.Title>Change Avatar</Modal.Title>
+                <Modal.Title>{labels[this.props.lang].changeAvatar}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Dropzone 
@@ -383,7 +384,7 @@ export default class Profile extends Component {
                       <input {...getInputProps()} />
                       <p>{this.state.newAvatar 
                           ? this.state.newAvatar.name 
-                          : "Drag an image or click here to select (.jpeg, .png, .svg)"}</p>
+                          : labels[this.props.lang].dragImage + " (.jpeg, .png, .svg)"}</p>
                     </div>
                   </section>
                 )}
@@ -397,11 +398,11 @@ export default class Profile extends Component {
                 :
                 <Modal.Footer>
                   <Button size="sm" variant="secondary" onClick={this.handleAvatarModal}>
-                    Cancel
+                    {labels[this.props.lang].cancel}
                   </Button>
                   <Button size="sm" disabled={this.state.newAvatar ? false : true} 
                           className="custom-button" onClick={this.handleNewAvatarConfirm}>
-                    Confirm
+                    {labels[this.props.lang].confirm}
                   </Button>
                 </Modal.Footer>
               }

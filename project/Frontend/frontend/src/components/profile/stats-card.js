@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { labels } from '../../var';
 
 const stats = [
-  { name: 'Movies', img: 'popcorn.svg' },
-  { name: 'Hours', img: 'pocket-watch.svg' },
-  { name: 'Comments', img: 'chat.svg' },
-  { name: 'Ratings', img: 'star.svg' },
-  { name: 'Friends', img: 'heart.svg' },
+  { name: 'movies', img: 'popcorn.svg' },
+  { name: 'hours', img: 'pocket-watch.svg' },
+  { name: 'comments', img: 'chat.svg' },
+  { name: 'ratings', img: 'star.svg' },
+  { name: 'friends', img: 'heart.svg' },
 ]
 
 export default class StatsCard extends Component {
@@ -25,7 +26,7 @@ export default class StatsCard extends Component {
               <p className="number">{this.props.stats[x.name]}</p>
             </Col>
           </Row>
-          <p className="label">{x.name}</p>
+          <p className="label">{labels[this.props.lang][x.name]}</p>
         </Col>
       )
     });

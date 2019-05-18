@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import logo from '../img/logo-256-nav.png'
 import AvatarDropdown from './avatarDropdown'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Link} from 'react-router-dom'
 import Axios from 'axios'
 import {backend, avatars} from './../var'
-import { getToken } from '../cookies';
+import { getToken } from '../cookies'
+import Flag from './flag'
 
 class NavBarLink extends Component {
   render() {
@@ -89,30 +91,38 @@ export default class NavBar extends Component {
     })
 
     return (
-      <nav>
-        <Navbar collapseOnSelect expand="lg" className="sticky-top" 
-          expanded={this.state.expanded}  onToggle={this.handleExpand}>
-          <Container>
-            <Link to="/" className="navbar-logo">
-              <img src={logo} alt="Homepage" onClick={() => this.handleChange(undefined)} />
-            </Link>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-dark" />
-            <Navbar.Collapse id="basic-navbar-nav text-center">
-              <Nav className="ml-auto align-items-center">
-                {links}
-                {this.props.logged ?
-                <AvatarDropdown
-                  img={this.props.avatar ? this.props.avatar : this.state.avatar}
-                  handleExpand={() => this.handleChange(undefined)} 
-                  handleSession={this.handleSession}
-                  getAvatar={this.getAvatar} />
-                  : ""
-                }
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      </nav>
+      <Navbar collapseOnSelect expand="lg" sticky="top" variant="dark"
+        expanded={this.state.expanded}  onToggle={this.handleExpand}>
+        <Container>
+          <Link to="/" className="navbar-logo">
+            <img src={logo} alt="Homepage" onClick={() => this.handleChange(undefined)} />
+          </Link>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-dark" />
+          <Navbar.Collapse id="basic-navbar-nav text-center">
+            <Nav className="ml-auto align-items-center">
+              {links}
+              <NavDropdown className="nav-dropdown" title={<Flag language country={this.props.lang} />}>
+                <NavDropdown.Item onSelect={() => this.props.changeLanguage('en')}>
+                  <Flag language country='en'/> English
+                </NavDropdown.Item>
+                <NavDropdown.Item onSelect={() => this.props.changeLanguage('pt')}>
+                  <Flag language country='pt'/> Português
+                </NavDropdown.Item>
+              </NavDropdown>
+              {this.props.logged ?
+              <AvatarDropdown
+                img={this.props.avatar ? this.props.avatar : this.state.avatar}
+                handleExpand={() => this.handleChange(undefined)} 
+                handleSession={this.handleSession}
+                getAvatar={this.getAvatar} 
+                lang={this.props.lang}
+                />
+                : ""
+              }
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     )
   }
 }

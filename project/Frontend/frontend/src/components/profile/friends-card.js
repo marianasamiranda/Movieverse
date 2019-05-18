@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import {avatars} from '../../var'
+import {avatars, labels} from '../../var'
 import {Link} from 'react-router-dom'
 
 export default class FriendsCard extends Component {
@@ -38,7 +38,7 @@ export default class FriendsCard extends Component {
       <div className="info-card">
         <Row>
           <Col className="card-title selected">
-            Friends
+            {labels[this.props.lang].friends}
           </Col>
         </Row>
         <Row className="box">
@@ -48,7 +48,7 @@ export default class FriendsCard extends Component {
           <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.loading}>
             {!this.state.loading ? "Show more" : "Loading ..."}
           </Button>
-        : <p className="text-center">No friends</p>}
+          : <p className="text-center">{labels[this.props.lang].noFriends}</p>}
       </div>
     )
   }

@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Axios from 'axios'
 import CardColumns from 'react-bootstrap/CardColumns'
-import { backend } from '../var'
+import { backend, labels } from '../var'
 import Loading from './aux_pages/loading'
 import InfiniteScroller from 'react-infinite-scroller'
 import '../styles/News.css'
@@ -80,14 +80,14 @@ export default class NewsPage extends Component {
     return (
       <>
       {this.state.loading ?
-        <Loading />
+        <Loading lang={this.props.lang}/>
         :
         <>
           <Container className="news-container">
             <div className="title text-center">
-              Movie News
+              {labels[this.props.lang].news}
             </div>
-            {this.state.loading ? <Loading /> : ""}
+            {this.state.loading ? <Loading lang={this.props.lang}/> : ""}
           </Container>
           <Container>
             <InfiniteScroller
