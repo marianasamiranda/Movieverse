@@ -1,6 +1,8 @@
 package data.daos.impl;
 import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import data.daos.DAO;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -70,20 +73,20 @@ public abstract class DAOImpl<K, E> implements DAO<K, E> {
 	@Transactional(readOnly=true)
 	public E loadEntity(String condition){
         Query query =  entityManager.createQuery("SELECT c FROM "+ entityClass.getName() + " c WHERE " + condition);
+		query.setHint("org.hibernate.cacheable", true);
         return (E) query.getSingleResult();
     }
 
 	@Transactional(readOnly=true)
 	public E loadEntity(String condition, String orderBy){
-		System.out.println("oi");
         Query query =  entityManager.createQuery("FROM "+ entityClass.getName() + " c WHERE " + condition + " ORDER BY " + orderBy);
+		query.setHint("org.hibernate.cacheable", true);
         E result = (E) query.getSingleResult();
         return result;
     }
 
 	@Transactional(readOnly=false)
 	public void removeEntity(String condition){
-		System.out.println("oi");
         Query query =  entityManager.createQuery("DELETE FROM "+ entityClass.getName() + " c WHERE " + condition);
 		query.executeUpdate();
     }

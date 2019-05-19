@@ -6,6 +6,7 @@ License Type: Academic
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="data.entities.Movie" table="Movie" lazy="false">
+		<cache usage="read-write"/>
 		<id name="tmdb" column="Tmdb" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
@@ -23,6 +24,7 @@ License Type: Academic
 		<property name="language" column="Language" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="tagline" column="Tagline" type="text" not-null="false" lazy="false"/>
 		<set name="userMovies" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.UserMovie"/>
 		</set>
@@ -37,23 +39,27 @@ License Type: Academic
 			</many-to-many>
 		</set>
 		<set name="comments" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.Comment"/>
 		</set>
 		<set name="movieMembers" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="false"/>
 			<one-to-many class="data.entities.MovieMember"/>
 		</set>
 		<set name="showtime" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.Showtime"/>
 		</set>
 		<set name="relatedMovies" table="Recommended" lazy="true" cascade="save-update,lock">
-			<key column="MovieId" not-null="true"/>
+			<key column="MovieId" not-null="false"/>
 			<many-to-many column="MovieId2" class="data.entities.Movie">
 			</many-to-many>
 		</set>
 		<set name="media" lazy="true" cascade="save-update,lock" inverse="false">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="false"/>
 			<one-to-many class="data.entities.Media"/>
 		</set>

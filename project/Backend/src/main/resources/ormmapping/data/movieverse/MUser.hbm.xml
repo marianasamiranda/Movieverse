@@ -6,13 +6,14 @@ License Type: Academic
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="data.entities.MUser" table="MUser" lazy="false">
+	    <cache usage = "read-write"/>
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="identity">
 			</generator>
 		</id>
-		<many-to-one name="favouriteGenre" cascade="lock" column="GenreId" class="data.entities.Genre" not-null="false" lazy="proxy">
+		<many-to-one name="favouriteGenre" cascade="lock" column="GenreId" class="data.entities.Genre" not-null="false"  lazy="proxy" >
 		</many-to-one>
-		<many-to-one name="userCountry" cascade="lock" column="CountryId" class="data.entities.Country" not-null="true" lazy="proxy">
+		<many-to-one name="userCountry" cascade="lock" column="CountryId" class="data.entities.Country" not-null="true"  lazy="proxy">
 		</many-to-one>
 		<property name="username" column="Username" unique="true" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="password" column="Password" type="string" length="255" not-null="true" lazy="false"/>
@@ -43,6 +44,7 @@ License Type: Academic
 			<one-to-many class="data.entities.Feed"/>
 		</set>
 		<set name="achievements" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="MUserId" not-null="true"/>
 			<one-to-many class="data.entities.Achievement"/>
 		</set>
@@ -55,6 +57,7 @@ License Type: Academic
 			<one-to-many class="data.entities.Friendship"/>
 		</set>
 		<set name="friends" table="MUserFriendship" lazy="true" cascade="save-update,lock">
+			<cache usage="read-write"/>
 			<key column="MUserId" not-null="true"/>
 			<many-to-many column="FriendshipId" class="data.entities.Friendship">
 			</many-to-many>

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -41,7 +42,7 @@ public class Application {
         return Persistence.createEntityManagerFactory("movieverse").createEntityManager();
     }
 */
-/*
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -49,7 +50,7 @@ public class Application {
         em.setPersistenceUnitName("movieverse");
         em.setPackagesToScan("controller2", "data.daos.*", "data.daos.impl.*", "controller","business");
         return em;
-    }*/
+    }
 
 
     @Bean
@@ -57,14 +58,14 @@ public class Application {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
-
+/*
     @Bean
     public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
         LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
         factory.setPersistenceUnitName("movieverse");
         return factory;
     }
-
+*/
  /*
     @PersistenceContext(unitName = "movieverse")
     private EntityManager entityManager;

@@ -26,6 +26,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersManager {
@@ -63,15 +64,10 @@ public class UsersManager {
             friendshipDAO.persist((Friendship) o);
     }
 
-    /*
-    private void refresh(MUser m) {
-        mUserDAO.refresh(m);
-    }*/
-
 
     public MUser getUserByEmail(String email) {
         try {
-            return mUserDAO.loadEntityInitalize("email='" + email + "'", "id");
+            return mUserDAO.queryMUser("email='" + email + "'");
         }
         catch (Exception e) {
             return null;
@@ -81,46 +77,48 @@ public class UsersManager {
 
     public MUser getUserByUsername(String username) {
         try {
-            return mUserDAO.loadEntityInitalize("username='" + username + "'", "id");
+            return mUserDAO.queryMUser("username='" + username + "'");
         }
         catch (Exception e) {
             return null;
         }
     }
-
-    public MUser getSimpleUserByUsername(String username) {
-        try {
-            return mUserDAO.loadEntity("username='" + username + "'", "id");
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
 
 
     public MUser getUserByToken(String token) {
         try {
-            return mUserDAO.loadEntityInitalize("token='" + token + "'", "id");
+            return mUserDAO.queryMUser("token='" + token + "'");
         }
         catch (Exception e) {
             return null;
         }
     }
 
-    public MUser getSimpleUserByToken(String token) {
+
+    public MUser getSimpleUserByUsername(String username) {
         try {
-            return mUserDAO.loadEntity("token='" + token + "'", "id");
+            return mUserDAO.loadEntity("username='" + username + "'");
         }
         catch (Exception e) {
             return null;
         }
     }
+
+
+    public MUser getSimpleUserByToken(String token) {
+        try {
+            return mUserDAO.loadEntity("token='" + token + "'");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
 
     public Friendship getFriendship(int sender, int receiver) {
         try {
             return friendshipDAO.loadEntity(
-                    "sender=" + sender + "and receiver= " +  receiver, "id");
+                    "sender=" + sender + "and receiver= " +  receiver);
         }
         catch (Exception e) {
             return null;
@@ -132,6 +130,7 @@ public class UsersManager {
     //////////////////////////////////////////////////
 
 
+    @Transactional
     public String registerUser(String email, String username, String name, String password,
                                        String country, LocalDate birthdate, char gender) throws Exception {
         if (getUserByUsername(username) != null)
@@ -210,6 +209,7 @@ public class UsersManager {
     }
 
     //if username is null get token's owner's info
+    @Transactional
     public Map profileInfo(String token, String username) throws Exception {
         MUser u = getUserByToken(token);
 
@@ -221,10 +221,10 @@ public class UsersManager {
             if (u.getUsername().equals(username))
                 self = true;
             else { //TODO não buscar tudo à base de dados
-                if (Arrays.asList(u.getRequestedMusers()).stream()
+                if (mUserDAO.listReceivedMUser(u.getId()).stream()
                         .anyMatch(x -> x.getUsername().equals(username)))
                     friendship = "received";
-                else if (Arrays.asList(u.getReceivedMusers()).stream()
+                else if (mUserDAO.listRequestedMUser(u.getId()).stream()
                         .anyMatch(x -> x.getUsername().equals(username)))
                     friendship = "requested";
                 //TODO
@@ -238,7 +238,6 @@ public class UsersManager {
             }
         }
 
-        //refresh();
 
         Map<String, Object> m = new HashMap<>();
         m.put("username", u.getUsername());
@@ -252,26 +251,37 @@ public class UsersManager {
         m.put("statsHours", u.getHoursCount());
         m.put("statsComments", 0);//TODO
         m.put("statsRatings", 0);//TODO
-        m.put("statsFriends", u.getFriendsCount());//TODO
         m.put("badges", u.getBadges());
         m.put("avatar", u.getAvatar());
         m.put("self", self);
         m.put("friendship", friendship);
+        //m.put("statsFriends", u.getFriendsCount()); // TODO
         //m.put("recentMovies", u.getMovies()); TODO
         //m.put("favouritesMovies", u.getMovies()) TODO
         //m.put("watchlist", u.getMovies()) TODO
         //m.put("recommended", u.getMovies()) TODO
         m.put("friends", new ArrayList<>());
-        for (var f: u.getFriends()) {
-            MUser friend = ((Friendship) f).getRequestedMuser();
+        List<MUser> friends = mUserDAO.listFriends(u.getId());
+        //Set<MUser> friends = u.getFriends();
+        for (var friend: friends) {
+          //  MUser friend = ((Friendship) f).getRequestedMuser();
+           // if (friend.getId() == u.getId()){
+             //   friend = ((Friendship) f).getReceivedMuser();
+            //}
             Map map = new HashMap<>();
             map.put("username", friend.getUsername());
             map.put("avatar", friend.getAvatar() != null ? friend.getAvatar() : friend.getGender() + ".svg");
             ((List) m.get("friends")).add(map);
         }
 
+
+
+
         return m;
     }
+
+
+
 
 
     public String newAvatar(String token, MultipartFile file) throws Exception {
@@ -326,7 +336,7 @@ public class UsersManager {
         else return u.getGender() + ".svg";
     }
 
-
+    @Transactional
     public List getFriendRequests(String token, String type) throws Exception {
         MUser u = getUserByToken(token);
 
@@ -335,9 +345,9 @@ public class UsersManager {
 
         List<MUser> l;
         if (type.equals("received"))
-            l = Arrays.asList(u.getRequestedMusers());
+            l = mUserDAO.listReceivedMUser(u.getId());
         else
-            l = Arrays.asList(u.getReceivedMusers());
+            l = mUserDAO.listRequestedMUser(u.getId());
 
         List r = new ArrayList();
         for (MUser mu: l) {
@@ -346,11 +356,36 @@ public class UsersManager {
             m.put("name", mu.getName());
             m.put("country", mu.getUserCountry().getAlphaCode());
             m.put("avatar", mu.getAvatar() != null ? mu.getAvatar() : mu.getGender() + ".svg");
-            m.put("common", 0); //TODO encontrar número de amigos em comum
+            m.put("common", calculateMutualFriends(u,mu)); //TODO encontrar número de amigos em comum
             r.add(m);
         }
 
         return r;
+    }
+
+    public int calculateMutualFriends(MUser muser1, MUser muser2) {
+        List<Integer> friends1 = (List<Integer>) muser1.getFriends().stream().map(t -> {
+            int fRequested = ((Friendship) t).getRequestedMuser().getId();
+           if ( fRequested != ((Friendship) t).getId()) {
+                return fRequested;
+            }
+            else {
+                return ((Friendship) t).getRequestedMuser().getId();
+           }
+        }).collect(Collectors.toList());
+        List<Integer> friends2 = (List<Integer>) muser2.getFriends().stream().map(t -> {
+            int fRequested = ((Friendship) t).getRequestedMuser().getId();
+           if ( fRequested != ((Friendship) t).getId()) {
+                return fRequested;
+            }
+            else {
+                return ((Friendship) t).getRequestedMuser().getId();
+           }
+        }).collect(Collectors.toList());
+
+        friends1.retainAll(friends2);
+
+        return friends1.size();
     }
 
 
@@ -376,6 +411,7 @@ public class UsersManager {
         save(f);
     }
 
+    @Transactional
     //Cancels a sent request
     public void processRequest(String token, String username, boolean decision) throws Exception {
         MUser u = getUserByToken(token);
@@ -395,8 +431,6 @@ public class UsersManager {
         //add friend
         else {
             Friendship friendship = friendshipDAO.loadEntity("sender=" + target.getId() + "and receiver= " +  u.getId());
-            friendship.setReceivedMuser(null);
-            friendship.setRequestedMuser(null);
             friendship.setPending(false);
             friendship.setDate(util.localDateToDate(LocalDate.now()));
 
@@ -423,7 +457,6 @@ public class UsersManager {
 
         friendshipDAO.removeEntity("sender=" + u.getId() + "and receiver= " +  target.getId());
     }
-
 
     public List search(String token, String name) throws Exception {
         if (getUserByToken(token) == null)

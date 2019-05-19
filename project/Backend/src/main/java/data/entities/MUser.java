@@ -13,6 +13,7 @@
  */
 package data.entities;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -211,15 +212,19 @@ public class MUser {
 	public int getLikesCount() {
 		return likesCount;
 	}
-	
-	public MUser[] getReceivedMusers() {
+
+	public List<MUser> getReceivedMusers() {
+		return (List) receivedFriendships.stream().filter(f -> ((Friendship) f).getPending() == true).map(f -> ((Friendship) f).getReceivedMuser()).collect(Collectors.toList());
+	}
+/*
+	public List<MUser> getReceivedMusers() {
 		java.util.ArrayList lValues = new java.util.ArrayList(5);
 		for(java.util.Iterator lIter = receivedFriendships.iterator();lIter.hasNext();) {
 			lValues.add(((Friendship)lIter.next()).getReceivedMuser());
 		}
-		return (MUser[])lValues.toArray(new MUser[lValues.size()]);
-	}
-	
+		return lValues;
+	}*/
+
 	public void removeReceivedMuser(MUser aReceivedMuser) {
 		Friendship[] lReceivedFriendships = (Friendship[])receivedFriendships.toArray(new Friendship[receivedFriendships.size()]);
 		for(int i = 0; i < lReceivedFriendships.length; i++) {
@@ -250,7 +255,9 @@ public class MUser {
 	
 	public java.util.Set getReceivedFriendships() {
 		//receivedFriendships = (Set) receivedFriendships.stream().filter(f -> ((Friendship) f).getPending() == true).collect(Collectors.toSet());
+		//return (Set) receivedFriendships.stream().filter(f -> ((Friendship) f).getPending() == true).collect(Collectors.toSet());
 		return receivedFriendships;
+
 	}
 
 	public void removeReceivedFriendships(Friendship friendship) {
@@ -366,12 +373,8 @@ public class MUser {
 	}
 	
 	
-	public MUser[] getRequestedMusers() {
-		java.util.ArrayList lValues = new java.util.ArrayList(5);
-		for(java.util.Iterator lIter = requestedFriendships.iterator();lIter.hasNext();) {
-			lValues.add(((Friendship)lIter.next()).getRequestedMuser());
-		}
-		return (MUser[])lValues.toArray(new MUser[lValues.size()]);
+	public List<MUser> getRequestedMusers() {
+		return (List) requestedFriendships.stream().filter(f -> ((Friendship) f).getPending() == true).map(f -> ((Friendship) f).getRequestedMuser()).collect(Collectors.toList());
 	}
 	
 	public void removeRequestedMuser(MUser aRequestedMuser) {
@@ -404,6 +407,8 @@ public class MUser {
 	
 	public java.util.Set getRequestedFriendships() {
 		return requestedFriendships;
+		//return  (Set) requestedFriendships.stream().filter(f -> ((Friendship) f).getPending() == true).collect(Collectors.toSet());
+
 	}
 
 

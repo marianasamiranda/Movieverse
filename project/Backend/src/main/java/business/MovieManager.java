@@ -52,7 +52,7 @@ public class MovieManager {
 
     public MUser getUserByToken(String token) {
         try {
-            return mUserDAO.loadEntityInitalize("token='" + token + "'", "id");
+            return mUserDAO.loadEntity("token='" + token + "'");
         }
         catch (Exception e) {
             return null;
@@ -158,7 +158,7 @@ public class MovieManager {
 
     public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
 
-        var user = mUserDAO.loadEntityInitalize("token='" + token + "'"  , "id");
+        var user = getUserByToken(token);
         var userMovie = new UserMovie();
 
         try {
