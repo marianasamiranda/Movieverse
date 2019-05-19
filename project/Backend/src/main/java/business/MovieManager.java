@@ -45,6 +45,9 @@ public class MovieManager {
     @Autowired
     private CommentDAO commentDAO;
 
+    @Autowired
+    private MediaDAO mediaDAO;
+
     public MovieManager() {}
 
     public MUser getUserByToken(String token) {
@@ -103,6 +106,10 @@ public class MovieManager {
             companies.add(company.getName());
         }
         result.put("companies", companies);
+
+        result.put("backdrops", mediaDAO.getMovieMedia(id, 'b', 5));
+        result.put("videos", mediaDAO.getMovieMedia(id, 'v', 5));
+        result.put("posters", mediaDAO.getMovieMedia(id, 'p', 5));
 
         return result;
     }

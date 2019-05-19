@@ -354,3 +354,10 @@
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
+.prod-company {
+    a {
+        text-decoration: none;
+        color: $darker-color;
+    }
+}

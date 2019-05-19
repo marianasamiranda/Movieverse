@@ -48,6 +48,46 @@ export default class MoviePage extends Component {
         
         const movieInfo = x.data;
 
+        var backdrops = []
+        var videos = []
+        var posters = []
+
+        for(const url of x.data.backdrops) {
+          var backdropId = url.split(/[\/.]/)[1];
+          var originalURL = "https://image.tmdb.org/t/p/original/" + backdropId + ".jpg"
+          
+          var source = "https://image.tmdb.org/t/p/w500_and_h282_face/" + backdropId + ".jpg"
+          backdrops.push({
+            "href": originalURL,
+            "src": source
+          })
+        }
+
+        for(const videoId of x.data.videos) {
+          var originalURL = "https://www.youtube.com/watch?v=" + videoId
+          var source = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
+          videos.push({
+            "href": originalURL,
+            "src": source
+          })
+        }
+
+        for(const url of x.data.posters) {
+          var posterId = url.split(/[\/.]/)[1];
+          var originalURL = "https://image.tmdb.org/t/p/original/" + posterId + ".jpg"
+          var source = "https://image.tmdb.org/t/p/w220_and_h330_face/" + posterId + ".jpg"
+          posters.push({
+            "href": originalURL,
+            "src": source
+          })
+        }
+
+        this.setState({
+          backdrops: backdrops,
+          videos: videos,
+          posters: posters
+        })
+
         return Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
           { headers: { Authorization: "Bearer " + token } })
           .then(y => {
@@ -74,21 +114,6 @@ export default class MoviePage extends Component {
   }
 
   render() {
-
-    // TODO: Fazer isto de outra forma
-    const videos = [
-      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"},
-      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"},
-      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"},
-      {"href": "https://www.youtube.com/watch?v=SYb-wkehT1g", "src": "http://img.youtube.com/vi/SYb-wkehT1g/0.jpg"}
-    ]
-
-    const backdrops = [
-      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
-      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
-      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"},
-      {"href": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg", "src": "https://image.tmdb.org/t/p/original/ekWMoBZ4B9rM60INZEh5FAD2HFR.jpg"}
-    ]
 
     if (!this.state.movie) {
       return (
@@ -157,14 +182,18 @@ export default class MoviePage extends Component {
                 <TabList>
                   <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
                   >Media</h1>
+                  <Tab>Posters</Tab>
                   <Tab>Videos</Tab>
                   <Tab>Backdrops</Tab>
                 </TabList>
                 <TabPanel>
-                  <HorizontalSlider more="/media" content={videos}/>
+                  <HorizontalSlider more="/media" content={this.state.posters}/>
                 </TabPanel>
                 <TabPanel>
-                  <HorizontalSlider more="/media" content={backdrops}/>   
+                  <HorizontalSlider more="/media" content={this.state.videos}/>
+                </TabPanel>
+                <TabPanel>
+                  <HorizontalSlider more="/media" content={this.state.backdrops}/>   
                 </TabPanel>
               </Tabs>
               <h1>Discussion</h1>
@@ -186,9 +215,9 @@ export default class MoviePage extends Component {
                 </div>
                 <h6>Prod. Companies</h6>
                 <p>
-                  Pixar
-                  <br />
-                  United States of America
+                  { this.state.movie.companies.map((company) =>
+                    <div className="prod-company"><a href="#">{company}</a><br/></div>
+                  )} 
                 </p>
               </div>
             </div>
