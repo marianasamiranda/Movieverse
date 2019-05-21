@@ -1,5 +1,6 @@
 package business;
 
+import data.RedisCache;
 import data.daos.*;
 import data.entities.*;
 import data.daos.impl.ShowtimeDAOImpl;
@@ -43,10 +44,20 @@ public class MovieManager {
     private ShowtimeDAO showtimeDAO;
 
     @Autowired
+    private TheaterDAO theaterDAO;
+
+    @Autowired
     private CommentDAO commentDAO;
 
     @Autowired
     private MediaDAO mediaDAO;
+
+    @Autowired
+    private Util util;
+
+    @Autowired
+    private RedisCache redisCache;
+
 
     public MovieManager() {}
 
@@ -58,6 +69,7 @@ public class MovieManager {
             return null;
         }
     }
+
 
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
@@ -114,6 +126,7 @@ public class MovieManager {
         return result;
     }
 
+
     /*public boolean addComment(Map<String, String> comment) throws IOException {
         if (false) {
             throw new IOException();
@@ -121,6 +134,7 @@ public class MovieManager {
         // TODO: quando tiver DAOs
         return true;
     }*/
+
 
     public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws IOException {
 
@@ -155,6 +169,7 @@ public class MovieManager {
 
         return result;
     }
+
 
     public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
 
@@ -238,6 +253,7 @@ public class MovieManager {
         return true;
     }
 
+
     private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
         var dateFavourited = new Date();
         try {
@@ -300,28 +316,61 @@ public class MovieManager {
     }
 
 
-    public List showtimes(int theater) {
-        return showtimeDAO.getShowtimes(theater);
+    public Object showtimes(int theater) {
+        String cachedShowtimes = redisCache.get("showtimes_" + theater);
+
+        if (cachedShowtimes != null)
+            return cachedShowtimes;
+
+        List showtimes = showtimeDAO.getShowtimes(theater);
+
+        String json = util.toJson(showtimes);
+        redisCache.set("showtimes_" + theater, json);
+        redisCache.set("showtimes_" + theater + "_date", Long.toString(util.unixTimeSeconds() + 3600)); //1 hour
+
+        return showtimes;
     }
+
 
     public int estimatedCount() {
         return movieDAO.estimatedSize();
     }
 
+
     public int estimatedNumberOfComments() {
         return commentDAO.estimatedSize();
     }
+
 
     public List latestMovies(int begin, int limit) {
         return movieDAO.getLatestMovies(begin, limit);
     }
 
-    public Map movieSearchPage() {
+
+    public Object movieSearchPage() {
+        String cachedInfo = redisCache.get("movieSearchPageInfo");
+
+        if (cachedInfo != null)
+            return cachedInfo;
+
         Map m = new HashMap();
         m.put("latest", movieDAO.getLatestMovies(0, 30));
         m.put("popular", movieDAO.getPopularMovies(0, 30));
         m.put("upcoming", movieDAO.getUpcomingMovies(0, 30));
+
+        String json = util.toJson(m);
+        redisCache.set("movieSearchPageInfo", json);
+        redisCache.set("movieSearchPageInfo_date", Long.toString(util.unixTimeSeconds() + 3600)); //1 hour
+
         return m;
+    }
+
+
+    public List<Integer> theatersIds() {
+        return theaterDAO.findAll()
+                         .stream()
+                         .map(Theater::getId)
+                         .collect(Collectors.toList());
     }
 
     public List randomUpcomingMovies(int limit) {

@@ -1,5 +1,6 @@
 package business;
 
+import data.RedisCache;
 import data.daos.MediaDAO;
 import data.daos.MemberDAO;
 import data.daos.MovieDAO;
@@ -36,14 +37,19 @@ public class MemberManager {
     @Autowired
     private MediaDAO mediaDAO;
 
-    public MemberManager() {}
+    @Autowired
+    private Util util;
+
+    @Autowired
+    private RedisCache redisCache;
+
 
     public Object memberInfo(int id) {
 
         String datePattern = "dd/MM/yyy";
         DateFormat df = new SimpleDateFormat(datePattern);
 
-        Member m = memberDAO.loadEntity("tmdb=" + id);
+        Member m = memberDAO.findById(id);
 
         List<Map<String, Object>> moviesInfo = movieDAO.getMemberMoviesFromTo(id, 0, 50);
         boolean moreMovies = !(moviesInfo.size() < 50);
@@ -65,6 +71,7 @@ public class MemberManager {
         return info;
 
     }
+
 
     public List search(String name) throws Exception {
         if (name == null || name.equals(""))
@@ -105,15 +112,36 @@ public class MemberManager {
         return info;
     }
 
+
     public int estimatedCount() {
         return memberDAO.estimatedSize();
     }
+
 
     public List bornToday(int begin, int limit) {
         return memberDAO.bornToday(begin, limit);
     }
 
+
     public List mostCredits(int begin, int limit) {
         return memberDAO.mostCredits(begin, limit);
+    }
+
+
+    public Object memberSearchPage() {
+        String cachedInfo = redisCache.get("memberSearchPageInfo");
+
+        if (cachedInfo != null)
+            return cachedInfo;
+
+        Map m = new HashMap();
+        m.put("bornToday", bornToday(0, 100));
+        m.put("mostCredits", mostCredits(0, 100));
+
+        String json = util.toJson(m);
+        redisCache.set("memberSearchPageInfo", json);
+        redisCache.set("memberSearchPageInfo_date", Long.toString(util.unixTimeSeconds() + 3600)); //1 hour
+
+        return m;
     }
 }

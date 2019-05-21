@@ -1,7 +1,7 @@
 package business;
 
+import data.RedisCache;
 import data.daos.NewsDAO;
-import data.entities.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,27 @@ import java.util.List;
 public class NewsManager {
 
     @Autowired
-    NewsDAO newsDAO;
+    private NewsDAO newsDAO;
 
-    public List getNews() {
-        return newsDAO.findAll();
+    @Autowired
+    private Util util;
+
+    @Autowired
+    private RedisCache redisCache;
+
+
+    public Object getNews() {
+        String cachedNews = redisCache.get("news");
+
+        //in cache
+        if (cachedNews != null)
+            return cachedNews;
+
+        //not in cache
+        List news = newsDAO.findAll();
+        String json = util.toJson(news);
+        redisCache.set("news", json);
+        redisCache.set("news_date", Long.toString(util.unixTimeSeconds() + 3600)); //validity = 1 hour
+        return news;
     }
 }

@@ -50,10 +50,7 @@ public class Members {
     @RequestMapping(method = GET, value = "/people-search-page")
     public ResponseEntity<Object> bornToday() {
         try {
-            Map m = new HashMap();
-            m.put("bornToday", memberManager.bornToday(0, 100));
-            m.put("mostCredits", memberManager.mostCredits(0, 100));
-            return Util.ok(m);
+            return Util.ok(memberManager.memberSearchPage());
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());

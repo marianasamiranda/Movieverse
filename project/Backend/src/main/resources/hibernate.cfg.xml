@@ -40,6 +40,7 @@ License Type: Academic
 		<mapping resource="ormmapping/data/movieverse/Member.hbm.xml" />
 		<mapping resource="ormmapping/data/movieverse/Movie.hbm.xml" />
 		<mapping resource="ormmapping/data/movieverse/MovieMember.hbm.xml" />
+		<mapping resource="ormmapping/data/movieverse/News.hbm.xml" />
 		<mapping resource="ormmapping/data/movieverse/Showtime.hbm.xml" />
 		<mapping resource="ormmapping/data/movieverse/Theater.hbm.xml" />
 		<mapping resource="ormmapping/data/movieverse/UserMovie.hbm.xml" />
