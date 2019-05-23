@@ -209,7 +209,7 @@ export default class MoviePage extends Component {
                 <div className="movie-genre">
                   <ul>
                     { this.state.movie.genres.map((genre) =>
-                        <li><a href="#">{genre}</a></li>
+                        <li><a href={`/movies?genre=${genre}`}>{genre}</a></li>
                     )}      
                   </ul>
                 </div>

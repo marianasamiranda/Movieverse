@@ -119,9 +119,11 @@ public class MovieManager {
         }
         result.put("companies", companies);
 
-        result.put("backdrops", mediaDAO.getMovieMedia(id, 'b', 5));
-        result.put("videos", mediaDAO.getMovieMedia(id, 'v', 5));
-        result.put("posters", mediaDAO.getMovieMedia(id, 'p', 5));
+        var groupedMedia = mediaDAO.getMovieMedia(id);
+
+        result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
+        result.put("videos", ((List<String>) groupedMedia.get('v')).stream().limit(5).collect(Collectors.toList()));
+        result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
 
         return result;
     }
