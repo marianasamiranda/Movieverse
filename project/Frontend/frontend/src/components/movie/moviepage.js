@@ -44,6 +44,7 @@ export default class MoviePage extends Component {
 
     Axios.get(backend + '/movie/' + this.props.match.params.id)
       .then(x => {
+        document.title = x.data.name + " | Movieverse"
         const token = getToken()
         
         const movieInfo = x.data;

@@ -33,14 +33,14 @@ $label: #aaaaaa;
     padding: 13px;
     padding-right: 16px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-    margin-bottom: 60px;
+    margin-bottom: 25px;
 
     @media(max-width: 991px) {
         margin-bottom: 30px;
     }
 
     .box {
-        max-height: 615px;
+        max-height: 603px;
         overflow-y: scroll;
         overflow-x: hidden;
 
@@ -77,17 +77,23 @@ $label: #aaaaaa;
         background-color: $alabaster;
         cursor: pointer;
 
-        &:hover {
-            border-bottom: 2px solid rgba($primary-color, 0.5);
-            //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+        @media(min-width: 992px) {
+            &:hover {
+                border-bottom: 2px solid rgba($primary-color, 0.5);
+            }
+
+            &.selected {
+                color: #333333;
+                cursor: inherit;
+                border-bottom: 3px solid $primary-color;
+            }
         }
 
-        &.selected {
-            color: #333333;
-            //background-color: #e4e4e4;
-            cursor: inherit;
-            //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-            border-bottom: 3px solid $primary-color;
+        @media(max-width: 991px) {
+            &.selected {
+                color: #333333;
+                cursor: inherit;
+            }
         }
 
         &[class*='col'] {
@@ -155,6 +161,7 @@ $label: #aaaaaa;
         font-size: 19pt;
         margin-top: 6px;
         margin-right: 70px;
+        margin-left: 6px;
     }
 
     .label {

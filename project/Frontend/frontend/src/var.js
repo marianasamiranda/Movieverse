@@ -159,6 +159,7 @@ export const labels = {
     //aux pages
     noResultsFound: 'No results found',
     loading: 'Loading',
+    noMoreResults: 'No more results',
     toTheMainPage: 'To the main page!',
     pageNotFound: '404 - Page not found',
     noAuth: 'You must be logged in to access this page',
@@ -274,6 +275,7 @@ export const labels = {
     //aux pages
     noResultsFound: 'Nenhuns resultados encontrados',
     loading: 'Carregando',
+    noMoreResults: 'Sem mais resultados',
     toTheMainPage: 'Para a página principal!',
     pageNotFound: '404 - Página não encontrada',
     noAuth: 'Precisa de estar autenticado para aceder a esta página',

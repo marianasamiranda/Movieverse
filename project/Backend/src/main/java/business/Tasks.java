@@ -36,7 +36,7 @@ public class Tasks {
     @PostConstruct
     public void startUp() {
         dataUtil.createViews();
-        dataUtil.refreshViews(true);
+        dataUtil.refreshViews();
         clearRedisCache();
     }
 
@@ -44,7 +44,7 @@ public class Tasks {
     //every day 1 am
     @Scheduled(cron = EVERY_DAY_1AM)
     public void refreshViews() {
-        dataUtil.refreshViews(false);
+        dataUtil.refreshViews();
     }
 
 

@@ -156,4 +156,19 @@ public class Users {
             return Util.badRequest("");
         }
     }
+
+    @RequestMapping(method = GET, value = "profile/{movieListType}")
+    public ResponseEntity<Object> userMovieList(@PathVariable("movieListType") String type,
+                                                @RequestHeader(value = "Authorization") String t,
+                                                @RequestParam(value = "begin") int begin,
+                                                @RequestParam(value = "limit") int limit) {
+        String token = t.split(" ")[1];
+        try {
+            return Util.ok(usersManager.movieList(token, type, begin, limit));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return Util.badRequest("");
+        }
+    }
 }

@@ -13,7 +13,6 @@ const stats = [
 
 export default class StatsCard extends Component {
   render() {
-
     let l = []
     stats.forEach(x => {
       l.push(

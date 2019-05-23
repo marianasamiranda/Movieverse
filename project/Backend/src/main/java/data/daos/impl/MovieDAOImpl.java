@@ -1,6 +1,6 @@
 package data.daos.impl;
 
-import business.Util;
+import data.DataUtil;
 import data.daos.MovieDAO;
 import data.entities.Movie;
 import org.hibernate.Hibernate;
@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -23,7 +21,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     private EntityManager entityManager;
 
     @Autowired
-    private Util util;
+    private DataUtil dataUtil;
 
     @Transactional(readOnly=true)
     public Movie loadEntityEager(String condition) {
@@ -73,7 +71,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
          .setParameter(2, limit);
 
         List<Object[]> l = query.getResultList();
-        return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
     }
 
 
@@ -87,7 +85,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
          .setParameter(2, limit);
 
         List<Object[]> l = query.getResultList();
-        return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "rating"));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "rating"));
     }
 
 
@@ -101,7 +99,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
          .setParameter(2, limit);
 
         List<Object[]> l = query.getResultList();
-        return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
     }
 
     public List getRandomUpcomingMovies(int limit) {
@@ -112,7 +110,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
         ).setMaxResults(limit);
 
         List<Object[]> l = query.getResultList();
-        return util.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
     }
 }
 

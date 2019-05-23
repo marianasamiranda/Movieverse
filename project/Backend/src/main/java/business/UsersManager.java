@@ -24,9 +24,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 public class UsersManager {
@@ -215,6 +215,7 @@ public class UsersManager {
 
         if (u == null)
             throw new Exception("Wrong token");
+
         boolean self = false;
         String friendship = null;
         if (username != null) {
@@ -228,8 +229,9 @@ public class UsersManager {
                         .anyMatch(x -> x.getUsername().equals(username)))
                     friendship = "requested";
                 //TODO
-                //else if (Arrays.asList(u.getFriends()) ...)
-                //friendship = "friends"
+                else if (mUserDAO.listFriends(u.getId()).stream()
+                        .anyMatch(x -> x.getUsername().equals(username)))
+                    friendship = "friends";
                 else
                     friendship = null;
                 u = getUserByUsername(username);
@@ -249,24 +251,21 @@ public class UsersManager {
         m.put("genre", u.getFavouriteGenre() != null ? u.getFavouriteGenre().getName() : null);
         m.put("statsMovies", u.getMovieCount());
         m.put("statsHours", u.getHoursCount());
-        m.put("statsComments", 0);//TODO
-        m.put("statsRatings", 0);//TODO
+        m.put("statsComments", u.getCommentsCount());
+        m.put("statsRatings", u.getRatingsCount());
+        m.put("statsFriends", u.getFriendsCount());
         m.put("badges", u.getBadges());
         m.put("avatar", u.getAvatar());
         m.put("self", self);
         m.put("friendship", friendship);
-        //m.put("statsFriends", u.getFriendsCount()); // TODO
-        //m.put("recentMovies", u.getMovies()); TODO
-        //m.put("favouritesMovies", u.getMovies()) TODO
-        //m.put("watchlist", u.getMovies()) TODO
-        //m.put("recommended", u.getMovies()) TODO
+
         m.put("friends", new ArrayList<>());
         List<MUser> friends = mUserDAO.listFriends(u.getId());
         //Set<MUser> friends = u.getFriends();
         for (var friend: friends) {
-          //  MUser friend = ((Friendship) f).getRequestedMuser();
-           // if (friend.getId() == u.getId()){
-             //   friend = ((Friendship) f).getReceivedMuser();
+            //  MUser friend = ((Friendship) f).getRequestedMuser();
+            // if (friend.getId() == u.getId()){
+            //   friend = ((Friendship) f).getReceivedMuser();
             //}
             Map map = new HashMap<>();
             map.put("username", friend.getUsername());
@@ -274,14 +273,30 @@ public class UsersManager {
             ((List) m.get("friends")).add(map);
         }
 
+        Map<String, List<Map>> movies;
+        movies = mUserDAO.allMovieTypes(u.getId(), 0, 24)
+                         .stream()
+                         .collect(groupingBy(x -> ((String) x.get("type"))));
 
+        if (!movies.containsKey("recent"))
+            movies.put("recent", List.of());
 
+        if (!movies.containsKey("favourite"))
+            movies.put("favourite", List.of());
+
+        if (!movies.containsKey("watchlist"))
+            movies.put("watchlist", List.of());
+
+        if (!movies.containsKey("recommended"))
+            movies.put("recommended", List.of());
+
+        m.put("recent", movies.get("recent"));
+        m.put("favourite", movies.get("favourite"));
+        m.put("watchlist", movies.get("watchlist"));
+        m.put("recommended", movies.get("recommended"));
 
         return m;
     }
-
-
-
 
 
     public String newAvatar(String token, MultipartFile file) throws Exception {
@@ -372,7 +387,7 @@ public class UsersManager {
             else {
                 return ((Friendship) t).getRequestedMuser().getId();
            }
-        }).collect(Collectors.toList());
+        }).collect(toList());
         List<Integer> friends2 = (List<Integer>) muser2.getFriends().stream().map(t -> {
             int fRequested = ((Friendship) t).getRequestedMuser().getId();
            if ( fRequested != ((Friendship) t).getId()) {
@@ -381,7 +396,7 @@ public class UsersManager {
             else {
                 return ((Friendship) t).getRequestedMuser().getId();
            }
-        }).collect(Collectors.toList());
+        }).collect(toList());
 
         friends1.retainAll(friends2);
 
@@ -493,4 +508,30 @@ public class UsersManager {
         return mUserDAO.estimatedSize();
     }
 
+    public Object movieList(String token, String type, int begin, int limit) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        List results = null;
+        switch (type) {
+            case "recent":
+                results = mUserDAO.recentMovies(u.getId(), begin, limit);
+                break;
+            case "favourites":
+                results = mUserDAO.favouriteMovies(u.getId(), begin, limit);
+                break;
+            case "watchlist":
+                results = mUserDAO.watchlist(u.getId(), begin, limit);
+                break;
+            case "recommended":
+                results = mUserDAO.recommendedMovies(u.getId(), begin, limit);
+                break;
+            default:
+                throw new Exception("No such type");
+        }
+
+        return results;
+    }
 }

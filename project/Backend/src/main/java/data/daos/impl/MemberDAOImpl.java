@@ -1,6 +1,6 @@
 package data.daos.impl;
 
-import business.Util;
+import data.DataUtil;
 import data.daos.MemberDAO;
 import data.entities.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class MemberDAOImpl extends DAOImpl<Integer , Member> implements MemberDA
     private EntityManager entityManager;
 
     @Autowired
-    private Util util;
+    private DataUtil dataUtil;
 
 
     public List bornToday(int begin, int limit) {
@@ -33,7 +33,7 @@ public class MemberDAOImpl extends DAOImpl<Integer , Member> implements MemberDA
          .setParameter(2, limit);
 
         List<Object[]> l = query.getResultList();
-        return util.queryListToListMap(l, Arrays.asList("id", "name", "image", "age"));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "image", "age"));
     }
 
     public List mostCredits(int begin, int limit) {
@@ -46,6 +46,6 @@ public class MemberDAOImpl extends DAOImpl<Integer , Member> implements MemberDA
          .setParameter(2, limit);
 
         List<Object[]> l = query.getResultList();
-        return util.queryListToListMap(l, Arrays.asList("id", "name", "image", "total"));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "image", "total"));
     }
 }

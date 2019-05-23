@@ -26,16 +26,6 @@ public class Util {
         return Date.from(d.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
-    public List<Map> queryListToListMap(List<Object[]> objects, List params) {
-        List l = new ArrayList();
-        objects.forEach(x -> {
-            Map m = new HashMap();
-            params.forEach(p -> m.put(p, x[params.indexOf(p)]));
-            l.add(m);
-        });
-        return l;
-    }
-
     public String toJson(Object o) {
         try {
             return objectMapper.writeValueAsString(o);

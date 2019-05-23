@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Flag from '../flag';
-import {genres, labels} from '../../var'
+import {labels} from '../../var'
 
 export default class InfoCard extends Component {
   render() {

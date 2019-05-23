@@ -4,10 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DataUtil {
@@ -80,14 +78,21 @@ public class DataUtil {
     }
 
     @Transactional
-    public void refreshViews(boolean startUp) {
+    public void refreshViews() {
         List<String> views = Arrays.asList(
             "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies"
         );
 
         views.forEach(x -> entityManager.createNativeQuery("REFRESH MATERIALIZED VIEW " + x).executeUpdate());
+    }
 
-        if (startUp)
-            entityManager.close();
+    public List<Map> queryListToListMap(List<Object[]> objects, List params) {
+        List l = new ArrayList();
+        objects.forEach(x -> {
+            Map m = new HashMap();
+            params.forEach(p -> m.put(p, x[params.indexOf(p)]));
+            l.add(m);
+        });
+        return l;
     }
 }

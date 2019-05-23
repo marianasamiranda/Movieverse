@@ -5,7 +5,7 @@ import Flag from './flag';
 export default class MovieCard extends Component {
   render() {
     let card = 
-      <div className="text-center movie-card-container">
+      <div className={"text-center movie-card-container" + (this.props.full ? " full" : "")}>
         <img className="movie-card" src={this.props.img} alt=""
           onError={(e) => { e.target.onerror = null; e.target.src = "https://imgplaceholder.com/200x283/dddddd/777777/fa-image" }} />
         <div className="label">

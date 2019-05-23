@@ -11,44 +11,14 @@ import StatsCard from './stats-card'
 import Select from 'react-select'
 import {genres, backend, avatars, labels} from '../../var'
 import Dropzone from 'react-dropzone'
-import FriendsCard from './friends-card'
-import MoviesCard from './movies-card'
+import FriendsTab from './friends-tab'
+import MoviesTab from './movies-tab'
 import ReactLoading from 'react-loading'
 import { getToken } from '../../cookies'
 import Axios from 'axios'
 import Loading from '../aux_pages/loading'
 import NoAuthError from '../aux_pages/noAuthError'
 import NotFoundError from '../aux_pages/notFoundError'
-
-const movies = {
-  recent: [
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')}
-  ],
-  favourites: [
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')},
-    {title: 'Movie Title', img:require('../../img/movie_card.png')}
-  ],
-  watchlist: [
-    { title: 'Movie Title', img:require( '../../img/movie_card.png') }
-  ],
-  recommended: [
-    { title: 'Movie Title', img:require( '../../img/movie_card.png') },
-    { title: 'Movie Title', img:require( '../../img/movie_card.png') },
-    { title: 'Movie Title', img:require( '../../img/movie_card.png') },
-    { title: 'Movie Title', img:require( '../../img/movie_card.png') }
-  ]
-}
 
 
 export default class Profile extends Component {
@@ -64,7 +34,7 @@ export default class Profile extends Component {
       showGenreModal: false,
       showAvatarModal: false,
       dragOn: false,
-      user: user,
+      user: user
     }
     this.getUserInfo(user)
     this.handleGenreModal = this.handleGenreModal.bind(this)
@@ -93,22 +63,28 @@ export default class Profile extends Component {
 
     return Axios.get(backend + '/profile' + query, 
         { headers: { Authorization: "Bearer " + token } }).then(x => {
-      let stats = {}
-      stats['Movies'] = x.data.statsMovies
-      stats['Hours'] = x.data.statsHours
-      stats['Comments'] = x.data.statsComments
-      stats['Ratings'] = x.data.statsRatings
-      stats['Friends'] = x.data.statsFriends
       
       let data = x.data
       data['avatarImg'] = avatars + data['avatar']
       
       this.setState({
         data: x.data,
-        stats: stats,
+        stats: {
+          movies:x.data.statsMovies,
+          hours: x.data.statsHours,
+          comments: x.data.statsComments,
+          ratings: x.data.statsRatings,
+          friends: x.data.statsFriends
+        },
         user: x.data['self'] ? undefined : user,
         friends: x.data['friends'],
-        isFriend: data['friendship']
+        isFriend: data['friendship'],
+        movies: {
+          recent: x.data.recent,
+          favourites: x.data.favourite,
+          watchlist: x.data.watchlist,
+          recommended: x.data.recommended
+        }
       })
     })
     .catch(x => {
@@ -118,7 +94,6 @@ export default class Profile extends Component {
         })
       }
       else {
-        console.log(x)
         this.setState({
           noUser: true
         })
@@ -159,7 +134,6 @@ export default class Profile extends Component {
       this.handleAvatarModal()
     })
     .catch(x => { //TODO remove?
-      console.log(x.response.data)
       this.setState({
         newAvatarLoading: false,
       })
@@ -210,7 +184,6 @@ export default class Profile extends Component {
           data: data
         })
       })
-      .catch(x => console.log(x.response.data))
   }
 
   friendStatusButton() {
@@ -248,7 +221,7 @@ export default class Profile extends Component {
 
 
   checkReload(prevProps) {
-    if (this.props.match && this.props.match.params.username !== this.state.user) {
+    if (this.props.match && this.props.match.params.username !== this.state.data.username) {
       this.getUserInfo(this.props.match.params.username)
     }
     else if (!this.props.match && prevProps.match) {
@@ -277,7 +250,7 @@ export default class Profile extends Component {
     }
 
     const data = this.state.data
-
+    
     return (
       <div>
         <Container className="container-padding-large">
@@ -328,10 +301,10 @@ export default class Profile extends Component {
           </Row>
           <Row>
             <Col xs="12" lg="9">
-              <MoviesCard movies={movies} lang={this.props.lang}/>
+              <MoviesTab movies={this.state.movies} user={data.username} lang={this.props.lang}/>
             </Col>
             <Col xs="12" lg="3">
-              <FriendsCard friends={this.state.friends} lang={this.props.lang}/>
+              <FriendsTab friends={this.state.friends} lang={this.props.lang}/>
             </Col>
           </Row>
         </Container>
