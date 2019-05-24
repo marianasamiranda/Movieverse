@@ -13,12 +13,6 @@ import Axios from 'axios'
 import queryString from 'query-string'
 import NoResultsFound from './aux_pages/noResultsFound';
 
-//const sort = [
-//  {value: 'dateAsc', label: 'Date (Ascending)'},
-//  {value: 'dateDesc', label: 'Date (Descending)'},
-//  {value: 'rating', label: 'Rating'},
-//]
-
 const sort = ['dateAsc', 'dateDesc', 'rating']
 
 export default class MovieSearch extends Component {

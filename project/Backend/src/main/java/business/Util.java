@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,6 +32,16 @@ public class Util {
             return objectMapper.writeValueAsString(o);
         }
         catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Object fromJson(String json, Class c) {
+        try {
+            return objectMapper.readValue(json, c);
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return null;
         }

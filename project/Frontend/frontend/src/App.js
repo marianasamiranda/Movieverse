@@ -83,7 +83,7 @@ class App extends Component {
               {mainPage}
               <Route exact path="/news" render={() => <NewsPage lang={this.state.language} />} />
               <Route exact path="/movies" render={(props) => <MovieSearch {...props} lang={this.state.language} />} />
-              <Route exact path="/showtimes" render={() => <Showtimes lang={this.state.language} />} />
+              <Route exact path="/showtimes" render={(props) => <Showtimes {...props} lang={this.state.language} />} />
               <Route exact path="/people" render={() => <PeopleSearch lang={this.state.language} />} />
               <Route exact path="/profile" render={() => <Profile setAvatar={this.setAvatar} lang={this.state.language} />} />
               <Route exact path="/users" render={() => <FindUsers lang={this.state.language} />} />

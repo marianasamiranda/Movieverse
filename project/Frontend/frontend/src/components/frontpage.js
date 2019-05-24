@@ -3,6 +3,7 @@ import Banner from './banner'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
 import SellingPoint from './selling-point'
 import MovieCard from './movie-card'
 import StatsItem from './stats-item'
@@ -42,10 +43,10 @@ export default class FrontPage extends Component {
   }
 
   buildCards() {
-    let l = []
+    let m = [], n = []
     this.state.data.releases.forEach(x => {
-      l.push(
-        <Col sm="3" xs="6" key={this.state.data.releases.indexOf(x)}>
+      m.push(
+        <Col sm="4" xs="6" key={this.state.data.releases.indexOf(x)}>
           <MovieCard 
             img={'http://image.tmdb.org/t/p/w200/' + x.poster} 
             title={x.name} 
@@ -54,8 +55,25 @@ export default class FrontPage extends Component {
         </Col>
       )
     })
+    this.state.data.news.forEach(x => {
+      n.push(
+        <Col xs="12" key={this.state.data.news.indexOf(x)}>
+          <a href={x.link}>
+            <Card className="news-card-compact">
+              <Card.Img variant="top" src={x.image} />
+              <Card.Body>
+                <Card.Title className="card-title">
+                  {x.title}
+                </Card.Title>
+              </Card.Body>
+            </Card>
+          </a>
+        </Col>
+      )
+    })
     this.setState({
-      cards: l
+      movieCards: m,
+      newsCards: n
     })
   }
 
@@ -64,11 +82,27 @@ export default class FrontPage extends Component {
       <div>
         <Banner handleSession={this.props.handleSession} lang={this.props.lang} />
         <Container className="container-padding">
-          <div className="title">
-            {labels[this.props.lang].newReleases}
-          </div>
           <Row>
-            {this.state.cards}
+            <Col md="6">
+              <Row>
+                <Col xs="12" className="title text-center">
+                  {labels[this.props.lang].newReleases}
+                </Col>
+              </Row>
+              <Row>
+                {this.state.movieCards}
+              </Row>
+            </Col>
+            <Col md="6">
+              <Row>
+                <Col xs="12" className="title text-center">
+                  {labels[this.props.lang].latestNews}
+                </Col>
+              </Row>
+              <Row>
+                {this.state.newsCards}
+              </Row>
+            </Col>
           </Row>
         </Container>
         <div className="bg-light-gray">

@@ -7,12 +7,12 @@ import { labels, backend } from '../../var';
 import { getToken } from '../../cookies'
 import Axios from 'axios';
 
-const limit = 12;
+const limit = 8;
 
 export default class MoviesCard extends Component {
   
   constructor(props) {
-    super(props)    
+    super(props)
     this.state = this.resetedState()
     this.handleChange = this.handleChange.bind(this)
     this.showMore = this.showMore.bind(this)
@@ -27,7 +27,7 @@ export default class MoviesCard extends Component {
         recommended: this.buildMovieCards(this.props.movies.recommended),
         current: 1,
         loading: false,
-        showMore: this.props.movies.recent.length >= 12
+        showMore: this.props.movies.recent.length >= limit
       }
   }
 
@@ -72,22 +72,39 @@ export default class MoviesCard extends Component {
           [this.state.currentTab]: this.state[this.state.currentTab].concat(this.buildMovieCards(x.data)),
           current: this.state.current + 1,
           loading: false,
-          showMore: x.data.length === 24
-        })
+          showMore: x.data.length === 24,
+        }, () => this.setState({ scroll: true }))
       })
     }
     else {
       this.setState({
         current: this.state.current + 1,
         showMore: ((this.state.current + 1) * limit > this.state[this.state.currentTab].length ? false : true)
-      })
+      }, () => this.setState({ scroll: true }))
     }
+  }
+
+  scrollCard() {
+    setTimeout(() => {
+      console.log("asdasdasd");
+      
+      if (this.card !== undefined) {
+        this.card.scroll({top: this.card.scrollHeight, behavior: 'smooth'})
+        this.setState({
+          scroll: false
+        })
+      }
+    }, 100)
+
   }
 
   render() {
     
+    if (this.state.scroll)
+      this.scrollCard()
+
     return (
-      <div className="info-card" ref={(el) => { this.card = el; }}>
+      <div className="info-card">
         <Row>
           <Col lg="3" onClick={() => this.handleChange('recent')}
             className={"card-title " + (this.state.currentTab === "recent" ? "selected" : "")}>
@@ -106,14 +123,18 @@ export default class MoviesCard extends Component {
             {labels[this.props.lang].recommended}
           </Col>
         </Row>
-        <Row className="box">
-          {this.state[this.state.currentTab].length > 0 ?
-            this.state[this.state.currentTab].slice(0, this.state.current * limit) :
-            <Col xs="12" className="text-center">
-              <p>No movies yet</p>
-            </Col>
-          }
-        </Row>
+        <div>
+          <div className="box" ref={(el) => { this.card = el; }}>
+            <Row>
+            {this.state[this.state.currentTab].length > 0 ?
+              this.state[this.state.currentTab].slice(0, this.state.current * limit) :
+              <Col xs="12" className="text-center">
+                <p>No movies yet</p>
+              </Col>
+            }
+            </Row>
+          </div>
+        </div>
           <Button 
               variant="secondary" 
               size="sm" 

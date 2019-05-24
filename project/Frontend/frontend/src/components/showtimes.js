@@ -10,6 +10,7 @@ import {selectStyles, theaters, backend, labels} from '../var'
 import Loading from './aux_pages/loading'
 import { ReactBingmaps } from 'react-bingmaps'
 import NoResultsFound from './aux_pages/noResultsFound';
+import queryString from 'query-string'
 
 const theaters_ = []
 Object.keys(theaters).forEach(x => theaters_.push({ value: x, label: x}))
@@ -22,20 +23,26 @@ export default class PeopleSearch extends Component {
       movies: [],
       loading: false
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.handleTheater = this.handleTheater.bind(this)
     this.getShowtimes = this.getShowtimes.bind(this)
   }
 
-  handleChange(v) {
+  componentDidMount() {
+    document.title = "Showtimes - " + this.state.theater + " | Movieverse"
+    this.getShowtimes(this.state.theater)
+    const t = queryString.parse(this.props.location.search)
+    console.log(t.name);
+
+    if (t.name) {
+      this.handleTheater({value: t.name})
+    }
+  }
+
+  handleTheater(v) {
     this.setState({
       theater : v.value
     })
     this.getShowtimes(v.value)
-  }
-
-  componentDidMount() {
-    document.title = "Showtimes | Movieverse"
-    this.getShowtimes(this.state.theater)
   }
 
   getShowtimes(t) {
@@ -44,6 +51,8 @@ export default class PeopleSearch extends Component {
     })
     const query = '?theater=' + theaters[t].id
     Axios.get(backend + '/showtimes' + query).then(x => {
+      this.props.history.push('?name=' + t)
+      document.title = "Showtimes - " + t + " | Movieverse"
       this.setState({
         movies: x.data,
         loading: false
@@ -98,7 +107,7 @@ export default class PeopleSearch extends Component {
                   isSearchable
                   options={theaters_}
                   styles={selectStyles}
-                  onChange={this.handleChange}
+                  onChange={this.handleTheater}
                   value={{value: this.state.theater, label: this.state.theater}}
                 />
               </Col>

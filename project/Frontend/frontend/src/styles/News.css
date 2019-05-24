@@ -36,6 +36,35 @@
   }
 }
 
+.news-card-compact {
+  font-family: "Roboto", sans-serif;
+  width: 400px;
+  max-height: 220px;
+  text-decoration: none !important;
+  color: #333333;
+  text-align: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.news-card-compact .card-body {
+  padding: 10px;
+}
+
+.news-card-compact .card-img-top {
+  height: 120px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.news-card-compact .card-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+}
+
 .news-container {
   margin-top: 50px;
   margin-bottom: 20px;

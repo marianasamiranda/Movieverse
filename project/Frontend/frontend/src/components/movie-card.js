@@ -7,7 +7,7 @@ export default class MovieCard extends Component {
     let card = 
       <div className={"text-center movie-card-container" + (this.props.full ? " full" : "")}>
         <img className="movie-card" src={this.props.img} alt=""
-          onError={(e) => { e.target.onerror = null; e.target.src = "https://imgplaceholder.com/200x283/dddddd/777777/fa-image" }} />
+          onError={(e) => { e.target.onerror = null; e.target.src = require('../img/placeholder.png') }} />
         <div className="label">
           <p id="movie-name">{this.props.title}</p>
           <p id="movie-info" className="small muted">{this.props.info}</p>

@@ -2,6 +2,7 @@ package business;
 
 import data.RedisCache;
 import data.daos.NewsDAO;
+import data.entities.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,9 @@ public class NewsManager {
         redisCache.set("news", json);
         redisCache.set("news_date", Long.toString(util.unixTimeSeconds() + 3600)); //validity = 1 hour
         return news;
+    }
+
+    public List<News> getNewsList() {
+        return newsDAO.findAll();
     }
 }
