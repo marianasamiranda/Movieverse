@@ -13,6 +13,7 @@ public interface MUserDAO extends DAO<Integer , MUser> {
     List<MUser> listRequestedMUser(int muserId);
     List<MUser> listReceivedMUser(int muserId);
     List<MUser> listFriends(int muserId);
+    List<MUser> listFriends(int muserId, int begin, int limit);
     List<Map> favouriteMovies(int muserId, int begin, int limit);
     List<Map> recentMovies(int muserId, int begin, int limit);
     List<Map> watchlist(int muserId, int begin, int limit);

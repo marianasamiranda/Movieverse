@@ -304,7 +304,7 @@ export default class Profile extends Component {
               <MoviesTab movies={this.state.movies} user={data.username} lang={this.props.lang}/>
             </Col>
             <Col xs="12" lg="3">
-              <FriendsTab friends={this.state.friends} lang={this.props.lang}/>
+              <FriendsTab friends={this.state.friends} user={data.username} lang={this.props.lang}/>
             </Col>
           </Row>
         </Container>

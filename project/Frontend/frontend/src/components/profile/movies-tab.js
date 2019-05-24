@@ -13,12 +13,12 @@ export default class MoviesCard extends Component {
   
   constructor(props) {
     super(props)    
-    this.state = this.resetState()
+    this.state = this.resetedState()
     this.handleChange = this.handleChange.bind(this)
     this.showMore = this.showMore.bind(this)
   }
 
-  resetState() {
+  resetedState() {
       return {
         currentTab: 'recent',
         recent: this.buildMovieCards(this.props.movies.recent),
@@ -33,7 +33,7 @@ export default class MoviesCard extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.user !== prevProps.user)
-      this.setState(this.resetState())
+      this.setState(this.resetedState())
   }
 
   buildMovieCards(tab) {

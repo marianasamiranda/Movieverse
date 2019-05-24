@@ -171,4 +171,18 @@ public class Users {
             return Util.badRequest("");
         }
     }
+
+    @RequestMapping(method = GET, value = "profile/friends")
+    public ResponseEntity<Object> userMovieList(@RequestHeader(value = "Authorization") String t,
+                                                @RequestParam(value = "begin") int begin,
+                                                @RequestParam(value = "limit") int limit) {
+        String token = t.split(" ")[1];
+        try {
+            return Util.ok(usersManager.friendsList(token, begin, limit));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return Util.badRequest("");
+        }
+    }
 }

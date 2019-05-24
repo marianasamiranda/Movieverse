@@ -208,7 +208,7 @@ public class UsersManager {
         return m;
     }
 
-    //if username is null get token's owner's info
+
     @Transactional
     public Map profileInfo(String token, String username) throws Exception {
         MUser u = getUserByToken(token);
@@ -218,28 +218,35 @@ public class UsersManager {
 
         boolean self = false;
         String friendship = null;
+
         if (username != null) {
             if (u.getUsername().equals(username))
                 self = true;
-            else { //TODO não buscar tudo à base de dados
-                if (mUserDAO.listReceivedMUser(u.getId()).stream()
-                        .anyMatch(x -> x.getUsername().equals(username)))
+
+            //friendship status
+            else {
+                if (mUserDAO.listReceivedMUser(u.getId())
+                            .stream()
+                            .anyMatch(x -> x.getUsername().equals(username)))
                     friendship = "received";
-                else if (mUserDAO.listRequestedMUser(u.getId()).stream()
-                        .anyMatch(x -> x.getUsername().equals(username)))
+
+                else if (mUserDAO.listRequestedMUser(u.getId())
+                                 .stream()
+                                 .anyMatch(x -> x.getUsername().equals(username)))
                     friendship = "requested";
-                //TODO
+
                 else if (mUserDAO.listFriends(u.getId()).stream()
-                        .anyMatch(x -> x.getUsername().equals(username)))
+                                .anyMatch(x -> x.getUsername().equals(username)))
                     friendship = "friends";
+
                 else
                     friendship = null;
+
                 u = getUserByUsername(username);
                 if (u == null)
                     throw new Exception("User doesn't exists");
             }
         }
-
 
         Map<String, Object> m = new HashMap<>();
         m.put("username", u.getUsername());
@@ -261,12 +268,7 @@ public class UsersManager {
 
         m.put("friends", new ArrayList<>());
         List<MUser> friends = mUserDAO.listFriends(u.getId());
-        //Set<MUser> friends = u.getFriends();
-        for (var friend: friends) {
-            //  MUser friend = ((Friendship) f).getRequestedMuser();
-            // if (friend.getId() == u.getId()){
-            //   friend = ((Friendship) f).getReceivedMuser();
-            //}
+        for (var friend: friends.subList(0, Math.min(24, friends.size()))) {
             Map map = new HashMap<>();
             map.put("username", friend.getUsername());
             map.put("avatar", friend.getAvatar() != null ? friend.getAvatar() : friend.getGender() + ".svg");
@@ -533,5 +535,24 @@ public class UsersManager {
         }
 
         return results;
+    }
+
+    @Transactional
+    public Object friendsList(String token, int begin, int limit) throws Exception {
+        MUser u = getUserByToken(token);
+
+        if (u == null)
+            throw new Exception("Wrong token");
+
+        List<MUser> friends = mUserDAO.listFriends(u.getId(), begin, limit);
+        List<Map> l = new ArrayList<>();
+        friends.forEach(x -> {
+            Map m = new HashMap();
+            m.put("username", x.getUsername());
+            m.put("avatar", x.getAvatar() != null ? x.getAvatar() : x.getGender() + ".svg");
+            l.add(m);
+        });
+
+        return l;
     }
 }

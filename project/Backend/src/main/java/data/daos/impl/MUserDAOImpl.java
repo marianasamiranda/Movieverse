@@ -3,6 +3,7 @@ package data.daos.impl;
 import data.DataUtil;
 import data.daos.MUserDAO;
 import data.entities.MUser;
+import data.entities.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,11 +51,27 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
     }
 
 
+    private static final String listFriendsQuery =
+        "SELECT m.* " +
+        "FROM Friendship AS f " +
+        "JOIN Muser AS m ON (f.pending=FALSE " +
+                             "AND ((f.sender=?1 AND f.receiver=m.id) " +
+                                    "OR (f.sender=m.id AND f.receiver=?1)))";
+
     public List<MUser> listFriends(int muserId){
-        String query = "SELECT m.* FROM friendship as f JOIN muser as m on (f.pending='f' and ((f.sender="+  muserId + " and f.receiver=m.id) or (f.sender=m.id and f.receiver="+  muserId + ")))";
-        Query e_query =  entityManager.createNativeQuery(query,MUser.class);
-        e_query.setHint("org.hibernate.cacheable", true);
-        return e_query.getResultList();
+        Query query = entityManager.createNativeQuery(listFriendsQuery, MUser.class)
+                                   .setParameter(1, muserId)
+                                   .setHint("org.hibernate.cacheable", true);
+        return query.getResultList();
+    }
+
+    public List<MUser> listFriends(int muserId, int begin, int limit) {
+        Query query = entityManager.createNativeQuery(listFriendsQuery, MUser.class)
+                                   .setParameter(1, muserId)
+                                   .setFirstResult(begin)
+                                   .setMaxResults(limit)
+                                   .setHint("org.hibernate.cacheable", true);
+        return query.getResultList();
     }
 
 
