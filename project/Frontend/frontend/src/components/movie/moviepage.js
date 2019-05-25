@@ -156,15 +156,15 @@ export default class MoviePage extends Component {
             <Image src={poster} />
           </div>
           { headerTitle }
-          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} />
+          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} lang={this.props.lang} />
         </div>
         <div className="container-fluid">
           <div className="row">
             <div className="movie-content col-lg-8 order-lg-1 order-sm-2 order-2">
               {this.state.movie.tagline}
-              <h1>Summary</h1>
+              <h1>{labels[this.props.lang].summary}</h1>
                 <p>{this.state.movie.plot}</p>
-              <h1>Top Billed Cast</h1>
+              <h1>{labels[this.props.lang].cast}</h1>
               <Row>
                 <Col lg="3" md="3" xs="3">
                   <MovieCard small img="http://placehold.it/228x337" title="Olivia Colman" info="Queen Anne" />
@@ -182,10 +182,10 @@ export default class MoviePage extends Component {
               <Tabs>
                 <TabList>
                   <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
-                  >Media</h1>
-                  <Tab>Posters</Tab>
-                  <Tab>Videos</Tab>
-                  <Tab>Backdrops</Tab>
+                  >{labels[this.props.lang].media}</h1>
+                  <Tab>{labels[this.props.lang].posters}</Tab>
+                  <Tab>{labels[this.props.lang].videos}</Tab>
+                  <Tab>{labels[this.props.lang].backdrops}</Tab>
                 </TabList>
                 <TabPanel>
                   <HorizontalSlider more="/media" content={this.state.posters}/>
@@ -197,16 +197,16 @@ export default class MoviePage extends Component {
                   <HorizontalSlider more="/media" content={this.state.backdrops}/>   
                 </TabPanel>
               </Tabs>
-              <h1>Discussion</h1>
-              <DiscussionBox />
+              <h1>{labels[this.props.lang].discussion}</h1>
+              <DiscussionBox lang={this.props.lang} />
             </div>
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
-                <h6>Original Language</h6>
+                <h6>{labels[this.props.lang].originalLanguage}</h6>
                   <Language language={this.state.movie.language} />
-                <h6>Runtime</h6>
+                <h6>{labels[this.props.lang].runtime}</h6>
                   <p>{this.state.movie.runtime}m</p>
-                <h6>Genres</h6>
+                <h6>{labels[this.props.lang].genres}</h6>
                 <div className="movie-genre">
                   <ul>
                     { this.state.movie.genres.map((genre) =>
@@ -214,7 +214,7 @@ export default class MoviePage extends Component {
                     )}      
                   </ul>
                 </div>
-                <h6>Prod. Companies</h6>
+                <h6>{labels[this.props.lang].prodCompanies}</h6>
                 <p>
                   { this.state.movie.companies.map((company) =>
                     <div className="prod-company"><a href="#">{company}</a><br/></div>

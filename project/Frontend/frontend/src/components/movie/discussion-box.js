@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Comment from './comment'
 import Image from 'react-bootstrap/Image'
 import ResizableTextarea from './resizable-text-area'
+import { labels } from '../../var'
 import '../../styles/Comment.css';
 
 export default class DiscussionBox extends Component {
@@ -45,7 +46,7 @@ export default class DiscussionBox extends Component {
 						Kim Possible
 					</div>
 				</div>
-				<ResizableTextarea callBackFromParent={this.getComment} />
+				<ResizableTextarea callBackFromParent={this.getComment} lang={this.props.lang} />
 		  </div>
 			{ this.state.comments }
 		</div>

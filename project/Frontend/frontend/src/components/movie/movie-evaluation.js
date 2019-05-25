@@ -148,39 +148,39 @@ export default class MovieEvaluation extends Component {
     if(this.state.watched === true) {
         watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
           <Image src={ watched } width="30em" style={{ 'marginRight': '0.5em'}} />
-          Watched!
+          {labels[this.props.lang].markedWatched}
         </td>
     }
     else {
       watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
         <Image src={ watchedDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
-        Mark watched
+        {labels[this.props.lang].markWatched}
       </td>
     }
     
     if(this.state.favourited === true) {
       favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favourite } width="30em" style={{ 'marginRight': '0.5em'}} />
-        Added to favourites!
+        {labels[this.props.lang].addedToFavourites}
       </td>
     }
     else {
       favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favouriteDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
-        Add to favourites
+        {labels[this.props.lang].addToFavourites}
       </td>
     }
 
     if(this.state.addedWatchlist === true) {
       addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlist } width="30em" style={{ 'marginRight': '0.5em'}} />
-        Added to watchlist!
+        {labels[this.props.lang].addedToWatchlist}
       </td>
     }
     else {
       addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlistDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
-        Add to watchlist
+        {labels[this.props.lang].addToWatchlist}
       </td>
     }
     

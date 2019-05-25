@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { labels } from '../../var'
 import '../../styles/Comment.css';
 
 export default class ResizableTextarea extends Component {
@@ -57,13 +58,13 @@ export default class ResizableTextarea extends Component {
 					as="textarea"
 					rows={this.state.rows}
 					value={this.state.value}
-					placeholder={'Add a comment..'}
+					placeholder={labels[this.props.lang].addCommentPlaceholder}
 					onChange={this.handleChange}
 				/>
 				<div className="d-flex flex-row-reverse">
 					<div className="p-2">
 						<Button variant="primary" onClick={this.handleSubmit.bind(this)} disabled={(this.state.value === '')}>
-							Add comment
+							{labels[this.props.lang].addComment}
 						</Button>
 					</div>
 				</div>

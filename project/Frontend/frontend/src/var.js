@@ -186,6 +186,26 @@ export const labels = {
     userMightKnow: 'Users you might know',
     mostUpvoted: 'Most upvoted',
     likes: 'likes',
+    // movie page
+    markWatched: 'Mark watched',
+    markedWatched: 'Watched!',
+    addToFavourites: 'Add to favourites',
+    addedToFavourites: 'Added to favourites!',
+    addToWatchlist: 'Add to watchlist',
+    addedToWatchlist: 'Added to watchlist',
+    originalLanguage: 'Original Language',
+    runtime: 'Runtime',
+    genres: 'Genres',
+    prodCompanies: 'Production companies',
+    summary: 'Summary',
+    cast: 'Cast',
+    media: 'Media',
+    posters: 'Posters',
+    videos: 'Videos',
+    backdrops: 'Backdrops',
+    discussion: 'Discussion',
+    addComment: 'Add comment',
+    addCommentPlaceholder: 'Add comment...'
   },
   pt: {
     //navbar
@@ -303,6 +323,26 @@ export const labels = {
     userMightKnow: 'Utilzadores que pode conhecer',
     mostUpvoted: 'Mais votados',
     likes: 'gostos',
+    // movie page
+    markWatched: 'Marcar visto',
+    markedWatched: 'Visto!',
+    addToFavourites: 'Adicionar aos favoritos',
+    addedToFavourites: 'Adicionado aos favoritos!',
+    addToWatchlist: 'Adicionar à watchlist',
+    addedToWatchlist: 'Adicionado à watchlist!',
+    originalLanguage: 'Língua original',
+    runtime: 'Duração',
+    genres: 'Géneros',
+    prodCompanies: 'Produtoras',
+    summary: 'Sumário',
+    cast: 'Elenco',
+    media: 'Media',
+    posters: 'Posters',
+    videos: 'Vídeos',
+    backdrops: 'Backdrops',
+    discussion: 'Discussão',
+    addComment: 'Adicionar comentário',
+    addCommentPlaceholder: 'Adicione um comentário...'
   }
 }
 
