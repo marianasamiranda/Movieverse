@@ -5,10 +5,12 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Flag from './flag'
 import Axios from 'axios';
-import {backend, avatars} from '../var'
+import {backend, avatars, labels} from '../var'
 import { getToken } from '../cookies';
 import { PulseLoader } from 'react-spinners'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 export default class FriendRequests extends Component {
   constructor(props) {
@@ -17,7 +19,8 @@ export default class FriendRequests extends Component {
       current: 'received',
       received: [],
       sent: [],
-      loading: false
+      loading: false,
+      feedback: undefined
     }
     this.handleTab = this.handleTab.bind(this)
     this.loadRequests = this.loadRequests.bind(this)
@@ -47,7 +50,14 @@ export default class FriendRequests extends Component {
         this.setState({
           received: this.state.received.filter(x => x.username !== u)
         })
-      }).catch(x => console.log(x.response.data)) //TODO remove
+
+        let feedback = '🔔 ' + labels[this.props.lang].requestFrom + ' ' + u + ' '
+        if (d === false)
+          feedback += labels[this.props.lang].rejected.toLowerCase()
+        else
+          feedback += labels[this.props.lang].accepted.toLowerCase()
+        toast(feedback, { containerId: 'toast'});
+      })
   }
 
   //cancel sent request
@@ -55,9 +65,13 @@ export default class FriendRequests extends Component {
     Axios.put(backend + '/cancel-request', { username: u },
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         this.setState({
-          sent: this.state.sent.filter(x => x.username !== u)
+          sent: this.state.sent.filter(x => x.username !== u),
         })
-      }).catch(x => console.log(x.response.data)) //TODO remove
+
+        toast('🔔 ' + labels[this.props.lang].requestTo + ' ' + u + ' ' + 
+                labels[this.props.lang].canceled.toLowerCase(), 
+          { containerId: 'toast'})
+      })
   }
 
   //TODO load N at a time ?
@@ -69,7 +83,7 @@ export default class FriendRequests extends Component {
           loaded: true,
           loading: false
         })
-      }).catch(x => console.log(x.response.data)) //TODO remove
+      })
   }
 
   buildUserInfo() {
@@ -87,7 +101,7 @@ export default class FriendRequests extends Component {
               <Row>
                 <Col xs="12"><i className="fas fa-at" />&nbsp;{x.username}</Col>
                 <Col xs="12"><i className="fas fa-user" />&nbsp;{x.name}</Col>
-                <Col xs="12"><Flag country={x.country} />{x.common} friends in common</Col>
+                <Col xs="12"><Flag country={x.country} />{x.common} {labels[this.props.lang].friendsInCommon}</Col>
               </Row>
             </Col>
           </Row>
@@ -97,13 +111,13 @@ export default class FriendRequests extends Component {
               <Col xs="auto">
                 <Button variant="danger" className="button-slim" 
                   onClick={() => this.handleReceivedRequest(x.username, false)}>
-                  ✖ Reject
+                  {'✖ ' + labels[this.props.lang].reject}
                 </Button>
               </Col>
               <Col>
                 <Button xs="auto" variant="success" className="button-slim"
                   onClick={() => this.handleReceivedRequest(x.username, true)}>
-                  ✓ Accept
+                  {'✓ ' + labels[this.props.lang].accept }
                 </Button>
               </Col>
             </>
@@ -111,7 +125,7 @@ export default class FriendRequests extends Component {
               <Col>
                 <Button variant="danger" className="button-slim"
                   onClick={() => this.handleSentRequest(x.username)}>
-                  ✖ Cancel
+                  {'✖ ' + labels[this.props.lang].cancel}
                 </Button>
               </Col>
             }
@@ -133,7 +147,7 @@ export default class FriendRequests extends Component {
         <Modal.Header closeButton>
           <Modal.Title>
             <i className="fas fa-user-friends" />&nbsp;
-            Friend Requests
+            {labels[this.props.lang].friendsRequests}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -141,12 +155,12 @@ export default class FriendRequests extends Component {
             <Col lg="3" sm="4" xs="6"
               className={"text-center tab-link " + (this.state.current === 'received' ? "selected" : "not-selected")}
               onClick={() => this.handleTab('received')}>
-              Received
+              {labels[this.props.lang].received}
             </Col>
             <Col lg="3" sm="4" xs="6"
               className={"text-center tab-link " + (this.state.current === 'sent' ? "selected" : "not-selected")}
               onClick={() => this.handleTab('sent')}>
-              Sent
+              {labels[this.props.lang].sent}
             </Col>
           </Row>
           <Row>
@@ -158,6 +172,19 @@ export default class FriendRequests extends Component {
             }
           </Row>
         </Modal.Body>
+        <ToastContainer
+          position="top-right"
+          autoClose={7000}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+          containerId={'toast'}
+          
+        />
       </Modal>
     )
   }

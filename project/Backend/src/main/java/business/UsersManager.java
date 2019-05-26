@@ -342,16 +342,25 @@ public class UsersManager {
     }
 
 
-    public String getAvatar(String token) throws Exception {
+    @Transactional
+    public Map getAvatar(String token) throws Exception {
         MUser u = getUserByToken(token);
 
         if (u == null)
             throw new Exception("Wrong token");
 
+        Map m = new HashMap();
+
         if (u.getAvatar() != null)
-            return u.getAvatar();
-        else return u.getGender() + ".svg";
+            m.put("img", u.getAvatar());
+        else
+            m.put("img", u.getGender() + ".svg");
+
+        m.put("requests", u.getRequestedFriendships().size() > 0);
+
+        return m;
     }
+
 
     @Transactional
     public List getFriendRequests(String token, String type) throws Exception {

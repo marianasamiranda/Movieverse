@@ -5,6 +5,7 @@ import { clearToken } from '../cookies'
 import Axios from 'axios'
 import { backend, labels } from '../var'
 import FriendRequests from './friendRequests'
+import onClickOutside from 'react-onclickoutside'
 
 class CustomToggle extends Component {
   constructor(props, context) {
@@ -49,7 +50,7 @@ class CustomMenu extends Component {
   }
 }
 
-export default class AvatarDropdown extends Component {
+class AvatarDropdown extends Component {
 
   constructor(props) {
     super(props)
@@ -74,6 +75,12 @@ export default class AvatarDropdown extends Component {
       showRequests: !this.state.showRequests
     })
   }
+
+  handleClickOutside(){
+    this.setState({
+      show: false,
+    })
+  }
   
 
   logout() {
@@ -89,6 +96,7 @@ export default class AvatarDropdown extends Component {
       <Dropdown show={this.state.show}  alignRight className="dropdown-small-center" onClick={this.handleChange}>
         <Dropdown.Toggle as={CustomToggle}>
           <img src={this.props.img} className="navbar-user" alt="" />
+          {this.props.requests ? (<mark className="notification-circle" />) : ""} />
         </Dropdown.Toggle>
         <Dropdown.Menu as={CustomMenu} >
           <p className="text-center" onClick={() => {this.handleChange(); this.props.handleExpand()}}>
@@ -112,8 +120,14 @@ export default class AvatarDropdown extends Component {
           </p>
         </Dropdown.Menu>
       </Dropdown>
-      <FriendRequests show={this.state.showRequests} handleShowRequests={this.handleShowRequests} />
+      <FriendRequests 
+        show={this.state.showRequests} 
+        handleShowRequests={this.handleShowRequests} 
+        lang={this.props.lang} 
+        />
       </>
     )
   }
 }
+
+export default onClickOutside(AvatarDropdown)

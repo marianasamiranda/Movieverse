@@ -210,8 +210,8 @@ table td:last-child {
 .movie-card-container.full {
   margin-bottom: -5px;
   margin-top: -5px;
-  margin-left: -11px;
-  margin-right: -14px;
+  margin-left: -10px;
+  margin-right: -5px;
 }
 
 .section-divider {
@@ -489,6 +489,24 @@ table td:last-child {
   .navbar .nav-dropdown > .dropdown-menu {
     margin-left: -120px;
   }
+}
+
+.navbar .dropdown-menu {
+  margin-top: 10px;
+}
+
+.Toastify__toast--default {
+  color: #000000 !important;
+}
+
+.notification-circle {
+  height: 12px;
+  width: 12px;
+  background-color: #e2463e;
+  border-radius: 50%;
+  position: absolute;
+  margin-left: -10px;
+  margin-top: -8px;
 }
 
 body {

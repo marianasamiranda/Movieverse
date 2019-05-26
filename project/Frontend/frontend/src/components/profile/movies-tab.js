@@ -94,7 +94,7 @@ export default class MoviesCard extends Component {
           scroll: false
         })
       }
-    }, 100)
+    }, 120)
 
   }
 

@@ -46,7 +46,7 @@ export default class FrontPage extends Component {
     let m = [], n = []
     this.state.data.releases.forEach(x => {
       m.push(
-        <Col sm="4" xs="6" key={this.state.data.releases.indexOf(x)}>
+        <Col xs="6" sm="4" md="3" lg="4" key={this.state.data.releases.indexOf(x)}>
           <MovieCard 
             img={'http://image.tmdb.org/t/p/w200/' + x.poster} 
             title={x.name} 
@@ -57,7 +57,7 @@ export default class FrontPage extends Component {
     })
     this.state.data.news.forEach(x => {
       n.push(
-        <Col xs="12" key={this.state.data.news.indexOf(x)}>
+        <Col xs="12" sm={this.state.data.news.indexOf(x) == 2 ? "12" : "6"} lg="12" key={this.state.data.news.indexOf(x)}>
           <a href={x.link}>
             <Card className="news-card-compact">
               <Card.Img variant="top" src={x.image} />
@@ -83,7 +83,7 @@ export default class FrontPage extends Component {
         <Banner handleSession={this.props.handleSession} lang={this.props.lang} />
         <Container className="container-padding">
           <Row>
-            <Col md="6">
+            <Col md="12" lg="6">
               <Row>
                 <Col xs="12" className="title text-center">
                   {labels[this.props.lang].newReleases}
@@ -93,7 +93,7 @@ export default class FrontPage extends Component {
                 {this.state.movieCards}
               </Row>
             </Col>
-            <Col md="6">
+            <Col md="12" lg="6">
               <Row>
                 <Col xs="12" className="title text-center">
                   {labels[this.props.lang].latestNews}

@@ -86,6 +86,11 @@ export default class Profile extends Component {
           recommended: x.data.recommended
         }
       })
+
+      if (x.data['self'] || !this.props.match)
+        document.title = "Profile | Movieverse"
+      else
+        document.title = x.data.username + " Profile | Movieverse"
     })
     .catch(x => {
       if (x.response.data === 'Wrong token') {

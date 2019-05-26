@@ -57,6 +57,7 @@ public class Users {
             return Util.ok(usersManager.getAvatar(token));
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }

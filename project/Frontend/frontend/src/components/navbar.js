@@ -48,7 +48,8 @@ export default class NavBar extends Component {
   getAvatar() {
     Axios.get(backend + "/avatar", { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
       this.setState({
-        avatar: avatars + x.data
+        img: avatars + x.data.img,
+        requests: x.data.requests
       })
     })
   }
@@ -111,11 +112,12 @@ export default class NavBar extends Component {
               </NavDropdown>
               {this.props.logged ?
               <AvatarDropdown
-                img={this.props.avatar ? this.props.avatar : this.state.avatar}
+                img={this.props.avatar ? this.props.avatar : this.state.img}
                 handleExpand={() => this.handleChange(undefined)} 
                 handleSession={this.handleSession}
                 getAvatar={this.getAvatar} 
                 lang={this.props.lang}
+                requests={this.state.requests}
                 />
                 : ""
               }

@@ -83,6 +83,24 @@
             margin-left: -120px;
         }
     }
+
+    .dropdown-menu {
+        margin-top: 10px;
+    }
+}
+
+.Toastify__toast--default {
+    color: #000000 !important;
+}
+
+.notification-circle {
+    height: 12px;
+    width: 12px;
+    background-color: $primary-color;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: -10px;
+    margin-top: -8px;
 }
 
 body {

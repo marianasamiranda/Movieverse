@@ -44,7 +44,7 @@ export default class NewsPage extends Component {
     let l = []
     this.state.articles.slice(12 * (i-1), 12 * i).forEach(x => {
       l.push(
-        <Col xs="12" md="6" lg="4" key={this.state.articles.indexOf(x)}>
+        <Col xs="12" sm="6" lg="4" key={this.state.articles.indexOf(x)}>
         <a href={x.link}>
           <Card className="news-card">
             <Card.Img variant="top" src={x.image} />
