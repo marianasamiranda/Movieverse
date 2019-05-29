@@ -30,7 +30,7 @@ public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
 
         List<Object> res = new ArrayList<>();
 
-        results.stream().forEach((record) -> {
+        results.forEach((record) -> {
             String path = (String) record;
             System.out.println(path);
 
@@ -49,7 +49,7 @@ public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
 
         List<Object[]> results = query.getResultList();
 
-        results.stream().forEach((record) -> {
+        results.forEach((record) -> {
             var type = (Character) record[0];
             var path = (String) record[1];
             var list = res.get(type);
@@ -78,7 +78,7 @@ public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
 
         var res = new ArrayList<>();
 
-        results.stream().forEach((record) -> {
+        results.forEach((record) -> {
             String path = (String) record;
 
             res.add(path);

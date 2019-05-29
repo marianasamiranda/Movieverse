@@ -7,6 +7,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.time.Duration;
+import java.util.Set;
 
 @Repository
 public class RedisCache {
@@ -51,6 +52,22 @@ public class RedisCache {
     public void del(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.del(key);
+        }
+    }
+
+
+    public void delAll(String[] keys) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.del(keys);
+        }
+    }
+
+
+    public void deleteAll() {
+        try (Jedis jedis = jedisPool.getResource()) {
+            Set<String> keys = jedis.keys("*");
+            if (keys.size() > 0)
+                jedis.del(keys.toArray(new String[0]));
         }
     }
 }

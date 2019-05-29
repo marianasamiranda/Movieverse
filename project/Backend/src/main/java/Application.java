@@ -80,16 +80,6 @@ public class Application {
        return factoryBean;
     }
     */
-    @Autowired
-    public RestHighLevelClient client;
-
-    @Bean
-    public RestHighLevelClient client() {
-        return new RestHighLevelClient(
-                RestClient.builder(new HttpHost("localhost", 9200, "http"))
-        );
-    }
-
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

@@ -22,7 +22,6 @@ public class Authentication {
     public ResponseEntity<Object> login(@RequestBody Map body) {
         String username = ((String) body.get("username"));
         String password = (String) body.get("password");
-        System.out.println(username);
 
         try {
             String token = usersManager.login(username, password);

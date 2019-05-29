@@ -1,15 +1,13 @@
 package business;
 
+import data.ElasticSearch;
 import data.RedisCache;
 import data.daos.MediaDAO;
 import data.daos.MemberDAO;
 import data.daos.MovieDAO;
-import data.entities.MUser;
 import data.entities.Member;
-import data.entities.Movie;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,7 @@ import java.util.Map;
 public class MemberManager {
 
     @Autowired
-    private RestHighLevelClient client;
+    private ElasticSearch elasticSearch;
 
     @Autowired
     private MemberDAO memberDAO;
@@ -89,7 +87,7 @@ public class MemberManager {
         builder.size(30);
         builder.minScore(1.001f);
         search.source(builder);
-        var response = client.search(search, RequestOptions.DEFAULT);
+        var response = elasticSearch.search(search);
 
         var result = new ArrayList<>();
         for (var r: response.getHits()) {

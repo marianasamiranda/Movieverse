@@ -226,11 +226,13 @@ export default class Profile extends Component {
 
 
   checkReload(prevProps) {
-    if (this.props.match && this.props.match.params.username !== this.state.data.username) {
-      this.getUserInfo(this.props.match.params.username)
-    }
-    else if (!this.props.match && prevProps.match) {
-      this.getUserInfo()
+    if (this.state.data) {
+      if (this.props.match && this.props.match.params.username !== this.state.data.username) {
+        this.getUserInfo(this.props.match.params.username)
+      }
+      else if (!this.props.match && prevProps.match) {
+        this.getUserInfo()
+      }
     }
   }
 

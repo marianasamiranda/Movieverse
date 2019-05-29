@@ -31,7 +31,6 @@ public class Users {
             return Util.ok(usersManager.profileInfo(token, username));
         }
         catch (Exception e) {
-            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }
@@ -109,6 +108,7 @@ public class Users {
             return Util.ok("");
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }

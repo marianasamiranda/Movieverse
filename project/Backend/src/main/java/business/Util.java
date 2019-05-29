@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -49,5 +50,9 @@ public class Util {
 
     public long unixTimeSeconds() {
         return System.currentTimeMillis() / 1000L;
+    }
+
+    public Date localDateTimeToDateTime(LocalDateTime t) {
+        return Date.from(t.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

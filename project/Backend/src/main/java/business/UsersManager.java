@@ -1,15 +1,13 @@
 package business;
 
+import data.ElasticSearch;
+import data.RedisCache;
 import data.daos.FriendshipDAO;
 import data.daos.MUserDAO;
 import data.entities.Friendship;
 import data.entities.Genre;
 import data.entities.MUser;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.util.stream.Collectors.*;
@@ -47,14 +46,20 @@ public class UsersManager {
     private MUserDAO mUserDAO;
 
     @Autowired
-    private RestHighLevelClient client;
+    private Util util;
 
     @Autowired
-    private Util util;
+    private RedisCache redisCache;
+
+    @Autowired
+    private ElasticSearch elasticSearch;
 
     //time until token expires (minutes)
     private final int TOKENLIMIT = 10000;
     private final Path AVATARLOCATION = Paths.get("../Frontend/frontend/avatar/");
+
+
+    //Private methods
 
     private void save(Object o) {
         if (o instanceof MUser) {
@@ -65,108 +70,52 @@ public class UsersManager {
     }
 
 
-    public MUser getUserByEmail(String email) {
-        try {
-            return mUserDAO.queryMUser("email='" + email + "'");
+    private void clearUsersCache(String... usernames) {
+        List<String> keys = new ArrayList<>();
+        for (String username : usernames) {
+            keys.add("profile_" + username);
+            keys.add("avatar_" + username);
         }
-        catch (Exception e) {
-            return null;
-        }
+        redisCache.delAll(keys.toArray(new String[0]));
     }
 
 
-    public MUser getUserByUsername(String username) {
-        try {
-            return mUserDAO.queryMUser("username='" + username + "'");
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-
-    public MUser getUserByToken(String token) {
-        try {
-            return mUserDAO.queryMUser("token='" + token + "'");
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-
-    public MUser getSimpleUserByUsername(String username) {
-        try {
-            return mUserDAO.loadEntity("username='" + username + "'");
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-
-    public MUser getSimpleUserByToken(String token) {
-        try {
-            return mUserDAO.loadEntity("token='" + token + "'");
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-
-    public Friendship getFriendship(int sender, int receiver) {
-        try {
-            return friendshipDAO.loadEntity(
-                    "sender=" + sender + "and receiver= " +  receiver);
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-
-
-    //////////////////////////////////////////////////
-
-
-    @Transactional
-    public String registerUser(String email, String username, String name, String password,
-                                       String country, LocalDate birthdate, char gender) throws Exception {
-        if (getUserByUsername(username) != null)
+    private void checkUserAvailable(String username, String email) throws Exception {
+        if (mUserDAO.getUserByUsername(username) != null)
             throw new Exception("Username already registered");
 
-        if (getUserByEmail(email) != null)
+        if (mUserDAO.getUserByEmail(email) != null)
             throw new Exception("Email already registered");
+    }
 
-        MUser m = new MUser();
-        m.setEmail(email);
-        m.setUsername(username);
-        m.setName(name);
-        m.setPassword(Security.encode(password));
-        m.setGender(gender);
-        m.setBirthDate(util.localDateToDate(birthdate));
-        m.setJoinDate(util.localDateToDate(LocalDate.now()));
-        m.setUserCountry(countryManager.getCountryByCode(country));
-        m.setToken(Security.generateToken());
-        //m.setTokenLimit(...);
-        save(m);
 
-        //elasticsearch
-        Map<String, Object> map = new HashMap<>();
-        map.put("username", username);
-        map.put("name", name);
-        map.put("country", country);
-        map.put("avatar", gender + ".svg");
-        IndexRequest request = new IndexRequest("movieverse_users").id(m.getId() + "").source(map);
-        client.index(request, RequestOptions.DEFAULT);
+    //Public methods
 
-        return m.getToken();
+    public String registerUser(String email, String username, String name, String password,
+                               String country, LocalDate birthdate, char gender) throws Exception {
+        checkUserAvailable(username, email);
+
+        MUser u = new MUser();
+        u.setEmail(email);
+        u.setUsername(username);
+        u.setName(name);
+        u.setPassword(Security.encode(password));
+        u.setGender(gender);
+        u.setBirthDate(util.localDateToDate(birthdate));
+        u.setJoinDate(util.localDateToDate(LocalDate.now()));
+        u.setUserCountry(countryManager.getCountryByCode(country));
+        u.setToken(Security.generateToken());
+        //u.setTokenLimit(util.localDateTimeToDateTime(LocalDateTime.now().plusSeconds(TOKENLIMIT)));
+        save(u);
+
+        elasticSearch.addUser(u);
+
+        return u.getToken();
     }
 
 
     public String login(String username, String password) throws Exception {
-        MUser u = getUserByUsername(username);
+        MUser u = mUserDAO.getUserByUsername(username);
 
         if (u == null)
             throw new Exception("User doesn't exist");
@@ -175,7 +124,7 @@ public class UsersManager {
             throw new Exception("Wrong password");
 
         u.setToken(Security.generateToken());
-        //m.setTokenLimit(...);
+        //u.setTokenLimit(util.localDateTimeToDateTime(LocalDateTime.now().plusSeconds(TOKENLIMIT)));
         mUserDAO.merge(u);
 
         return u.getToken();
@@ -183,23 +132,15 @@ public class UsersManager {
 
 
     public void logout(String token) throws Exception {
-        MUser u = getUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
-
+        MUser u = mUserDAO.validateToken(token);
         u.setToken(null);
         mUserDAO.merge(u);
     }
 
 
-    public Map feedInfo(String token, String username) throws Exception{
-        MUser u = getUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
+    public Map feedInfo(String token, String username) throws Exception {
+        MUser u = mUserDAO.validateToken(token);
         boolean self = false;
-
 
         Map<String, Object> m = new HashMap<>();
         m.put("upcomingMovies", movieManager.randomUpcomingMovies(4));
@@ -210,11 +151,15 @@ public class UsersManager {
 
 
     @Transactional
-    public Map profileInfo(String token, String username) throws Exception {
-        MUser u = getUserByToken(token);
+    public Object profileInfo(String token, String username) throws Exception {
+        MUser u = mUserDAO.validateToken(token);
 
-        if (u == null)
-            throw new Exception("Wrong token");
+        if (username == null) {
+            String cachedInfo = redisCache.get("profile_" + u.getUsername());
+            //in cache
+            if (cachedInfo != null)
+                return cachedInfo;
+        }
 
         boolean self = false;
         String friendship = null;
@@ -224,6 +169,7 @@ public class UsersManager {
                 self = true;
 
             //friendship status
+            ///TODO função à parte
             else {
                 if (mUserDAO.listReceivedMUser(u.getId())
                             .stream()
@@ -242,7 +188,7 @@ public class UsersManager {
                 else
                     friendship = null;
 
-                u = getUserByUsername(username);
+                u = mUserDAO.getUserByUsername(username);
                 if (u == null)
                     throw new Exception("User doesn't exists");
             }
@@ -297,41 +243,35 @@ public class UsersManager {
         m.put("watchlist", movies.get("watchlist"));
         m.put("recommended", movies.get("recommended"));
 
+        //add response to redis cache
+        if (username == null)
+            redisCache.set("profile_" + u.getUsername(), util.toJson(m));
+
         return m;
     }
 
 
     public String newAvatar(String token, MultipartFile file) throws Exception {
-        MUser m = getUserByToken(token);
-
-        if (m == null)
-            throw new Exception("Wrong token");
+        MUser u = mUserDAO.validateToken(token);
 
         String path = "../Frontend/frontend/public/avatars/";
-        String filename = m.getUsername() + "." +
+        String filename = u.getUsername() + "." +
                 StringUtils.getFilenameExtension(file.getOriginalFilename());
         String p = path + filename;
         Path patha = Path.of(path+filename);
         Files.copy(file.getInputStream(), patha , StandardCopyOption.REPLACE_EXISTING);
 
-        m.setAvatar(filename);
-        mUserDAO.merge(m);
+        u.setAvatar(filename);
+        mUserDAO.merge(u);
+        clearUsersCache(u.getUsername());
+        elasticSearch.updateAvatar(u);
 
-        //elasticsearch
-        Map<String, Object> map = new HashMap<>();
-        map.put("avatar", filename);
-        UpdateRequest request = new UpdateRequest("movieverse_users", m.getId() + "").doc(map);
-        client.update(request, RequestOptions.DEFAULT);
         return filename;
     }
 
 
     public void newGenre(String token, String genre) throws Exception {
-        MUser u = getUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
-
+        MUser u = mUserDAO.validateToken(token);
         Genre g = genreManager.getGenre(genre);
 
         if (g == null)
@@ -339,24 +279,29 @@ public class UsersManager {
 
         u.setFavouriteGenre(g);
         mUserDAO.merge(u);
+
+        //clear cache
+        clearUsersCache(u.getUsername());
     }
 
 
     @Transactional
-    public Map getAvatar(String token) throws Exception {
-        MUser u = getUserByToken(token);
+    public Object getAvatar(String token) throws Exception {
+        MUser u = mUserDAO.validateToken(token);
 
-        if (u == null)
-            throw new Exception("Wrong token");
+        String cachedInfo = redisCache.get("avatar_" + u.getUsername());
+        if (cachedInfo != null)
+            return cachedInfo;
 
         Map m = new HashMap();
-
         if (u.getAvatar() != null)
             m.put("img", u.getAvatar());
         else
             m.put("img", u.getGender() + ".svg");
-
         m.put("requests", u.getRequestedFriendships().size() > 0);
+
+        //add to redis cache
+        redisCache.set("avatar_" + u.getUsername(), util.toJson(m));
 
         return m;
     }
@@ -364,10 +309,7 @@ public class UsersManager {
 
     @Transactional
     public List getFriendRequests(String token, String type) throws Exception {
-        MUser u = getUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
+        MUser u = mUserDAO.validateToken(token);
 
         List<MUser> l;
         if (type.equals("received"))
@@ -388,6 +330,7 @@ public class UsersManager {
 
         return r;
     }
+
 
     public int calculateMutualFriends(MUser muser1, MUser muser2) {
         List<Integer> friends1 = (List<Integer>) muser1.getFriends().stream().map(t -> {
@@ -416,15 +359,12 @@ public class UsersManager {
 
 
     public void newFriendRequest(String token, String username) throws Exception {
-        MUser u = getSimpleUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
+        MUser u = mUserDAO.getSimpleUserByToken(token);
 
         if (u.getUsername().equals(username))
             throw new Exception("Can't send a self request");
 
-        MUser target = getSimpleUserByUsername(username);
+        MUser target = mUserDAO.getSimpleUserByUsername(username);
 
         if (target == null)
             throw new Exception("No such user");
@@ -435,17 +375,16 @@ public class UsersManager {
         f.setDate(util.localDateToDate(LocalDate.now()));
         f.setPending(true);
         save(f);
+
+        //clear cache
+        clearUsersCache(u.getUsername(), target.getUsername());
     }
 
     @Transactional
     //Cancels a sent request
     public void processRequest(String token, String username, boolean decision) throws Exception {
-        MUser u = getUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
-
-        MUser target = getUserByUsername(username);
+        MUser u = mUserDAO.validateToken(token);
+        MUser target = mUserDAO.getUserByUsername(username);
 
         if (target == null)
             throw new Exception("No such user");
@@ -467,65 +406,31 @@ public class UsersManager {
             mUserDAO.merge(target);
             friendshipDAO.merge(friendship);
         }
+
+        //clear cache
+        clearUsersCache(u.getUsername(), target.getUsername());
     }
+
 
     //Cancels a sent request
     public void cancelRequest(String token, String username) throws Exception {
-        MUser u = getSimpleUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
-
-        MUser target = getSimpleUserByUsername(username);
+        MUser u = mUserDAO.getSimpleUserByToken(token);
+        MUser target = mUserDAO.getSimpleUserByUsername(username);
 
         if (target == null)
             throw new Exception("No such user");
 
         friendshipDAO.removeEntity("sender=" + u.getId() + "and receiver= " +  target.getId());
+
+        //clear cache
+        clearUsersCache(u.getUsername(), target.getUsername());
     }
 
-    public List search(String token, String name) throws Exception {
-        if (getUserByToken(token) == null)
-            throw new Exception("Wrong token");
-
-        if (name == null || name.equals(""))
-            return null;
-
-        var search = new SearchRequest("movieverse_users");
-        var builder = new SearchSourceBuilder();
-        var boolQuery = QueryBuilders.boolQuery();
-
-        for (var n: name.split("\\s+")) {
-            boolQuery.should(QueryBuilders.fuzzyQuery("username", n));
-            boolQuery.should(QueryBuilders.fuzzyQuery("name", n));
-        }
-
-        builder.query(boolQuery);
-        builder.size(30);
-        search.source(builder);
-        var response = client.search(search, RequestOptions.DEFAULT);
-
-        var result = new ArrayList<>();
-        for (var r: response.getHits()) {
-            var m = r.getSourceAsMap();
-            m.put("id", r.getId());
-            result.add(m);
-        }
-        return result;
-    }
-
-
-    public int estimatedCount() {
-        return mUserDAO.estimatedSize();
-    }
 
     public Object movieList(String token, String type, int begin, int limit) throws Exception {
-        MUser u = getUserByToken(token);
+        MUser u = mUserDAO.validateToken(token);
 
-        if (u == null)
-            throw new Exception("Wrong token");
-
-        List results = null;
+        List results;
         switch (type) {
             case "recent":
                 results = mUserDAO.recentMovies(u.getId(), begin, limit);
@@ -546,15 +451,13 @@ public class UsersManager {
         return results;
     }
 
+
     @Transactional
     public Object friendsList(String token, int begin, int limit) throws Exception {
-        MUser u = getUserByToken(token);
-
-        if (u == null)
-            throw new Exception("Wrong token");
-
+        MUser u = mUserDAO.validateToken(token);
         List<MUser> friends = mUserDAO.listFriends(u.getId(), begin, limit);
         List<Map> l = new ArrayList<>();
+
         friends.forEach(x -> {
             Map m = new HashMap();
             m.put("username", x.getUsername());
@@ -564,4 +467,41 @@ public class UsersManager {
 
         return l;
     }
+
+
+    public List search(String token, String name) throws Exception {
+        mUserDAO.validateToken(token);
+
+        if (name == null || name.equals(""))
+            return null;
+
+        var search = new SearchRequest("movieverse_users");
+        var builder = new SearchSourceBuilder();
+        var boolQuery = QueryBuilders.boolQuery();
+
+        for (var n: name.split("\\s+")) {
+            boolQuery.should(QueryBuilders.fuzzyQuery("username", n));
+            boolQuery.should(QueryBuilders.fuzzyQuery("name", n));
+        }
+
+        builder.query(boolQuery);
+        builder.size(30);
+        search.source(builder);
+        var response = elasticSearch.search(search);
+
+        var result = new ArrayList<>();
+        for (var r: response.getHits()) {
+            var m = r.getSourceAsMap();
+            m.put("id", r.getId());
+            result.add(m);
+        }
+        return result;
+    }
+
+
+    public int estimatedCount() {
+        return mUserDAO.estimatedSize();
+    }
+
+
 }

@@ -23,6 +23,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     @Autowired
     private DataUtil dataUtil;
 
+
     @Transactional(readOnly=true)
     public Movie loadEntityEager(String condition) {
         Query query = entityManager.createQuery("SELECT c FROM " + entityClass.getName() + " c WHERE " + condition);
@@ -32,6 +33,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
         Hibernate.initialize(result.getCompanies());
         return result;
     }
+
 
     @Transactional(readOnly=true)
     public List<Map<String, Object>> getMemberMoviesFromTo(int memberId, int offset, int limit){
@@ -61,46 +63,32 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     }
 
 
-    public List getLatestMovies(int begin, int limit) {
-        Query query = entityManager.createNativeQuery(
-            "SELECT * " +
-            "FROM LatestMovies " +
-            "OFFSET ?1 " +
-            "LIMIT ?2"
-        ).setParameter(1, begin)
-         .setParameter(2, limit);
+    private List allFrom(String table, int begin, int limit) {
+        return entityManager
+                .createNativeQuery("SELECT * FROM " + table)
+                .setFirstResult(begin)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 
-        List<Object[]> l = query.getResultList();
+
+    public List getLatestMovies(int begin, int limit) {
+        List l = allFrom("latestMovies", begin, limit);
         return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
     }
 
 
     public List getPopularMovies(int begin, int limit) {
-        Query query = entityManager.createNativeQuery(
-            "SELECT * " +
-            "FROM PopularMovies " +
-            "OFFSET ?1 " +
-            "LIMIT ?2"
-        ).setParameter(1, begin)
-         .setParameter(2, limit);
-
-        List<Object[]> l = query.getResultList();
+        List l = allFrom("PopularMovies", begin, limit);
         return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "rating"));
     }
 
 
     public List getUpcomingMovies(int begin, int limit) {
-        Query query = entityManager.createNativeQuery(
-            "SELECT * " +
-            "FROM UpcomingMovies " +
-            "OFFSET ?1 " +
-            "LIMIT ?2"
-        ).setParameter(1, begin)
-         .setParameter(2, limit);
-
-        List<Object[]> l = query.getResultList();
+        List l = allFrom("UpcomingMovies", begin, limit);
         return dataUtil.queryListToListMap(l, Arrays.asList("id", "name", "poster", "release"));
     }
+
 
     public List getRandomUpcomingMovies(int limit) {
         Query query = entityManager.createNativeQuery(

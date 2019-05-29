@@ -1,6 +1,7 @@
 package data.daos.impl;
 
 import data.DataUtil;
+import data.daos.InvalidTokenException;
 import data.daos.MUserDAO;
 import data.entities.MUser;
 import data.entities.Movie;
@@ -28,10 +29,46 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
     @Transactional(readOnly=true)
     public MUser queryMUser(String condition){
-        Query query =  entityManager.createQuery("SELECT c FROM "+ entityClass.getName() + " c left join fetch c.userCountry left join fetch c.favouriteGenre WHERE " + condition);
-        query.setHint("org.hibernate.cacheable", true);
+        Query query =  entityManager.createQuery(
+            "SELECT c " +
+            "FROM " + entityClass.getName() + " c " +
+            "LEFT JOIN FETCH c.userCountry " +
+            "LEFT JOIN FETCH c.favouriteGenre WHERE " + condition)
+            .setMaxResults(1)
+            .setHint("org.hibernate.cacheable", true);
         List<MUser> result = (List<MUser>) query.getResultList();
         return result.isEmpty() ? null : result.get(0);
+    }
+
+
+    public MUser getUserByEmail(String email) {
+        return queryMUser("email='" + email + "'");
+    }
+
+
+    public MUser getUserByUsername(String username) {
+        return queryMUser("username='" + username + "'");
+    }
+
+
+    public MUser validateToken(String token) throws InvalidTokenException {
+        MUser u = queryMUser("token='" + token + "'");
+        if (u == null)
+            throw new InvalidTokenException();
+        return u;
+    }
+
+
+    public MUser getSimpleUserByUsername(String username) {
+        return loadEntity("username='" + username + "'");
+    }
+
+
+    public MUser getSimpleUserByToken(String token) throws InvalidTokenException {
+        MUser u = loadEntity("token='" + token + "'");
+        if (u == null)
+            throw new InvalidTokenException();
+        return u;
     }
 
 

@@ -1,14 +1,12 @@
 package business;
 
+import data.ElasticSearch;
 import data.RedisCache;
 import data.daos.*;
 import data.entities.*;
-import data.daos.impl.ShowtimeDAOImpl;
 import data.entities.Genre;
 import data.entities.Movie;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +23,7 @@ import java.util.stream.Collectors;
 public class MovieManager {
 
     @Autowired
-    private RestHighLevelClient client;
+    private ElasticSearch elasticSearch;
 
     @Autowired
     private MovieDAO movieDAO;
@@ -306,7 +303,7 @@ public class MovieManager {
             builder.minScore(1.001f);
 
         search.source(builder);
-        var response = client.search(search, RequestOptions.DEFAULT);
+        var response = elasticSearch.search(search);
 
         var result = new ArrayList<>();
         for (var r: response.getHits()) {

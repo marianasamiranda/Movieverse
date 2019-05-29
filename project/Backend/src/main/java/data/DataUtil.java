@@ -21,6 +21,7 @@ public class DataUtil {
                 "SELECT tmdb, name, poster, release " +
                 "FROM movie " +
                 "WHERE release <= NOW() " +
+                    "AND poster IS NOT NULL " +
                 "ORDER BY release DESC " +
                 "LIMIT 100" +
             ")"
@@ -45,6 +46,7 @@ public class DataUtil {
                 "SELECT tmdb, name, poster, release " +
                 "FROM movie " +
                 "WHERE release > NOW() " +
+                    "AND poster IS NOT NULL " +
                 "ORDER BY release " +
                 "LIMIT 100" +
             ")"
