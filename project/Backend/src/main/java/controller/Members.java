@@ -1,14 +1,12 @@
 package controller;
 
+import Log.LogMethod;
 import business.MemberManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
@@ -17,8 +15,10 @@ public class Members {
     @Autowired
     MemberManager memberManager;
 
+
+    @LogMethod
     @RequestMapping(method = GET, value = "/people-search")
-    public ResponseEntity<Object> search(@RequestParam(value = "name") String name) {
+    public ResponseEntity<Object> membersSearch(@RequestParam(value = "name") String name) {
         try {
             return Util.ok(memberManager.search(name));
         }
@@ -26,6 +26,7 @@ public class Members {
             return Util.badRequest("");
         }
     }
+
 
     @RequestMapping(method = GET, value = "/member/{id}")
     public ResponseEntity<Object> profile(@PathVariable(value = "id", required = true) int id) {
@@ -37,6 +38,7 @@ public class Members {
         }
     }
 
+
     @RequestMapping(method = GET, value = "/member-movies/{id}/{page}")
     public ResponseEntity<Object> memberMovies(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "page", required = true) int page) {
         try {
@@ -47,8 +49,9 @@ public class Members {
         }
     }
 
+
     @RequestMapping(method = GET, value = "/people-search-page")
-    public ResponseEntity<Object> bornToday() {
+    public ResponseEntity<Object> memberSearchPage() {
         try {
             return Util.ok(memberManager.memberSearchPage());
         }

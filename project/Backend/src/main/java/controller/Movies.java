@@ -1,5 +1,6 @@
 package controller;
 
+import Log.LogMethod;
 import business.MovieManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -57,8 +58,9 @@ public class Movies {
         }
     }
 
+    @LogMethod
     @RequestMapping(method = GET, value = "/movie-search")
-    public ResponseEntity<Object> search(@RequestParam (value = "title") String title,
+    public ResponseEntity<Object> movieSearch(@RequestParam (value = "title") String title,
                                         @RequestParam (value = "sort", required = false) String sort,
                                         @RequestParam (value = "genre", required = false) String genre) {
         try {
@@ -81,6 +83,7 @@ public class Movies {
         }
     }
 
+    @LogMethod
     @RequestMapping(method = GET, value = "/showtimes")
     public ResponseEntity<Object> showtimes(@RequestParam (value = "theater") int theater) {
         try {

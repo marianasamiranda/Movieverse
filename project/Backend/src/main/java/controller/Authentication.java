@@ -1,4 +1,5 @@
 package controller;
+import Log.LogMethod;
 import business.UsersManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ public class Authentication {
     @Autowired
     UsersManager usersManager;
 
+
+    @LogMethod
     @RequestMapping(method = POST, value = "/login")
     public ResponseEntity<Object> login(@RequestBody Map body) {
         String username = ((String) body.get("username"));
@@ -33,6 +36,7 @@ public class Authentication {
     }
 
 
+    @LogMethod
     @RequestMapping(method = POST, value = "/register")
     public ResponseEntity<Object> register(@RequestBody Map body) {
         String email = (String)body.get("email");

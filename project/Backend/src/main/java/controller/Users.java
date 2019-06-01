@@ -1,5 +1,6 @@
 package controller;
 
+import Log.LogMethod;
 import business.MovieManager;
 import business.UsersManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class Users {
     @Autowired
     MovieManager movieManager;
 
+
+    @LogMethod
     @RequestMapping(method = GET, value = "/profile")
     public ResponseEntity<Object> profile(@RequestHeader(value = "Authorization") String t,
                                           @RequestParam(value = "username", required = false) String username) {
@@ -35,6 +38,8 @@ public class Users {
         }
     }
 
+
+    @LogMethod
     @RequestMapping(method = GET, value = "/feed")
     public ResponseEntity<Object> feed(@RequestHeader(value = "Authorization") String t,
                                        @RequestParam(value = "username", required = false) String username) {
@@ -49,6 +54,7 @@ public class Users {
         }
     }
 
+
     @RequestMapping(method = GET, value = "/avatar")
     public ResponseEntity<Object> getAvatar(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
@@ -61,6 +67,7 @@ public class Users {
         }
     }
 
+
     @RequestMapping(method = PUT, value = "/avatar")
     public ResponseEntity<Object> setAvatar(@RequestHeader(value = "Authorization") String t,
                                          @RequestParam(value = "image") MultipartFile file) {
@@ -72,6 +79,7 @@ public class Users {
             return Util.badRequest(e.getMessage());
         }
     }
+
 
     @RequestMapping(method = PUT, value = "/genre")
     public ResponseEntity<Object> genre(@RequestHeader(value = "Authorization") String t,
@@ -86,6 +94,7 @@ public class Users {
         }
     }
 
+
     @RequestMapping(method = GET, value = "/friend-requests")
     public ResponseEntity<Object> genre(@RequestHeader(value = "Authorization") String t,
                                         @RequestParam(value = "type") String type) {
@@ -97,6 +106,7 @@ public class Users {
             return Util.badRequest(e.getMessage());
         }
     }
+
 
     @RequestMapping(method = POST, value = "/friend-request")
     public ResponseEntity<Object> friendRequest(@RequestHeader(value = "Authorization") String t,
@@ -112,6 +122,7 @@ public class Users {
             return Util.badRequest(e.getMessage());
         }
     }
+
 
     //Processes a friend request
     @RequestMapping(method = PUT, value = "/process-request")
@@ -130,6 +141,7 @@ public class Users {
         }
     }
 
+
     //Cancels a sent request
     @RequestMapping(method = PUT, value = "/cancel-request")
     public ResponseEntity<Object> cancelRequest(@RequestHeader(value = "Authorization") String t,
@@ -145,6 +157,7 @@ public class Users {
             return Util.badRequest(e.getMessage());
         }
     }
+
 
     @RequestMapping(method = GET, value = "/users-search")
     public ResponseEntity<Object> search(@RequestHeader(value = "Authorization") String t,
@@ -172,6 +185,7 @@ public class Users {
             return Util.badRequest("");
         }
     }
+
 
     @RequestMapping(method = GET, value = "profile/friends")
     public ResponseEntity<Object> userMovieList(@RequestHeader(value = "Authorization") String t,

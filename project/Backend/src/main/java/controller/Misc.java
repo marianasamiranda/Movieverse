@@ -1,5 +1,6 @@
 package controller;
 
+import Log.LogMethod;
 import business.MiscManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class Misc {
     private MiscManager miscManager;
 
 
+    @LogMethod
     @RequestMapping(method = GET, value = "/frontpage")
     public ResponseEntity<Object> frontpage() {
         try {

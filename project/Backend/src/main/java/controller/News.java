@@ -1,5 +1,6 @@
 package controller;
 
+import Log.LogMethod;
 import business.NewsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class News {
     @Autowired
     NewsManager newsManager;
 
+    @LogMethod
     @RequestMapping(method = GET, value = "/news")
     public ResponseEntity<Object> news() {
         try {
