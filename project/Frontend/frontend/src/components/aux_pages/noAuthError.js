@@ -4,9 +4,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router-dom'
 import { labels } from '../../var';
+import { clearToken } from '../../cookies';
 
 export default class NoAuthError extends Component {
   render() {
+    clearToken()
     return (
       <Container className="container-padding-extra">
         <Row>

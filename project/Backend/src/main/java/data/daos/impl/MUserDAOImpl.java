@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -198,5 +200,27 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
     public List<Map> recommendedMovies(int muserId, int begin, int limit) {
         //TODO
         return List.of();
+    }
+
+
+    public int totalNumberOfLikes() {
+        Query query = entityManager.createNativeQuery("SELECT * FROM TotalLikes");
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    public Map genderCount() {
+        Query query = entityManager.createNativeQuery("SELECT * FROM GenderCount");
+        List<Object[]> results = query.getResultList();
+        Map m = new HashMap();
+        results.forEach(x -> m.put(x[0], x[1]));
+        return m;
+    }
+
+    public Map countryCount() {
+        Query query = entityManager.createNativeQuery("SELECT * FROM CountryCount");
+        List<Object[]> results = query.getResultList();
+        Map m = new HashMap();
+        results.forEach(x -> m.put(x[0], x[1]));
+        return m;
     }
 }

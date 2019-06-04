@@ -185,7 +185,7 @@ export const labels = {
     usernameRealName: 'Username/Real Name',
     userMightKnow: 'Users you might know',
     mostUpvoted: 'Most upvoted',
-    likes: 'likes',
+    likes: 'Likes',
     //friends requests
     friendsRequests: 'Friends Requests',
     received: 'Received',
@@ -217,7 +217,12 @@ export const labels = {
     backdrops: 'Backdrops',
     discussion: 'Discussion',
     addComment: 'Add comment',
-    addCommentPlaceholder: 'Add comment...'
+    addCommentPlaceholder: 'Add comment...',
+    //admin
+    globalStats: 'Global Statistics',
+    genders: 'Genders',
+    countries: 'Countries',
+    timeRange: 'Time Range',
   },
   pt: {
     //navbar
@@ -334,7 +339,7 @@ export const labels = {
     usernameRealName: 'Nome de utilizador/real',
     userMightKnow: 'Utilzadores que pode conhecer',
     mostUpvoted: 'Mais votados',
-    likes: 'gostos',
+    likes: 'Gostos',
     //friends requests
     friendsRequests: 'Pedidos de amizade',
     received: 'Recebido',
@@ -366,7 +371,12 @@ export const labels = {
     backdrops: 'Backdrops',
     discussion: 'Discussão',
     addComment: 'Adicionar comentário',
-    addCommentPlaceholder: 'Adicione um comentário...'
+    addCommentPlaceholder: 'Adicione um comentário...',
+    //admin
+    globalStats: 'Estatísticas Globais',
+    genders: 'Sexos',
+    countries: 'Países',
+    timeRange: 'Intervalo de Tempo',
   }
 }
 

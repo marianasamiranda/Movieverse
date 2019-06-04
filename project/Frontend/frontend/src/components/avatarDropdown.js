@@ -82,6 +82,7 @@ class AvatarDropdown extends Component {
     })
   }
   
+  logout 
 
   logout() {
     const token = clearToken()

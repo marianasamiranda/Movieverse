@@ -77,12 +77,50 @@ public class DataUtil {
                 "LIMIT 100" +
             ")"
         ).executeUpdate();
+
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS TotalWatchedHours " +
+            "AS (" +
+                "SELECT SUM(runtime) / 60" +
+                "FROM Usermovie " +
+                "JOIN Movie ON Usermovie.movieid = Movie.tmdb" +
+            ")"
+        ).executeUpdate();
+
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS TotalLikes " +
+            "AS (" +
+                "SELECT SUM(likescount) " +
+                "FROM Muser" +
+            ")"
+        ).executeUpdate();
+
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS CountryCount " +
+            "AS (" +
+                "SELECT alphacode, COUNT(country.id) AS count " +
+                "FROM country " +
+                "JOIN muser ON muser.countryid = country.id " +
+                "GROUP BY country.id" +
+            ")"
+        ).executeUpdate();
+
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS GenderCount " +
+            "AS (" +
+                "SELECT gender, COUNT(id) AS count " +
+                "FROM Muser " +
+                "GROUP BY gender" +
+            ")"
+        ).executeUpdate();
     }
 
     @Transactional
     public void refreshViews() {
         List<String> views = Arrays.asList(
-            "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies"
+            "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies",
+                "BornToday", "MostCredits", "TotalWatchedHours", "TotalLikes", "CountryCount",
+                "GenderCount"
         );
 
         views.forEach(x -> entityManager.createNativeQuery("REFRESH MATERIALIZED VIEW " + x).executeUpdate());

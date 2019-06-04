@@ -1,0 +1,28 @@
+.admin-container.container-fluid {
+  max-width: 1600px;
+}
+
+.admin-card {
+  padding: 0px;
+  margin-top: 20px;
+  margin-top: 20px;
+}
+
+.admin-card .card-body {
+  padding: 15px !important;
+}
+
+.admin-card .card-title {
+  font-family: "Oswald", sans-serif !important;
+  font-size: 32px !important;
+  text-align: center;
+  color: #333333;
+}
+
+.admin-card .card-text {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 20px !important;
+  text-align: center;
+  color: #555555;
+}
+/*# sourceMappingURL=Admin.css.map */

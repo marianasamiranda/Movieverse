@@ -95,7 +95,7 @@ export default class Login extends Component  {
             name="password" 
             placeholder={labels[this.props.lang].password} 
             onChange={this.handleChange} 
-            pattern=".{9,30}" 
+            pattern=".{8,30}" 
             title={labels[this.props.lang].passwordPattern} 
             required
           />

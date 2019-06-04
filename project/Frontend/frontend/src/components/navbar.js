@@ -9,7 +9,7 @@ import {LinkContainer} from 'react-router-bootstrap'
 import {Link} from 'react-router-dom'
 import Axios from 'axios'
 import {backend, avatars} from './../var'
-import { getToken } from '../cookies'
+import { getToken, clearToken } from '../cookies'
 import Flag from './flag'
 
 class NavBarLink extends Component {
@@ -79,6 +79,13 @@ export default class NavBar extends Component {
     this.props.handleSession()
   }
 
+  logout() {
+    const token = clearToken()
+    Axios.post(backend + '/logout', {}, { headers: { Authorization: "Bearer " + token } }).then(x => {
+      this.props.handleSession()
+    })
+  }
+
   render() {
     let links = []
     this.props.links.forEach(x => {
@@ -86,7 +93,8 @@ export default class NavBar extends Component {
         links.push(
           <NavBarLink name={x.name} url={x.url} selected={this.state.selected === x.name} 
             handleExpand={this.handleExpand} key={this.props.links.indexOf(x)} 
-            onClick={() => this.handleChange(x.name)} />
+            onClick={() => (!x.logout) ? this.handleChange(x.name) : this.logout()}
+            />
         )
       }
     })

@@ -25,4 +25,7 @@ public interface MUserDAO extends DAO<Integer , MUser> {
     List<Map> watchlist(int muserId, int begin, int limit);
     List<Map> recommendedMovies(int muserId, int begin, int limit);
     List<Map> allMovieTypes(int muserId, int begin, int limit);
+    int totalNumberOfLikes();
+    Map genderCount();
+    Map countryCount();
 }

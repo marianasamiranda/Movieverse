@@ -16,6 +16,14 @@ export function clearToken() {
     return token
 }
 
+export function setUsername(value) {
+    cookies.set('username', value, { path: '/', expires: new Date(Date.now() + 259200000000) } )
+}
+
+export function getUsername() {
+    return cookies.get('username')
+}
+
 export function getLanguage() {
     const lang = cookies.get('lang')
     if (lang)

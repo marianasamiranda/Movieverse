@@ -56,14 +56,16 @@ public class Authentication {
         }
     }
 
+
     @RequestMapping(method = POST, value = "/logout")
     public ResponseEntity<Object> logout(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
         try {
             usersManager.logout(token);
-            return null;
+            return Util.ok("");
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }

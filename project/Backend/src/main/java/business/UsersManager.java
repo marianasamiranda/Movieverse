@@ -11,6 +11,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -53,6 +54,10 @@ public class UsersManager {
     @Autowired
     private ElasticSearch elasticSearch;
 
+    @Autowired
+    private Environment environment;
+
+
     //time until token expires (minutes)
     private final int TOKENLIMIT = 10000;
     private final Path AVATARLOCATION = Paths.get("../Frontend/frontend/avatar/");
@@ -80,7 +85,7 @@ public class UsersManager {
 
 
     private void checkUserAvailable(String username, String email) throws Exception {
-        if (mUserDAO.getUserByUsername(username) != null)
+        if (mUserDAO.getUserByUsername(username) != null || username.equals("admin"))
             throw new Exception("Username already registered");
 
         if (mUserDAO.getUserByEmail(email) != null)
@@ -113,7 +118,20 @@ public class UsersManager {
     }
 
 
+    private String loginAdmin(String password) throws Exception {
+        if (password.equals(environment.getProperty("admin_password"))) {
+            String token = Security.generateToken();
+            redisCache.set("admin_token", token);
+            return token;
+        }
+        else
+            throw new Exception("Wrong Password");
+    }
+
     public String login(String username, String password) throws Exception {
+        if (username.equals("admin"))
+            return loginAdmin(password);
+
         MUser u = mUserDAO.getUserByUsername(username);
 
         if (u == null)
@@ -131,9 +149,14 @@ public class UsersManager {
 
 
     public void logout(String token) throws Exception {
-        MUser u = mUserDAO.validateToken(token);
-        u.setToken(null);
-        mUserDAO.merge(u);
+        String adminToken = redisCache.get("admin_token");
+        if (adminToken != null && adminToken.equals(token))
+            redisCache.del("admin_token");
+        else {
+            MUser u = mUserDAO.validateToken(token);
+            u.setToken(null);
+            mUserDAO.merge(u);
+        }
     }
 
 
@@ -297,7 +320,7 @@ public class UsersManager {
             m.put("img", u.getAvatar());
         else
             m.put("img", u.getGender() + ".svg");
-        m.put("requests", u.getRequestedFriendships().size() > 0);
+        m.put("requests", mUserDAO.listReceivedMUser(u.getId()).size() > 0);
 
         //add to redis cache
         redisCache.set("avatar_" + u.getUsername(), util.toJson(m));

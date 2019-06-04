@@ -49,7 +49,6 @@ public class Users {
             return Util.ok(usersManager.feedInfo(token, username));
         }
         catch (Exception e) {
-            e.printStackTrace();
             return Util.badRequest("");
         }
     }
@@ -62,7 +61,6 @@ public class Users {
             return Util.ok(usersManager.getAvatar(token));
         }
         catch (Exception e) {
-            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }

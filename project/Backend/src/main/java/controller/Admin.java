@@ -3,10 +3,8 @@ package controller;
 import business.AdminManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
@@ -18,14 +16,30 @@ public class Admin {
     private AdminManager adminManager;
 
 
+    //all stats
     @RequestMapping(method = GET, value = "/admin/stats")
-    public ResponseEntity<Object> stats() {
-        return Util.ok(adminManager.stats());
+    public ResponseEntity<Object> stats(@RequestHeader(value = "Authorization") String t,
+                                        @RequestParam(value = "time", required = false) Integer time) {
+        try {
+            String token = t.split(" ")[1];
+            return Util.ok(adminManager.stats(token, time));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
     }
 
 
-    @RequestMapping(method = GET, value = "/admin/plots")
-    public ResponseEntity<Object> plots(@RequestParam(value = "time", required = false) Integer time) {
-        return Util.ok(adminManager.plotsData(time));
+    //plots only
+    @RequestMapping(method = GET, value = "/admin/stats/plots")
+    public ResponseEntity<Object> plots(@RequestHeader(value = "Authorization") String t,
+                                        @RequestParam(value = "time") Integer time) {
+        try {
+            String token = t.split(" ")[1];
+            return Util.ok(adminManager.plots(token, time));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
     }
 }

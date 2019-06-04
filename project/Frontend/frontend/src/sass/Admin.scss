@@ -1,0 +1,31 @@
+@import 'Variables';
+
+.admin-container {
+    &.container-fluid{
+        max-width: 1600px;
+    }
+}
+
+.admin-card {
+    padding: 0px;
+    margin-top: 20px;
+    margin-top: 20px;
+
+    .card-body {
+        padding: 15px !important;
+    }
+
+    .card-title {
+        font-family: $font-title !important;
+        font-size: 32px !important;
+        text-align: center;
+        color: #333333;
+    }
+
+    .card-text {
+        font-family: $font-stack !important;
+        font-size: 20px !important;
+        text-align: center;
+        color: #555555;
+    }
+}

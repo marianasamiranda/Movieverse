@@ -28,3 +28,4 @@ elasticsearch:
   port: 9200
 
 
+admin_password: 'admin123'
