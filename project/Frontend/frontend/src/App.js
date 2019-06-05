@@ -131,14 +131,14 @@ class App extends Component {
 
               {/*<Route exact path="/media/:id" component={MediaPage} />*/}
 
-            <Route exact path="/u/:username" 
-              render={(props) => <Profile {...props} lang={this.state.language} />} />
+              <Route exact path="/u/:username" 
+                render={(props) => <Profile {...props} lang={this.state.language} />} />
 
               <Route exact path="/feed" 
-                render={() => <Feed user="useruser1"/>} />
+                render={() => <Feed user="useruser1" lang={this.state.language}/>} />
 
-              <Route exact path="/member/:id" component={Actor} />
-
+              <Route exact path="/member/:id"
+                render={(props) => <Actor {...props} lang={this.state.language} />} />
               <Route render={() => <NotFoundError lang={this.state.language} />} />
             </Switch>
         </main>

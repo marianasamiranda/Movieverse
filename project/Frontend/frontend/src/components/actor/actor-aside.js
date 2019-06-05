@@ -2,8 +2,6 @@ import React from 'react';
 
 export default function ActorAside(props){
 
-    let gender = props.gender === 'M'? 'Male': 'Female';
-
     return (
         <div className="col-4">
             <div className="actor-aside">

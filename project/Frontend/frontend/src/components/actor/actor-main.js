@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import MovieCard from '../movie-card'
 import HorizontalSlider from '../horizontal-slider';
 import InfiniteScroll from 'react-infinite-scroller';
-import {backend} from '../../var'
+import {backend, labels} from '../../var'
 import Axios from 'axios'
 
 
@@ -71,7 +71,7 @@ export default class ActorMain extends Component{
     }
 
     render(){
-        const loader = <div className="loader">Loading ...</div>;
+        const loader = <div className="loader">{labels[this.props.lang].loading} ...</div>;
 
         return (
         <div className="actor-main col-xs-12 col-md-8">
@@ -95,21 +95,21 @@ export default class ActorMain extends Component{
             </div>
             <div>
                 <h4 className="title-actor-18">
-                    Biography
+                    
                 </h4>
                 <hr className="section-divider light-gray"></hr>
                 <p className="font-15pt gray">{this.state.biography}</p>
             </div>
             <div style={{paddingBottom:"20px"}}>
                 <h4 className="title-actor-18">
-                    Photo Gallery
+                    {labels[this.props.lang].photoGallery}
                 </h4>
                 <hr className="section-divider light-gray"></hr>
                 <HorizontalSlider more="/media" content={this.state.backdrops} loadMore={false}/>
             </div>
             <div>
                 <h4 className="title-actor-18">
-                    Related Movies
+                {labels[this.props.lang].relatedMovies}
                 </h4>
                 <hr className="section-divider light-gray"></hr>
                 <Container id="actor-movies">

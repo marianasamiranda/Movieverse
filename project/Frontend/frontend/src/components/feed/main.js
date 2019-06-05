@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Post from './post'
+import { labels } from '../../var';
 
 //TODO
 
@@ -33,7 +34,7 @@ export default class Main extends Component {
 
           
           <div className="feed-container" style={{display: 'flex', justifyContent: 'center',}}>
-            <input type="button" className="button" value="LOAD MORE..."></input>
+            <input type="button" className="button" value={labels[this.props.lang].loadMore + "  ..."}></input>
           </div>
           
       </div>

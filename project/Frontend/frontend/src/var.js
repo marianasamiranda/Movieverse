@@ -71,6 +71,8 @@ export const theaters = {
 
 export const labels = {
   en: {
+    //buttons
+    loadMore: 'Load More',
     //navbar
     news: 'News',
     movies: 'Movies',
@@ -148,6 +150,14 @@ export const labels = {
     War: '⚔️ War',
     Western: '🤠 Western',
     None: 'None',
+    //Feed
+    newReleasesU:'NEW RELEASES',
+    //member page
+    birthplace: 'Birth Place',
+    gender: 'Gender',
+    biography: 'Biography',
+    photoGallery: 'Photo Gallery',
+    relatedMovies: 'Related Movies',
     //showtimes
     showtimes: 'Showtimes',
     noMoviesFound: 'No movies found',
@@ -238,6 +248,8 @@ export const labels = {
     year: 'year'
   },
   pt: {
+    //buttons
+    loadMore: 'Carregar Mais',
     //navbar
     news: 'Notícias',
     movies: 'Filmes',
@@ -316,6 +328,14 @@ export const labels = {
     War: '⚔️ Guerra',
     Western: '🤠 Western',
     None: 'Nenhum',
+    //Feed
+    newReleasesU:'ESTREIAS',
+    //member page
+    birthplace: 'Local de Origem',
+    gender: 'Sexo',
+    biography: 'Biografia',
+    photoGallery: 'Galeria de Fotos',
+    relatedMovies: 'Filmes Relacionados',
     //showtimes
     showtimes: 'Em exibição',
     //people search

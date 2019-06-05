@@ -6,7 +6,7 @@ import Axios from 'axios'
 import ActorMain from './actor-main'
 import ActorAside from './actor-aside'
 import ActorInfo from './actor-info'
-import {backend} from '../../var'
+import {backend, labels} from '../../var'
 import '../../styles/Actor.css'
 import Loading from '../aux_pages/loading'
 
@@ -60,6 +60,7 @@ export default class Actor extends Component{
                 gender={this.state.gender}
                 birthday={this.state.birthdate}
                 birthplace={this.state.birthplace}
+                lang={this.props.lang}
             >
             </ActorInfo>
         )
@@ -69,19 +70,19 @@ export default class Actor extends Component{
             <div>
                 {
                     this.state.showLoader ? 
-                        <Loading/>
+                        <Loading lang={this.props.lang}/>
                     : (
                         <div className="container">
                             <div className="row">
                                 <ActorAside
-                                    info = {actor_info}
-                                    photo = {this.state.image}
+                                    info={actor_info}
+                                    photo={this.state.image}
                                 >
                                 </ActorAside>
                                 
                                 <ActorMain
-                                    info = {actor_info}
-                                    photo = {this.state.image}
+                                    info={actor_info}
+                                    photo={this.state.image}
                                     // ======================
                                     name={this.state.name}
                                     imdb={this.state.imdb}
@@ -90,6 +91,7 @@ export default class Actor extends Component{
                                     movies={this.state.movies}
                                     moreMovies={this.state.moreMovies}
                                     id={this.state.id}
+                                    lang={this.props.lang}
                                 >
                                 </ActorMain>
                             </div>

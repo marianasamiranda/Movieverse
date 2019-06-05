@@ -63,22 +63,23 @@ export default class Feed extends Component {
       }
       else if (!this.state.upcomings) {
         return (
-          <Loading />
+          <Loading lang={this.props.lang}/>
         )
       }
-      console.log("HELP")
-      console.log(this.state.upcomings)
+
       return (
 
         <div>
             <Container className="flex">
                 <Main
                   user={this.state.user}
+                  lang={this.props.lang}
                 >
                 </Main>
           
                 <Aside
                   movies={this.state.upcomings}
+                  lang={this.props.lang}
                 >
                 </Aside>
             </Container>

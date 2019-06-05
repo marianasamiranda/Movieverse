@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import MovieCard from '../movie-card'
-
-//TODO
+import {labels} from '../../var'
 
 export default class Aside extends Component {
 
@@ -17,7 +16,7 @@ export default class Aside extends Component {
     return (
       <div className="aside-container">
         <div id="aside-feed-title">
-          NEW RELEASES
+          {labels[this.props.lang].newReleasesU}
         </div>
         <div className="aside">
           <div className="row">
