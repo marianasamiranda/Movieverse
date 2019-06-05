@@ -11,6 +11,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,12 +59,12 @@ public class AdminManager {
         var boolQuery = QueryBuilders.boolQuery();
         boolQuery.must(QueryBuilders.matchQuery("method", methodName));
         boolQuery.must(QueryBuilders.rangeQuery("timestamp")
-                                    .gt("now-" + time + "m"));
+                                    .gt(LocalDateTime.now().plusMinutes(-time)));
 
         var aggs = AggregationBuilders.histogram("date_histogram")
                                       .field("timestamp")
                                       .interval(time * 1000)
-                                      .minDocCount(1);
+                                      .format("yyyy-MM-dd'T'hh:mm:ss");
 
         builder.query(boolQuery);
         builder.aggregation(aggs);

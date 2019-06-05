@@ -223,6 +223,19 @@ export const labels = {
     genders: 'Genders',
     countries: 'Countries',
     timeRange: 'Time Range',
+    updateInterval: 'Refresh rate',
+    second: 'second',
+    seconds: 'seconds',
+    minute: 'minute',
+    minutes: 'minutes',
+    hour: 'hour',
+    hours: 'hours',
+    day: 'day',
+    week: 'week',
+    weeks: 'weeks',
+    month: 'month',
+    months: 'months',
+    year: 'year'
   },
   pt: {
     //navbar
@@ -377,6 +390,19 @@ export const labels = {
     genders: 'Sexos',
     countries: 'Países',
     timeRange: 'Intervalo de Tempo',
+    updateInterval: 'Taxa de Atualização',
+    second: 'segundo',
+    seconds: 'segundos',
+    minute: 'minuto',
+    minutes: 'minutos',
+    hour: 'hora',
+    hours: 'horas',
+    day: 'dia',
+    week: 'semana',
+    weeks: 'semanas',
+    month: 'mês',
+    months: 'meses',
+    year: 'ano'
   }
 }
 

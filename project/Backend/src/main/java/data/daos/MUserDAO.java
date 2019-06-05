@@ -1,7 +1,6 @@
 package data.daos;
 
 
-import data.daos.impl.MUserDAOImpl;
 import data.entities.MUser;
 
 import java.util.List;
