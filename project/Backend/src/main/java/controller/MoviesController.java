@@ -28,6 +28,17 @@ public class MoviesController {
         }
     }
 
+    @RequestMapping(method = GET, value = "/movie/{id}/short")
+    public ResponseEntity<Object> getMovieShort(@PathVariable("id") String id) {
+        try {
+            return Util.ok(movieService.getShort(Integer.parseInt(id)));
+        }
+        catch(Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
+
     @RequestMapping(method = GET, value = "/movie/{id}/me")
     public ResponseEntity<Object> getMovieMeInfo(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
 

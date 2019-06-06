@@ -70,7 +70,6 @@ public class MovieService {
         }
     }
 
-
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
         double rating = 0;
@@ -119,10 +118,7 @@ public class MovieService {
         }
         result.put("companies", companies);
 
-        System.out.println("HELLO");
         var groupedMedia = mediaDAO.getMovieMedia(id);
-        System.out.println(groupedMedia);
-        System.out.println("HELLO2");
 
         if(groupedMedia.get('b')!=null)
             result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
@@ -133,11 +129,21 @@ public class MovieService {
         if(groupedMedia.get('p')!=null)
             result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
 
-        System.out.println("HELLO4");
-
         return result;
     }
 
+    public Map<String, Object> getShort(Integer id) throws Exception {
+        Movie m = movieDAO.loadEntityEager("tmdb=" + id);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("name", m.getName());
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(m.getRelease());
+        int year = calendar.get(Calendar.YEAR);
+        result.put("year", year);
+
+        return result;
+    }
 
     /*public boolean addComment(Map<String, String> comment) throws IOException {
         if (false) {
