@@ -5,19 +5,19 @@ $light-gray: #E7E7E7;
 $gray: #7B7B7B;
 $strong-gray: #707070;
 
-@mixin title-actor($size) {
+@mixin title-member-company($size) {
     @extend .brown;
     font-weight: bold;
     font-size: $size;
 }
 
-.actor-info {
+.member-company-info {
     p {
         margin: 0;
     }
 
     .info-lable {
-        @include title-actor(15pt);
+        @include title-member-company(15pt);
     }
 
     .info-value {
@@ -26,7 +26,7 @@ $strong-gray: #707070;
     }
 }
 
-.actor-aside {
+.member-company-aside {
     background-color: $light-gray;
     border: 1px solid $gray;
     align-content: center;
@@ -39,25 +39,25 @@ $strong-gray: #707070;
     }
 }
 
-#actor-info-main {
+#member-company-info-main {
     @media(min-width: 768px) {
         display: none;
     }
 }
 
-.actor-name {
+.member-company-name {
     display: inline-block;
     margin-top: 100px;
     margin-right: 20px;
     margin-bottom: 20px;
-    @include title-actor(40pt);
+    @include title-member-company(40pt);
 }
 
-.title-actor-18 {
-    @include title-actor(18pt);
+.title-member-company-18 {
+    @include title-member-company(18pt);
 }
 
-#actor-movies {
+#member-company-movies {
     .movie-card-container{
         .label{
             line-height: 12pt;

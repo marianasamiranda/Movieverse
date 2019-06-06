@@ -150,6 +150,11 @@ export const labels = {
     War: '⚔️ War',
     Western: '🤠 Western',
     None: 'None',
+    //Company
+    headquarters:'Headquarters',
+    homepage:'Homepage',
+    description:"Description",
+    releasedMovies:"Released Movies",
     //Feed
     newReleasesU:'NEW RELEASES',
     //member page
@@ -328,6 +333,11 @@ export const labels = {
     War: '⚔️ Guerra',
     Western: '🤠 Western',
     None: 'Nenhum',
+    //Company
+    headquarters:'Sede',
+    homepage:'Página da Empresa',
+    description:'Descrição',
+    releasedMovies:'Filmes Realizados',
     //Feed
     newReleasesU:'ESTREIAS',
     //member page

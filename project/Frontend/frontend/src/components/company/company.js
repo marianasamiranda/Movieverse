@@ -3,14 +3,14 @@ import Container from 'react-bootstrap/Container';
 import MovieCard from '../movie-card'
 import logo from '../../img/logo.png'
 import Axios from 'axios'
-import ActorMain from './actor-main'
-import ActorAside from './actor-aside'
-import ActorInfo from './actor-info'
+import CompanyMain from './company-main'
+import CompanyAside from './company-aside'
+import CompanyInfo from './company-info'
 import {backend, labels} from '../../var'
-import '../../styles/Actor.css'
+import '../../styles/MemberCompany.css'
 import Loading from '../aux_pages/loading'
 
-export default class Actor extends Component{
+export default class Company extends Component{
 
     constructor(props){
         super(props)
@@ -18,36 +18,26 @@ export default class Actor extends Component{
             id: props.match.params.id,
             showLoader: true
         }
-        this.get_actor_info.bind(this)
+        this.get_company_info.bind(this)
     }
 
     componentWillMount() { 
-        this.get_actor_info(this.state.id) 
+        this.get_company_info(this.state.id) 
     };
 
-    async get_actor_info(id){
-
-        return await Axios.get(backend + '/member/' + id).then(x => {
-
-          var backdrops = []  
-          x.data.backdrops.map(path => {
-            let shortImage = "https://image.tmdb.org/t/p/w200" + path
-            let largeImage = "https://image.tmdb.org/t/p/w500" + path
-            backdrops.push({"href": largeImage, "src": shortImage})
-          })
-
+    async get_company_info(id){
+        return await Axios.get(backend + '/company/' + id).then(x => {
+          console.log(x)
           this.setState({
             showLoader: false,
-            biography: x.data.biography,
-            birthdate: x.data.birthdate,
-            birthplace: x.data.birthplace,
-            gender: x.data.gender,
+            description: x.data.description,
+            homepage: x.data.homepage,
+            headquarters: x.data.headquarters,
+            country: x.data.country,
             image: x.data.image,
-            imdb: x.data.imdb,
             name: x.data.name,
             movies: x.data.movies,
-            moreMovies: x.data.moreMovies,
-            backdrops: backdrops
+            moreMovies: x.data.moreMovies
           })
         })
         .catch(x => {alert("Erro")})
@@ -55,14 +45,15 @@ export default class Actor extends Component{
 
     render(){
 
-        let actor_info = (
-            <ActorInfo
-                gender={this.state.gender}
-                birthday={this.state.birthdate}
-                birthplace={this.state.birthplace}
+        let company_info = (
+            <CompanyInfo
+                name={this.state.name}
+                country={this.state.country}
+                headquarters={this.state.headquarters}
+                homepage={this.state.homepage}
                 lang={this.props.lang}
             >
-            </ActorInfo>
+            </CompanyInfo>
         )
 
         return (
@@ -74,26 +65,24 @@ export default class Actor extends Component{
                     : (
                         <div className="container">
                             <div className="row">
-                                <ActorAside
-                                    info={actor_info}
+                                <CompanyAside
+                                    info={company_info}
                                     photo={this.state.image}
                                 >
-                                </ActorAside>
+                                </CompanyAside>
                                 
-                                <ActorMain
-                                    info={actor_info}
+                                <CompanyMain
+                                    info={company_info}
                                     photo={this.state.image}
                                     // ======================
                                     name={this.state.name}
-                                    imdb={this.state.imdb}
-                                    biography={this.state.biography}
-                                    backdrops={this.state.backdrops}
+                                    description={this.state.description}
                                     movies={this.state.movies}
                                     moreMovies={this.state.moreMovies}
                                     id={this.state.id}
                                     lang={this.props.lang}
                                 >
-                                </ActorMain>
+                                </CompanyMain>
                             </div>
                         </div>
                     )

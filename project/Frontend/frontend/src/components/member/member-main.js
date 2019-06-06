@@ -10,7 +10,7 @@ import {backend, labels} from '../../var'
 import Axios from 'axios'
 
 
-export default class ActorMain extends Component{
+export default class MemberMain extends Component{
 
     constructor(props){
         super(props)
@@ -74,14 +74,14 @@ export default class ActorMain extends Component{
         const loader = <div className="loader">{labels[this.props.lang].loading} ...</div>;
 
         return (
-        <div className="actor-main col-xs-12 col-md-8">
+        <div className="member-company-main col-xs-12 col-md-8">
             <div>
-                <h1 className="actor-name">{this.state.name}</h1>
+                <h1 className="member-company-name">{this.state.name}</h1>
                 <a href={this.state.imdb}>
                     <img style={{width: "auto", height:"30px", verticalAlign:"baseline"}} src={imdb} alt=""/>
                 </a>
             </div>
-            <div id="actor-info-main">
+            <div id="member-company-info-main">
                 <Container className="margin-bottom-30">
                     <Row>
                         <Col className="padding-l-0 flex-align-center">
@@ -94,25 +94,25 @@ export default class ActorMain extends Component{
                 </Container>
             </div>
             <div>
-                <h4 className="title-actor-18">
-                    
+                <h4 className="title-member-company-18">
+                    {labels[this.props.lang].biography}
                 </h4>
                 <hr className="section-divider light-gray"></hr>
                 <p className="font-15pt gray">{this.state.biography}</p>
             </div>
             <div style={{paddingBottom:"20px"}}>
-                <h4 className="title-actor-18">
+                <h4 className="title-member-company-18">
                     {labels[this.props.lang].photoGallery}
                 </h4>
                 <hr className="section-divider light-gray"></hr>
                 <HorizontalSlider more="/media" content={this.state.backdrops} loadMore={false}/>
             </div>
             <div>
-                <h4 className="title-actor-18">
-                {labels[this.props.lang].relatedMovies}
+                <h4 className="title-member-company-18">
+                    {labels[this.props.lang].relatedMovies}
                 </h4>
                 <hr className="section-divider light-gray"></hr>
-                <Container id="actor-movies">
+                <Container id="member-company-movies">
                     <InfiniteScroll
                         pageStart={0}
                         loadMore={this.loadItems.bind(this)}
