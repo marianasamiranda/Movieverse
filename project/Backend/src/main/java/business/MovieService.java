@@ -53,6 +53,9 @@ public class MovieService {
     private Util util;
 
     @Autowired
+    private FeedDAO feedDAO;
+
+    @Autowired
     private RedisCache redisCache;
 
 
@@ -116,11 +119,21 @@ public class MovieService {
         }
         result.put("companies", companies);
 
+        System.out.println("HELLO");
         var groupedMedia = mediaDAO.getMovieMedia(id);
+        System.out.println(groupedMedia);
+        System.out.println("HELLO2");
 
-        result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
-        result.put("videos", ((List<String>) groupedMedia.get('v')).stream().limit(5).collect(Collectors.toList()));
-        result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
+        if(groupedMedia.get('b')!=null)
+            result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
+
+        if(groupedMedia.get('v')!=null)
+            result.put("videos", ((List<String>) groupedMedia.get('v')).stream().limit(5).collect(Collectors.toList()));
+
+        if(groupedMedia.get('p')!=null)
+            result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
+
+        System.out.println("HELLO4");
 
         return result;
     }
@@ -197,12 +210,36 @@ public class MovieService {
                 }
                 if(updates.containsKey("favourited")) {
                     setFavourite(updates, userMovie);
+                    Feed f = null;
+                    try {
+                        f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=2");
+                    }
+                    catch(Exception e) { }
+                    if(f==null) {
+                        f = new Feed();
+                        f.setType(2);
+                        f.setUser(user);
+                        f.setIdContent(userMovie.getMovie().getORMID());
+                        feedDAO.merge(f);
+                    }
                 }
                 userMovie.setStatus(true);
                 userMovie.setDateWatched(dateWatched);
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
+                Feed f = null;
+                try {
+                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=1");
+                }
+                catch(Exception e) { }
+                if(f==null) {
+                    f = new Feed();
+                    f.setType(1);
+                    f.setUser(user);
+                    f.setIdContent(userMovie.getMovie().getORMID());
+                    feedDAO.merge(f);
+                }
             }
             else {
                 if(updates.containsKey("addedToWatchlist")) {
@@ -216,6 +253,7 @@ public class MovieService {
                 }
                 else {
                     userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
                 }
             }
         }
@@ -239,6 +277,19 @@ public class MovieService {
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
+
+                Feed f = null;
+                try {
+                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=2");
+                }
+                catch(Exception e) { }
+                if(f==null) {
+                    f = new Feed();
+                    f.setType(2);
+                    f.setUser(user);
+                    f.setIdContent(userMovie.getMovie().getORMID());
+                    feedDAO.merge(f);
+                }
             }
             else {
                 userMovie.setFavourite(false);
@@ -246,6 +297,8 @@ public class MovieService {
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
+                feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=2");
+
             }
         }
 

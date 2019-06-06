@@ -42,45 +42,54 @@ export default class MoviePage extends Component {
     
     window.addEventListener("resize", this.handleResize);
 
+    const token = getToken()
+
+    var movieInfo
+
     Axios.get(backend + '/movie/' + this.props.match.params.id)
       .then(x => {
+        console.log("cenas")
         document.title = x.data.name + " | Movieverse"
-        const token = getToken()
-        
-        const movieInfo = x.data;
+        movieInfo = x.data;
 
         var backdrops = []
         var videos = []
         var posters = []
 
-        for(const url of x.data.backdrops) {
-          var backdropId = url.split(/[\/.]/)[1];
-          var originalURL = "https://image.tmdb.org/t/p/original/" + backdropId + ".jpg"
-          
-          var source = "https://image.tmdb.org/t/p/w500_and_h282_face/" + backdropId + ".jpg"
-          backdrops.push({
-            "href": originalURL,
-            "src": source
-          })
+        if(x.data.backdrops) {
+          for(const url of x.data.backdrops) {
+            var backdropId = url.split(/[\/.]/)[1];
+            var originalURL = "https://image.tmdb.org/t/p/original/" + backdropId + ".jpg"
+            
+            var source = "https://image.tmdb.org/t/p/w500_and_h282_face/" + backdropId + ".jpg"
+            backdrops.push({
+              "href": originalURL,
+              "src": source
+            })
+          }
         }
 
-        for(const videoId of x.data.videos) {
-          var originalURL = "https://www.youtube.com/watch?v=" + videoId
-          var source = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
-          videos.push({
-            "href": originalURL,
-            "src": source
-          })
+        if(x.data.videos) {
+          for(const videoId of x.data.videos) {
+            var originalURL = "https://www.youtube.com/watch?v=" + videoId
+            var source = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
+            videos.push({
+              "href": originalURL,
+              "src": source
+            })
+          }
         }
 
-        for(const url of x.data.posters) {
-          var posterId = url.split(/[\/.]/)[1];
-          var originalURL = "https://image.tmdb.org/t/p/original/" + posterId + ".jpg"
-          var source = "https://image.tmdb.org/t/p/w220_and_h330_face/" + posterId + ".jpg"
-          posters.push({
-            "href": originalURL,
-            "src": source
-          })
+        if(x.data.posters) {
+          for(const url of x.data.posters) {
+            var posterId = url.split(/[\/.]/)[1];
+            var originalURL = "https://image.tmdb.org/t/p/original/" + posterId + ".jpg"
+            var source = "https://image.tmdb.org/t/p/w220_and_h330_face/" + posterId + ".jpg"
+            posters.push({
+              "href": originalURL,
+              "src": source
+            })
+          }
         }
 
         this.setState({
@@ -88,27 +97,39 @@ export default class MoviePage extends Component {
           videos: videos,
           posters: posters
         })
+      }).catch(e => {
+        console.log("oi")
+        this.setState({
+          posters: [],
+          videos: [],
+          backdrops: []
+        })
+      }).then(k =>
+        Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
+      { headers: { Authorization: "Bearer " + token } })
+      .then(y => {
+        console.log("oi2")
 
-        return Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
-          { headers: { Authorization: "Bearer " + token } })
-          .then(y => {
-            this.setState({
-              movie: movieInfo,
-              watched: (y.data.watched && y.data.watched === true)  ? true : false,
-              favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
-              watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false
-            })
-          })
-          .catch(e => {
-            this.setState({
-              movie: movieInfo,
-              watched: false,
-              favourited: false,
-              watchlist: false
-            })
-          })
+        this.setState({
+          movie: movieInfo,
+          watched: (y.data.watched && y.data.watched === true)  ? true : false,
+          favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
+          watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false
+        })
       })
+      .catch(o => {
+        console.log("oi3")
+        this.setState({
+          movie: movieInfo,
+          watched: false,
+          favourited: false,
+          watchlist: false
+        })
+      })
+        )
     };
+      
+      
  
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
@@ -179,24 +200,55 @@ export default class MoviePage extends Component {
                   <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
                 </Col>
               </Row>
-              <Tabs>
-                <TabList>
-                  <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
-                  >{labels[this.props.lang].media}</h1>
-                  <Tab>{labels[this.props.lang].posters}</Tab>
-                  <Tab>{labels[this.props.lang].videos}</Tab>
-                  <Tab>{labels[this.props.lang].backdrops}</Tab>
-                </TabList>
-                <TabPanel>
-                  <HorizontalSlider more="/media" content={this.state.posters}/>
-                </TabPanel>
-                <TabPanel>
-                  <HorizontalSlider more="/media" content={this.state.videos}/>
-                </TabPanel>
-                <TabPanel>
-                  <HorizontalSlider more="/media" content={this.state.backdrops}/>   
-                </TabPanel>
-              </Tabs>
+              {(this.state.backdrops.length!=0 ||
+               this.state.posters.length!=0 ||
+               this.state.videos.length!=0) &&
+                <Tabs>
+                  <TabList>
+                    <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
+                    >{labels[this.props.lang].media}</h1>
+                    { this.state.posters.length!=0 &&
+                      <Tab>{labels[this.props.lang].posters}</Tab>
+                    }
+                    { this.state.videos.length!=0 &&
+                      <Tab>{labels[this.props.lang].videos}</Tab>
+                    }
+                    { this.state.backdrops.length!=0 &&
+                      <Tab>{labels[this.props.lang].backdrops}</Tab>
+                    }
+                  </TabList>
+                  { this.state.posters.length==5 &&
+                    <TabPanel>
+                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.posters}/>
+                    </TabPanel> 
+                  }
+                  { this.state.posters.length!=5 && this.state.posters.length!=0 &&
+                    <TabPanel>
+                      <HorizontalSlider content={this.state.posters}/>
+                    </TabPanel>
+                  }
+                  { this.state.videos.length==5 &&
+                    <TabPanel>
+                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.videos}/>
+                    </TabPanel>
+                  }
+                  { this.state.videos.length!=5 && this.state.videos.length!=0 &&
+                    <TabPanel>
+                      <HorizontalSlider content={this.state.videos}/>
+                    </TabPanel>
+                  }
+                  { this.state.backdrops.length==5 &&
+                    <TabPanel>
+                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.backdrops}/>   
+                    </TabPanel>
+                  }
+                  { this.state.backdrops.length!=5 && this.state.backdrops.length!=0 &&
+                    <TabPanel>
+                      <HorizontalSlider content={this.state.backdrops}/>   
+                    </TabPanel>
+                  }
+                </Tabs>
+              }
               <h1>{labels[this.props.lang].discussion}</h1>
               <DiscussionBox lang={this.props.lang} />
             </div>

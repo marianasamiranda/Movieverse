@@ -130,7 +130,8 @@ class App extends Component {
               <Route exact path="/movie/:id" 
                 render={(props) => <MoviePage {...props} lang={this.state.language} />}  />
 
-              {/*<Route exact path="/media/:id" component={MediaPage} />*/}
+              <Route exact path="/media/:id"
+                render={(props) => <MediaPage {...props} lang={this.state.language} />}  />
 
               <Route exact path="/u/:username" 
                 render={(props) => <Profile {...props} lang={this.state.language} />} />
