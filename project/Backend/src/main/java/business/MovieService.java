@@ -119,11 +119,21 @@ public class MovieService {
         }
         result.put("companies", companies);
 
+        System.out.println("HELLO");
         var groupedMedia = mediaDAO.getMovieMedia(id);
+        System.out.println(groupedMedia);
+        System.out.println("HELLO2");
 
-        result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
-        result.put("videos", ((List<String>) groupedMedia.get('v')).stream().limit(5).collect(Collectors.toList()));
-        result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
+        if(groupedMedia.get('b')!=null)
+            result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
+
+        if(groupedMedia.get('v')!=null)
+            result.put("videos", ((List<String>) groupedMedia.get('v')).stream().limit(5).collect(Collectors.toList()));
+
+        if(groupedMedia.get('p')!=null)
+            result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
+
+        System.out.println("HELLO4");
 
         return result;
     }
