@@ -3,7 +3,8 @@ import NavBar from './components/navbar'
 import Footer from './components/footer'
 import FrontPage from './components/frontpage'
 import Feed from './components/feed/feed'
-import Actor from './components/actor/actor'
+import Member from './components/member/member'
+import Company from './components/company/company'
 import MoviePage from './components/movie/moviepage'
 import MediaPage from './components/movie/mediapage'
 import MovieSearch from './components/movieSearch'
@@ -138,8 +139,13 @@ class App extends Component {
                 render={() => <Feed user="useruser1" lang={this.state.language}/>} />
 
               <Route exact path="/member/:id"
-                render={(props) => <Actor {...props} lang={this.state.language} />} />
+                render={(props) => <Member {...props} lang={this.state.language} />} />
+
+              <Route exact path="/company/:id"
+                render={(props) => <Company {...props} lang={this.state.language} />} />
+
               <Route render={() => <NotFoundError lang={this.state.language} />} />
+              
             </Switch>
         </main>
         <Footer lang={this.state.language}/>

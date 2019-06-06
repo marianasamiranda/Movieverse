@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function ActorAside(props){
+export default function MemberAside(props){
 
     return (
         <div className="col-4">
-            <div className="actor-aside">
+            <div className="member-company-aside">
                 <div className="row">
                     <div className="col-xs-6 col-md-12">
                         <img className="img-ratio-fill margin-bottom-50" src={props.photo} alt="" />

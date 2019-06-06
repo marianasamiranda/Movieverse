@@ -62,6 +62,31 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
         return res;
     }
 
+    @Transactional(readOnly=true)
+    public List<Map<String, Object>> getCompanyMoviesFromTo(int companyId, int offset, int limit){
+
+        Query query = entityManager.createNativeQuery("SELECT m.name, m.poster FROM Movie m join MovieCompany mc on (m.tmdb = mc.movieid) where mc.companyid = " + companyId + "order by m.tmdb")
+                .setFirstResult(offset)
+                .setMaxResults(limit);
+
+        List<Object[]> results = query.getResultList();
+
+        List<Map<String, Object>> res = new ArrayList<>();
+
+        results.stream().forEach((record) -> {
+            String name = (String) record[0];
+            String poster = (String) record[1];
+
+            Map<String, Object> mv = new HashMap<>();
+            mv.put("name", name);
+            mv.put("poster", poster);
+
+            res.add(mv);
+        });
+
+        return res;
+    }
+
 
     private List allFrom(String table, int begin, int limit) {
         return entityManager
