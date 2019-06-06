@@ -250,7 +250,9 @@ export const labels = {
     weeks: 'weeks',
     month: 'month',
     months: 'months',
-    year: 'year'
+    year: 'year',
+    // media page
+    goBack: 'Go Back'
   },
   pt: {
     //buttons
@@ -432,7 +434,9 @@ export const labels = {
     weeks: 'semanas',
     month: 'mês',
     months: 'meses',
-    year: 'ano'
+    year: 'ano',
+    // media page
+    goBack: 'Voltar Atrás'
   }
 }
 

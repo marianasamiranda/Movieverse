@@ -48,7 +48,6 @@ export default class MoviePage extends Component {
 
     Axios.get(backend + '/movie/' + this.props.match.params.id)
       .then(x => {
-        console.log("cenas")
         document.title = x.data.name + " | Movieverse"
         movieInfo = x.data;
 
@@ -98,7 +97,6 @@ export default class MoviePage extends Component {
           posters: posters
         })
       }).catch(e => {
-        console.log("oi")
         this.setState({
           posters: [],
           videos: [],
@@ -107,18 +105,16 @@ export default class MoviePage extends Component {
       }).then(k =>
         Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
       { headers: { Authorization: "Bearer " + token } })
-      .then(y => {
-        console.log("oi2")
+        .then(y => {
 
-        this.setState({
-          movie: movieInfo,
-          watched: (y.data.watched && y.data.watched === true)  ? true : false,
-          favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
-          watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false
-        })
+          this.setState({
+            movie: movieInfo,
+            watched: (y.data.watched && y.data.watched === true)  ? true : false,
+            favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
+            watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false
+          })
       })
       .catch(o => {
-        console.log("oi3")
         this.setState({
           movie: movieInfo,
           watched: false,
@@ -126,11 +122,9 @@ export default class MoviePage extends Component {
           watchlist: false
         })
       })
-        )
-    };
-      
-      
- 
+    )
+  };
+
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
   }
@@ -219,7 +213,7 @@ export default class MoviePage extends Component {
                   </TabList>
                   { this.state.posters.length==5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.posters}/>
+                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.posters}/>
                     </TabPanel> 
                   }
                   { this.state.posters.length!=5 && this.state.posters.length!=0 &&
@@ -229,7 +223,7 @@ export default class MoviePage extends Component {
                   }
                   { this.state.videos.length==5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.videos}/>
+                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.videos}/>
                     </TabPanel>
                   }
                   { this.state.videos.length!=5 && this.state.videos.length!=0 &&

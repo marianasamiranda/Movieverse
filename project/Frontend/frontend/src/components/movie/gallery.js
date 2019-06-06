@@ -5,6 +5,10 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image'
 
 export default class Gallery extends Component {
+    
+    constructor(props) {
+        super(props);
+    }
 
     createGallery = () => {
         let gallery = []
@@ -32,15 +36,15 @@ export default class Gallery extends Component {
                 <Col lg="6">
                     <div className="galleryItem">
                         <div className="galleryContainer">
-                            <Image className="image" src={this.props.data[i].src} />
-                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i].href} className="overlay">
+                            <Image className="image" src={this.props.data[i+1].src} />
+                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i+1].href} className="overlay">
                                 <div className="text">{this.symbol}</div>
                             </a>
                         </div>
                     </div>
                 </Col>
             </Row>)
-            i++;
+            i+=2;
         }
         if (i < this.props.data.length) {
             gallery.push(<Row>
