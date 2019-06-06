@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class NewsManager {
+public class NewsService {
 
     @Autowired
     private NewsDAO newsDAO;

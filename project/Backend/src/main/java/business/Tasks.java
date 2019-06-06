@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +29,7 @@ public class Tasks {
     private RedisCache redisCache;
 
     @Autowired
-    private MovieManager movieManager;
+    private MovieService movieService;
 
 
     @PostConstruct
@@ -53,7 +52,7 @@ public class Tasks {
         List<String> valuesToCheck = new ArrayList<>(Arrays.asList(
                 "news", "frontPageInfo", "movieSearchPageInfo", "memberSearchPageInfo")
         );
-        movieManager.theatersIds().forEach(x ->
+        movieService.theatersIds().forEach(x ->
             valuesToCheck.add("showtimes_" + x)
         );
 

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AdminManager {
+public class AdminService {
 
     @Autowired
     private ElasticSearch elasticSearch;

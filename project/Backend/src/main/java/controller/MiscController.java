@@ -1,7 +1,7 @@
 package controller;
 
-import Log.LogMethod;
-import business.MiscManager;
+import log.LogMethod;
+import business.MiscService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,17 +11,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
-public class Misc {
+public class MiscController {
 
     @Autowired
-    private MiscManager miscManager;
+    private MiscService miscService;
 
 
     @LogMethod
     @RequestMapping(method = GET, value = "/frontpage")
     public ResponseEntity<Object> frontpage() {
         try {
-            return Util.ok(miscManager.frontPageInfo());
+            return Util.ok(miscService.frontPageInfo());
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class MemberManager {
+public class MemberService {
 
     @Autowired
     private ElasticSearch elasticSearch;

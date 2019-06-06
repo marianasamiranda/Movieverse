@@ -1,11 +1,10 @@
 package controller;
 
-import Log.LogMethod;
-import business.MovieManager;
+import log.LogMethod;
+import business.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,15 +13,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
-public class Movies {
+public class MoviesController {
 
     @Autowired
-    MovieManager movieManager;
+    MovieService movieService;
 
     @RequestMapping(method = GET, value = "/movie/{id}")
     public ResponseEntity<Object> getMovie(@PathVariable("id") String id) {
         try {
-            return Util.ok(movieManager.get(Integer.parseInt(id)));
+            return Util.ok(movieService.get(Integer.parseInt(id)));
         }
         catch(Exception e) {
             return Util.badRequest("");
@@ -35,7 +34,7 @@ public class Movies {
         String token = t.split(" ")[1];
 
         try {
-            return Util.ok(movieManager.getMovieMeInfo(token, Integer.parseInt(id)));
+            return Util.ok(movieService.getMovieMeInfo(token, Integer.parseInt(id)));
         }
         catch(IOException e) {
             return Util.badRequest("");
@@ -51,7 +50,7 @@ public class Movies {
         String token = t.split(" ")[1];
 
         try {
-            return Util.ok(movieManager.patchMovieMeInfo(token, Integer.parseInt(id), updates));
+            return Util.ok(movieService.patchMovieMeInfo(token, Integer.parseInt(id), updates));
         }
         catch(IOException e) {
             return Util.badRequest("");
@@ -64,7 +63,7 @@ public class Movies {
                                         @RequestParam (value = "sort", required = false) String sort,
                                         @RequestParam (value = "genre", required = false) String genre) {
         try {
-            return Util.ok(movieManager.search(title, sort, genre));
+            return Util.ok(movieService.search(title, sort, genre));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +74,7 @@ public class Movies {
     @RequestMapping(method = GET, value = "/movie-search-page")
     public ResponseEntity<Object> movieSearchPage() {
         try {
-            return Util.ok(movieManager.movieSearchPage());
+            return Util.ok(movieService.movieSearchPage());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +86,7 @@ public class Movies {
     @RequestMapping(method = GET, value = "/showtimes")
     public ResponseEntity<Object> showtimes(@RequestParam (value = "theater") int theater) {
         try {
-            return Util.ok(movieManager.showtimes(theater));
+            return Util.ok(movieService.showtimes(theater));
         }
         catch (Exception e) {
             return Util.badRequest("");

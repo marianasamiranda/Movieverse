@@ -1,27 +1,25 @@
 package controller;
 
-import Log.LogMethod;
-import business.MovieManager;
-import business.UsersManager;
+import business.MovieService;
+import business.UserService;
+import log.LogMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
-public class Users {
+public class UsersController {
 
     @Autowired
-    UsersManager usersManager;
+    UserService userService;
 
     @Autowired
-    MovieManager movieManager;
+    MovieService movieService;
 
 
     @LogMethod
@@ -31,7 +29,7 @@ public class Users {
         String token = t.split(" ")[1];
 
         try {
-            return Util.ok(usersManager.profileInfo(token, username));
+            return Util.ok(userService.profileInfo(token, username));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
@@ -46,7 +44,7 @@ public class Users {
         String token = t.split(" ")[1];
 
         try {
-            return Util.ok(usersManager.feedInfo(token, username));
+            return Util.ok(userService.feedInfo(token, username));
         }
         catch (Exception e) {
             return Util.badRequest("");
@@ -58,7 +56,7 @@ public class Users {
     public ResponseEntity<Object> getAvatar(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
         try {
-            return Util.ok(usersManager.getAvatar(token));
+            return Util.ok(userService.getAvatar(token));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
@@ -71,7 +69,7 @@ public class Users {
                                          @RequestParam(value = "image") MultipartFile file) {
         String token = t.split(" ")[1];
         try {
-            return Util.ok(usersManager.newAvatar(token, file));
+            return Util.ok(userService.newAvatar(token, file));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
@@ -84,7 +82,7 @@ public class Users {
                                          @RequestBody Map body) {
         String token = t.split(" ")[1];
         try {
-            usersManager.newGenre(token, (String) body.get("genre"));
+            userService.newGenre(token, (String) body.get("genre"));
             return Util.ok("");
         }
         catch (Exception e) {
@@ -98,7 +96,7 @@ public class Users {
                                         @RequestParam(value = "type") String type) {
         String token = t.split(" ")[1];
         try {
-            return Util.ok(usersManager.getFriendRequests(token, type));
+            return Util.ok(userService.getFriendRequests(token, type));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
@@ -112,7 +110,7 @@ public class Users {
         String token = t.split(" ")[1];
         String username = (String) body.get("username");
         try {
-            usersManager.newFriendRequest(token, username);
+            userService.newFriendRequest(token, username);
             return Util.ok("");
         }
         catch (Exception e) {
@@ -131,7 +129,7 @@ public class Users {
         boolean decision = (boolean) body.get("decision");
 
         try {
-            usersManager.processRequest(token, username, decision);
+            userService.processRequest(token, username, decision);
             return Util.ok("");
         }
         catch (Exception e) {
@@ -148,7 +146,7 @@ public class Users {
         String username = (String) body.get("username");
 
         try {
-            usersManager.cancelRequest(token, username);
+            userService.cancelRequest(token, username);
             return Util.ok("");
         }
         catch (Exception e) {
@@ -162,7 +160,7 @@ public class Users {
                                          @RequestParam(value = "name") String name) {
         String token = t.split(" ")[1];
         try {
-            return Util.ok(usersManager.search(token, name));
+            return Util.ok(userService.search(token, name));
         }
         catch (Exception e) {
             return Util.badRequest("");
@@ -176,7 +174,7 @@ public class Users {
                                                 @RequestParam(value = "limit") int limit) {
         String token = t.split(" ")[1];
         try {
-            return Util.ok(usersManager.movieList(token, type, begin, limit));
+            return Util.ok(userService.movieList(token, type, begin, limit));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -191,7 +189,7 @@ public class Users {
                                                 @RequestParam(value = "limit") int limit) {
         String token = t.split(" ")[1];
         try {
-            return Util.ok(usersManager.friendsList(token, begin, limit));
+            return Util.ok(userService.friendsList(token, begin, limit));
         }
         catch (Exception e) {
             e.printStackTrace();

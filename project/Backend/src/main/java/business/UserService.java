@@ -28,16 +28,16 @@ import java.util.*;
 import static java.util.stream.Collectors.*;
 
 @Service
-public class UsersManager {
+public class UserService {
 
     @Autowired
-    private GenreManager genreManager;
+    private GenreService genreService;
 
     @Autowired
-    private MovieManager movieManager;
+    private MovieService movieService;
 
     @Autowired
-    private CountryManager countryManager;
+    private CountryService countryService;
 
     @Autowired
     private FriendshipDAO friendshipDAO;
@@ -107,7 +107,7 @@ public class UsersManager {
         u.setGender(gender);
         u.setBirthDate(util.localDateToDate(birthdate));
         u.setJoinDate(util.localDateToDate(LocalDate.now()));
-        u.setUserCountry(countryManager.getCountryByCode(country));
+        u.setUserCountry(countryService.getCountryByCode(country));
         u.setToken(Security.generateToken());
         //u.setTokenLimit(util.localDateTimeToDateTime(LocalDateTime.now().plusSeconds(TOKENLIMIT)));
         save(u);
@@ -165,7 +165,7 @@ public class UsersManager {
         boolean self = false;
 
         Map<String, Object> m = new HashMap<>();
-        m.put("upcomingMovies", movieManager.randomUpcomingMovies(4));
+        m.put("upcomingMovies", movieService.randomUpcomingMovies(4));
         m.put("self", self);
 
         return m;
@@ -294,7 +294,7 @@ public class UsersManager {
 
     public void newGenre(String token, String genre) throws Exception {
         MUser u = mUserDAO.validateToken(token);
-        Genre g = genreManager.getGenre(genre);
+        Genre g = genreService.getGenre(genre);
 
         if (g == null)
             throw new Exception("No such genre");

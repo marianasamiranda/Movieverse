@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class MiscManager {
+public class MiscService {
 
     @Autowired
     private Util util;
@@ -20,16 +20,16 @@ public class MiscManager {
     private RedisCache redisCache;
 
     @Autowired
-    private MemberManager memberManager;
+    private MemberService memberService;
 
     @Autowired
-    private MovieManager movieManager;
+    private MovieService movieService;
 
     @Autowired
-    private UsersManager usersManager;
+    private UserService userService;
 
     @Autowired
-    private NewsManager newsManager;
+    private NewsService newsService;
 
 
     public Object frontPageInfo() {
@@ -39,13 +39,13 @@ public class MiscManager {
             return cachedInfo;
 
         Map m = new HashMap<>();
-        m.put("users", usersManager.estimatedCount());
-        m.put("movies", movieManager.estimatedCount());
-        m.put("members", memberManager.estimatedCount());
-        m.put("comments", movieManager.estimatedNumberOfComments());
-        m.put("releases", movieManager.latestMovies(0, 6));
+        m.put("users", userService.estimatedCount());
+        m.put("movies", movieService.estimatedCount());
+        m.put("members", memberService.estimatedCount());
+        m.put("comments", movieService.estimatedNumberOfComments());
+        m.put("releases", movieService.latestMovies(0, 6));
 
-        List<News> news = newsManager.getNewsList().subList(0, 3);
+        List<News> news = newsService.getNewsList().subList(0, 3);
         List<Map> newsCompact = new ArrayList<>();
         news.forEach(x -> {
             Map map = new HashMap();

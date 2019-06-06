@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class MovieManager {
+public class MovieService {
 
     @Autowired
     private ElasticSearch elasticSearch;
@@ -56,7 +56,7 @@ public class MovieManager {
     private RedisCache redisCache;
 
 
-    public MovieManager() {}
+    public MovieService() {}
 
     public MUser getUserByToken(String token) {
         try {

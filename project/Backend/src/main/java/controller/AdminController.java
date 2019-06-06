@@ -1,6 +1,6 @@
 package controller;
 
-import business.AdminManager;
+import business.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +10,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
-public class Admin {
+public class AdminController {
 
     @Autowired
-    private AdminManager adminManager;
+    private AdminService adminService;
 
 
     //all stats
@@ -22,7 +22,7 @@ public class Admin {
                                         @RequestParam(value = "time", required = false) Integer time) {
         try {
             String token = t.split(" ")[1];
-            return Util.ok(adminManager.stats(token, time));
+            return Util.ok(adminService.stats(token, time));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
@@ -36,7 +36,7 @@ public class Admin {
                                         @RequestParam(value = "time") Integer time) {
         try {
             String token = t.split(" ")[1];
-            return Util.ok(adminManager.plots(token, time));
+            return Util.ok(adminService.plots(token, time));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());

@@ -1,7 +1,7 @@
 package controller;
 
-import Log.LogMethod;
-import business.NewsManager;
+import log.LogMethod;
+import business.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,16 +12,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
-public class News {
+public class NewsController {
 
     @Autowired
-    NewsManager newsManager;
+    NewsService newsService;
 
     @LogMethod
     @RequestMapping(method = GET, value = "/news")
     public ResponseEntity<Object> news() {
         try {
-            return Util.ok(newsManager.getNews());
+            return Util.ok(newsService.getNews());
         }
         catch (Exception e) {
             e.printStackTrace();
