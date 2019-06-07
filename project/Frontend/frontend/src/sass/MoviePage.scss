@@ -1,6 +1,11 @@
 @import 'Variables';
 @import 'Utils';
 
+.onrate {
+    font-size: 0.4em;
+    margin-top: 1em;
+}
+
 .backdrop {
     min-width: 100%;
     max-width: 100%;
@@ -55,10 +60,9 @@
 }
 
 .evaluation {
-    width: 68%;
-    padding: 0.5em;
+  /*  padding: 0.2em;
     margin-top: 0%;
-    margin-left: 32%;
+    margin-left: 33%;
 
     @media(max-width: 767px) {
         width: 100%;
@@ -70,23 +74,31 @@
         min-width: 100%;
         border-collapse:separate; 
         border-spacing:0.3em;
-    }
+    }*/
 }
   
 .rating {
-    min-width: 225px;
-    height: 35%;
-    line-height: 30%;
+    min-width: 265px;
+    height: 100%;
+    line-height: 50%;
     font-size: 40px;
     padding: 0.5em;
-    background-color: white;
-    -webkit-box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.3);
-    -moz-box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.3);
-    box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.3);
-    border-radius: 12px 12px 12px 12px;
-    -moz-border-radius: 12px 12px 12px 12px;
-    -webkit-border-radius: 12px 12px 12px 12px;
-    border: 0px solid #000000;
+    padding-bottom: 0.1em;
+}
+
+.eval-wrapper {
+    margin-top: 2%;
+    border: 1px solid #c9c9c9;
+    background-color: #e2e1e1;
+    width: 68%;
+    margin-left: 32%;
+    padding: 1%;
+    padding-bottom: 2%;
+
+    @media(max-width: 767px) {
+        width: 100%;
+        margin-left: 0%;
+    }
 }
 
 .movie-header {

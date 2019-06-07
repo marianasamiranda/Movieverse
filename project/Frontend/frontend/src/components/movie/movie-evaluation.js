@@ -11,6 +11,8 @@ import '../../styles/MoviePage.css'
 import { getToken } from '../../cookies'
 import { backend, labels } from '../../var'
 import { getCurrentDate } from '../../utils'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Axios from 'axios';
 
 export default class MovieEvaluation extends Component {
@@ -21,7 +23,9 @@ export default class MovieEvaluation extends Component {
       movieId: this.props.id,
       watched: this.props.watched,
       favourited: this.props.favourited,
-      addedWatchlist: this.props.watchlist
+      addedWatchlist: this.props.watchlist,
+      rating: 0,
+      message: this.props.rating == 0 ? 'Rate the movie!' : 'cenas'
     };
   }
 
@@ -140,6 +144,55 @@ export default class MovieEvaluation extends Component {
     )
   }
 
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({rating: nextValue});
+    if(nextValue==1) {
+      this.setState({message: 'Bad!'});
+    }
+    else if(nextValue==2) {
+      this.setState({message: 'Meh!'});
+    }
+    else if(nextValue==3) {
+      this.setState({message: 'Ok!'});
+    }
+    else if(nextValue==4) {
+      this.setState({message: 'Good!'});
+    }
+    else if(nextValue==5) {
+      this.setState({message: 'Wow!'});
+    }
+  }
+
+  onStarHover(nextValue, prevValue, name) {
+    if(nextValue==1) {
+      document.getElementById("label-onrate").innerHTML = "Bad!"; 
+    }
+    else if(nextValue==2) {
+      document.getElementById("label-onrate").innerHTML = "Meh!"; 
+    }
+    else if(nextValue==3) {
+      document.getElementById("label-onrate").innerHTML = "Ok!"; 
+    }
+    else if(nextValue==4) {
+      document.getElementById("label-onrate").innerHTML = "Good!"; 
+    }
+    else if(nextValue==5) {
+      document.getElementById("label-onrate").innerHTML = "Wow!"; 
+    }
+  }
+
+  onStarHoverOut(nextValue, prevValue, name) {
+    document.getElementById("label-onrate").innerHTML = this.state.message; 
+  }
+
+
+  starReset() {
+    this.setState({
+      rating: 0,
+      message: 'Rate the movie!'
+    })
+  }
+
   render() {
     let watchedMovie;
     let favouritedMovie;
@@ -183,30 +236,34 @@ export default class MovieEvaluation extends Component {
         {labels[this.props.lang].addToWatchlist}
       </td>
     }
-    
     return <div className="evaluation">
-      <table>
-        <tbody>
-          <tr>
+      <Row className="eval-wrapper">
+        <Col className="col-lg-7 col-md-5">
+          <div style={{'line-height':'2.2em'}}>
             { watchedMovie }
-            <td rowSpan="3">
-              <div className="rating">
-                <StarRatingComponent 
-                  name="rate1" 
-                  starCount={5}
-                  value={1}
-                />
-              </div>
-            </td>
-          </tr>
-          <tr>
+          </div>
+          <div style={{'line-height':'2.2em'}}>
             { favouritedMovie }
-          </tr>
-          <tr>
+          </div>      
+          <div style={{'line-height':'2.2em'}}>
             { addedWatchlist }
-          </tr>
-        </tbody>
-      </table>
+          </div>
+        </Col>
+        <Col className="col-lg-5 col-md-5">
+          <div className="rating text-center">
+            <StarRatingComponent
+              name="cenas" /* name of the radio input, it is required */
+              value={this.state.rating} /* number of selected icon (`0` - none, `1` - first) */
+              starCount={5} /* number of icons in rating, default `5` */
+              onStarClick={this.onStarClick.bind(this)} /* on icon click handler */
+              onStarHover={this.onStarHover.bind(this)}
+              onStarHoverOut={this.onStarHoverOut.bind(this)}
+            />
+            <i onClick={this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'font-size': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
+            <p><span id="label-onrate" className="onrate">{ this.state.message }</span></p>
+          </div>
+        </Col>
+      </Row>
     </div>
   }
 }
