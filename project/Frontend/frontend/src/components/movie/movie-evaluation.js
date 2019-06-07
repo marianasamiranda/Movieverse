@@ -128,7 +128,7 @@ export default class MovieEvaluation extends Component {
 
   handleAddedWatchlist() {
     var f = {}
-    if (this.state.addedWatchlist === false) {
+    if(this.state.addedWatchlist === false) {
       if(this.state.watched === true) {
         this.setState( { watched: false } )
         f['watched'] = false
@@ -242,58 +242,58 @@ export default class MovieEvaluation extends Component {
 
     
     if(this.state.watched === true) {
-        watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
+        watchedMovie = <span className="watched" onClick={this.handleWatched.bind(this)}>
           <Image src={ watched } width="30em" style={{ 'marginRight': '0.5em'}} />
           {labels[this.props.lang].markedWatched}
-        </td>
+        </span>
     }
     else {
-      watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
+      watchedMovie = <span className="watched" onClick={this.handleWatched.bind(this)}>
         <Image src={ watchedDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].markWatched}
-      </td>
+      </span>
     }
     
     if(this.state.favourited === true) {
-      favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
+      favouritedMovie = <span className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favourite } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addedToFavourites}
-      </td>
+      </span>
     }
     else {
-      favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
+      favouritedMovie = <span className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favouriteDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addToFavourites}
-      </td>
+      </span>
     }
 
     if(this.state.addedWatchlist === true) {
-      addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
+      addedWatchlist = <span className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlist } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addedToWatchlist}
-      </td>
+      </span>
     }
     else {
-      addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
+      addedWatchlist = <span className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlistDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addToWatchlist}
-      </td>
+      </span>
     }
     return <div>
       <Row className="eval-wrapper">
         <Col lg="6" md="5" sm="12">
-          <div style={{'line-height':'2.2em'}}>
+          <div style={{'lineHeight':'2.2em'}}>
             { watchedMovie }
           </div>
-          <div style={{'line-height':'2.2em'}}>
+          <div style={{'lineHeight':'2.2em'}}>
             { favouritedMovie }
           </div>      
-          <div style={{'line-height':'2.2em'}}>
+          <div style={{'lineHeight':'2.2em'}}>
             { addedWatchlist }
           </div>
         </Col>
         <Col lg="6" md="5" sm="12">
-          <div className="rating text-center" style={{ 'margin-top': '0.2em' }}>
+          <div className="rating text-center" style={{ 'marginTop': '0.2em' }}>
             <StarRatingComponent
               name="rate1"
               value={ this.state.rating }
@@ -302,7 +302,7 @@ export default class MovieEvaluation extends Component {
               onStarHover={ this.onStarHover.bind(this) }
               onStarHoverOut={ this.onStarHoverOut.bind(this) }
             />
-            <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'font-size': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
+            <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'fontSize': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
             <p><span id="label-onrate" className="onrate">{ this.state.message }</span></p>
           </div>
         </Col>

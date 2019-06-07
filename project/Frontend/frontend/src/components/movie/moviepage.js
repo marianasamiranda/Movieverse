@@ -145,7 +145,9 @@ export default class MoviePage extends Component {
     if(this.state.windowSize < 768) {
       headerTitle = <div className="movie-title-div">
         <span>{this.state.movie.name} </span>
-        <span><a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/ + ${this.state.movie.imdb}`}><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></a></span>
+        <a target="_blank" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+          <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
+        </a>
         <br />
         <Image src={star} height="30vh" /> {this.state.movie.rating}
         <hr />
@@ -155,7 +157,9 @@ export default class MoviePage extends Component {
       headerTitle = <div className="movie-title-div d-flex">
           <div className="mr-auto p-2">
             <span>{this.state.movie.name} </span>
-            <span><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></span>
+            <a target="_blank" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+              <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
+            </a>
           </div>
           <div className="p-2">
             <Image src={star} height="30vh" />
@@ -237,7 +241,7 @@ export default class MoviePage extends Component {
                   }
                   { this.state.backdrops.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.backdrops}/>   
+                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.backdrops}/>   
                     </TabPanel>
                   }
                   { this.state.backdrops.length !== 5 && this.state.backdrops.length !== 0 &&
@@ -259,17 +263,17 @@ export default class MoviePage extends Component {
                 <h6>{labels[this.props.lang].genres}</h6>
                 <div className="movie-genre">
                   <ul>
-                    { this.state.movie.genres.map((genre) =>
-                        <li><a href={`/movies?genre=${genre}`}>{genre}</a></li>
-                    )}      
+                    { this.state.movie.genres.map(function(genre, i) {
+                        return <li key={i}><a href={`/movies?genre=${genre}`}>{genre}</a></li>;
+                      })
+                    }
                   </ul>
                 </div>
                 <h6>{labels[this.props.lang].prodCompanies}</h6>
-                <p>
-                  { this.state.movie.companies.map((company) =>
-                    <div className="prod-company"><a href="#">{company}</a><br/></div>
-                  )} 
-                </p>
+                { this.state.movie.companies.map(function(company, i) {
+                    return <div className="prod-company" key={i}><a href={`/company/${company.id}`}>{company.name}</a><br/></div>
+                  })
+                }
               </div>
             </div>
           </div>

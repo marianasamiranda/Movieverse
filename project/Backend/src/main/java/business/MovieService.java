@@ -111,10 +111,13 @@ public class MovieService {
         }
         result.put("genres", genres);
 
-        var companies = new ArrayList<String>();
+        var companies = new ArrayList<Map<String, Object>>();
         for(Object c : m.getCompanies()) {
             Company company = (Company) c;
-            companies.add(company.getName());
+            var h = new HashMap<String, Object>();
+            h.put("id", company.getId());
+            h.put("name", company.getName());
+            companies.add(h);
         }
         result.put("companies", companies);
 
