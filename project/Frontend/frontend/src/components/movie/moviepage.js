@@ -45,6 +45,8 @@ export default class MoviePage extends Component {
     const token = getToken()
 
     var movieInfo
+    var originalURL = null
+    var source = null
 
     Axios.get(backend + '/movie/' + this.props.match.params.id)
       .then(x => {
@@ -58,9 +60,9 @@ export default class MoviePage extends Component {
         if(x.data.backdrops) {
           for(const url of x.data.backdrops) {
             var backdropId = url.split(/[\/.]/)[1];
-            var originalURL = "https://image.tmdb.org/t/p/original/" + backdropId + ".jpg"
+            originalURL = "https://image.tmdb.org/t/p/original/" + backdropId + ".jpg"
             
-            var source = "https://image.tmdb.org/t/p/w500_and_h282_face/" + backdropId + ".jpg"
+            source = "https://image.tmdb.org/t/p/w500_and_h282_face/" + backdropId + ".jpg"
             backdrops.push({
               "href": originalURL,
               "src": source
@@ -70,8 +72,8 @@ export default class MoviePage extends Component {
 
         if(x.data.videos) {
           for(const videoId of x.data.videos) {
-            var originalURL = "https://www.youtube.com/watch?v=" + videoId
-            var source = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
+            originalURL = "https://www.youtube.com/watch?v=" + videoId
+            source = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
             videos.push({
               "href": originalURL,
               "src": source
@@ -82,8 +84,8 @@ export default class MoviePage extends Component {
         if(x.data.posters) {
           for(const url of x.data.posters) {
             var posterId = url.split(/[\/.]/)[1];
-            var originalURL = "https://image.tmdb.org/t/p/original/" + posterId + ".jpg"
-            var source = "https://image.tmdb.org/t/p/w220_and_h330_face/" + posterId + ".jpg"
+            originalURL = "https://image.tmdb.org/t/p/original/" + posterId + ".jpg"
+            source = "https://image.tmdb.org/t/p/w220_and_h330_face/" + posterId + ".jpg"
             posters.push({
               "href": originalURL,
               "src": source
@@ -194,49 +196,49 @@ export default class MoviePage extends Component {
                   <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
                 </Col>
               </Row>
-              {(this.state.backdrops.length!=0 ||
-               this.state.posters.length!=0 ||
-               this.state.videos.length!=0) &&
+              {(this.state.backdrops.length !== 0  ||
+                this.state.posters.length   !== 0  ||
+                this.state.videos.length    !== 0) &&
                 <Tabs>
                   <TabList>
                     <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
                     >{labels[this.props.lang].media}</h1>
-                    { this.state.posters.length!=0 &&
+                    { this.state.posters.length !== 0 &&
                       <Tab>{labels[this.props.lang].posters}</Tab>
                     }
-                    { this.state.videos.length!=0 &&
+                    { this.state.videos.length !== 0 &&
                       <Tab>{labels[this.props.lang].videos}</Tab>
                     }
-                    { this.state.backdrops.length!=0 &&
+                    { this.state.backdrops.length !== 0 &&
                       <Tab>{labels[this.props.lang].backdrops}</Tab>
                     }
                   </TabList>
-                  { this.state.posters.length==5 &&
+                  { this.state.posters.length === 5 &&
                     <TabPanel>
                       <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.posters}/>
                     </TabPanel> 
                   }
-                  { this.state.posters.length!=5 && this.state.posters.length!=0 &&
+                  { this.state.posters.length !== 5 && this.state.posters.length !== 0 &&
                     <TabPanel>
                       <HorizontalSlider content={this.state.posters}/>
                     </TabPanel>
                   }
-                  { this.state.videos.length==5 &&
+                  { this.state.videos.length === 5 &&
                     <TabPanel>
                       <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.videos}/>
                     </TabPanel>
                   }
-                  { this.state.videos.length!=5 && this.state.videos.length!=0 &&
+                  { this.state.videos.length !== 5 && this.state.videos.length !== 0 &&
                     <TabPanel>
                       <HorizontalSlider content={this.state.videos}/>
                     </TabPanel>
                   }
-                  { this.state.backdrops.length==5 &&
+                  { this.state.backdrops.length === 5 &&
                     <TabPanel>
                       <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.backdrops}/>   
                     </TabPanel>
                   }
-                  { this.state.backdrops.length!=5 && this.state.backdrops.length!=0 &&
+                  { this.state.backdrops.length !== 5 && this.state.backdrops.length !== 0 &&
                     <TabPanel>
                       <HorizontalSlider content={this.state.backdrops}/>   
                     </TabPanel>

@@ -87,11 +87,11 @@ export default class MediaPage extends Component {
   render() {
 
     if (
-        this.state.movieName == undefined &&
-        this.state.movieYear == undefined &&
-        this.state.videos == undefined &&
-        this.state.backdrops == undefined &&
-        this.state.posters == undefined) {
+        this.state.movieName === undefined &&
+        this.state.movieYear === undefined &&
+        this.state.videos === undefined &&
+        this.state.backdrops === undefined &&
+        this.state.posters === undefined) {
       return (
         <Loading lang={this.props.lang} />
       )
@@ -101,7 +101,7 @@ export default class MediaPage extends Component {
       <Jumbotron className="media-header" fluid>
         <Container className="text-center">
           <h1>{this.state.movieName}</h1> <h3>({this.state.movieYear})</h3>
-          <h5><a href=""><i className="fas fa-arrow-circle-left"></i> {labels[this.props.lang].goBack}</a></h5>
+          <h5><a href={`/movie/${ this.props.match.params.id }`}><i className="fas fa-arrow-circle-left"></i> { labels[this.props.lang].goBack }</a></h5>
         </Container>
       </Jumbotron>
       <Nav className="justify-content-center vertical-align bg-light-gray media-nav" activeKey={this.state.activeKey} onSelect={k => this.handleSelect(k)} >

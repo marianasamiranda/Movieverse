@@ -25,7 +25,7 @@ export default class MovieEvaluation extends Component {
       favourited: this.props.favourited,
       addedWatchlist: this.props.watchlist,
       rating: 0,
-      message: this.props.rating == 0 ? 'Rate the movie!' : 'cenas'
+      message: this.props.rating === 0 ? 'Rate the movie!' : 'cenas'
     };
   }
 
@@ -146,37 +146,37 @@ export default class MovieEvaluation extends Component {
 
   onStarClick(nextValue, prevValue, name) {
     this.setState({rating: nextValue});
-    if(nextValue==1) {
+    if(nextValue === 1) {
       this.setState({message: 'Bad!'});
     }
-    else if(nextValue==2) {
+    else if(nextValue === 2) {
       this.setState({message: 'Meh!'});
     }
-    else if(nextValue==3) {
+    else if(nextValue === 3) {
       this.setState({message: 'Ok!'});
     }
-    else if(nextValue==4) {
+    else if(nextValue === 4) {
       this.setState({message: 'Good!'});
     }
-    else if(nextValue==5) {
+    else if(nextValue === 5) {
       this.setState({message: 'Wow!'});
     }
   }
 
   onStarHover(nextValue, prevValue, name) {
-    if(nextValue==1) {
+    if(nextValue === 1) {
       document.getElementById("label-onrate").innerHTML = "Bad!"; 
     }
-    else if(nextValue==2) {
+    else if(nextValue === 2) {
       document.getElementById("label-onrate").innerHTML = "Meh!"; 
     }
-    else if(nextValue==3) {
+    else if(nextValue === 3) {
       document.getElementById("label-onrate").innerHTML = "Ok!"; 
     }
-    else if(nextValue==4) {
+    else if(nextValue === 4) {
       document.getElementById("label-onrate").innerHTML = "Good!"; 
     }
-    else if(nextValue==5) {
+    else if(nextValue === 5) {
       document.getElementById("label-onrate").innerHTML = "Wow!"; 
     }
   }

@@ -57,7 +57,7 @@ export default class FrontPage extends Component {
     })
     this.state.data.news.forEach(x => {
       n.push(
-        <Col xs="12" sm={this.state.data.news.indexOf(x) == 2 ? "12" : "6"} lg="12" key={this.state.data.news.indexOf(x)}>
+        <Col xs="12" sm={this.state.data.news.indexOf(x) === 2 ? "12" : "6"} lg="12" key={this.state.data.news.indexOf(x)}>
           <a href={x.link}>
             <Card className="news-card-compact">
               <Card.Img variant="top" src={x.image} />
