@@ -25,7 +25,8 @@ export default class MoviePage extends Component {
       movie: undefined,
       watched: undefined,
       favourited: undefined,
-      watchlist: undefined
+      watchlist: undefined,
+      rating: undefined
     };
   }
 
@@ -113,7 +114,8 @@ export default class MoviePage extends Component {
             movie: movieInfo,
             watched: (y.data.watched && y.data.watched === true)  ? true : false,
             favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
-            watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false
+            watchlist: (y.data.watchlist && y.data.watchlist === true) ? true : false,
+            rating: (y.data.isRated && y.data.isRated === true) ? y.data.rating : 0
           })
       })
       .catch(o => {
@@ -173,7 +175,7 @@ export default class MoviePage extends Component {
             <Image src={poster} />
           </div>
           { headerTitle }
-          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={0} lang={this.props.lang} />
+          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={this.state.rating} lang={this.props.lang} />
         </div>
         <div className="container-fluid">
           <div className="row">

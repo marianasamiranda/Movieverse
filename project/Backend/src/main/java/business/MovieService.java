@@ -149,7 +149,6 @@ public class MovieService {
         if (false) {
             throw new IOException();
         }
-        // TODO: quando tiver DAOs
         return true;
     }*/
 
@@ -188,9 +187,7 @@ public class MovieService {
         return result;
     }
 
-
     public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
-
         var user = getUserByToken(token);
         var userMovie = new UserMovie();
 
@@ -229,6 +226,10 @@ public class MovieService {
                         feedDAO.merge(f);
                     }
                 }
+                if(updates.containsKey("rating")) {
+                    int rating = (int) updates.get("rating");
+                    userMovie.setRating(rating);
+                }
                 userMovie.setStatus(true);
                 userMovie.setDateWatched(dateWatched);
 
@@ -236,15 +237,27 @@ public class MovieService {
                 userMovieDAO.flush();
                 Feed f = null;
                 try {
-                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=1");
+                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and (type=1 or type=0)");
                 }
                 catch(Exception e) { }
-                if(f==null) {
+                if(f!=null && f.getType() == 1) {
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=1");
+                    f.setType(0);
+                    feedDAO.merge(f);
+                    feedDAO.flush();
+                }
+                else if(f==null) {
                     f = new Feed();
-                    f.setType(1);
+                    if(!updates.containsKey("rating")) {
+                        f.setType(1);
+                    }
+                    else {
+                        f.setType(0);
+                    }
                     f.setUser(user);
                     f.setIdContent(userMovie.getMovie().getORMID());
                     feedDAO.merge(f);
+                    feedDAO.flush();
                 }
             }
             else {
@@ -253,9 +266,11 @@ public class MovieService {
                     userMovie.setDateWatched(null);
                     userMovie.setFavourite(false);
                     userMovie.setDateFavourite(null);
+                    userMovie.setRating(null);
 
                     userMovieDAO.merge(userMovie);
                     userMovieDAO.flush();
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
                 }
                 else {
                     userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
@@ -300,11 +315,50 @@ public class MovieService {
             else {
                 userMovie.setFavourite(false);
                 userMovie.setDateFavourite(null);
+                userMovie.setRating(null);
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
                 feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=2");
 
+            }
+        }
+        else if(updates.containsKey("rating")) {
+            Integer rating = (Integer) updates.get("rating");
+            userMovie.setRating(rating);
+            userMovieDAO.merge(userMovie);
+            userMovieDAO.flush();
+            if(rating!=null && rating == 0) {
+                Feed f = null;
+                try {
+                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=0");
+                }
+                catch(Exception e) { }
+                if(f!=null) {
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=0");
+                    f = new Feed();
+                    f.setType(1);
+                    f.setUser(user);
+                    f.setIdContent(userMovie.getMovie().getORMID());
+                    feedDAO.merge(f);
+                    feedDAO.flush();
+                }
+            }
+            else if(rating!=null && rating != 0) {
+                Feed f = null;
+                try {
+                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=1");
+                }
+                catch(Exception e) { }
+                if(f!=null) {
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=1");
+                    f = new Feed();
+                    f.setType(0);
+                    f.setUser(user);
+                    f.setIdContent(userMovie.getMovie().getORMID());
+                    feedDAO.merge(f);
+                    feedDAO.flush();
+                }
             }
         }
 

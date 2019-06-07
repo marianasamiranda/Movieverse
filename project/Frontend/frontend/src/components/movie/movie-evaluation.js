@@ -15,6 +15,14 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Axios from 'axios';
 
+const movieEval = {
+  1: "Bad!",
+  2: "Meh!",
+  3: "Ok!",
+  4: "Good!",
+  5: "Wow!"
+}
+
 export default class MovieEvaluation extends Component {
 
   constructor(props) {
@@ -24,8 +32,8 @@ export default class MovieEvaluation extends Component {
       watched: this.props.watched,
       favourited: this.props.favourited,
       addedWatchlist: this.props.watchlist,
-      rating: 0,
-      message: this.props.rating === 0 ? 'Rate the movie!' : 'cenas'
+      rating: this.props.rating,
+      message: (this.props.rating === undefined || this.props.rating === 0) ? 'Rate the movie!' : movieEval[this.props.rating]
     };
   }
 
@@ -55,9 +63,14 @@ export default class MovieEvaluation extends Component {
         }
       }
       else {
-        this.setState( { watched: false });
+        this.setState({
+          watched: false,
+          rating: 0,
+          message: 'Rate the movie!'
+        });
         f = {
-          'watched': false
+          'watched': false,
+          'rating': null
         }
       }
     }
@@ -124,13 +137,24 @@ export default class MovieEvaluation extends Component {
         this.setState( { favourited: false })
         f['favourited'] = false
       }
+      if(this.state.rating !== 0) {
+        this.setState({
+          rating: 0,
+          message: 'Rate the movie!'
+        })
+        f['rating'] = null
+      }
       f['addedToWatchlist'] = true
-      this.setState( { addedWatchlist: true });
+      this.setState({
+        addedWatchlist: true
+      });
     }
     else {
-      this.setState( { addedWatchlist: false }) ;
+      this.setState({
+        addedWatchlist: false
+      }) ;
       f = {
-        addedToWatchlist: false,
+        addedToWatchlist: false
       }
     }
 
@@ -145,58 +169,77 @@ export default class MovieEvaluation extends Component {
   }
 
   onStarClick(nextValue, prevValue, name) {
-    this.setState({rating: nextValue});
-    if(nextValue === 1) {
-      this.setState({message: 'Bad!'});
+    var date = getCurrentDate()
+    var f = {}
+    if(this.state.watched === false) {
+      this.setState({
+        watched: true
+      });
+      f = {
+        watched: true,
+        dateWatched: date
+      }
     }
-    else if(nextValue === 2) {
-      this.setState({message: 'Meh!'});
+    if(this.state.addedWatchlist === true) {
+      this.setState({
+        addedWatchlist: false
+      })
+      f = {
+        watched: true,
+        dateWatched: date,
+        addedToWatchlist: false
+      }
     }
-    else if(nextValue === 3) {
-      this.setState({message: 'Ok!'});
-    }
-    else if(nextValue === 4) {
-      this.setState({message: 'Good!'});
-    }
-    else if(nextValue === 5) {
-      this.setState({message: 'Wow!'});
-    }
+    f['rating'] = nextValue
+    this.setState({
+      rating: nextValue,
+      message: movieEval[nextValue]
+    });
+
+    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    f,
+    { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      console.log('saved successfully')}
+    ).catch((e) =>
+      console.log(e)
+    )
   }
 
   onStarHover(nextValue, prevValue, name) {
-    if(nextValue === 1) {
-      document.getElementById("label-onrate").innerHTML = "Bad!"; 
-    }
-    else if(nextValue === 2) {
-      document.getElementById("label-onrate").innerHTML = "Meh!"; 
-    }
-    else if(nextValue === 3) {
-      document.getElementById("label-onrate").innerHTML = "Ok!"; 
-    }
-    else if(nextValue === 4) {
-      document.getElementById("label-onrate").innerHTML = "Good!"; 
-    }
-    else if(nextValue === 5) {
-      document.getElementById("label-onrate").innerHTML = "Wow!"; 
-    }
+    document.getElementById("label-onrate").innerHTML = movieEval[nextValue]; 
+
   }
 
   onStarHoverOut(nextValue, prevValue, name) {
-    document.getElementById("label-onrate").innerHTML = this.state.message; 
+    document.getElementById("label-onrate").innerHTML = this.state.message;
   }
 
 
   starReset() {
+    var f = {}
     this.setState({
       rating: 0,
       message: 'Rate the movie!'
     })
+
+    f['rating'] = null
+
+    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    f,
+    { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      console.log('saved successfully')}
+    ).catch((e) =>
+      console.log(e)
+    )
   }
 
   render() {
     let watchedMovie;
     let favouritedMovie;
     let addedWatchlist;
+
     
     if(this.state.watched === true) {
         watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
@@ -236,9 +279,9 @@ export default class MovieEvaluation extends Component {
         {labels[this.props.lang].addToWatchlist}
       </td>
     }
-    return <div className="evaluation">
+    return <div>
       <Row className="eval-wrapper">
-        <Col className="col-lg-7 col-md-5">
+        <Col lg="6" md="5" sm="12">
           <div style={{'line-height':'2.2em'}}>
             { watchedMovie }
           </div>
@@ -249,17 +292,17 @@ export default class MovieEvaluation extends Component {
             { addedWatchlist }
           </div>
         </Col>
-        <Col className="col-lg-5 col-md-5">
-          <div className="rating text-center">
+        <Col lg="6" md="5" sm="12">
+          <div className="rating text-center" style={{ 'margin-top': '0.2em' }}>
             <StarRatingComponent
-              name="cenas" /* name of the radio input, it is required */
-              value={this.state.rating} /* number of selected icon (`0` - none, `1` - first) */
-              starCount={5} /* number of icons in rating, default `5` */
-              onStarClick={this.onStarClick.bind(this)} /* on icon click handler */
-              onStarHover={this.onStarHover.bind(this)}
-              onStarHoverOut={this.onStarHoverOut.bind(this)}
+              name="rate1"
+              value={ this.state.rating }
+              starCount={ 5 }
+              onStarClick={ this.onStarClick.bind(this) }
+              onStarHover={ this.onStarHover.bind(this) }
+              onStarHoverOut={ this.onStarHoverOut.bind(this) }
             />
-            <i onClick={this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'font-size': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
+            <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'font-size': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
             <p><span id="label-onrate" className="onrate">{ this.state.message }</span></p>
           </div>
         </Col>
