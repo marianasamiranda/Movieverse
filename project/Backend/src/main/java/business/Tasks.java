@@ -36,6 +36,8 @@ public class Tasks {
     public void startUp() {
         dataUtil.createViews();
         dataUtil.refreshViews();
+        dataUtil.createTriggers();
+        dataUtil.createIndexes();
         redisCache.deleteAll();
     }
 

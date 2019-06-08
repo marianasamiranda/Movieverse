@@ -24,6 +24,8 @@ public class Feed {
 	private int type;
 	
 	private int idContent;
+
+	private java.util.Date date;
 	
 	private void setId(int value) {
 		this.id = value;
@@ -51,6 +53,14 @@ public class Feed {
 	
 	public int getIdContent() {
 		return idContent;
+	}
+
+	public void setDate(java.util.Date value) {
+		this.date = value;
+	}
+
+	public java.util.Date getDate() {
+		return date;
 	}
 	
 	public void setUser(MUser value) {
