@@ -11,10 +11,10 @@ License Type: Academic
 			<generator class="identity">
 			</generator>
 		</id>
-		<many-to-one name="user" cascade="lock" column="MUserId" index="Feed_MUserId_Date" class="data.entities.MUser" not-null="true" lazy="proxy">
+		<many-to-one name="user" cascade="lock" column="MUserId" index="Feed_MUserId_Timestamp" class="data.entities.MUser" not-null="true" lazy="proxy">
 		</many-to-one>
 		<property name="type" column="Type" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="idContent" column="IdContent" type="integer" length="10" not-null="true" lazy="false"/>
-		<property name="date" column="`Date`" index="Feed_MUserId_Date" type="date" not-null="true" lazy="false"/>
+		<property name="timestamp" column="Timestamp" index="Feed_MUserId_Timestamp" type="timestamp" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>
