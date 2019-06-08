@@ -26,7 +26,8 @@ export default class MoviePage extends Component {
       watched: undefined,
       favourited: undefined,
       watchlist: undefined,
-      rating: undefined
+      rating: undefined,
+      noAuth: true
     };
   }
 
@@ -111,6 +112,7 @@ export default class MoviePage extends Component {
         .then(y => {
 
           this.setState({
+            noAuth: false,
             movie: movieInfo,
             watched: (y.data.watched && y.data.watched === true)  ? true : false,
             favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
@@ -121,6 +123,7 @@ export default class MoviePage extends Component {
       .catch(o => {
         this.setState({
           movie: movieInfo,
+          noAuth: true,
           watched: false,
           favourited: false,
           watchlist: false
@@ -142,6 +145,7 @@ export default class MoviePage extends Component {
     }
 
     let headerTitle;
+
     if(this.state.windowSize < 768) {
       headerTitle = <div className="movie-title-div">
         <span>{this.state.movie.name} </span>
@@ -171,6 +175,7 @@ export default class MoviePage extends Component {
     }
     const poster = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + this.state.movie.poster
     const backdrop = "https://image.tmdb.org/t/p/original/" + this.state.movie.backdrop
+    
     return (
       <Container>
         <div className="movie-header">
@@ -179,7 +184,7 @@ export default class MoviePage extends Component {
             <Image src={poster} />
           </div>
           { headerTitle }
-          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={this.state.rating} lang={this.props.lang} />
+          <MovieEvaluation noAuth={this.state.noAuth} id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={this.state.rating} lang={this.props.lang} />
         </div>
         <div className="container-fluid">
           <div className="row">
@@ -252,7 +257,7 @@ export default class MoviePage extends Component {
                 </Tabs>
               }
               <h1>{labels[this.props.lang].discussion}</h1>
-              <DiscussionBox lang={this.props.lang} />
+              <DiscussionBox noAuth={ this.state.noAuth } lang={this.props.lang} />
             </div>
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
@@ -270,7 +275,8 @@ export default class MoviePage extends Component {
                   </ul>
                 </div>
                 <h6>{labels[this.props.lang].prodCompanies}</h6>
-                { this.state.movie.companies.map(function(company, i) {
+                {
+                  this.state.movie.companies.map(function(company, i) {
                     return <div className="prod-company" key={i}><a href={`/company/${company.id}`}>{company.name}</a><br/></div>
                   })
                 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Comment from './comment'
 import Image from 'react-bootstrap/Image'
 import ResizableTextarea from './resizable-text-area'
-import { labels } from '../../var'
 import '../../styles/Comment.css';
 
 export default class DiscussionBox extends Component {
@@ -23,6 +22,7 @@ export default class DiscussionBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      noAuth: this.props.noAuth,
       comments: this.comments.map((comment) =>
         <Comment profilepic="https://via.placeholder.com/70" author={comment.author} time={comment.time} likes={comment.likes} content={comment.content} replies={this.replies_comment} />
       )
@@ -42,13 +42,10 @@ export default class DiscussionBox extends Component {
       <div className="comment-container">
 				<div className="info d-flex">
 					<Image className="profile-pic p-2" src="https://via.placeholder.com/70" />
-					<div className="info-author p-2">
-						Kim Possible
-					</div>
 				</div>
-				<ResizableTextarea callBackFromParent={this.getComment} lang={this.props.lang} />
+				<ResizableTextarea noAuth={ this.state.noAuth } callBackFromParent={ this.getComment } lang={this.props.lang} />
 		  </div>
 			{ this.state.comments }
 		</div>
-		}
+	}
 }

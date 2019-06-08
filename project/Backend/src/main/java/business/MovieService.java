@@ -165,7 +165,12 @@ public class MovieService {
             userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
         }
         catch(Exception e) {
-            throw new IOException();
+            if(user!= null) {
+                var result = new HashMap<>();
+                result.put("watched", false);
+                return result;
+            }
+            else throw new IOException();
         }
 
         var result = new HashMap<>();
