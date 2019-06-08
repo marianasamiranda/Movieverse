@@ -135,7 +135,7 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         "LIMIT ?3";
 
     private static final String watchlistQuery =
-        "SELECT tmdb, poster, null, 'watchlist' AS type " +
+        "SELECT tmdb, poster, NULL, 'watchlist' AS type " +
         "FROM UserMovie " +
         "JOIN Movie on Movie.tmdb = UserMovie.movieid " +
         "WHERE muserid = ?1 " +
@@ -143,18 +143,39 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         "OFFSET ?2 " +
         "LIMIT ?3";
 
+    //TODO: neste momento está a buscar os recomendados com todos
+    //os tipos de filmes (vistos, favoritos, watchlist)
+    //pode-se depois meter apenas os favoritos e ratings acima de 4 por exemplo
     private static final String recommendedMovies =
-        "TODO";
+        "SELECT tmdb, poster, NULL, 'recommended' AS type " +
+        "FROM movie " +
+        "WHERE movie.tmdb IN (" +
+            "SELECT recommended.movieid2 " +
+            "FROM usermovie " +
+            "JOIN movie ON movie.tmdb = usermovie.movieid " +
+            "JOIN recommended ON recommended.movieid = movie.tmdb " +
+            "WHERE muserid = ?1 " +
+                "AND recommended.movieid2 NOT IN (" +
+                    "SELECT movieid " +
+                    "FROM usermovie " +
+                    "WHERE muserid = ?1" +
+                ") " +
+                "GROUP BY recommended.movieid2 " +
+                "ORDER BY COUNT(recommended.movieid2) DESC" +
+        ") " +
+        "OFFSET ?2 " +
+        "LIMIT ?3";
 
 
     public List<Map> allMovieTypes(int muserId, int begin, int limit) {
         Query query = entityManager.createNativeQuery(
             "(" + favoriteMoviesQuery + ")" +
-            "UNION " +
+            "UNION ALL " +
             "(" + recentMoviesQuery + ")" +
-            "UNION " +
-            "(" + watchlistQuery + ")"
-            //TODO union with recommended
+            "UNION ALL " +
+            "(" + watchlistQuery + ")" +
+            "UNION ALL " +
+            "(" + recommendedMovies + ")"
         ).setParameter(1, muserId)
          .setParameter(2, begin)
          .setParameter(3, limit);
@@ -198,8 +219,14 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
 
     public List<Map> recommendedMovies(int muserId, int begin, int limit) {
-        //TODO
-        return List.of();
+        Query query = entityManager.createNativeQuery(recommendedMovies)
+                                   .setParameter(1, muserId)
+                                   .setParameter(2, begin)
+                                   .setParameter(3, limit);
+
+        List<Object[]> l = query.getResultList();
+        l.forEach(x -> System.out.println(x[0]));
+        return dataUtil.queryListToListMap(l, Arrays.asList("id", "poster"));
     }
 
 

@@ -65,6 +65,11 @@ public class Tasks {
         });
     }
 
+    @Scheduled(cron = EVERY_DAY_1AM)
+    public void accountAgeAchievements() {
+        //TODO
+    }
+
 
     //@Scheduled(cron = "0 0 1 * * ?")
     @Scheduled(cron = "* * * ? * *")
