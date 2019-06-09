@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import heart from '../../img/heart.svg';
+import visibility from '../../img/visibility.svg';
+import {avatars} from '../../var'
 
 function ProfilePhoto(props){
   return (
@@ -13,16 +15,16 @@ function PostHeader(props){
   let user = props.user
   let movie = props.movie
   let date = props.date
-  let action
+  let action = props.action
 
-  if (props.action === "comment")
-    action = " has commented on "
-  else if (props.action === "view")
-    action = " has watched "
-  else if (props.action === "rate")
-    action = " has rated "
-  else if (props.action === "favorite")
-    action = " has favourited "
+  // if (props.action === "comment")
+  //   action = " has commented on "
+  // else if (props.action === "view")
+  //   action = " has watched "
+  // else if (props.action === "rate")
+  //   action = " has rated "
+  // else if (props.action === "favorite")
+  //   action = " has favourited "
     
 
   return (
@@ -91,6 +93,22 @@ function PostBodyFavorite(props){
   );
 }
 
+function PostBodyView(props){
+  
+  return (
+    <div className="vertical-align-column">
+      <div className="container align-contents-center">
+        <object style={{width: "40%", height:"100%"}} type="image/svg+xml" data={visibility}>
+          Your browser does not support SVG
+        </object>
+      </div>
+      <div className="body-caption align-contents-center">
+        View
+      </div>
+    </div>
+  );
+}
+
 function PostBodyRating(props){
   const feelings = ["BAD", "MEH", "OK", "GOOD", "WOW"];
   let rating = parseInt(props.rate);
@@ -133,9 +151,10 @@ function PostBody(props){
 
   switch(props.type) {
     case "comment":
-
       content = (
-        <PostBodyComment content={props.content}></PostBodyComment>
+        <PostBodyComment 
+          content={props.data.content}>
+        </PostBodyComment>
       );
       break;
     case "favorite":
@@ -143,9 +162,17 @@ function PostBody(props){
         <PostBodyFavorite></PostBodyFavorite>
       );
       break;
+    case "view":
+      content = (
+        <PostBodyView></PostBodyView>
+      );
+      break;
     case "rate":
       content = (
-        <PostBodyRating rate={props.rate}></PostBodyRating>
+        <PostBodyRating 
+          rate={props.data.rate}
+        >
+        </PostBodyRating>
       );
       break;
     default:
@@ -157,7 +184,7 @@ function PostBody(props){
       <div className="row">
         <div className="col-4">
           <div className="movie-card-container">
-            <img className="movie-card" src={props.poster} alt="" />
+            <a href={props.poster['href']}><img className="movie-card" src={props.poster['src']} alt="" /></a>
           </div>
         </div>
         <div className="col-8">
@@ -173,24 +200,50 @@ export default class Post extends Component {
   constructor(props){
     super(props)
     this.state = {
-      user: props.user
+      data: props.data
     }
   }
 
   render() {
+
+    var type, action, movieposter;
+    var avatar = avatars + this.state.data.avatar;
+    switch(this.state.data.type){
+      case 1:
+        type = "view";
+        action = " has watched ";
+        break;
+      case 2:
+        type = "favorite";
+        action = " has rated ";
+        break;
+      default:
+        break;
+    }
+
+    if (this.state.data.movieposter){
+      let shortImage = "https://image.tmdb.org/t/p/w200" + this.state.data.movieposter
+      let largeImage = "https://image.tmdb.org/t/p/w500" + this.state.data.movieposter
+      movieposter = {"href": largeImage, "src": shortImage}
+    }else{
+      movieposter = {"href": "http://placehold.it/228x337", "src": "http://placehold.it/228x337"}
+    }
+
+
+
     return (
       <div className="post-container">
           <PostHeader 
-            user={this.state.user}
-            action="view" 
-            movie="Toy Story 3"
+            user={this.state.data.username}
+            action={action} 
+            movie={this.state.data.moviename}
             date="15/03/2019 - 03:53 PM"
-            photo="http://placehold.it/228x337">
+            photo={avatar}>
           </PostHeader>
           <PostBody
-            poster="http://placehold.it/228x337"
-            type="rate"
-            rate="4"
+            poster={movieposter}
+            type={type}
+            data={this.state.data}
             >
           </PostBody> 
           {/* <PostBody

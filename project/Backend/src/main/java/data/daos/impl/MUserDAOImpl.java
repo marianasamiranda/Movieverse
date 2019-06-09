@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Component("muserDAO")
@@ -89,6 +90,21 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         return e_query.getResultList();
     }
 
+    public List<Map> getFeedEntries(int userId, int offset, int limit) {
+
+        Query query = entityManager.createNativeQuery("SELECT * from feedEntries(?1, ?2, ?3);")
+                .setParameter(1, userId)
+                .setParameter(2, offset)
+                .setParameter(3, limit);
+        List<Object[]> results = query.getResultList();
+
+        return dataUtil.queryListToListMap(results, Arrays.asList("username","usergender", "avatar", "type", "moviename", "movieposter")).stream()
+                .map(entry -> {
+                    if (entry.get("avatar") == null) entry.put("avatar", entry.get("usergender") + ".svg");
+                    entry.remove("usergender");
+                    return entry;
+                }).collect(Collectors.toList());
+    }
 
     private static final String listFriendsQuery =
         "SELECT m.* " +

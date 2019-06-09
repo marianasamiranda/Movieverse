@@ -164,8 +164,10 @@ public class UserService {
         MUser u = mUserDAO.validateToken(token);
         boolean self = false;
 
+        List<Map> feedEntries = mUserDAO.getFeedEntries(u.getId(), 0, 50);
         Map<String, Object> m = new HashMap<>();
         m.put("upcomingMovies", movieService.randomUpcomingMovies(4));
+        m.put("feedEntries", feedEntries);
         m.put("self", self);
 
         return m;

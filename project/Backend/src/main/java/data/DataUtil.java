@@ -116,6 +116,58 @@ public class DataUtil {
     }
 
     @Transactional
+    public void createFunctions() {
+        entityManager.createNativeQuery(
+            "CREATE OR REPLACE FUNCTION feedEntries(userId INTEGER,offst INTEGER,limt INTEGER) " +
+                      "RETURNS TABLE (" +
+                         "username VARCHAR," +
+                         "usergender CHAR," +
+                         "avatar VARCHAR," +
+                         "type INTEGER," +
+                         "moviename VARCHAR," +
+                         "movieposter VARCHAR" +
+                      ") " +
+                    "AS $$ " +
+                    "DECLARE " +
+                      "rec_friendactivity RECORD; " +
+                      "cur_friendsactivity CURSOR (userId INTEGER, offst INTEGER, limt INTEGER) FOR (" +
+                        "WITH friends as (" +
+                            "SELECT m.id, m.username, m.avatar, m.gender " +
+                            "FROM Friendship AS f " +
+                            "JOIN Muser AS m ON (f.pending=FALSE " +
+                                                 "AND ((f.sender=userId AND f.receiver=m.id) " +
+                                                 "OR (f.sender=m.id AND f.receiver=userId)))" +
+                        ") " +
+                        "SELECT * FROM friends as fr " +
+                        "JOIN Feed as fd " +
+                        "ON fr.id = fd.muserid " +
+                      "); " +
+                    "BEGIN " +
+                      "OPEN cur_friendsactivity(userId, offst, limt); " +
+                      "LOOP " +
+                        "FETCH cur_friendsactivity INTO rec_friendactivity; " +
+                        "EXIT WHEN NOT FOUND; " +
+                        "username\\:=rec_friendactivity.username; " +
+                        "usergender\\:=rec_friendactivity.gender; " +
+                        "avatar\\:=rec_friendactivity.avatar; " +
+                        "type\\:=rec_friendactivity.type; " +
+                        "IF (rec_friendactivity.type in (1,2) ) THEN " +
+                          "SELECT m.name, m.poster INTO moviename, movieposter " +
+                          "FROM Movie as m " +
+                          "WHERE m.tmdb = rec_friendactivity.idcontent; " +
+                        "END IF; " +
+                        "RETURN NEXT; " +
+                        "moviename\\:=NULL; " +
+                        "movieposter\\:=NULL; " +
+                      "END LOOP;" +
+                      "CLOSE cur_friendsactivity; " +
+                      "RETURN; " +
+                    "END $$ " +
+                    "LANGUAGE 'plpgsql';"
+        ).executeUpdate();
+    }
+
+    @Transactional
     public void refreshViews() {
         List<String> views = Arrays.asList(
             "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies",

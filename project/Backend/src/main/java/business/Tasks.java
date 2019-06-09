@@ -35,6 +35,7 @@ public class Tasks {
     @PostConstruct
     public void startUp() {
         dataUtil.createViews();
+        dataUtil.createFunctions();
         dataUtil.refreshViews();
         redisCache.deleteAll();
     }

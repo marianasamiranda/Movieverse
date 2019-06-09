@@ -35,8 +35,10 @@ export default class Feed extends Component {
           { headers: { Authorization: "Bearer " + token } }).then(x => {
         
         console.log(x.data['upcomingMovies'])
+        console.log(x.data['feedEntries'])
         this.setState({
           upcomings: x.data['upcomingMovies'],
+          feedEntries: x.data['feedEntries'],
           user: x.data['self'] ? undefined : user
         })
       })
@@ -74,6 +76,7 @@ export default class Feed extends Component {
                 <Main
                   user={this.state.user}
                   lang={this.props.lang}
+                  entries={this.state.feedEntries}
                 >
                 </Main>
           
