@@ -19,8 +19,6 @@ public class Company {
 
 	private int id;
 
-	private Company parentCompany;
-
 	private Country companyCountry;
 
 	private String homepage;
@@ -97,30 +95,12 @@ public class Company {
 		return movies;
 	}
 
-
-	public void setChildrenCompanies(java.util.Set value) {
-		this.childrenCompanies = value;
-	}
-
-	public java.util.Set getChildrenCompanies() {
-		return childrenCompanies;
-	}
-
-
 	public void setCompanyCountry(Country value) {
 		this.companyCountry = value;
 	}
 
 	public Country getCompanyCountry() {
 		return companyCountry;
-	}
-
-	public void setParentCompany(Company value) {
-		this.parentCompany = value;
-	}
-
-	public Company getParentCompany() {
-		return parentCompany;
 	}
 
 	public String toString() {

@@ -11,8 +11,6 @@ License Type: Academic
 			<generator class="identity">
 			</generator>
 		</id>
-		<many-to-one name="parentCompany" cascade="lock" column="CompanyId" class="data.entities.Company" not-null="false" lazy="proxy">
-		</many-to-one>
 		<many-to-one name="companyCountry" cascade="lock" column="CountryId" class="data.entities.Country" not-null="false" lazy="proxy">
 		</many-to-one>
 		<property name="homepage" column="Homepage" type="string" length="255" not-null="true" lazy="false"/>
@@ -24,10 +22,6 @@ License Type: Academic
 			<key column="CompanyId" not-null="true"/>
 			<many-to-many column="MovieId" class="data.entities.Movie">
 			</many-to-many>
-		</set>
-		<set name="childrenCompanies" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="CompanyId" not-null="false"/>
-			<one-to-many class="data.entities.Company"/>
 		</set>
 	</class>
 </hibernate-mapping>

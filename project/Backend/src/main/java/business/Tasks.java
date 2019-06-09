@@ -37,6 +37,8 @@ public class Tasks {
         dataUtil.createViews();
         dataUtil.createFunctions();
         dataUtil.refreshViews();
+        dataUtil.createTriggers();
+        dataUtil.createIndexes();
         redisCache.deleteAll();
     }
 
@@ -62,6 +64,11 @@ public class Tasks {
             if (timeS != null && Long.parseLong(timeS) <= util.unixTimeSeconds())
                 redisCache.del(x);
         });
+    }
+
+    @Scheduled(cron = EVERY_DAY_1AM)
+    public void accountAgeAchievements() {
+        //TODO
     }
 
 

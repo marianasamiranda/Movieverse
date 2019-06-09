@@ -22,6 +22,8 @@ public class Badge {
 	private String name;
 	
 	private String image;
+
+	private String description;
 	
 	private java.util.Set achievements = new java.util.HashSet();
 	
@@ -52,7 +54,15 @@ public class Badge {
 	public String getImage() {
 		return image;
 	}
-	
+
+	public void setDescription(String value) {
+		this.description = value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 	public MUser[] getmUsers() {
 		java.util.ArrayList lValues = new java.util.ArrayList(5);
 		for(java.util.Iterator lIter = achievements.iterator();lIter.hasNext();) {

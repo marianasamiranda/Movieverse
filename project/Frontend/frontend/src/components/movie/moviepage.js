@@ -26,7 +26,8 @@ export default class MoviePage extends Component {
       watched: undefined,
       favourited: undefined,
       watchlist: undefined,
-      rating: undefined
+      rating: undefined,
+      noAuth: true
     };
   }
 
@@ -111,6 +112,7 @@ export default class MoviePage extends Component {
         .then(y => {
 
           this.setState({
+            noAuth: false,
             movie: movieInfo,
             watched: (y.data.watched && y.data.watched === true)  ? true : false,
             favourited: (y.data.favourite && y.data.favourite === true) ? true : false,
@@ -121,6 +123,7 @@ export default class MoviePage extends Component {
       .catch(o => {
         this.setState({
           movie: movieInfo,
+          noAuth: true,
           watched: false,
           favourited: false,
           watchlist: false
@@ -142,10 +145,13 @@ export default class MoviePage extends Component {
     }
 
     let headerTitle;
+
     if(this.state.windowSize < 768) {
       headerTitle = <div className="movie-title-div">
         <span>{this.state.movie.name} </span>
-        <span><a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/ + ${this.state.movie.imdb}`}><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></a></span>
+        <a target="_blank" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+          <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
+        </a>
         <br />
         <Image src={star} height="30vh" /> {this.state.movie.rating}
         <hr />
@@ -155,7 +161,9 @@ export default class MoviePage extends Component {
       headerTitle = <div className="movie-title-div d-flex">
           <div className="mr-auto p-2">
             <span>{this.state.movie.name} </span>
-            <span><Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" /></span>
+            <a target="_blank" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+              <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
+            </a>
           </div>
           <div className="p-2">
             <Image src={star} height="30vh" />
@@ -167,6 +175,7 @@ export default class MoviePage extends Component {
     }
     const poster = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + this.state.movie.poster
     const backdrop = "https://image.tmdb.org/t/p/original/" + this.state.movie.backdrop
+    
     return (
       <Container>
         <div className="movie-header">
@@ -175,7 +184,7 @@ export default class MoviePage extends Component {
             <Image src={poster} />
           </div>
           { headerTitle }
-          <MovieEvaluation id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={this.state.rating} lang={this.props.lang} />
+          <MovieEvaluation noAuth={this.state.noAuth} id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={this.state.rating} lang={this.props.lang} />
         </div>
         <div className="container-fluid">
           <div className="row">
@@ -237,7 +246,7 @@ export default class MoviePage extends Component {
                   }
                   { this.state.backdrops.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.state.movie.id}`} loadMore="true" content={this.state.backdrops}/>   
+                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.backdrops}/>   
                     </TabPanel>
                   }
                   { this.state.backdrops.length !== 5 && this.state.backdrops.length !== 0 &&
@@ -248,7 +257,7 @@ export default class MoviePage extends Component {
                 </Tabs>
               }
               <h1>{labels[this.props.lang].discussion}</h1>
-              <DiscussionBox lang={this.props.lang} />
+              <DiscussionBox noAuth={ this.state.noAuth } lang={this.props.lang} />
             </div>
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
@@ -259,17 +268,18 @@ export default class MoviePage extends Component {
                 <h6>{labels[this.props.lang].genres}</h6>
                 <div className="movie-genre">
                   <ul>
-                    { this.state.movie.genres.map((genre) =>
-                        <li><a href={`/movies?genre=${genre}`}>{genre}</a></li>
-                    )}      
+                    { this.state.movie.genres.map(function(genre, i) {
+                        return <li key={i}><a href={`/movies?genre=${genre}`}>{genre}</a></li>;
+                      })
+                    }
                   </ul>
                 </div>
                 <h6>{labels[this.props.lang].prodCompanies}</h6>
-                <p>
-                  { this.state.movie.companies.map((company) =>
-                    <div className="prod-company"><a href="#">{company}</a><br/></div>
-                  )} 
-                </p>
+                {
+                  this.state.movie.companies.map(function(company, i) {
+                    return <div className="prod-company" key={i}><a href={`/company/${company.id}`}>{company.name}</a><br/></div>
+                  })
+                }
               </div>
             </div>
           </div>

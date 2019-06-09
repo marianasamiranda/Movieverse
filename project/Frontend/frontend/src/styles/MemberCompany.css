@@ -1,0 +1,104 @@
+.red {
+  color: #F10633;
+}
+
+.brown, .member-company-info .info-lable, .member-company-info .info-value, .member-company-name, .title-member-company-18 {
+  color: #594849;
+}
+
+.light-gray {
+  color: #aaaaaa;
+}
+
+.gray {
+  color: #7C7C7C;
+}
+
+.strong-gray {
+  color: #707070;
+}
+
+.dark-gray {
+  color: #4d4d4d;
+}
+
+.bg-light-gray {
+  background-color: #e8e8e8;
+}
+
+.bg-lighter-gray {
+  background-color: #f9f9f9;
+}
+
+.bg-dark-gray {
+  background-color: #202020;
+}
+
+.bg-red {
+  background-color: #e2463e;
+}
+
+.member-company-info p {
+  margin: 0;
+}
+
+.member-company-info .info-lable {
+  font-weight: bold;
+  font-size: 15pt;
+}
+
+.member-company-info .info-value {
+  font-size: 13pt;
+}
+
+.member-company-aside {
+  background-color: #E7E7E7;
+  border: 1px solid #7B7B7B;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 40px;
+}
+
+@media (max-width: 767px) {
+  .member-company-aside {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  #member-company-info-main {
+    display: none;
+  }
+}
+
+.member-company-name {
+  display: inline-block;
+  margin-top: 100px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 40pt;
+}
+
+.title-member-company-18 {
+  font-weight: bold;
+  font-size: 18pt;
+}
+
+#member-company-movies .movie-card-container .label {
+  line-height: 12pt;
+}
+
+#member-company-movies .movie-card-container .label #movie-name {
+  font-weight: bold;
+  color: #707070;
+  font-size: 11pt;
+}
+
+#member-company-movies .movie-card-container .label #movie-info {
+  font-size: 10pt;
+  color: #707070;
+}
+/*# sourceMappingURL=MemberCompany.css.map */

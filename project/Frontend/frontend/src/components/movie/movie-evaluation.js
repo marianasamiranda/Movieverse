@@ -14,6 +14,7 @@ import { getCurrentDate } from '../../utils'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Axios from 'axios';
+import OopsModal from '../aux_pages/oops-modal'
 
 const movieEval = {
   1: "Bad!",
@@ -28,6 +29,8 @@ export default class MovieEvaluation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      noAuth: this.props.noAuth,
+      showModal: false,
       movieId: this.props.id,
       watched: this.props.watched,
       favourited: this.props.favourited,
@@ -38,6 +41,10 @@ export default class MovieEvaluation extends Component {
   }
 
   handleWatched() {
+    if(this.state.noAuth) {
+      this.handleShowNotLoggedInModal();
+      return;
+    }
     var f = {}
     if (this.state.watched === false & this.state.addedWatchlist === true) {
       this.setState( { watched: true, addedWatchlist: false });
@@ -86,6 +93,10 @@ export default class MovieEvaluation extends Component {
   }
 
   handleFavourited() {
+    if(this.state.noAuth) {
+      this.handleShowNotLoggedInModal();
+      return;
+    }
     var f = {}
     if (this.state.favourited === false) {
       var date = getCurrentDate()
@@ -127,8 +138,12 @@ export default class MovieEvaluation extends Component {
   }
 
   handleAddedWatchlist() {
+    if(this.state.noAuth) {
+      this.handleShowNotLoggedInModal();
+      return;
+    }
     var f = {}
-    if (this.state.addedWatchlist === false) {
+    if(this.state.addedWatchlist === false) {
       if(this.state.watched === true) {
         this.setState( { watched: false } )
         f['watched'] = false
@@ -215,7 +230,6 @@ export default class MovieEvaluation extends Component {
     document.getElementById("label-onrate").innerHTML = this.state.message;
   }
 
-
   starReset() {
     var f = {}
     this.setState({
@@ -235,74 +249,97 @@ export default class MovieEvaluation extends Component {
     )
   }
 
+  handleShowNotLoggedInModal() {
+    if(this.state.noAuth) {
+      this.setState({
+        showModal: true
+      })
+    }
+  }
+
+  handleCloseNotLoggedInModal() {
+    this.setState({
+      showModal: false
+    })
+  }
+
   render() {
     let watchedMovie;
     let favouritedMovie;
     let addedWatchlist;
+    let message;
 
-    
     if(this.state.watched === true) {
-        watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
+        watchedMovie = <span className="watched" onClick={this.handleWatched.bind(this)}>
           <Image src={ watched } width="30em" style={{ 'marginRight': '0.5em'}} />
           {labels[this.props.lang].markedWatched}
-        </td>
+        </span>
     }
     else {
-      watchedMovie = <td className="watched" onClick={this.handleWatched.bind(this)}>
+      watchedMovie = <span className="watched" onClick={this.handleWatched.bind(this)}>
         <Image src={ watchedDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].markWatched}
-      </td>
+      </span>
     }
     
     if(this.state.favourited === true) {
-      favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
+      favouritedMovie = <span className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favourite } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addedToFavourites}
-      </td>
+      </span>
     }
     else {
-      favouritedMovie = <td className="favourited" onClick={this.handleFavourited.bind(this)}>
+      favouritedMovie = <span className="favourited" onClick={this.handleFavourited.bind(this)}>
         <Image src={ favouriteDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addToFavourites}
-      </td>
+      </span>
     }
 
     if(this.state.addedWatchlist === true) {
-      addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
+      addedWatchlist = <span className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlist } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addedToWatchlist}
-      </td>
+      </span>
     }
     else {
-      addedWatchlist = <td className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
+      addedWatchlist = <span className="addedToWatchlist" onClick={this.handleAddedWatchlist.bind(this)}>
         <Image src={ watchlistDisabled } width="30em" style={{ 'marginRight': '0.5em'}} />
         {labels[this.props.lang].addToWatchlist}
-      </td>
+      </span>
     }
+
+    if(this.state.noAuth) {
+      message = <p>
+        { labels[this.props.lang].youNeed } <a href="/">{ labels[this.props.lang].registeredOrLoggedIn }</a> { labels[this.props.lang].toBeAbleEval }
+      </p>
+    }
+
     return <div>
+      <OopsModal showModal={this.state.showModal} handleClose={this.handleCloseNotLoggedInModal.bind(this)} message={ message } />
       <Row className="eval-wrapper">
         <Col lg="6" md="5" sm="12">
-          <div style={{'line-height':'2.2em'}}>
+          <div style={{'lineHeight':'2.2em'}} onClick={this.handleShowNotLoggedInModal.bind(this)}>
             { watchedMovie }
           </div>
-          <div style={{'line-height':'2.2em'}}>
+          <div style={{'lineHeight':'2.2em'}} onClick={this.handleShowNotLoggedInModal.bind(this)}>
             { favouritedMovie }
           </div>      
-          <div style={{'line-height':'2.2em'}}>
+          <div style={{'lineHeight':'2.2em'}} onClick={this.handleShowNotLoggedInModal.bind(this)}>
             { addedWatchlist }
           </div>
         </Col>
         <Col lg="6" md="5" sm="12">
-          <div className="rating text-center" style={{ 'margin-top': '0.2em' }}>
+          <div className="rating text-center" style={{ 'marginTop': '0.2em' }} onClick={this.handleShowNotLoggedInModal.bind(this)}>
             <StarRatingComponent
               name="rate1"
               value={ this.state.rating }
+              editing={ !this.state.noAuth }
               starCount={ 5 }
               onStarClick={ this.onStarClick.bind(this) }
               onStarHover={ this.onStarHover.bind(this) }
               onStarHoverOut={ this.onStarHoverOut.bind(this) }
             />
-            <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'font-size': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
+            <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'fontSize': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
             <p><span id="label-onrate" className="onrate">{ this.state.message }</span></p>
           </div>
         </Col>

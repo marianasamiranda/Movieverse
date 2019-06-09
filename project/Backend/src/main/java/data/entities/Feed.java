@@ -24,7 +24,9 @@ public class Feed {
 	private int type;
 	
 	private int idContent;
-	
+
+	private java.sql.Timestamp timestamp;
+
 	private void setId(int value) {
 		this.id = value;
 	}
@@ -51,6 +53,14 @@ public class Feed {
 	
 	public int getIdContent() {
 		return idContent;
+	}
+
+	public void setTimestamp(java.sql.Timestamp value) {
+		this.timestamp = value;
+	}
+
+	public java.sql.Timestamp getTimestamp() {
+		return timestamp;
 	}
 	
 	public void setUser(MUser value) {

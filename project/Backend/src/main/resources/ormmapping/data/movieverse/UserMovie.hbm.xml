@@ -19,7 +19,7 @@ License Type: Academic
 		<property name="visible" column="Visible" type="boolean" not-null="true" lazy="false"/>
 		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="false">
 		</many-to-one>
-		<many-to-one name="mUser" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="false">
+		<many-to-one name="mUser" cascade="lock" column="MUserId" index="UserMovie_MUserId" class="data.entities.MUser" not-null="true" lazy="false">
 		</many-to-one>
 	</class>
 </hibernate-mapping>

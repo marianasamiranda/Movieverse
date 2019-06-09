@@ -131,7 +131,6 @@
 
     ul li a {
         display: inline-block;
-        max-width: 100px;
         line-height: 28px;
         padding: 4px 10px;
         text-transform: uppercase;
@@ -176,10 +175,12 @@
 
 .favourited {
     cursor: default;
+    white-space: nowrap;
 }
 
 .addedToWatchlist {
     cursor: default;
+    white-space: nowrap;
 }
 
 .react-tabs {

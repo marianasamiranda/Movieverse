@@ -252,7 +252,12 @@ export const labels = {
     months: 'months',
     year: 'year',
     // media page
-    goBack: 'Go Back'
+    goBack: 'Go Back',
+    // oops modal
+    youNeed: 'You need to be',
+    registeredOrLoggedIn: 'registered and logged in',
+    toBeAbleEval: 'to watch, favourite, add to your watchlist or rate a movie.',
+    toBeAbleComment: 'to comment on a movie.'
   },
   pt: {
     //buttons
@@ -436,7 +441,12 @@ export const labels = {
     months: 'meses',
     year: 'ano',
     // media page
-    goBack: 'Voltar Atrás'
+    goBack: 'Voltar Atrás',
+    // oops modal
+    youNeed: 'Precisas de estar',
+    registeredOrLoggedIn: 'registado e autenticado',
+    toBeAbleEval: 'para ver, marcar como favorito, adicionar à tua watchlist ou avaliar um filme.',
+    toBeAbleComment: 'para comentar um filme.'
   }
 }
 
