@@ -286,11 +286,11 @@ public class DataUtil {
     @Transactional
     public void createIndexes() {
         entityManager.createNativeQuery(
-                "CREATE INDEX media_memberid ON media USING btree (memberid)"
+                "CREATE INDEX IF NOT EXISTS media_memberid ON media USING btree (memberid)"
         ).executeUpdate();
 
         entityManager.createNativeQuery(
-                "CREATE INDEX media_movieid ON media USING btree (movieid)"
+                "CREATE INDEX IF NOT EXISTS media_movieid ON media USING btree (movieid)"
         ).executeUpdate();
     }
 

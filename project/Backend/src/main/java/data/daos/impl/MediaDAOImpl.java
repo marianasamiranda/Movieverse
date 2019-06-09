@@ -41,6 +41,7 @@ public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
     }
 
     @Transactional(readOnly=true)
+    //TODO limitar logo na base de dados
     public Map getMovieMedia(int id) {
         Query query = entityManager.createNativeQuery("SELECT m.type, m.path FROM Media m WHERE m.movieid = ?1")
                 .setParameter(1, id);

@@ -13,6 +13,8 @@
  */
 package data.entities;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -307,7 +309,8 @@ public class MUser {
 			}
 		}
 	}
-	
+
+	@Transactional()
 	public void addBadge(Achievement aAchievement, Badge aBadge) {
 		aAchievement.setBadge(aBadge);
 		achievements.add(aAchievement);

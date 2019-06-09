@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import { badges_location } from '../../var';
 
-const renderTooltip = props => (
+const renderTooltip = (props, info) => (
   <div 
     {...props}
     style={{
@@ -15,17 +16,14 @@ const renderTooltip = props => (
   </div>
 );
 
-let info
-
 export default class Badge extends Component {
   render() {
-    info = this.props.info
     return (
       <OverlayTrigger 
         placement="top" 
-        delay={{ show: 10, hide: 100 }} 
-        overlay={renderTooltip}>
-        <img src={require('../../img/badges/' + this.props.name + '.svg')} 
+        delay={{ show: 10, hide: 100 }}
+        overlay={(props) => renderTooltip(props, this.props.info)}>
+        <img src={badges_location + this.props.img} 
             alt="badge"
             className={(this.props.collected ? "" : " faded")} />
       </OverlayTrigger>

@@ -58,6 +58,9 @@ public class MovieService {
     @Autowired
     private RedisCache redisCache;
 
+    @Autowired
+    private UserService userService;
+
 
     public MovieService() {}
 
@@ -371,6 +374,33 @@ public class MovieService {
         }
 
         return true;
+    }
+
+
+    private Map<Integer, String> movieHoursAchievements = Map.of(
+        10, "10 movie hours",
+        50, "50 movie hours",
+        100, "100 movie hours",
+        500, "500 movie hours",
+        1000, "1000 movie hours"
+    );
+
+    private void updateMovieHoursAchievements(MUser u, int movieRuntime) {
+        String badgeName = movieHoursAchievements.get(u.getHoursCount() + movieRuntime / 60);
+        if (badgeName != null)
+            userService.addAchievement(u, badgeName);
+    }
+
+    private void addFirstFavouriteAchievement(MUser u) {
+        userService.addAchievement(u, "First favourite movie");
+    }
+
+    private void updateFirstRatingAchievement(MUser u) {
+        userService.addAchievement(u, "First rating");
+    }
+
+    private void updateFirstCommentAchievement(MUser u) {
+        userService.addAchievement(u, "First comment");
     }
 
 

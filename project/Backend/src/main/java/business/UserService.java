@@ -2,11 +2,10 @@ package business;
 
 import data.ElasticSearch;
 import data.RedisCache;
+import data.daos.BadgeDAO;
 import data.daos.FriendshipDAO;
 import data.daos.MUserDAO;
-import data.entities.Friendship;
-import data.entities.Genre;
-import data.entities.MUser;
+import data.entities.*;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -44,6 +43,9 @@ public class UserService {
 
     @Autowired
     private MUserDAO mUserDAO;
+
+    @Autowired
+    private BadgeDAO badgeDAO;
 
     @Autowired
     private Util util;
@@ -180,8 +182,7 @@ public class UserService {
 
         if (username == null) {
             String cachedInfo = redisCache.get("profile_" + u.getUsername());
-            //in cache
-            if (cachedInfo != null)
+            if (cachedInfo != null) // in cache
                 return cachedInfo;
         }
 
@@ -231,7 +232,7 @@ public class UserService {
         m.put("statsComments", u.getCommentsCount());
         m.put("statsRatings", u.getRatingsCount());
         m.put("statsFriends", u.getFriendsCount());
-        m.put("badges", u.getBadges());
+        //m.put("badges", u.getBadges()); //TODO dá recursão infinita : badge -> achievement -> badge -> ...
         m.put("avatar", u.getAvatar());
         m.put("self", self);
         m.put("friendship", friendship);
@@ -245,10 +246,22 @@ public class UserService {
             ((List) m.get("friends")).add(map);
         }
 
+        //movies
+        userMoviesProfileInfo(u, m);
+
+        //add response to redis cache
+        if (username == null)
+            redisCache.set("profile_" + u.getUsername(), util.toJson(m));
+
+        return m;
+    }
+
+    //add movie info to the profile map
+    private void userMoviesProfileInfo(MUser u, Map<String, Object> profileInfo) {
         Map<String, List<Map>> movies;
         movies = mUserDAO.allMovieTypes(u.getId(), 0, 24)
-                         .stream()
-                         .collect(groupingBy(x -> ((String) x.get("type"))));
+                .stream()
+                .collect(groupingBy(x -> ((String) x.get("type"))));
 
         if (!movies.containsKey("recent"))
             movies.put("recent", List.of());
@@ -262,16 +275,10 @@ public class UserService {
         if (!movies.containsKey("recommended"))
             movies.put("recommended", List.of());
 
-        m.put("recent", movies.get("recent"));
-        m.put("favourite", movies.get("favourite"));
-        m.put("watchlist", movies.get("watchlist"));
-        m.put("recommended", movies.get("recommended"));
-
-        //add response to redis cache
-        if (username == null)
-            redisCache.set("profile_" + u.getUsername(), util.toJson(m));
-
-        return m;
+        profileInfo.put("recent", movies.get("recent"));
+        profileInfo.put("favourite", movies.get("favourite"));
+        profileInfo.put("watchlist", movies.get("watchlist"));
+        profileInfo.put("recommended", movies.get("recommended"));
     }
 
 
@@ -414,9 +421,9 @@ public class UserService {
             throw new Exception("No such user");
 
         //reject request
-        if (!decision) {
+        if (!decision)
             friendshipDAO.removeEntity("sender=" + target.getId() + "and receiver= " +  u.getId());
-        }
+
         //add friend
         else {
             Friendship friendship = friendshipDAO.loadEntity("sender=" + target.getId() + "and receiver= " +  u.getId());
@@ -426,6 +433,9 @@ public class UserService {
             u.addFriend(friendship);
             target.addFriend(friendship);
 
+            updateFriendsAchievements(u);
+            updateFriendsAchievements(target);
+
             mUserDAO.merge(u);
             mUserDAO.merge(target);
             friendshipDAO.merge(friendship);
@@ -433,6 +443,20 @@ public class UserService {
 
         //clear cache
         clearUsersCache(u.getUsername(), target.getUsername());
+    }
+
+    private Map<Integer, String> friendsAchievements = Map.of(
+        1, "1 friend",
+        5, "5 friends",
+        15, "15 friends",
+        50, "50 friends",
+        100, "100 friends"
+    );
+
+    private void updateFriendsAchievements(MUser u) {
+        String badgeName = friendsAchievements.get(u.getFriendsCount() + 1);
+        if (badgeName != null)
+            addAchievement(u, badgeName);
     }
 
 
@@ -528,4 +552,14 @@ public class UserService {
     }
 
 
+    public void addAchievement(MUser u, String badgeName) {
+        if (!mUserDAO.hasBadge(u.getUsername(), badgeName)) {
+            Badge b = badgeDAO.getBadgeByName(badgeName);
+            Achievement a = new Achievement();
+            a.setDate(util.localDateToDate(LocalDate.now()));
+            a.setmUser(u);
+            a.setBadge(b);
+            u.addBadge(a, b);
+        }
+    }
 }

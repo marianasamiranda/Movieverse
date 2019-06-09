@@ -298,7 +298,7 @@ export default class Profile extends Component {
               </Row>
             </Col>
             <Col xs="12" lg="6" xl={{span: 5, offset: 1}}>
-              <BadgesCard />
+              <BadgesCard />  {/* TODO pass badges */}
             </Col>
           </Row>
           <Row>
@@ -359,7 +359,7 @@ export default class Profile extends Component {
                 multiple={false}
                 onDrop={acceptedFiles => this.handleNewAvatar(acceptedFiles[0])} >
                 {({ getRootProps, getInputProps }) => (
-                  <section >
+                  <section>
                     <div {...getRootProps()} className="dropzone">
                       <input {...getInputProps()} />
                       <p>{this.state.newAvatar 

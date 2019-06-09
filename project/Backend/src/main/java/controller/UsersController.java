@@ -32,6 +32,7 @@ public class UsersController {
             return Util.ok(userService.profileInfo(token, username));
         }
         catch (Exception e) {
+            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }

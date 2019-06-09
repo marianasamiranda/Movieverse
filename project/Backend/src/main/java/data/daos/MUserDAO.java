@@ -28,4 +28,6 @@ public interface MUserDAO extends DAO<Integer , MUser> {
     int totalNumberOfLikes();
     Map genderCount();
     Map countryCount();
+    List<MUser> nYearsWithoutBadge(int years);
+    boolean hasBadge(String username, String badgeName);
 }

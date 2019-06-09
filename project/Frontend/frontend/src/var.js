@@ -1,8 +1,7 @@
-import { getToken } from "./cookies";
-
 export const backend = 'http://localhost:8080'
 
 export const avatars = window.location.origin + "/avatars/"
+export const badges_location = window.location.origin + "/badges/"
 
 export const genres = [
   'Action',
@@ -66,6 +65,128 @@ export const theaters = {
   "Cineplace AlgarveShopping": { id: 37, coords: [37.127757, -8.279695] }
 }
 
+export const badges = [
+  {
+    name: "1 year old",
+    description: "Celebrate 1 year since the account creation",
+    image: "1-year-old.png"
+  },
+  {
+    name: "2 years old",
+    description: "Celebrate 2 years since the account creation",
+    image: "2-years-old.png"
+  },
+  {
+    name: "3 years old",
+    description: "Celebrate 3 years since the account creation",
+    image: "3-years-old.png"
+  },
+  {
+    name: "4 years old",
+    description: "Celebrate 4 years since the account creation",
+    image: "4-years-old.png"
+  },
+  {
+    name: "5 years old",
+    description: "Celebrate 5 years since the account creation",
+    image: "5-years-old.png"
+  },
+  {
+    name: "10 movie hours",
+    description: "Watch in total 10 movie hours",
+    image: "10-movie-hours.png"
+  },
+  {
+    name: "50 movie hours",
+    description: "Watch in total 50 movie hours",
+    image: "50-movie-hours.png"
+  },
+  {
+    name: "100 movie hours",
+    description: "Watch in total 100 movie hours",
+    image: "100-movie-hours.png"
+  },
+  {
+    name: "500 movie hours",
+    description: "Watch in total 500 movie hours",
+    image: "500-movie-hours.png"
+  },
+  {
+    name: "1000 movie hours",
+    description: "Watch in total 1000 movie hours",
+    image: "1000-movie-hours.png"
+  },
+  {
+    name: "1 like single comment",
+    description: "Achieve 1 like in a single comment",
+    image: "1-like-single-comment.png"
+  },
+  {
+    name: "10 likes single comment",
+    description: "Achieve 10 likes in a single comment",
+    image: "10-likes-single-comment.png"
+  },
+  {
+    name: "50 likes single comment",
+    description: "Achieve 50 likes in a single comment",
+    image: "50-likes-single-comment.png"
+  },
+  {
+    name: "100 likes single comment",
+    description: "Achieve 100 likes in a single comment",
+    image: "100-likes-single-comment.png"
+  },
+  {
+    name: "500 likes single comment",
+    description: "Achieve 500 likes in a single comment",
+    image: "500-likes-single-comment.png"
+  },
+  {
+    name: "1000 likes single comment",
+    description: "Achieve 1000 likes in a single comment",
+    image: "1000-likes-single-comment.png"
+  },
+  {
+    name: "1 friend",
+    description: "Add 1 friend",
+    image: "1-friend.png"
+  },
+  {
+    name: "5 friends",
+    description: "Add 5 friends",
+    image: "5-friends.png"
+  },
+  {
+    name: "15 friends",
+    description: "Add 15 friends",
+    image: "15-friends.png"
+  },
+  {
+    name: "50 friends",
+    description: "Add 50 friends",
+    image: "50-friends.png"
+  },
+  {
+    name: "100 friends",
+    description: "Add 100 friends",
+    image: "100-friends.png"
+  },
+  {
+    name: "First favourite movie",
+    description: "Add a movie to the favourites",
+    image: "first-favourite-movie.png"
+  },
+  {
+    name: "First rating",
+    description: "Add a rating to a movie",
+    image: "first-rating.png"
+  },
+  {
+    name: "First comment",
+    description: "Add a comment to a movie",
+    image: "first-comment.png"
+  }
+]
 
 //translations
 
@@ -222,7 +343,6 @@ export const labels = {
     addedToWatchlist: 'Added to watchlist',
     originalLanguage: 'Original Language',
     runtime: 'Runtime',
-    genres: 'Genres',
     prodCompanies: 'Production companies',
     summary: 'Summary',
     cast: 'Cast',
@@ -244,7 +364,6 @@ export const labels = {
     minute: 'minute',
     minutes: 'minutes',
     hour: 'hour',
-    hours: 'hours',
     day: 'day',
     week: 'week',
     weeks: 'weeks',
@@ -411,7 +530,6 @@ export const labels = {
     addedToWatchlist: 'Adicionado à watchlist!',
     originalLanguage: 'Língua original',
     runtime: 'Duração',
-    genres: 'Géneros',
     prodCompanies: 'Produtoras',
     summary: 'Sumário',
     cast: 'Elenco',
@@ -433,7 +551,6 @@ export const labels = {
     minute: 'minuto',
     minutes: 'minutos',
     hour: 'hora',
-    hours: 'horas',
     day: 'dia',
     week: 'semana',
     weeks: 'semanas',

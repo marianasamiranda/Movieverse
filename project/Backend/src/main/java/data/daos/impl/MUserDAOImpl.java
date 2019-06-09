@@ -251,6 +251,7 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
+
     public Map genderCount() {
         Query query = entityManager.createNativeQuery("SELECT * FROM GenderCount");
         List<Object[]> results = query.getResultList();
@@ -259,11 +260,52 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         return m;
     }
 
+
     public Map countryCount() {
         Query query = entityManager.createNativeQuery("SELECT * FROM CountryCount");
         List<Object[]> results = query.getResultList();
         Map m = new HashMap();
         results.forEach(x -> m.put(x[0], x[1]));
         return m;
+    }
+
+
+    private final static List<String> badgesNameYears = Arrays.asList(
+        "1 year old", "2 years old", "3 years old", "4 years old", "5 years old"
+    );
+
+    @Transactional
+    public List<MUser> nYearsWithoutBadge(int years) {
+        Query query = entityManager.createNativeQuery(
+            "SELECT Muser.* " +
+            "FROM Muser " +
+            "LEFT JOIN Achievement ON Achievement.muserid = muser.id " +
+            "LEFT JOIN " +
+                "(SELECT * " +
+                "FROM Badge " +
+                "WHERE name = ?1) as T " +
+                "ON Achievement.id = achievement.id " +
+            "WHERE T.id IS NULL " +
+                "AND CURRENT_DATE - muser.joindate >= ?2",
+            MUser.class
+        ).setParameter(1, badgesNameYears.get(years - 1))
+         .setParameter(2, 365 * years);
+
+        return (List<MUser>) query.getResultList();
+    }
+
+
+    public boolean hasBadge(String username, String badgeName) {
+        Query query = entityManager.createNativeQuery(
+            "SELECT 1 " +
+            "FROM Muser " +
+            "JOIN Achievement ON Achievement.muserid = Muser.id " +
+            "JOIN Badge ON Badge.id = Achievement.badgeid " +
+            "WHERE Muser.username = ?1 " +
+                "AND badge.name = ?2"
+        ).setParameter(1, username)
+         .setParameter(2, badgeName);
+
+        return !query.getResultList().isEmpty();
     }
 }
