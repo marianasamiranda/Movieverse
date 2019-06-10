@@ -13,6 +13,8 @@
  */
 package data.entities;
 
+import org.springframework.transaction.annotation.Transactional;
+
 public class Comment {
 	public Comment() {
 	}
@@ -104,6 +106,14 @@ public class Comment {
 	
 	public String toString() {
 		return String.valueOf(getId());
+	}
+
+	public void addUpvoter(MUser user) {
+		upvoter.add(user);
+	}
+
+	public void removeUpvoter(MUser user) {
+		upvoter.remove(user);
 	}
 	
 }

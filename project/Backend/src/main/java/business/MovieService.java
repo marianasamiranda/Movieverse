@@ -387,7 +387,7 @@ public class MovieService {
     private Date parseDate(String stringDate) {
         var date = new Date();
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
             date = sdf.parse(stringDate);
         }
         catch(ParseException e) {
@@ -534,5 +534,35 @@ public class MovieService {
 
     public List randomUpcomingMovies(int limit) {
         return movieDAO.getRandomUpcomingMovies(limit);
+    }
+
+    public boolean postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
+        var user = getUserByToken(token);
+        var movie = movieDAO.loadEntity("tmdb=" + movieId);
+
+        var comment = new Comment();
+        comment.setCommenter(user);
+        comment.setContent((String) content.get("message"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        var dateCommented = sdf.parse((String) content.get("date"));
+
+        if(content.containsKey("parent")) {
+            comment.setParent((Integer) content.get("parent"));
+        }
+
+        comment.setDate(dateCommented);
+        comment.setLikes(0);
+        comment.setMovie(movie);
+
+        commentDAO.persist(comment);
+
+        return true;
+    }
+
+    public List<Map> getMovieComments(Integer movieId) throws Exception {
+        var comments = commentDAO.getCommentsMovie(movieId);
+
+        return comments;
     }
 }
