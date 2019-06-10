@@ -122,14 +122,16 @@ public class MoviesController {
     }
 
     @LogMethod
-    @RequestMapping(method = GET, value = "/movie/{movieid}/comments")
-    public ResponseEntity<Object> getMovieComments(@PathVariable(value = "movieid", required = true) Integer id) {
+    @RequestMapping(method = GET, value = "/movie/{movieid}/comments/{page}")
+    public ResponseEntity<Object> getMovieComments(@PathVariable(value = "movieid", required = true) Integer id,
+                                                   @PathVariable(value = "page", required = true) int page) {
 
         try {
-            return Util.ok(movieService.getMovieComments(id));
+            return Util.ok(movieService.getMovieComments(id, page));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
         }
     }
+
 }

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CommentDAO extends DAO<Integer , Comment> {
 
-    List getCommentsMovie(int movieId);
+    List getCommentsMovie(int movieId, int offset, int limit);
 
 }

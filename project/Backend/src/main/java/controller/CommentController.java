@@ -47,4 +47,18 @@ public class CommentController {
         }
     }
 
+    @LogMethod
+    @RequestMapping(method = GET, value = "/comment/{commentid}/replies/{page}")
+    public ResponseEntity<Object> getCommentReplies(@PathVariable(value = "commentid", required = true) Integer id,
+                                                    @PathVariable(value = "page", required = true) int page) {
+
+        try {
+            return Util.ok(commentService.getCommentReplies(id, page));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
+
 }

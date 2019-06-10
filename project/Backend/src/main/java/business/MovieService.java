@@ -536,12 +536,14 @@ public class MovieService {
         return movieDAO.getRandomUpcomingMovies(limit);
     }
 
-    public boolean postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
+    public Map postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
         var user = getUserByToken(token);
         var movie = movieDAO.loadEntity("tmdb=" + movieId);
 
         var comment = new Comment();
+
         comment.setCommenter(user);
+
         comment.setContent((String) content.get("message"));
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
@@ -555,14 +557,29 @@ public class MovieService {
         comment.setLikes(0);
         comment.setMovie(movie);
 
+        var map = new HashMap<String, Object>();
+        map.put("id", comment.getId());
+        map.put("userId", user.getId());
+        map.put("date", content.get("date"));
+        map.put("content", comment.getContent());
+        map.put("likes", comment.getLikes());
+        map.put("username", user.getUsername());
+        map.put("userAvatar", user.getAvatar());
+
         commentDAO.persist(comment);
 
-        return true;
+        return map;
     }
 
-    public List<Map> getMovieComments(Integer movieId) throws Exception {
-        var comments = commentDAO.getCommentsMovie(movieId);
+    public Object getMovieComments(Integer movieId, int page) throws Exception {
+        var comments = commentDAO.getCommentsMovie(movieId, page * 20, 20);
 
-        return comments;
+        boolean moreComments = !(comments.size() < 20);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("comments", comments);
+        result.put("moreComments", moreComments);
+
+        return result;
     }
 }

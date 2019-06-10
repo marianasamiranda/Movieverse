@@ -206,12 +206,13 @@ export default class MovieEvaluation extends Component {
       }
     }
     f['rating'] = nextValue
+    f['dateRated'] = getCurrentDate()
     this.setState({
       rating: nextValue,
       message: movieEval[nextValue]
     });
 
-    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    Axios.patch(backend + '/movie/' + this.props.param + '/me',
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {

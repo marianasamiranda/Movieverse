@@ -1,51 +1,111 @@
 import React, { Component } from 'react';
 import Comment from './comment'
-import Image from 'react-bootstrap/Image'
 import ResizableTextarea from './resizable-text-area'
 import '../../styles/Comment.css';
+import Axios from 'axios';
+import { backend, labels } from '../../var'
+import { getToken } from '../../cookies'
+import { getCurrentDate } from '../../utils';
+import InfiniteScroll from 'react-infinite-scroller';
+
 
 export default class DiscussionBox extends Component {
-
-  comments = [
-    {author: 'George W. Bush', time: '1h ago', content: 'i took my friend to see this and a week later she said it affected her so much that she cried about it for an entire therapy session, which is probably yorgos’s ultimate artistic goal and would mean more to him than any of the major directing awards that he should be earning!', likes: 94 },
-    {author: 'Woody Allen', time: '6h ago', content: 'i think i reached level 10 surrealism in seeing a yorgos lanthimos movie at 10:30pm when everything else around me was closed and when i got out it was all so dark and not a soul around me except the couple who also saw this in my theater. no one said anything but i knew we were all silently afraid yorgos was crawling on the ceiling above us and was about to unleash a pot of lobsters with knives taped to them on our heads.', likes: 65 },
-    {author: 'Emma Stone', time: '10h ago', content: 'ioh my god. you guys are sure as hell aren’t ready for this movie. It’s fucking bonkers. It’s this year’s the lobster for lanthimos. I deeply fell in love with the cinematography, the dark comedic script and the costume design especially for me who loves these kind of films. rachel is fantastic, olivia is amazing and for emma, my queen deserves a oscar nom because I feel like this is a much better performance than la la land. I can’t not wait to see this again with a much bigger crowd.', likes: 10 }
-  ]
-
-  replies_comment=[
-    {author: 'Helena', time: '7h ago', content: 'That\'s right! A bigger reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply reply', likes: 5 },
-    {author: 'Daniel', time: '5h ago', content: 'That\'s right 2!', likes: 5 },
-    {author: 'Nuno', time: '3h ago', content: 'That\'s right 3!', likes: 5 },
-    {author: 'Mariana', time: '2h ago', content: 'That\'s right 4!', likes: 5 }
-  ]
 
   constructor(props) {
     super(props);
     this.state = {
+      movieId: this.props.movie,
       noAuth: this.props.noAuth,
-      comments: this.comments.map((comment) =>
-        <Comment profilepic="https://via.placeholder.com/70" author={comment.author} time={comment.time} likes={comment.likes} content={comment.content} replies={this.replies_comment} />
-      )
+      moreComments: false,
+      currentPage: 0,
+      comments: []
     }
   }
 
-  getComment = (new_comment) => {
-    let element = <Comment profilepic="https://via.placeholder.com/70" author='Kim Possible' time='now' likes={0} content={new_comment} replies={this.replies_comment} />;
+  componentDidMount() {
+    let self = this
+
+    Axios.get(backend + '/movie/' + this.state.movieId + '/comments/' + this.state.currentPage)
+    .then(function(response) {
+      var newComments = self.state.comments.concat(
+        response.data.comments.map((comment) =>
+          <Comment profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={comment.date} content={comment.content} likes={comment.likes} />
+        )
+      )
+      self.setState({
+        comments: newComments,
+        moreComments: response.data.moreComments
+      });
+    }).catch((e) =>
+      console.log(e)
+    )
+    let nextPage = this.state.currentPage + 1
     this.setState({
-      comments: this.state.comments.concat([element])
+      currentPage: nextPage
     });
+
+  }
+  
+  loadItems() {
+    let self = this
+
+    Axios.get(backend + '/movie/' + this.state.movieId + '/comments/' + this.state.currentPage)
+    .then(function(response) {
+      var newComments = self.state.comments.concat(
+        response.data.comments.map((comment) =>
+          <Comment profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={comment.date} content={comment.content} likes={comment.likes} />
+        )
+      )
+      self.setState({
+        comments: newComments,
+        moreComments: response.data.moreComments,
+        currentPage: self.state.currentPage + 1
+      });
+    }).catch((e) =>
+      console.log(e)
+    )
+  }
+
+  getComment = (newComment) => {
+
+    var f = {}
+
+    f['message'] = newComment
+    f['date'] = getCurrentDate()
+
+    let self=this
+
+    Axios.post(backend + '/movie/' + this.state.movieId + '/comment',
+      f,
+      { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      let element = <Comment profilepic={`/avatars/` + response.data.userAvatar} author={response.data.username} time={response.data.date} content={response.data.content} likes={response.data.likes} />;
+      self.setState({
+        comments: self.state.comments.concat([element])
+      })
+    }).catch((e) =>
+      console.log(e)
+    )
+
     this.forceUpdate()
+
   };
   
   render() {
+
+    const loader = <div className="loader">{labels[this.props.lang].loading} ...</div>;
+
     return <div>
-      <div className="comment-container">
-				<div className="info d-flex">
-					<Image className="profile-pic p-2" src="https://via.placeholder.com/70" />
-				</div>
+      <div className="comment-container" style={{ 'marginBottom': '30px'}}>
 				<ResizableTextarea noAuth={ this.state.noAuth } callBackFromParent={ this.getComment } lang={this.props.lang} />
 		  </div>
-			{ this.state.comments }
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={this.loadItems.bind(this)}
+        hasMore={this.state.moreComments}
+        loader={loader}>
+        { this.state.comments }
+      </InfiniteScroll>
 		</div>
 	}
 }
