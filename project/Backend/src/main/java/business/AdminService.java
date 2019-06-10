@@ -64,7 +64,7 @@ public class AdminService {
         var aggs = AggregationBuilders.histogram("date_histogram")
                                       .field("timestamp")
                                       .interval(time * 1000)
-                                      .format("yyyy-MM-dd'T'hh:mm:ss");
+                                      .format("yyyy-MM-dd'T'HH:mm:ss");
 
         builder.query(boolQuery);
         builder.aggregation(aggs);
