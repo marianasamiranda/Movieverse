@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -73,22 +74,33 @@ public class MovieService {
         }
     }
 
+    public Feed getFeedWithType(Integer contentId, Integer type) {
+        try {
+            return feedDAO.loadEntity("idContent=" + contentId + " and type=" + type);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+
+    }
+
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
-        double rating = 0;
+        var rating = 0.0;
 
         try {
             rating = (double) m.getRatingSum()/m.getRatingCount();
             rating = Math.round(rating * 10) / 10.0;
         }
         catch (Exception e) {
-
+            rating = 0.0;
         }
 
-        Integer auxI = 0;
-        String auxS = null;
-
+        Integer auxI;
+        String auxS;
         Map<String, Object> result = new HashMap<>();
+
         result.put("tmdb", m.getTmdb());
         result.put("name", m.getName());
         result.put("poster", m.getPoster());
@@ -98,6 +110,7 @@ public class MovieService {
         result.put("release", m.getRelease());
         result.put("runtime", m.getRuntime());
         result.put("rating", rating);
+
         if ((auxI = m.getBudget()) != null) {
             result.put("budget", auxI);
         }
@@ -107,11 +120,13 @@ public class MovieService {
         if ((auxS = m.getTagline()) != null) {
             result.put("tagline", auxS);
         }
+
         var genres = new ArrayList<String>();
         for(Object g : m.getGenres()) {
             Genre genre = (Genre) g;
             genres.add(genre.getName());
         }
+
         result.put("genres", genres);
 
         var companies = new ArrayList<Map<String, Object>>();
@@ -122,18 +137,28 @@ public class MovieService {
             h.put("name", company.getName());
             companies.add(h);
         }
+
         result.put("companies", companies);
 
         var groupedMedia = mediaDAO.getMovieMedia(id);
 
         if(groupedMedia.get('b')!=null)
-            result.put("backdrops", ((List<String>) groupedMedia.get('b')).stream().limit(5).collect(Collectors.toList()));
+            result.put("backdrops", ((List<String>) groupedMedia.get('b'))
+                    .stream()
+                    .limit(5)
+                    .collect(Collectors.toList()));
 
         if(groupedMedia.get('v')!=null)
-            result.put("videos", ((List<String>) groupedMedia.get('v')).stream().limit(5).collect(Collectors.toList()));
+            result.put("videos", ((List<String>) groupedMedia.get('v'))
+                    .stream()
+                    .limit(5)
+                    .collect(Collectors.toList()));
 
         if(groupedMedia.get('p')!=null)
-            result.put("posters", ((List<String>) groupedMedia.get('p')).stream().limit(5).collect(Collectors.toList()));
+            result.put("posters", ((List<String>) groupedMedia.get('p'))
+                    .stream()
+                    .limit(5)
+                    .collect(Collectors.toList()));
 
         return result;
     }
@@ -151,14 +176,6 @@ public class MovieService {
         return result;
     }
 
-    /*public boolean addComment(Map<String, String> comment) throws IOException {
-        if (false) {
-            throw new IOException();
-        }
-        return true;
-    }*/
-
-
     public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws IOException {
 
         var user = getUserByToken(token);
@@ -168,7 +185,7 @@ public class MovieService {
             userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
         }
         catch(Exception e) {
-            if(user!= null) {
+            if(user != null) {
                 var result = new HashMap<>();
                 result.put("watched", false);
                 return result;
@@ -201,78 +218,57 @@ public class MovieService {
     public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
         var user = getUserByToken(token);
         var userMovie = new UserMovie();
+        var movie = movieDAO.findById(movieId);
 
         try {
             userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
         }
         catch(Exception e) {
-            userMovie.setMovie(movieDAO.findById(movieId));
+            userMovie.setMovie(movie);
             userMovie.setmUser(user);
         }
 
         if(updates.containsKey("watched")) {
-            boolean watched = (boolean) updates.get("watched");
+
+            var watched = (boolean) updates.get("watched");
+            var feedEntryType = 1;
 
             if(watched) {
-                var dateWatched = new Date();
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-                    dateWatched = sdf.parse((String) updates.get("dateWatched"));
-                }
-                catch(ParseException e) {
-                    e.printStackTrace();
-                }
+                // If movie was marked as watched
+
+                var dateWatched = parseDate((String) updates.get("dateWatched"));
+
                 if(updates.containsKey("favourited")) {
+                    // If movie was also marked as favourite
+
                     setFavourite(updates, userMovie);
-                    Feed f = null;
-                    try {
-                        f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=2");
-                    }
-                    catch(Exception e) { }
-                    if(f==null) {
-                        f = new Feed();
-                        f.setType(2);
-                        f.setUser(user);
-                        f.setIdContent(userMovie.getMovie().getORMID());
-                        feedDAO.merge(f);
-                    }
+                    addFeedEntry(2, user, movie, dateWatched);
+
                 }
                 if(updates.containsKey("rating")) {
+                    // If movie was rated
+
+                    feedEntryType = 0;
+
                     int rating = (int) updates.get("rating");
                     userMovie.setRating(rating);
                 }
+
                 userMovie.setStatus(true);
                 userMovie.setDateWatched(dateWatched);
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
-                Feed f = null;
-                try {
-                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and (type=1 or type=0)");
-                }
-                catch(Exception e) { }
-                if(f!=null && f.getType() == 1) {
-                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=1");
-                    f.setType(0);
-                    feedDAO.merge(f);
-                    feedDAO.flush();
-                }
-                else if(f==null) {
-                    f = new Feed();
-                    if(!updates.containsKey("rating")) {
-                        f.setType(1);
-                    }
-                    else {
-                        f.setType(0);
-                    }
-                    f.setUser(user);
-                    f.setIdContent(userMovie.getMovie().getORMID());
-                    feedDAO.merge(f);
-                    feedDAO.flush();
-                }
+
+                addFeedEntry(feedEntryType, user, movie, dateWatched);
+
             }
             else {
+                // If movie was marked as unwatched
+
                 if(updates.containsKey("addedToWatchlist")) {
+                    // If movie was also added to watchlist
+
                     userMovie.setStatus(false);
                     userMovie.setDateWatched(null);
                     userMovie.setFavourite(false);
@@ -281,49 +277,50 @@ public class MovieService {
 
                     userMovieDAO.merge(userMovie);
                     userMovieDAO.flush();
-                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
+
                 }
                 else {
+                    // If movie was only marked as unwatched
                     userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
-                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
+
                 }
+
+                feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
             }
         }
         else if(updates.containsKey("addedToWatchlist")) {
             boolean addedToWatchlist = (boolean) updates.get("addedToWatchlist");
 
             if(addedToWatchlist) {
+                // If movie was added to watchlist
+
                 userMovie.setStatus(false);
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
             }
             else {
+                // If movie was removed from watchlist
+
                 userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
             }
         }
         else if(updates.containsKey("favourited")) {
             boolean favourite = (boolean) updates.get("favourited");
-            if (favourite) {
+
+            if(favourite) {
+                // If movie was added to favourites
+
                 setFavourite(updates, userMovie);
 
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
 
-                Feed f = null;
-                try {
-                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=2");
-                }
-                catch(Exception e) { }
-                if(f==null) {
-                    f = new Feed();
-                    f.setType(2);
-                    f.setUser(user);
-                    f.setIdContent(userMovie.getMovie().getORMID());
-                    feedDAO.merge(f);
-                }
+                addFeedEntry(2, user, movie, parseDate((String) updates.get("dateFavourited")));
             }
             else {
+                // If movie was removed from favourites
+
                 userMovie.setFavourite(false);
                 userMovie.setDateFavourite(null);
                 userMovie.setRating(null);
@@ -335,41 +332,25 @@ public class MovieService {
             }
         }
         else if(updates.containsKey("rating")) {
+
+            // If movie was rated
+
             Integer rating = (Integer) updates.get("rating");
+
             userMovie.setRating(rating);
             userMovieDAO.merge(userMovie);
             userMovieDAO.flush();
-            if(rating!=null && rating == 0) {
-                Feed f = null;
-                try {
-                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=0");
-                }
-                catch(Exception e) { }
-                if(f!=null) {
-                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=0");
-                    f = new Feed();
-                    f.setType(1);
-                    f.setUser(user);
-                    f.setIdContent(userMovie.getMovie().getORMID());
-                    feedDAO.merge(f);
-                    feedDAO.flush();
-                }
+
+            if(rating != null) {
+                Feed f = getFeedWithType(movie.getTmdb(), 1);
+
+                if(f != null)
+                    updateFeed(f, 0, parseDate((String) updates.get("dateRated")));
             }
-            else if(rating!=null && rating != 0) {
-                Feed f = null;
-                try {
-                    f = feedDAO.loadEntity("idContent=" + userMovie.getMovie().getORMID()+ " and type=1");
-                }
-                catch(Exception e) { }
-                if(f!=null) {
-                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=1");
-                    f = new Feed();
-                    f.setType(0);
-                    f.setUser(user);
-                    f.setIdContent(userMovie.getMovie().getORMID());
-                    feedDAO.merge(f);
-                    feedDAO.flush();
-                }
+            else {
+                Feed f = getFeedWithType(movie.getTmdb(), 0);
+
+                updateFeed(f, 1, null);
             }
         }
 
@@ -403,19 +384,47 @@ public class MovieService {
         userService.addAchievement(u, "First comment");
     }
 
-
-    private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
-        var dateFavourited = new Date();
+    private Date parseDate(String stringDate) {
+        var date = new Date();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-            dateFavourited = sdf.parse((String) updates.get("dateFavourited"));
+            date = sdf.parse(stringDate);
         }
         catch(ParseException e) {
             e.printStackTrace();
         }
-        userMovie.setFavourite(true);
-        userMovie.setDateFavourite(dateFavourited);
+
+        return date;
     }
+
+    private void addFeedEntry(int feedEntryType, MUser user, Movie movie, Date date) {
+        Feed f = new Feed();
+
+        f.setType(feedEntryType);
+        f.setUser(user);
+        f.setIdContent(movie.getORMID());
+        f.setTimestamp(new Timestamp(date.getTime()));
+
+        feedDAO.persist(f);
+    }
+
+    private void updateFeed(Feed f, int feedEntryType, Date date) {
+        f.setType(feedEntryType);
+
+        if(date != null) {
+            f.setTimestamp(new Timestamp(date.getTime()));
+        }
+
+        feedDAO.merge(f);
+        feedDAO.flush();
+    }
+
+    private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
+
+        userMovie.setFavourite(true);
+        userMovie.setDateFavourite(parseDate((String) updates.get("dateFavourited")));
+    }
+
 
 
     public List search(String title, String sort, String genre) throws IOException {
