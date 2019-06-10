@@ -242,7 +242,7 @@ public class MovieService {
                     // If movie was also marked as favourite
 
                     setFavourite(updates, userMovie);
-                    addFeedEntry(2, user, movie, dateWatched);
+                    addFeedEntry(2, user, movie.getORMID(), dateWatched);
 
                 }
                 if(updates.containsKey("rating")) {
@@ -260,7 +260,7 @@ public class MovieService {
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
 
-                addFeedEntry(feedEntryType, user, movie, dateWatched);
+                addFeedEntry(feedEntryType, user, movie.getORMID(), dateWatched);
 
             }
             else {
@@ -316,7 +316,7 @@ public class MovieService {
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
 
-                addFeedEntry(2, user, movie, parseDate((String) updates.get("dateFavourited")));
+                addFeedEntry(2, user, movie.getORMID(), parseDate((String) updates.get("dateFavourited")));
             }
             else {
                 // If movie was removed from favourites
@@ -397,12 +397,12 @@ public class MovieService {
         return date;
     }
 
-    private void addFeedEntry(int feedEntryType, MUser user, Movie movie, Date date) {
+    private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
         Feed f = new Feed();
 
         f.setType(feedEntryType);
         f.setUser(user);
-        f.setIdContent(movie.getORMID());
+        f.setIdContent(contentId);
         f.setTimestamp(new Timestamp(date.getTime()));
 
         feedDAO.persist(f);
@@ -546,8 +546,7 @@ public class MovieService {
 
         comment.setContent((String) content.get("message"));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-        var dateCommented = sdf.parse((String) content.get("date"));
+        var dateCommented = parseDate((String) content.get("date"));
 
         if(content.containsKey("parent")) {
             comment.setParent((Integer) content.get("parent"));
@@ -567,6 +566,8 @@ public class MovieService {
         map.put("userAvatar", user.getAvatar());
 
         commentDAO.persist(comment);
+
+        addFeedEntry(3, user, comment.getId(), dateCommented);
 
         return map;
     }
