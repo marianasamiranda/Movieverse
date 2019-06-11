@@ -399,7 +399,7 @@ public class MovieService {
     }
 
     private String formatDate(Date d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(d);
     }
 
@@ -563,6 +563,9 @@ public class MovieService {
         comment.setLikes(0);
         comment.setMovie(movie);
 
+        commentDAO.persist(comment);
+        commentDAO.flush();
+
         var map = new HashMap<String, Object>();
         map.put("id", comment.getId());
         map.put("userId", user.getId());
@@ -572,19 +575,24 @@ public class MovieService {
         map.put("username", user.getUsername());
         map.put("userAvatar", user.getAvatar());
 
-        commentDAO.persist(comment);
-
         addFeedEntry(3, user, comment.getId(), dateCommented);
 
         return map;
     }
 
-    public Object getMovieComments(Integer movieId, int page) throws Exception {
+    public Object getMovieComments(Integer movieId, int page, String token) throws Exception {
 
-        var comments = commentDAO.getCommentsMovie(movieId, page * 20, 20);
+        List comments;
 
+        if(token != null) {
+            var user = getUserByToken(token);
+            comments = commentDAO.getCommentsMovieWithUserLikes(movieId, page * 2, 2, user.getId());
+        }
+        else {
+            comments = commentDAO.getCommentsMovie(movieId, page * 2, 2);
+        }
 
-        boolean moreComments = !(comments.size() < 20);
+        boolean moreComments = !(comments.size() < 2);
 
         Map<String, Object> result = new HashMap<>();
         result.put("comments", comments);

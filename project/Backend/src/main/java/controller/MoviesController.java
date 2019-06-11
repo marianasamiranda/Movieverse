@@ -123,10 +123,18 @@ public class MoviesController {
     @LogMethod
     @RequestMapping(method = GET, value = "/movie/{movieid}/comments/{page}")
     public ResponseEntity<Object> getMovieComments(@PathVariable(value = "movieid", required = true) Integer id,
+                                                   @RequestHeader(value = "Authorization", required = false) String t,
                                                    @PathVariable(value = "page", required = true) int page) {
 
+        String token;
+        if(t != null) {
+            token = t.split(" ")[1];
+        }
+        else {
+            token = null;
+        }
         try {
-            return Util.ok(movieService.getMovieComments(id, page));
+            return Util.ok(movieService.getMovieComments(id, page, token));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());

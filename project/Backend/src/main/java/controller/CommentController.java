@@ -14,15 +14,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
 public class CommentController {
+
     @Autowired
     CommentService commentService;
 
     @LogMethod
     @RequestMapping(method = POST, value = "/comment/{commentid}/like")
-    public ResponseEntity<Object> likeComment(@PathVariable(value = "commentid", required = true) Integer id,
+    public ResponseEntity<Object> likeComment(@PathVariable(value = "commentid") int id,
                                               @RequestHeader(value = "Authorization") String t) {
 
         String token = t.split(" ")[1];
+
 
         try {
             return Util.ok(commentService.likeAComment(id, token));
@@ -34,7 +36,7 @@ public class CommentController {
 
     @LogMethod
     @RequestMapping(method = POST, value = "/comment/{commentid}/dislike")
-    public ResponseEntity<Object> dislikeComment(@PathVariable(value = "commentid", required = true) Integer id,
+    public ResponseEntity<Object> dislikeComment(@PathVariable(value = "commentid") int id,
                                                  @RequestHeader(value = "Authorization") String t) {
 
         String token = t.split(" ")[1];
