@@ -32,6 +32,7 @@ License Type: Academic
 		<property name="friendsCount" column="FriendsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="likesCount" column="LikesCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<set name="receivedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="Sender" not-null="true"/>
 			<one-to-many class="data.entities.Friendship"/>
 		</set>
@@ -53,6 +54,7 @@ License Type: Academic
 			<one-to-many class="data.entities.UserMovie"/>
 		</set>
 		<set name="requestedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
+			<cache usage="read-write"/>
 			<key column="Receiver" not-null="true"/>
 			<one-to-many class="data.entities.Friendship"/>
 		</set>

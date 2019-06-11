@@ -397,6 +397,7 @@ public class MovieService {
         return date;
     }
 
+
     private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
         Feed f = new Feed();
 
@@ -552,7 +553,7 @@ public class MovieService {
             comment.setParent((Integer) content.get("parent"));
         }
 
-        comment.setDate(dateCommented);
+        comment.setTimestamp(new Timestamp(dateCommented.getTime()));
         comment.setLikes(0);
         comment.setMovie(movie);
 

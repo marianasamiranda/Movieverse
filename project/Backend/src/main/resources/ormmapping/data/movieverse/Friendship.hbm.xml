@@ -12,8 +12,8 @@ License Type: Academic
 			</generator>
 		</id>
 		<property name="date" column="`Date`" type="date" not-null="true" lazy="false"/>
-		<property name="pending" column="Pending" type="boolean" not-null="true" lazy="false"/>
-		<many-to-one name="requestedMuser" cascade="lock" column="Sender" class="data.entities.MUser" not-null="false" lazy="false">
+		<property name="pending" column="Pending" index="Friendship_Pending" type="boolean" not-null="true" lazy="false"/>
+		<many-to-one name="requestedMuser" cascade="lock" column="Sender"  class="data.entities.MUser" not-null="false" lazy="false">
 		</many-to-one>
 		<many-to-one name="receivedMuser" cascade="lock" column="Receiver" class="data.entities.MUser" not-null="false" lazy="false">
 		</many-to-one>

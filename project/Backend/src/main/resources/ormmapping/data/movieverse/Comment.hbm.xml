@@ -11,11 +11,11 @@ License Type: Academic
 			<generator class="identity">
 			</generator>
 		</id>
-		<many-to-one name="movie" cascade="lock" column="MovieId" class="data.entities.Movie" not-null="true" lazy="proxy">
+		<many-to-one name="movie" cascade="lock" column="MovieId" index="Comment_MovieId" class="data.entities.Movie" not-null="true" lazy="proxy">
 		</many-to-one>
-		<many-to-one name="commenter" cascade="lock" column="MUserId" class="data.entities.MUser" not-null="true" lazy="proxy">
+		<many-to-one name="commenter" cascade="lock" column="MUserId" index="Comment_MUserId" class="data.entities.MUser" not-null="true" lazy="proxy">
 		</many-to-one>
-		<property name="date" column="`Date`" type="date" not-null="true" lazy="false"/>
+		<property name="timestamp" column="Timestamp" type="timestamp" not-null="true" lazy="false"/>
 		<property name="content" column="Content" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="parent" column="Parent" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="likes" column="Likes" type="integer" length="10" not-null="true" lazy="false"/>

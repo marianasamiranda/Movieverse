@@ -76,16 +76,15 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
 
     public List<MUser> listReceivedMUser(int muserId) {
-        String query = "select m.* from friendship as f inner join muser as m on (f.pending='t' and f.receiver=" +  muserId + " and f.sender=m.id)";
-        Query e_query =  entityManager.createNativeQuery(query, MUser.class);
+        String query = "SELECT m FROM " + entityClass.getName() + " as m inner join m.receivedFriendships as f where f.pending='t' and f.receivedMuser.id=" +  muserId;
+        Query e_query =  entityManager.createQuery(query);
         e_query.setHint("org.hibernate.cacheable", true);
         return e_query.getResultList();
     }
 
-
     public List<MUser> listRequestedMUser(int muserId) {
-        String query = "SELECT m.* FROM friendship as f JOIN muser as m on (f.pending='t' and f.sender="+  muserId + " and f.receiver=m.id)"; ;
-        Query e_query =  entityManager.createNativeQuery(query,MUser.class);
+        String query = "SELECT m FROM " + entityClass.getName() + " as m inner join m.requestedFriendships as f where f.pending='t' and f.requestedMuser.id=" +  muserId;
+        Query e_query =  entityManager.createQuery(query);
         e_query.setHint("org.hibernate.cacheable", true);
         return e_query.getResultList();
     }

@@ -165,6 +165,81 @@ public class DataUtil {
                     "END $$ " +
                     "LANGUAGE 'plpgsql';"
         ).executeUpdate();
+
+        entityManager.createNativeQuery(
+        "CREATE OR REPLACE FUNCTION requestsSent(userid INTEGER)\n" +
+                " RETURNS TABLE(" +
+                    "username VARCHAR," +
+                    "name VARCHAR," +
+                    "country VARCHAR," +
+                    "avatar VARCHAR," +
+                    "common INTEGER) AS\n" +
+                "$BODY$\n" +
+                "DECLARE\n" +
+                    "countryid INTEGER;\n" +
+                    "idx INTEGER;\n" +
+                    "gender CHAR;\n" +
+                "BEGIN\n" +
+                "FOR idx, username, name, gender, countryid, avatar IN\n" +
+                    "SELECT m.id, m.username, m.name, m.gender, m.countryid, m.avatar FROM muser AS m INNER JOIN friendship AS f ON (f.pending='t' AND f.receiver=m.id AND f.sender=userid)\n" +
+                "LOOP\n" +
+                    "IF avatar IS NULL THEN avatar \\:= concat(gender,'.svg');\n" +
+                    "END IF;\n" +
+                    "SELECT country.alphacode INTO country FROM country WHERE country.id = countryid;\n" +
+                    "SELECT count(*) INTO common FROM (\n" +
+                        "(SELECT f.receiver FROM friendship AS f WHERE (f.pending='f' AND f.sender=userid)\n" +
+                            "UNION\n" +
+                        "SELECT f.sender FROM friendship AS f WHERE (f.pending='f' AND f.receiver=userid))\n" +
+                            "INTERSECT\n" +
+                        "(SELECT f.receiver FROM friendship AS f WHERE (f.pending='f' AND f.sender=idx)\n" +
+                            "UNION\n" +
+                        "SELECT f.sender FROM friendship AS f WHERE (f.pending='f' AND f.receiver=idx))\n" +
+                    ") AS temp;\n" +
+                    "RETURN NEXT;\n" +
+                "END LOOP;\n" +
+                "\n" +
+                "END;\n" +
+                "$BODY$\n" +
+                "LANGUAGE plpgsql;"
+        ).executeUpdate();
+
+         entityManager.createNativeQuery(
+        "CREATE OR REPLACE FUNCTION requestsReceived(userid INTEGER)\n" +
+                " RETURNS TABLE(" +
+                    "username VARCHAR," +
+                    "name VARCHAR," +
+                    "country VARCHAR," +
+                    "avatar VARCHAR," +
+                    "common INTEGER) AS\n" +
+                "$BODY$\n" +
+                "DECLARE\n" +
+                    "countryid INTEGER;\n" +
+                    "idx INTEGER;\n" +
+                    "gender CHAR;\n" +
+                "BEGIN\n" +
+                "FOR idx, username, name, gender,countryid, avatar IN\n" +
+                    "SELECT m.id, m.username, m.name, m.gender, m.countryid, m.avatar FROM muser AS m INNER JOIN friendship AS f ON (f.pending='t' AND f.sender=m.id AND f.receiver=userid)\n" +
+                "LOOP\n" +
+                    "IF avatar IS NULL THEN avatar \\:= concat(gender,'.svg');\n" +
+                    "END IF;\n" +
+                    "SELECT country.alphacode INTO country FROM country WHERE country.id = countryid;\n" +
+                    "SELECT count(*) INTO common FROM (\n" +
+                        "(SELECT f.receiver FROM friendship AS f WHERE (f.pending='f' AND f.sender=userid)\n" +
+                            "UNION\n" +
+                        "SELECT f.sender FROM friendship AS f WHERE (f.pending='f' AND f.receiver=userid))\n" +
+                            "INTERSECT\n" +
+                        "(SELECT f.receiver FROM friendship AS f WHERE (f.pending='f' AND f.sender=idx)\n" +
+                            "UNION\n" +
+                        "SELECT f.sender FROM friendship AS f WHERE (f.pending='f' AND f.receiver=idx))\n" +
+                    ") AS temp;\n" +
+                    "RETURN NEXT;\n" +
+                "END LOOP;\n" +
+                "\n" +
+                "END;\n" +
+                "$BODY$\n" +
+                "LANGUAGE plpgsql;"
+         ).executeUpdate();
+
     }
 
     @Transactional
@@ -180,8 +255,9 @@ public class DataUtil {
 
     @Transactional
     public void createTriggers() {
-        entityManager.createNativeQuery(
-        "CREATE OR REPLACE FUNCTION update_friendscount_function() RETURNS TRIGGER AS\n" +
+        //i am stupid ja esta a ser feito friendsCount++ na classe MUser
+      /*  entityManager.createNativeQuery(
+            "CREATE OR REPLACE FUNCTION update_friendscount_function() RETURNS TRIGGER AS\n" +
                 "'BEGIN\n" +
                 "    IF TG_OP = ''INSERT'' then\n" +
                 "       UPDATE muser SET friendscount = friendscount + 1 WHERE id=NEW.muserid;\n" +
@@ -194,8 +270,10 @@ public class DataUtil {
                 "\n" +
                 "DROP TRIGGER IF EXISTS update_friendscount_trigger ON muserfriendship;\n" +
                 "CREATE TRIGGER update_friendscount_trigger AFTER INSERT OR DELETE\n" +
-                "ON muserfriendship FOR EACH ROW EXECUTE PROCEDURE update_friendscount_function();"
+            "ON muserfriendship FOR EACH ROW EXECUTE PROCEDURE update_friendscount_function();"
         ).executeUpdate();
+*/
+
 
         entityManager.createNativeQuery(
         "CREATE OR REPLACE FUNCTION update_hourscount_function() RETURNS TRIGGER AS " +
@@ -262,7 +340,7 @@ public class DataUtil {
                 "CREATE TRIGGER update_commentscount_trigger AFTER INSERT OR DELETE ON comment FOR EACH ROw EXECUTE PROCEDURE update_commentscount_function();\n"
         ).executeUpdate();
 
-        entityManager.createNativeQuery(
+        /*entityManager.createNativeQuery(
         "CREATE OR REPLACE FUNCTION update_likescount_function() RETURNS TRIGGER AS\n" +
                 "'BEGIN\n" +
                 " \tIF TG_OP = ''INSERT'' then\n" +
@@ -280,7 +358,7 @@ public class DataUtil {
                 "DROP TRIGGER IF EXISTS update_likescount_trigger ON musercomment;\n" +
                 "CREATE TRIGGER update_likescount_trigger AFTER INSERT OR DELETE ON musercomment FOR EACH ROw EXECUTE PROCEDURE update_likescount_function();\n"
         ).executeUpdate();
-
+*/
     }
 
     @Transactional
