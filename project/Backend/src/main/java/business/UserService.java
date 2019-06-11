@@ -167,9 +167,12 @@ public class UserService {
         boolean self = false;
 
         List<Map> feedEntries = mUserDAO.getFeedEntries(u.getId(), 0, 50);
+        boolean moreEntries = !(feedEntries.size() < 50);
+
         Map<String, Object> m = new HashMap<>();
         m.put("upcomingMovies", movieService.randomUpcomingMovies(4));
         m.put("feedEntries", feedEntries);
+        m.put("moreEntries", moreEntries);
         m.put("self", self);
 
         return m;
@@ -562,4 +565,18 @@ public class UserService {
             u.addBadge(a, b);
         }
     }
+
+    public Object feedEntries(String token, Integer page) throws Exception{
+        MUser u = mUserDAO.validateToken(token);
+
+        List<Map> feedEntries = mUserDAO.getFeedEntries(u.getId(), page * 50, 50);
+        boolean moreEntries = !(feedEntries.size() < 50);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("entries", feedEntries);
+        res.put("moreEntries", moreEntries);
+
+        return res;
+    }
+
 }

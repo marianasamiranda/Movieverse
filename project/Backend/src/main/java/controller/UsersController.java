@@ -52,6 +52,19 @@ public class UsersController {
         }
     }
 
+    @RequestMapping(method = GET, value = "/feed-entries")
+    public ResponseEntity<Object> feedEntries(@RequestHeader(value = "Authorization") String t,
+                                       @RequestParam(value = "page", required = true) Integer page) {
+        String token = t.split(" ")[1];
+
+        try {
+            return Util.ok(userService.feedEntries(token, page));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
 
     @RequestMapping(method = GET, value = "/avatar")
     public ResponseEntity<Object> getAvatar(@RequestHeader(value = "Authorization") String t) {

@@ -123,9 +123,11 @@ public class DataUtil {
                          "username VARCHAR," +
                          "usergender CHAR," +
                          "avatar VARCHAR," +
+                         "timestmp TIMESTAMP," +
                          "type INTEGER," +
                          "moviename VARCHAR," +
-                         "movieposter VARCHAR" +
+                         "movieposter VARCHAR," +
+                         "rating INTEGER"+
                       ") " +
                     "AS $$ " +
                     "DECLARE " +
@@ -141,6 +143,9 @@ public class DataUtil {
                         "SELECT * FROM friends as fr " +
                         "JOIN Feed as fd " +
                         "ON fr.id = fd.muserid " +
+                        "ORDER BY fd.timestamp DESC "+
+                        "OFFSET offst " +
+                        "LIMIT limt " +
                       "); " +
                     "BEGIN " +
                       "OPEN cur_friendsactivity(userId, offst, limt); " +
@@ -150,15 +155,20 @@ public class DataUtil {
                         "username\\:=rec_friendactivity.username; " +
                         "usergender\\:=rec_friendactivity.gender; " +
                         "avatar\\:=rec_friendactivity.avatar; " +
+                        "timestmp\\:=rec_friendactivity.timestamp;" +
                         "type\\:=rec_friendactivity.type; " +
-                        "IF (rec_friendactivity.type in (1,2) ) THEN " +
-                          "SELECT m.name, m.poster INTO moviename, movieposter " +
-                          "FROM Movie as m " +
-                          "WHERE m.tmdb = rec_friendactivity.idcontent; " +
+                        "SELECT m.name, m.poster INTO moviename, movieposter " +
+                        "FROM Movie as m " +
+                         "WHERE m.tmdb = rec_friendactivity.idcontent; " +
+                        "IF (rec_friendactivity.type = 0 ) THEN " +
+                          "SELECT u.rating INTO rating " +
+                          "FROM UserMovie as u " +
+                          "WHERE u.movieid = rec_friendactivity.idcontent and u.muserid = rec_friendactivity.muserid; " +
                         "END IF; " +
                         "RETURN NEXT; " +
                         "moviename\\:=NULL; " +
                         "movieposter\\:=NULL; " +
+                        "rating\\:=NULL;"+
                       "END LOOP;" +
                       "CLOSE cur_friendsactivity; " +
                       "RETURN; " +
@@ -297,11 +307,15 @@ public class DataUtil {
 
     public List<Map> queryListToListMap(List<Object[]> objects, List params) {
         List l = new ArrayList();
+        /*if (!objects.isEmpty())
+            System.out.println(objects.get(0)[params.indexOf("timestmp")].toString());*/
         objects.forEach(x -> {
             Map m = new HashMap();
-            params.forEach(p -> m.put(p, x[params.indexOf(p)]));
+            params.forEach(p -> {
+                System.out.println(x[params.indexOf(p)]);m.put(p, x[params.indexOf(p)]);});
             l.add(m);
         });
+        System.out.println(l.toString());
         return l;
     }
 }
