@@ -34,15 +34,20 @@ export default class Feed extends Component {
       return Axios.get(backend + '/feed' + query, 
           { headers: { Authorization: "Bearer " + token } }).then(x => {
         
+        console.log(x.data)
         console.log(x.data['upcomingMovies'])
         console.log(x.data['feedEntries'])
+        console.log(x.data['moreEntries'])
         this.setState({
           upcomings: x.data['upcomingMovies'],
           feedEntries: x.data['feedEntries'],
+          moreEntries: x.data['moreEntries'],
           user: x.data['self'] ? undefined : user
         })
+        console.log(x.data)
       })
       .catch(x => {
+        console.log(x)
         if (x.response.data === 'Wrong token') {
           this.setState({
             noAuth: true
@@ -60,7 +65,7 @@ export default class Feed extends Component {
     render() {
       if (this.state.noAuth) {
         return (
-          <NoAuthError />
+          <NoAuthError/>
         )
       }
       else if (!this.state.upcomings) {
@@ -77,6 +82,7 @@ export default class Feed extends Component {
                   user={this.state.user}
                   lang={this.props.lang}
                   entries={this.state.feedEntries}
+                  moreEntries={this.state.moreEntries}
                 >
                 </Main>
           

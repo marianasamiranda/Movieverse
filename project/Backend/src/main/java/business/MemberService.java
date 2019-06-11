@@ -56,7 +56,7 @@ public class MemberService {
 
         Map<String, Object> info = new HashMap<>();
         info.put("biography", m.getBiography());
-        info.put("birthdate", df.format(m.getBirthDate()));
+        info.put("birthdate", m.getBirthDate() == null? null : df.format(m.getBirthDate()));
         info.put("birthplace", m.getBirthPlace());
         info.put("gender", m.getGender());
         info.put("image", "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + m.getImage());

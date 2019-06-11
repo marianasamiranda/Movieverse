@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import heart from '../../img/heart.svg';
 import visibility from '../../img/visibility.svg';
 import {avatars} from '../../var'
+import moment from 'moment';
 
 function ProfilePhoto(props){
   return (
@@ -16,6 +17,7 @@ function PostHeader(props){
   let movie = props.movie
   let date = props.date
   let action = props.action
+  let suffix = props.suffix
 
   // if (props.action === "comment")
   //   action = " has commented on "
@@ -36,7 +38,7 @@ function PostHeader(props){
         <div className="vertical-align">
           <div>
             <div>
-              <b className="red">{user}</b>{action}<b className="red">{movie}</b>
+              <b className="red">{user}</b>{action}<b className="red">{movie}</b>{suffix}
             </div>
             <div>
               {date}
@@ -167,10 +169,10 @@ function PostBody(props){
         <PostBodyView></PostBodyView>
       );
       break;
-    case "rate":
+    case "view_rate":
       content = (
         <PostBodyRating 
-          rate={props.data.rate}
+          rate={props.data.rating}
         >
         </PostBodyRating>
       );
@@ -205,17 +207,22 @@ export default class Post extends Component {
   }
 
   render() {
-
-    var type, action, movieposter;
+    console.log(this.state.data.rating)
+    var type, action, suffix, movieposter, date;
     var avatar = avatars + this.state.data.avatar;
     switch(this.state.data.type){
+      case 0:
+        type = "view_rate";
+        action = " has viewed and rated ";
+        break;
       case 1:
         type = "view";
         action = " has watched ";
         break;
       case 2:
         type = "favorite";
-        action = " has rated ";
+        action = " has added ";
+        suffix = " to Favorites";
         break;
       default:
         break;
@@ -229,15 +236,16 @@ export default class Post extends Component {
       movieposter = {"href": "http://placehold.it/228x337", "src": "http://placehold.it/228x337"}
     }
 
-
+    date = moment(this.state.data.timestmp).format('MM/DD/YYYY h:mm');
 
     return (
       <div className="post-container">
           <PostHeader 
             user={this.state.data.username}
-            action={action} 
+            action={action}
+            suffix={suffix}
             movie={this.state.data.moviename}
-            date="15/03/2019 - 03:53 PM"
+            date={"🕒 " + date}
             photo={avatar}>
           </PostHeader>
           <PostBody

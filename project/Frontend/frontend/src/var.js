@@ -192,6 +192,8 @@ export const badges = [
 
 export const labels = {
   en: {
+    //general
+    undefined: 'Undefined',
     //buttons
     loadMore: 'Load More',
     //navbar
@@ -297,6 +299,7 @@ export const labels = {
     noResultsFound: 'No results found',
     loading: 'Loading',
     noMoreResults: 'No more results',
+    nothingToPresent: 'Nothing to present',
     toTheMainPage: 'To the main page!',
     pageNotFound: '404 - Page not found',
     noAuth: 'You must be logged in to access this page',
@@ -379,6 +382,8 @@ export const labels = {
     toBeAbleComment: 'to comment on a movie.'
   },
   pt: {
+    //general
+    undefined: 'Indefinido',
     //buttons
     loadMore: 'Carregar Mais',
     //navbar
@@ -484,6 +489,7 @@ export const labels = {
     noResultsFound: 'Nenhuns resultados encontrados',
     loading: 'Carregando',
     noMoreResults: 'Sem mais resultados',
+    nothingToPresent: 'Nada a apresentar',
     toTheMainPage: 'Para a página principal!',
     pageNotFound: '404 - Página não encontrada',
     noAuth: 'Precisa de estar autenticado para aceder a esta página',
