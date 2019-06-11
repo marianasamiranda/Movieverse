@@ -280,6 +280,13 @@ export const labels = {
     releasedMovies:"Released Movies",
     //Feed
     newReleasesU:'NEW RELEASES',
+    view:' has watched ',
+    view_rate:' has watched and rated',
+    favorite_pre:' has added ',
+    favorite_suf:' to Favorites',
+    comment:' has commented on ',
+    show_more:'show more',
+    show_less:'show less',
     //member page
     birthplace: 'Birth Place',
     gender: 'Gender',
@@ -471,6 +478,13 @@ export const labels = {
     releasedMovies:'Filmes Realizados',
     //Feed
     newReleasesU:'ESTREIAS',
+    view:' viu ',
+    view_rate:' viu e classificou ',
+    favorite_pre:' adicionou ',
+    favorite_suf:' aos Favoritos',
+    comment:' comentou em ',
+    show_more:'mostrar mais',
+    show_less:'mostrar menos',
     //member page
     birthplace: 'Local de Origem',
     gender: 'Sexo',

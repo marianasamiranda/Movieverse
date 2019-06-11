@@ -24,13 +24,15 @@ export default class Aside extends Component {
                 <MovieCard 
                   img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[0].poster}
                   title={this.state.movies[0].name}
-                  info={this.state.movies[0].release} />
+                  info={this.state.movies[0].release} 
+                  id={this.state.movies[0].id}/>
               </div>
               <div className="col-6 aside-col">
                 <MovieCard 
                   img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[1].poster}
                   title={this.state.movies[1].name}
-                  info={this.state.movies[1].release} />
+                  info={this.state.movies[1].release} 
+                  id={this.state.movies[1].id}/>
               </div>
           </div>
           <div className="row">
@@ -38,13 +40,15 @@ export default class Aside extends Component {
                 <MovieCard 
                   img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[2].poster}
                   title={this.state.movies[2].name}
-                  info={this.state.movies[2].release} />
+                  info={this.state.movies[2].release} 
+                  id={this.state.movies[2].id}/>
               </div>
               <div className="col-6 aside-col">
                 <MovieCard 
                   img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[3].poster}
                   title={this.state.movies[3].name}
-                  info={this.state.movies[3].release} />
+                  info={this.state.movies[3].release}
+                  id={this.state.movies[3].id}/>
               </div>
             </div>
           </div>

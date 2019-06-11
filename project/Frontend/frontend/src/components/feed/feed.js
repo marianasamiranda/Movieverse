@@ -83,6 +83,7 @@ export default class Feed extends Component {
                   lang={this.props.lang}
                   entries={this.state.feedEntries}
                   moreEntries={this.state.moreEntries}
+                  lang={this.props.lang}
                 >
                 </Main>
           

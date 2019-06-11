@@ -96,6 +96,7 @@ export default class Main extends Component {
                       return(
                         <Post
                           data = {element}
+                          lang={this.props.lang}
                         >
                         </Post>
                       )

@@ -203,9 +203,7 @@
     }
 }
 
-.post-comment p {
-    margin:0;
-
+%post-text{
     @media(min-width: 768px) {
         font-size: 15pt;
         /* use this value to count block height */
@@ -229,6 +227,15 @@
         /* max-height = line-height (1.2) * lines max number (3) */
         max-height: 3.6em;
     }
+}
+
+.post-comment {
+    @extend %post-text;
+}
+
+.post-comment p{
+    @extend %post-text;
+    margin:0;
 }
 
 .body-text {

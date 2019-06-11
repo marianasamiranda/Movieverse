@@ -38,7 +38,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     @Transactional(readOnly=true)
     public List<Map<String, Object>> getMemberMoviesFromTo(int memberId, int offset, int limit){
 
-        Query query = entityManager.createNativeQuery("SELECT m.name, m.poster, mm.role FROM Movie m join MovieMember mm on (m.tmdb = mm.movieid) where mm.memberid = " + memberId + "order by m.tmdb")
+        Query query = entityManager.createNativeQuery("SELECT m.tmdb, m.name, m.poster, mm.role FROM Movie m join MovieMember mm on (m.tmdb = mm.movieid) where mm.memberid = " + memberId + "order by m.tmdb")
                 .setFirstResult(offset)
                 .setMaxResults(limit);
 
@@ -47,11 +47,13 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
         List<Map<String, Object>> res = new ArrayList<>();
 
         results.stream().forEach((record) -> {
-            String name = (String) record[0];
-            String poster = (String) record[1];
-            String role = (String) record[2];
+            int id = (int) record[0];
+            String name = (String) record[1];
+            String poster = (String) record[2];
+            String role = (String) record[3];
 
             Map<String, Object> mv = new HashMap<>();
+            mv.put("id", id);
             mv.put("name", name);
             mv.put("poster", poster);
             mv.put("role", role);

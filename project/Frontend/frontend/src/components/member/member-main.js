@@ -123,7 +123,12 @@ export default class MemberMain extends Component{
                                 this.state.moviesRendered.map(element => {
                                 return(
                                     <Col xs="6" sm="3" >
-                                        <MovieCard img={"https://image.tmdb.org/t/p/w200/" + element.poster} title={element.name} info={element.role} class="max-height-100"/>
+                                        <MovieCard 
+                                            img={"https://image.tmdb.org/t/p/w200/" + element.poster} 
+                                            title={element.name} 
+                                            info={element.role} 
+                                            id={element.id} 
+                                            class="max-height-100"/>
                                     </Col>)
                             })}
                         </Row>

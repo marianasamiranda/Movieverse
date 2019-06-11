@@ -100,7 +100,7 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
                 .setParameter(3, limit);
         List<Object[]> results = query.getResultList();
 
-        return dataUtil.queryListToListMap(results, Arrays.asList("username","usergender", "avatar", "timestmp", "type", "moviename", "movieposter","rating")).stream()
+        return dataUtil.queryListToListMap(results, Arrays.asList("userid", "username","usergender", "avatar", "timestmp", "type", "movieid","moviename", "movieposter","rating", "commentid", "comment")).stream()
                 .map(entry -> {
                     if (entry.get("avatar") == null) entry.put("avatar", entry.get("usergender") + ".svg");
                     entry.remove("usergender");

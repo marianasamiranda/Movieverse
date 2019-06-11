@@ -118,27 +118,31 @@ public class DataUtil {
     @Transactional
     public void createFunctions() {
         entityManager.createNativeQuery(
-            "CREATE OR REPLACE FUNCTION feedEntries(userId INTEGER,offst INTEGER,limt INTEGER) " +
+            "CREATE OR REPLACE FUNCTION feedEntries(muserId INTEGER,offst INTEGER,limt INTEGER) " +
                       "RETURNS TABLE (" +
+                         "userid INTEGER," +
                          "username VARCHAR," +
                          "usergender CHAR," +
                          "avatar VARCHAR," +
                          "timestmp TIMESTAMP," +
                          "type INTEGER," +
+                         "movieid INTEGER," +
                          "moviename VARCHAR," +
                          "movieposter VARCHAR," +
-                         "rating INTEGER"+
+                         "rating INTEGER,"+
+                         "commentid INTEGER," +
+                         "comment VARCHAR" +
                       ") " +
                     "AS $$ " +
                     "DECLARE " +
                       "rec_friendactivity RECORD; " +
-                      "cur_friendsactivity CURSOR (userId INTEGER, offst INTEGER, limt INTEGER) FOR (" +
+                      "cur_friendsactivity CURSOR (muserId INTEGER, offst INTEGER, limt INTEGER) FOR (" +
                         "WITH friends as (" +
                             "SELECT m.id, m.username, m.avatar, m.gender " +
                             "FROM Friendship AS f " +
                             "JOIN Muser AS m ON (f.pending=FALSE " +
-                                                 "AND ((f.sender=userId AND f.receiver=m.id) " +
-                                                 "OR (f.sender=m.id AND f.receiver=userId)))" +
+                                                 "AND ((f.sender=muserId AND f.receiver=m.id) " +
+                                                 "OR (f.sender=m.id AND f.receiver=muserId)))" +
                         ") " +
                         "SELECT * FROM friends as fr " +
                         "JOIN Feed as fd " +
@@ -148,27 +152,38 @@ public class DataUtil {
                         "LIMIT limt " +
                       "); " +
                     "BEGIN " +
-                      "OPEN cur_friendsactivity(userId, offst, limt); " +
+                      "OPEN cur_friendsactivity(muserId, offst, limt); " +
                       "LOOP " +
                         "FETCH cur_friendsactivity INTO rec_friendactivity; " +
                         "EXIT WHEN NOT FOUND; " +
+                        "userid\\:=rec_friendactivity.id; " +
                         "username\\:=rec_friendactivity.username; " +
                         "usergender\\:=rec_friendactivity.gender; " +
                         "avatar\\:=rec_friendactivity.avatar; " +
                         "timestmp\\:=rec_friendactivity.timestamp;" +
                         "type\\:=rec_friendactivity.type; " +
-                        "SELECT m.name, m.poster INTO moviename, movieposter " +
-                        "FROM Movie as m " +
-                         "WHERE m.tmdb = rec_friendactivity.idcontent; " +
+
                         "IF (rec_friendactivity.type = 0 ) THEN " +
+                          "movieid\\:=rec_friendactivity.idcontent;" +
                           "SELECT u.rating INTO rating " +
                           "FROM UserMovie as u " +
                           "WHERE u.movieid = rec_friendactivity.idcontent and u.muserid = rec_friendactivity.muserid; " +
+                        "ELSIF (rec_friendactivity.type in (1,2)) THEN " +
+                          "movieid\\:=rec_friendactivity.idcontent; " +
+                        "ELSIF (rec_friendactivity.type = 3) THEN " +
+                          "SELECT c.id, c.content, c.movieid INTO commentid, comment, movieid " +
+                          "FROM Comment as c " +
+                          "WHERE c.id = rec_friendactivity.idcontent; " +
                         "END IF; " +
+                        "SELECT m.name, m.poster INTO moviename, movieposter " +
+                        "FROM Movie as m " +
+                        "WHERE m.tmdb = movieid; " +
                         "RETURN NEXT; " +
                         "moviename\\:=NULL; " +
                         "movieposter\\:=NULL; " +
                         "rating\\:=NULL;"+
+                        "commentid\\:=NULL;" +
+                        "comment\\:=NULL;" +
                       "END LOOP;" +
                       "CLOSE cur_friendsactivity; " +
                       "RETURN; " +

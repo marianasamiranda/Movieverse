@@ -3,6 +3,9 @@ import heart from '../../img/heart.svg';
 import visibility from '../../img/visibility.svg';
 import {avatars} from '../../var'
 import moment from 'moment';
+import {Link} from 'react-router-dom';
+import ReactTextCollapse from 'react-text-collapse';
+import {labels} from '../../var'
 
 function ProfilePhoto(props){
   return (
@@ -14,31 +17,36 @@ function ProfilePhoto(props){
 
 function PostHeader(props){
   let user = props.user
+  let userId = props.userId
   let movie = props.movie
+  let movieId = props.movieId
   let date = props.date
   let action = props.action
   let suffix = props.suffix
 
-  // if (props.action === "comment")
-  //   action = " has commented on "
-  // else if (props.action === "view")
-  //   action = " has watched "
-  // else if (props.action === "rate")
-  //   action = " has rated "
-  // else if (props.action === "favorite")
-  //   action = " has favourited "
-    
-
   return (
     <div className="flex post-header">
       <div className="vertical-align" style={{paddingRight:"10px"}}>
-        <ProfilePhoto src={props.photo}></ProfilePhoto>
+        <Link to={'/u/' + user}>
+          <ProfilePhoto src={props.photo}></ProfilePhoto>
+        </Link>
       </div>
       <div>
         <div className="vertical-align">
           <div>
             <div>
-              <b className="red">{user}</b>{action}<b className="red">{movie}</b>{suffix}
+              <Link to={'/u/' + user}>
+                <b className="red">
+                  {user}
+                </b>
+              </Link>
+              {action}
+              <Link to={'/movie/' + movieId}>
+                <b className="red">
+                {movie}
+                </b>
+              </Link>
+              {suffix}
             </div>
             <div>
               {date}
@@ -51,31 +59,53 @@ function PostHeader(props){
 }
 
 class PostBodyComment extends Component{
+
   constructor(props) {
     super(props);
     this.state = {
       content: props.content,
-      comment_class: "body-text",
-      comment_style: {},
-      show_more_style: {display: "block"}
+      lang: props.lang,
+      // comment_class: "body-text",
+      // comment_style: {},
+      // show_more_style: {display: "block"}
     }
   }
 
-  show_more = (e) => {
-    this.setState({
-      comment_style: {maxHeight: 'none'},
-      show_more_style: {display: 'none'} 
-    })
-  }
+  // show_more = (e) => {
+  //   this.setState({
+  //     comment_style: {maxHeight: 'none'},
+  //     show_more_style: {display: 'none'} 
+  //   })
+  // }
 
   render() {
+    let TEXT_COLLAPSE_OPTIONS = {
+      collapse: false,
+      collapseText: <p>... {labels[this.props.lang].show_more}</p>,
+      expandText: <p>{labels[this.props.lang].show_less}</p>,
+      minHeight: 78,
+      maxHeight: 180,
+      textStyle: {
+        color: 'red'
+      }
+    }
+
     return (
       <div className="post-comment">
-          <p id="comment" className={this.state.comment_class} style={this.state.comment_style}>"{this.state.content}"</p>
-          <p id="show_more" className="red" onClick={this.show_more} style={this.state.show_more_style}>Show more</p>
-        </div>
+        <ReactTextCollapse options={TEXT_COLLAPSE_OPTIONS}>
+          <p>"{this.state.content}"</p>
+        </ReactTextCollapse>
+      </div>
     );
   }
+  // render() {
+  //   return (
+  //     <div className="post-comment">
+  //         <p id="comment" className={this.state.comment_class} style={this.state.comment_style}>"{this.state.content}"</p>
+  //         <p id="show_more" className="red" onClick={this.show_more} style={this.state.show_more_style}>Show more</p>
+  //       </div>
+  //   );
+  // }
 
 }
 
@@ -155,7 +185,9 @@ function PostBody(props){
     case "comment":
       content = (
         <PostBodyComment 
-          content={props.data.content}>
+          content={props.data.comment}
+          commentId={props.data.commentid}
+          lang={props.lang}>
         </PostBodyComment>
       );
       break;
@@ -186,7 +218,9 @@ function PostBody(props){
       <div className="row">
         <div className="col-4">
           <div className="movie-card-container">
-            <a href={props.poster['href']}><img className="movie-card" src={props.poster['src']} alt="" /></a>
+            <Link to={'/movie/' + props.data.movieid}>
+              <a href={props.poster['href']}><img className="movie-card" src={props.poster['src']} alt="" /></a>
+            </Link>
           </div>
         </div>
         <div className="col-8">
@@ -213,16 +247,20 @@ export default class Post extends Component {
     switch(this.state.data.type){
       case 0:
         type = "view_rate";
-        action = " has viewed and rated ";
+        action = labels[this.props.lang].view_rate;
         break;
       case 1:
         type = "view";
-        action = " has watched ";
+        action = labels[this.props.lang].view;
         break;
       case 2:
         type = "favorite";
-        action = " has added ";
-        suffix = " to Favorites";
+        action = labels[this.props.lang].favorite_pre;
+        suffix = labels[this.props.lang].favorite_suf;
+        break;
+      case 3:
+        type = "comment";
+        action = labels[this.props.lang].comment;
         break;
       default:
         break;
@@ -240,32 +278,23 @@ export default class Post extends Component {
 
     return (
       <div className="post-container">
-          <PostHeader 
+          <PostHeader
+            userId={this.state.data.userid}
             user={this.state.data.username}
             action={action}
             suffix={suffix}
+            movieId={this.state.data.movieid}
             movie={this.state.data.moviename}
             date={"🕒 " + date}
             photo={avatar}>
           </PostHeader>
           <PostBody
+            lang={this.props.lang}
             poster={movieposter}
             type={type}
             data={this.state.data}
             >
           </PostBody> 
-          {/* <PostBody
-            poster="http://placehold.it/228x337"
-            type="favorite"
-            >
-          </PostBody> */}
-          {/* <PostBody
-            poster="http://placehold.it/228x337"
-            type="comment"
-            // content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut e adjkkkljk minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            >
-          </PostBody> */}
       </div>
     )  
   }
