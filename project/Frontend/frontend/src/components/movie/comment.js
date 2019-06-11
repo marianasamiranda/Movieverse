@@ -49,11 +49,11 @@ export default class Comment extends Component {
       <div className="comment-container">
         <div className="info d-flex">
           <Image className="profile-pic p-2" src={this.props.profilepic} />
-            <div className="info-author p-2">
-              by {this.props.author}
-              <br />
-              <i className="far fa-clock"></i> {this.props.time}
-            </div>
+          <div className="info-author p-2">
+            by {this.props.author}
+            <br />
+            <i className="far fa-clock"></i> {this.props.time}
+          </div>
         </div>
         <p>
           {this.props.content}

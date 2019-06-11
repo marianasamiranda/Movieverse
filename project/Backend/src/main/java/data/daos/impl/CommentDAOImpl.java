@@ -22,7 +22,7 @@ public class CommentDAOImpl extends DAOImpl<Integer , Comment> implements Commen
 
     @Transactional(readOnly=true)
     public List getCommentsMovie(int movieId, int offset, int limit) {
-        Query query = entityManager.createNativeQuery("SELECT d.id, d.muserid, d.\"Date\", d.content, d.likes, m.username, m.avatar FROM (SELECT c.* FROM comment c WHERE c.parent=0 and c.movieid = ?1) d INNER JOIN muser m ON (m.id=d.muserid)")
+        Query query = entityManager.createNativeQuery("SELECT d.id, d.muserid, d.timestamp, d.content, d.likes, m.username, m.avatar FROM (SELECT c.* FROM comment c WHERE c.parent=0 and c.movieid = ?1) d INNER JOIN muser m ON (m.id=d.muserid) ORDER BY d.id DESC")
                 .setParameter(1, movieId)
                 .setFirstResult(offset)
                 .setMaxResults(limit);

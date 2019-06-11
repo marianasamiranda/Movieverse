@@ -19,9 +19,9 @@ export default class HorizontalSlider extends Component {
     console.log(this.state.content)
     var content = this.state.content.map(function(entry, i) {
       return <div className="hitem" key={i}>
-        <Link to={entry.href} target="_blank">
+        <a href={entry.href} target="_blank">
           <Image className="movieThumbnail" src={entry.src} />
-        </Link>
+        </a>
       </div>
     });
     return <div className="hcontainer">
@@ -29,9 +29,9 @@ export default class HorizontalSlider extends Component {
       {
         this.state.loadMore ? (
           <div className="hitem">
-          <a href={this.state.moreLink} className="showMoreMedia vertical-align">
+          <Link to={this.state.moreLink} className="showMoreMedia vertical-align">
             Show More&#160;<i className="fas fa-plus-circle"></i>
-          </a>
+          </Link>
         </div>
         ) : ""
       }

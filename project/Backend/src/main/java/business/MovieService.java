@@ -1,5 +1,6 @@
 package business;
 
+import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import data.ElasticSearch;
 import data.RedisCache;
 import data.daos.*;
@@ -397,6 +398,10 @@ public class MovieService {
         return date;
     }
 
+    private String formatDate(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        return sdf.format(d);
+    }
 
     private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
         Feed f = new Feed();
@@ -538,6 +543,7 @@ public class MovieService {
     }
 
     public Map postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
+
         var user = getUserByToken(token);
         var movie = movieDAO.loadEntity("tmdb=" + movieId);
 
@@ -560,7 +566,7 @@ public class MovieService {
         var map = new HashMap<String, Object>();
         map.put("id", comment.getId());
         map.put("userId", user.getId());
-        map.put("date", content.get("date"));
+        map.put("date", formatDate(dateCommented));
         map.put("content", comment.getContent());
         map.put("likes", comment.getLikes());
         map.put("username", user.getUsername());
@@ -574,7 +580,9 @@ public class MovieService {
     }
 
     public Object getMovieComments(Integer movieId, int page) throws Exception {
+
         var comments = commentDAO.getCommentsMovie(movieId, page * 20, 20);
+
 
         boolean moreComments = !(comments.size() < 20);
 

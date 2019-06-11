@@ -111,7 +111,6 @@ public class MoviesController {
                                               @RequestBody Map<String, Object> content) {
 
         String token = t.split(" ")[1];
-        System.out.println(content);
 
         try {
             return Util.ok(movieService.postComment(id, token, content));
