@@ -42,7 +42,7 @@ public class MembersController {
     @RequestMapping(method = GET, value = "/member-movies/{id}/{page}")
     public ResponseEntity<Object> memberMovies(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "page", required = true) int page) {
         try {
-            return Util.ok(memberService.memberMovies(id,page));
+            return Util.ok(memberService.memberMovies(id, page));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());

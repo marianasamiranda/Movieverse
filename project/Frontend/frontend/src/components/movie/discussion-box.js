@@ -27,14 +27,18 @@ export default class DiscussionBox extends Component {
 
     Axios.get(backend + '/movie/' + this.state.movieId + '/comments/' + this.state.currentPage)
     .then(function(response) {
-      var newComments = self.state.comments.concat(
-        response.data.comments.map((comment) =>
-          <Comment profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={comment.date} content={comment.content} likes={comment.likes} />
-        )
-      )
+      let newComments = [];
+
+      response.data.comments.forEach(function(comment) {
+        let dsplit = new Date(comment.date).toISOString().split(/[T:]/)
+        let date = dsplit[0] + " " + dsplit[1] + ":" + dsplit[2];
+        newComments.push(<Comment key={comment.id} profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={date} content={comment.content} likes={comment.likes} />);
+      });
+      newComments = self.state.comments.concat(newComments)
       self.setState({
         comments: newComments,
-        moreComments: response.data.moreComments
+        moreComments: response.data.moreComments,
+        currentPage: self.state.currentPage + 1
       });
     }).catch((e) =>
       console.log(e)
@@ -51,11 +55,14 @@ export default class DiscussionBox extends Component {
 
     Axios.get(backend + '/movie/' + this.state.movieId + '/comments/' + this.state.currentPage)
     .then(function(response) {
-      var newComments = self.state.comments.concat(
-        response.data.comments.map((comment) =>
-          <Comment profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={comment.date} content={comment.content} likes={comment.likes} />
-        )
-      )
+      let newComments = [];
+
+      response.data.comments.forEach(function(comment) {
+          let date = new Date(comment.date);
+          date = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear()
+          newComments.push(<Comment key={comment.id} profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={date} content={comment.content} likes={comment.likes} />);
+      });
+      newComments = self.state.comments.concat(newComments)
       self.setState({
         comments: newComments,
         moreComments: response.data.moreComments,
@@ -79,10 +86,10 @@ export default class DiscussionBox extends Component {
       f,
       { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
-      let element = <Comment profilepic={`/avatars/` + response.data.userAvatar} author={response.data.username} time={response.data.date} content={response.data.content} likes={response.data.likes} />;
-      self.setState({
-        comments: self.state.comments.concat([element])
-      })
+      let element = <Comment key={response.data.id} profilepic={`/avatars/` + response.data.userAvatar} author={response.data.username} time={response.data.date} content={response.data.content} likes={response.data.likes} />;
+      self.setState(prevState => ({
+        comments: [element, ...prevState.comments ]
+      }))
     }).catch((e) =>
       console.log(e)
     )
