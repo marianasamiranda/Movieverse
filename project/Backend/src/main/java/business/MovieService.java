@@ -242,7 +242,7 @@ public class MovieService {
                     // If movie was also marked as favourite
 
                     setFavourite(updates, userMovie);
-                    addFeedEntry(2, user, movie, dateWatched);
+                    addFeedEntry(2, user, movie.getORMID(), dateWatched);
 
                 }
                 if(updates.containsKey("rating")) {
@@ -260,7 +260,7 @@ public class MovieService {
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
 
-                addFeedEntry(feedEntryType, user, movie, dateWatched);
+                addFeedEntry(feedEntryType, user, movie.getORMID(), dateWatched);
 
             }
             else {
@@ -316,7 +316,7 @@ public class MovieService {
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
 
-                addFeedEntry(2, user, movie, parseDate((String) updates.get("dateFavourited")));
+                addFeedEntry(2, user, movie.getORMID(), parseDate((String) updates.get("dateFavourited")));
             }
             else {
                 // If movie was removed from favourites
@@ -387,7 +387,7 @@ public class MovieService {
     private Date parseDate(String stringDate) {
         var date = new Date();
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
             date = sdf.parse(stringDate);
         }
         catch(ParseException e) {
@@ -397,12 +397,13 @@ public class MovieService {
         return date;
     }
 
-    private void addFeedEntry(int feedEntryType, MUser user, Movie movie, Date date) {
+
+    private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
         Feed f = new Feed();
 
         f.setType(feedEntryType);
         f.setUser(user);
-        f.setIdContent(movie.getORMID());
+        f.setIdContent(contentId);
         f.setTimestamp(new Timestamp(date.getTime()));
 
         feedDAO.persist(f);
@@ -534,5 +535,53 @@ public class MovieService {
 
     public List randomUpcomingMovies(int limit) {
         return movieDAO.getRandomUpcomingMovies(limit);
+    }
+
+    public Map postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
+        var user = getUserByToken(token);
+        var movie = movieDAO.loadEntity("tmdb=" + movieId);
+
+        var comment = new Comment();
+
+        comment.setCommenter(user);
+
+        comment.setContent((String) content.get("message"));
+
+        var dateCommented = parseDate((String) content.get("date"));
+
+        if(content.containsKey("parent")) {
+            comment.setParent((Integer) content.get("parent"));
+        }
+
+        comment.setTimestamp(new Timestamp(dateCommented.getTime()));
+        comment.setLikes(0);
+        comment.setMovie(movie);
+
+        var map = new HashMap<String, Object>();
+        map.put("id", comment.getId());
+        map.put("userId", user.getId());
+        map.put("date", content.get("date"));
+        map.put("content", comment.getContent());
+        map.put("likes", comment.getLikes());
+        map.put("username", user.getUsername());
+        map.put("userAvatar", user.getAvatar());
+
+        commentDAO.persist(comment);
+
+        addFeedEntry(3, user, comment.getId(), dateCommented);
+
+        return map;
+    }
+
+    public Object getMovieComments(Integer movieId, int page) throws Exception {
+        var comments = commentDAO.getCommentsMovie(movieId, page * 20, 20);
+
+        boolean moreComments = !(comments.size() < 20);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("comments", comments);
+        result.put("moreComments", moreComments);
+
+        return result;
     }
 }

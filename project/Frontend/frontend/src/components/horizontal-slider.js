@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Image from 'react-bootstrap/Image'
+import Image from 'react-bootstrap/Image';
+import { Link } from 'react-router-dom';
 
 export default class HorizontalSlider extends Component {
   
@@ -18,9 +19,9 @@ export default class HorizontalSlider extends Component {
     console.log(this.state.content)
     var content = this.state.content.map(function(entry, i) {
       return <div className="hitem" key={i}>
-        <a href={entry.href} target="_blank" rel="noopener noreferrer">
+        <Link to={entry.href} target="_blank">
           <Image className="movieThumbnail" src={entry.src} />
-        </a>
+        </Link>
       </div>
     });
     return <div className="hcontainer">

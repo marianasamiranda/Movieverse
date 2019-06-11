@@ -103,4 +103,35 @@ public class MoviesController {
             return Util.badRequest("");
         }
     }
+
+    @LogMethod
+    @RequestMapping(method = POST, value = "/movie/{movieid}/comment")
+    public ResponseEntity<Object> postComment(@PathVariable(value = "movieid") Integer id,
+                                              @RequestHeader(value = "Authorization") String t,
+                                              @RequestBody Map<String, Object> content) {
+
+        String token = t.split(" ")[1];
+        System.out.println(content);
+
+        try {
+            return Util.ok(movieService.postComment(id, token, content));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
+    @LogMethod
+    @RequestMapping(method = GET, value = "/movie/{movieid}/comments/{page}")
+    public ResponseEntity<Object> getMovieComments(@PathVariable(value = "movieid", required = true) Integer id,
+                                                   @PathVariable(value = "page", required = true) int page) {
+
+        try {
+            return Util.ok(movieService.getMovieComments(id, page));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
 }

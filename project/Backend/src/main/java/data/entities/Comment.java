@@ -13,6 +13,8 @@
  */
 package data.entities;
 
+import org.springframework.transaction.annotation.Transactional;
+
 public class Comment {
 	public Comment() {
 	}
@@ -23,8 +25,8 @@ public class Comment {
 	
 	private MUser commenter;
 	
-	private java.util.Date date;
-	
+	private java.sql.Timestamp timestamp;
+
 	private String content;
 	
 	private int parent;
@@ -45,14 +47,14 @@ public class Comment {
 		return getId();
 	}
 	
-	public void setDate(java.util.Date value) {
-		this.date = value;
+	public void setTimestamp(java.sql.Timestamp value) {
+		this.timestamp = value;
 	}
-	
-	public java.util.Date getDate() {
-		return date;
+
+	public java.sql.Timestamp getTimestamp() {
+		return timestamp;
 	}
-	
+
 	public void setContent(String value) {
 		this.content = value;
 	}
@@ -104,6 +106,16 @@ public class Comment {
 	
 	public String toString() {
 		return String.valueOf(getId());
+	}
+
+	public void addUpvoter(MUser user) {
+		likes++;
+		upvoter.add(user);
+	}
+
+	public void removeUpvoter(MUser user) {
+		likes--;
+		upvoter.remove(user);
 	}
 	
 }

@@ -14,9 +14,5 @@ License Type: Academic
 		<property name="name" column="Name" unique="true" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="image" column="Image" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="description" column="Description" type="string" length="255" not-null="true" lazy="false"/>
-		<set name="achievements" lazy="false" cascade="save-update,lock" inverse="true">
-			<key column="BadgeId" not-null="true"/>
-			<one-to-many class="data.entities.Achievement"/>
-		</set>
 	</class>
 </hibernate-mapping>

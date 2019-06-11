@@ -257,14 +257,14 @@ export default class MoviePage extends Component {
                 </Tabs>
               }
               <h1>{labels[this.props.lang].discussion}</h1>
-              <DiscussionBox noAuth={ this.state.noAuth } lang={this.props.lang} />
+              <DiscussionBox noAuth={ this.state.noAuth } lang={ this.props.lang } movie={ this.props.match.params.id } />
             </div>
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
                 <h6>{labels[this.props.lang].originalLanguage}</h6>
-                  <Language language={this.state.movie.language} />
+                <Language language={this.state.movie.language} />
                 <h6>{labels[this.props.lang].runtime}</h6>
-                  <p>{this.state.movie.runtime}m</p>
+                <p>{this.state.movie.runtime}m</p>
                 <h6>{labels[this.props.lang].genres}</h6>
                 <div className="movie-genre">
                   <ul>
@@ -274,9 +274,10 @@ export default class MoviePage extends Component {
                     }
                   </ul>
                 </div>
-                <h6>{labels[this.props.lang].prodCompanies}</h6>
-                {
-                  this.state.movie.companies.map(function(company, i) {
+                { this.state.movie.companies.length !== 0 &&
+                  <h6>{labels[this.props.lang].prodCompanies}</h6>
+                }
+                { this.state.movie.companies.map(function(company, i) {
                     return <div className="prod-company" key={i}><a href={`/company/${company.id}`}>{company.name}</a><br/></div>
                   })
                 }

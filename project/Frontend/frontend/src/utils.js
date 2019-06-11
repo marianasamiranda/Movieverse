@@ -1,9 +1,10 @@
-export function getCurrentDate(separator='.') {
+export function getCurrentDate() {
+  var now = new Date();
 
-  let newDate = new Date()
-  let date = newDate.getDate();
-  let month = newDate.getMonth() + 1;
-  let year = newDate.getFullYear();
-    
-  return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
+  return  now.getFullYear() + "/"
+        + (now.getMonth() + 1)  + "/" 
+        + now.getDate() + " "  
+        + now.getHours() + ":"  
+        + now.getMinutes() + ":" 
+        + now.getSeconds();
 }

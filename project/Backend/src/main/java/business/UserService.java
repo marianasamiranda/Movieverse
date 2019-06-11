@@ -81,6 +81,8 @@ public class UserService {
         for (String username : usernames) {
             keys.add("profile_" + username);
             keys.add("avatar_" + username);
+            keys.add("requests_sent_" + username);
+            keys.add("requests_received_" + username);
         }
         redisCache.delAll(keys.toArray(new String[0]));
     }
@@ -197,24 +199,9 @@ public class UserService {
                 self = true;
 
             //friendship status
-            ///TODO função à parte
             else {
-                if (mUserDAO.listReceivedMUser(u.getId())
-                            .stream()
-                            .anyMatch(x -> x.getUsername().equals(username)))
-                    friendship = "received";
 
-                else if (mUserDAO.listRequestedMUser(u.getId())
-                                 .stream()
-                                 .anyMatch(x -> x.getUsername().equals(username)))
-                    friendship = "requested";
-
-                else if (mUserDAO.listFriends(u.getId()).stream()
-                                .anyMatch(x -> x.getUsername().equals(username)))
-                    friendship = "friends";
-
-                else
-                    friendship = null;
+                friendship = friendshipDAO.friendshipStatus(u.getId(),username);
 
                 u = mUserDAO.getUserByUsername(username);
                 if (u == null)
@@ -235,7 +222,7 @@ public class UserService {
         m.put("statsComments", u.getCommentsCount());
         m.put("statsRatings", u.getRatingsCount());
         m.put("statsFriends", u.getFriendsCount());
-        //m.put("badges", u.getBadges()); //TODO dá recursão infinita : badge -> achievement -> badge -> ...
+        m.put("badges", u.getBadges());
         m.put("avatar", u.getAvatar());
         m.put("self", self);
         m.put("friendship", friendship);
@@ -341,54 +328,30 @@ public class UserService {
     }
 
 
-    @Transactional
-    public List getFriendRequests(String token, String type) throws Exception {
+	@Transactional(readOnly=true)
+    public Object getFriendRequests(String token, String type) throws Exception {
         MUser u = mUserDAO.validateToken(token);
 
-        List<MUser> l;
-        if (type.equals("received"))
-            l = mUserDAO.listReceivedMUser(u.getId());
-        else
-            l = mUserDAO.listRequestedMUser(u.getId());
-
         List r = new ArrayList();
-        for (MUser mu: l) {
-            Map m = new HashMap();
-            m.put("username", mu.getUsername());
-            m.put("name", mu.getName());
-            m.put("country", mu.getUserCountry().getAlphaCode());
-            m.put("avatar", mu.getAvatar() != null ? mu.getAvatar() : mu.getGender() + ".svg");
-            m.put("common", calculateMutualFriends(u,mu)); //TODO encontrar número de amigos em comum
-            r.add(m);
+
+        if (type.equals("received")) {
+            String cachedInfo = redisCache.get("requests_received_" + u.getUsername());
+            if (cachedInfo != null)
+                return cachedInfo;
+
+             r = friendshipDAO.requestsReceived(u.getId());
+             redisCache.set("requests_received_" + u.getUsername(), util.toJson(r));
+        }
+        else {
+            String cachedInfo = redisCache.get("requests_sent_" + u.getUsername());
+            if (cachedInfo != null)
+                return cachedInfo;
+
+            r = friendshipDAO.requestsSent(u.getId());
+            redisCache.set("requests_sent_" + u.getUsername(), util.toJson(r));
         }
 
         return r;
-    }
-
-
-    public int calculateMutualFriends(MUser muser1, MUser muser2) {
-        List<Integer> friends1 = (List<Integer>) muser1.getFriends().stream().map(t -> {
-            int fRequested = ((Friendship) t).getRequestedMuser().getId();
-           if ( fRequested != ((Friendship) t).getId()) {
-                return fRequested;
-            }
-            else {
-                return ((Friendship) t).getRequestedMuser().getId();
-           }
-        }).collect(toList());
-        List<Integer> friends2 = (List<Integer>) muser2.getFriends().stream().map(t -> {
-            int fRequested = ((Friendship) t).getRequestedMuser().getId();
-           if ( fRequested != ((Friendship) t).getId()) {
-                return fRequested;
-            }
-            else {
-                return ((Friendship) t).getRequestedMuser().getId();
-           }
-        }).collect(toList());
-
-        friends1.retainAll(friends2);
-
-        return friends1.size();
     }
 
 
@@ -425,11 +388,11 @@ public class UserService {
 
         //reject request
         if (!decision)
-            friendshipDAO.removeEntity("sender=" + target.getId() + "and receiver= " +  u.getId());
+            friendshipDAO.removeFriendship(target.getId(), u.getId());
 
         //add friend
         else {
-            Friendship friendship = friendshipDAO.loadEntity("sender=" + target.getId() + "and receiver= " +  u.getId());
+            Friendship friendship = friendshipDAO.getFriendship(target.getId(), u.getId());
             friendship.setPending(false);
             friendship.setDate(util.localDateToDate(LocalDate.now()));
 
@@ -471,7 +434,7 @@ public class UserService {
         if (target == null)
             throw new Exception("No such user");
 
-        friendshipDAO.removeEntity("sender=" + u.getId() + "and receiver= " +  target.getId());
+        friendshipDAO.removeFriendship( u.getId(), target.getId());
 
         //clear cache
         clearUsersCache(u.getUsername(), target.getUsername());

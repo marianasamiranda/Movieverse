@@ -16,13 +16,14 @@ public class BadgeDAOImpl extends DAOImpl<Integer , Badge> implements BadgeDAO {
     private EntityManager entityManager;
 
     public Badge getBadgeByName(String name) {
-        Query query = entityManager.createNativeQuery(
-            "SELECT * " +
-            "FROM Badge " +
+        Query query = entityManager.createQuery(
+            "SELECT b " +
+            "FROM Badge b " +
             "WHERE name = ?1",
             Badge.class
         ).setParameter(1, name);
 
         return (Badge) query.getSingleResult();
     }
+
 }

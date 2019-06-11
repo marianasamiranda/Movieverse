@@ -9,8 +9,8 @@ export default class Comment extends Component {
     this.state = {
       likes: props.likes,
       liked: false,
-      showing_replies: false,
-      display_replies: [],
+      // showing_replies: false,
+      // display_replies: [],
       replies: props.replies
     };
   }
@@ -38,14 +38,14 @@ export default class Comment extends Component {
 
   render() {
     let liked_div;
-
+    
     if(this.state.liked) {
       liked_div = <div className="liked-button"><i className="fas fa-heart"></i> { this.state.likes }</div>;
     }
     else {
       liked_div = <div className="like-button"><i className="far fa-heart"> </i> { this.state.likes }</div>;
     }
-    return <div className="comment">
+    return <div className="comment" style={{ 'marginBottom': '30px'}}>
       <div className="comment-container">
         <div className="info d-flex">
           <Image className="profile-pic p-2" src={this.props.profilepic} />
@@ -61,13 +61,13 @@ export default class Comment extends Component {
         <div className="likes" onClick={this.handleLike.bind(this)}>
           { liked_div } 
         </div>
-        <div className="replies" onClick={this.handleReply.bind(this)}>
+        {/*<div className="replies" onClick={this.handleReply.bind(this)}>
           <i className="far fa-comment-dots"></i> {this.props.replies.length }
-        </div>
+  </div>*/}
       </div>
-      <div className="replies-container">
+      {/*<div className="replies-container">
         { this.state.display_replies }
-      </div>
+  </div>*/}
     </div>
     }
 }
