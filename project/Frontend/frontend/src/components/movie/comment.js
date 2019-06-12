@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Image from 'react-bootstrap/Image';
 import Reply from './reply'
 import Axios from 'axios';
+import moment from 'moment';
 import { getToken } from '../../cookies'
 import { backend, labels } from '../../var'
 import OopsModal from '../aux_pages/oops-modal'
@@ -16,10 +17,12 @@ export default class Comment extends Component {
       showModal: false,
       likes: this.props.likes,
       liked: this.props.isLiked,
-      // showing_replies: false,
-      // display_replies: [],
-      replies: this.props.replies
-    };
+      numberReplies: this.props.numberReplies,
+      showingReplies: false,
+      moreReplies: false,
+      currentPage: 0,
+      replies: undefined
+    }
   }
 
   handleLike() {
@@ -66,25 +69,67 @@ export default class Comment extends Component {
     }
   }
 
-  handleReply() {
-    if (this.state.showing_replies === false) {
-      this.setState( { display_replies: this.props.replies.map((reply) =>
-        <Reply time={reply.time} content={reply.content} likes={reply.likes} />
-      ), showing_replies: true })}
-    else {
-      // se estiver a mostrar replies fechar
-      this.setState( {
-        display_replies: '',
-        showing_replies: false
-      })
+  getMoreComments(page) {
+
+    var header = {}
+    var token = getToken()
+
+    if(token !== undefined) {
+      header = { headers: { Authorization: "Bearer " + token } }
     }
 
+    let self = this;
+
+    Axios.get(backend + '/comment/' + self.props.id + '/replies/' + page,
+      header)
+    .then(function(response) {
+      
+      let newReplies = [];
+
+      response.data.replies.forEach(function(reply) {
+        reply["date"] = moment(reply.date).format("YYYY-MM-DD HH:mm")
+        newReplies.push(reply);
+      });
+
+      self.setState({
+        replies: self.state.replies === undefined ? newReplies : self.state.replies.concat(newReplies),
+        currentPage: self.state.currentPage + 1,
+        moreReplies: response.data.moreReplies,
+        showingReplies: true
+      });
+    }
+    ).catch((e) =>
+      console.log(e.response)
+    )
+  }
+
+  handleReply() {
+    if (this.state.showingReplies === false && this.state.replies === undefined) {
+      this.getMoreComments(0);
+    }
+    else if (this.state.showingReplies === false) {
+      this.setState({
+        showingReplies: true
+      })
+    }
+    else {
+      // se estiver a mostrar replies fechar
+      this.setState({
+        showingReplies: false
+      })
+    }
   }
 
   handleCloseNotLoggedInModal() {
     this.setState({
       showModal: false
     })
+  }
+  
+  handleShowMore() {
+    this.getMoreComments(this.state.currentPage);
+
+    this.forceUpdate()
   }
 
   render() {
@@ -119,13 +164,31 @@ export default class Comment extends Component {
               <div className="like-button"><i className="far fa-heart"> </i> { this.state.likes }</div>
             } 
           </div>
-          {/*<div className="replies" onClick={this.handleReply.bind(this)}>
-            <i className="far fa-comment-dots"></i> {this.props.replies.length }
-    </div>*/}
+          <div className="replies" onClick={this.handleReply.bind(this)}>
+            <i className="far fa-comment-dots"></i> { this.state.numberReplies }
+          </div>
         </div>
-        {/*<div className="replies-container">
-          { this.state.display_replies }
-    </div>*/}
+        { this.state.showingReplies && 
+          <div className="replies-container">
+          { this.state.replies.length !== this.state.numberReplies &&
+            <div className="reply text-center">
+              <a onClick={this.handleShowMore.bind(this)}>Show more...</a>
+            </div>
+          }
+          {
+            this.state.replies.reverse().map(reply => {
+              return (
+                <Reply key={ reply.id } id={ reply.id } profilepic={ `/avatars/` + reply.userAvatar } author={ reply.username } time={ reply.date } content={ reply.content } likes={ reply.likes } isLiked={ reply.isLiked } noAuth={ this.state.noAuth } lang={ this.props.lang } />
+              )}
+            )
+          }
+          { !this.state.noAuth &&
+            <div className="reply">
+              PLACEHOLDER PARA REPLY
+            </div>
+          }
+      </div>
+      }
       </div>
     </>
   }

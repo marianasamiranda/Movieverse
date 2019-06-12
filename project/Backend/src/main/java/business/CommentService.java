@@ -71,17 +71,17 @@ public class CommentService {
 
         if(token != null) {
             var user = getUserByToken(token);
-            replies = commentDAO.getRepliesCommentWithUserLikes(commentId, page * 10, 10, user.getId());
+            replies = commentDAO.getRepliesCommentWithUserLikes(commentId, page * 2, 2, user.getId());
         }
         else {
-            replies = commentDAO.getRepliesComment(commentId, page * 10, 10);
+            replies = commentDAO.getRepliesComment(commentId, page * 2, 2);
         }
 
-        boolean moreReplies = !(replies.size() < 10);
+        boolean moreReplies = !(replies.size() < 2);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("comments", replies);
-        result.put("moreComments", moreReplies);
+        result.put("replies", replies);
+        result.put("moreReplies", moreReplies);
 
         return result;
     }

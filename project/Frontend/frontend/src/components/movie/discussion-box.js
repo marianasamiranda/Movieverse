@@ -108,7 +108,7 @@ export default class DiscussionBox extends Component {
         {
           this.state.comments.map(comment => {
             return (
-              <Comment key={comment.id} id={comment.id} profilepic={`/avatars/` + comment.userAvatar} author={comment.username} time={comment.date} content={comment.content} likes={comment.likes} isLiked={comment.isLiked} noAuth={ this.state.noAuth } lang={this.props.lang} />
+              <Comment key={ comment.id } id={ comment.id } profilepic={ `/avatars/` + comment.userAvatar } author={ comment.username } time={ comment.date } content={ comment.content } likes={ comment.likes } isLiked={ comment.isLiked } numberReplies={ comment.numberReplies } noAuth={ this.state.noAuth } lang={ this.props.lang } />
             )}
           )
         }
