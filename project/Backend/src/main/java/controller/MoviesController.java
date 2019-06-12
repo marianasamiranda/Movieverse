@@ -133,6 +133,7 @@ public class MoviesController {
         else {
             token = null;
         }
+
         try {
             return Util.ok(movieService.getMovieComments(id, page, token));
         }

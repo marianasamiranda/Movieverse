@@ -52,15 +52,38 @@ public class CommentController {
     @LogMethod
     @RequestMapping(method = GET, value = "/comment/{commentid}/replies/{page}")
     public ResponseEntity<Object> getCommentReplies(@PathVariable(value = "commentid", required = true) Integer id,
+                                                    @RequestHeader(value = "Authorization", required = false) String t,
                                                     @PathVariable(value = "page", required = true) int page) {
 
+        String token;
+        if(t != null) {
+            token = t.split(" ")[1];
+        }
+        else {
+            token = null;
+        }
+
         try {
-            return Util.ok(commentService.getCommentReplies(id, page));
+            return Util.ok(commentService.getCommentReplies(id, page, token));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
         }
     }
 
+    @LogMethod
+    @RequestMapping(method = POST, value = "/comment/{commentid}/reply")
+    public ResponseEntity<Object> replyToComment(@PathVariable(value = "commentid") int id,
+                                                 @RequestHeader(value = "Authorization") String t,
+                                                 @RequestBody Map<String, Object> content) {
+        String token = t.split(" ")[1];
+
+        try {
+            return Util.ok(commentService.replyToComment(id, token, content));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
 
 }
