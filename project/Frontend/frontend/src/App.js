@@ -13,6 +13,7 @@ import FindUsers from './components/findUsers'
 import Showtimes from './components/showtimes'
 import Profile from './components/profile/profile'
 import Admin from './components/admin'
+import Tour from './components/tour'
 import {BrowserRouter as Router, Route, withRouter, Switch} from 'react-router-dom/'
 import {getToken, setLanguage, getLanguage, setUsername, getUsername} from './cookies'
 
@@ -89,6 +90,7 @@ class App extends Component {
         // { name: 'Feed', url: '/feed', logged: false },
         // { name: 'Actor', url: '/actor', logged: false },
         { name: labels[this.state.language].users, url: '/users', logged: true },
+        { name: labels[this.state.language].tour, url: '/tour', logged: false },
       ]
       if (!this.state.logged) {
         mainPage = <Route exact path="/" render={() => 
@@ -144,6 +146,9 @@ class App extends Component {
 
               <Route exact path="/company/:id"
                 render={(props) => <Company {...props} lang={this.state.language} />} />
+
+              <Route exact path="/tour"
+                render={(props) => <Tour {...props} lang={this.state.language} />} />
 
               <Route render={() => <NotFoundError lang={this.state.language} />} />
               

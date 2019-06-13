@@ -387,7 +387,27 @@ export const labels = {
     registeredOrLoggedIn: 'registered and logged in',
     toBeAbleEval: 'to watch, favourite, add to your watchlist or rate a movie.',
     toBeAbleComment: 'to comment on a movie.',
-    toBeAbleLike: 'to like a comment.'
+    toBeAbleLike: 'to like a comment.',
+    //tour
+    tour: 'Tour',
+    tourIntro: 'Here, you can find some information to help you guide through the application. However, you should be able to easily navigate the website without this.',
+    authentication: 'Authentication',
+    authenticationSection1: 'Being authenticated means you can add friends, rate and comment movies, get recommendations, among other things. In the front page, you can find a container with two tabs: Login and Register. A new account can be created by filling the "Register" form. If you pretend to login to an already created account instead, you can fill the "Login" form. If any of the data inserted in either of the forms is wrong, an error message will appear to inform of what’s went wrong.',
+    authenticationSection2: 'To end a session, i.e. logout, select the avatar in the top navbar and choose "Logout".',
+    profileSection1: 'In the profile, you will find your personal information, achievements (which can be unlocked by completing the task shown when hovering/tapping), friends and movie history. To access it, simply select the avatar in the top right and choose "Profile".',
+    profileSection2: 'Your movie history is divided in four sections, that show your most recently watched, the favourites, the watchlist and the recommended. You can switch among them by pressing the tabs. One thing to notice is that only the latest added movies to each list is shown. To load more, simply press the "Show More" button in bottom left corner of the container. The same concept applies to the friends list.',
+    profileSection3: 'One thing you can do is change your profile picture. To achieve this, press the current avatar and choose (or drag) an image from your device, selecting "Confirm" afterwards.',
+    profileSection4: 'Another thing you can do is change your favourite movie genre. To do that, press the "Favourite Genre" column in the personal info section and choose a genre from the dropdown that will appear.',
+    usersSection1: 'Another user’s personal information and movie history can be viewed by accessing their profile. One can do that by searching their username/real name, by the friends list or by the comment section of a movie. To send someone a friend request, simply press the "Add friend" button near the user’s username.',
+    usersSection2: 'To accept/reject a friend request, or to cancel a friend request sent, select the avatar in the top right corner, and choose "Requests". Here, there are two tabs available: the received requests and the sent requests, where a request can be processed accordingly.',
+    usersSection3: 'If someone sends you a friend request, a small red circle will appear next to the avatar in the top right.',
+    searchSection1: 'In the top navbar, you can find links to several search pages, including movies, people (cast and crew) and users. Just insert the search query, and optionally set some options (movie search only), and results will appear shortly after. In each page, you can also find relevant information related to the type of content being searched. For example, the movie search page shows the latest, popular and upcoming movies.',
+    newsSection1: 'One way to keep track of the latest movies, discover trivia or hear rumors about upcoming movies, is to check the news page, available in the navbar at the top. Here, several news articles will be shown, with each one presenting a title, lead, thumbnail and date. To read an article in its entirety, press the respectively news to be redirected to the original website.',
+    showtimesSection1: 'If you want to check out the current playing movies in a certain theater, head on over to the showtimes page, by pressing the respective link in the navbar in the top. The times shown below each movie is related to today’s date, which means that the info is updated every day. If you click on a movie, you will be redirected to its page.',
+    feed: 'Feed',
+    movieOptions: 'Add rating, to viewed, to favourite or to watchlist',
+    friendRequests: 'Friend Requests',
+    search: 'Search',
   },
   pt: {
     //general
@@ -585,7 +605,10 @@ export const labels = {
     registeredOrLoggedIn: 'registado e autenticado',
     toBeAbleEval: 'para ver, marcar como favorito, adicionar à tua watchlist ou avaliar um filme.',
     toBeAbleComment: 'para comentar um filme.',
-    toBeAbleLike: 'para gostar de comentários.'
+    toBeAbleLike: 'para gostar de comentários.',
+    //tour
+    tour: 'Tour',
+
   }
 }
 

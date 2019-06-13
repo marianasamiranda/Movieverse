@@ -19,27 +19,6 @@ for article in data['rss']['channel']['item']:
     }
     i += 1
 
-for article in data['rss']['channel']['item']:
-    struct[i] = {
-        'title': article['title'],
-        'description': re.sub(r'<.*?>', '',article['description'] or ''),
-        'date': article['pubDate'],
-        'image': article['enclosure']['@url'],
-        'link': article['link']
-    }
-    i += 1
-
-for article in data['rss']['channel']['item']:
-    struct[i] = {
-        'title': article['title'],
-        'description': re.sub(r'<.*?>', '',article['description'] or ''),
-        'date': article['pubDate'],
-        'image': article['enclosure']['@url'],
-        'link': article['link']
-    }
-    i += 1
-
-
 (conn, cursor) = db.open_sql()
 cursor.execute('DELETE FROM News')
 for id, info in struct.items():
