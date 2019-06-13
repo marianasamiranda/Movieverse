@@ -261,12 +261,8 @@
   }
 }
 
-.post-comment p {
-  margin: 0;
-}
-
 @media (min-width: 768px) {
-  .post-comment p {
+  .post-comment, .post-comment p {
     font-size: 15pt;
     /* use this value to count block height */
     line-height: 1.2em;
@@ -276,7 +272,7 @@
 }
 
 @media (min-width: 375px) and (max-width: 768px) {
-  .post-comment p {
+  .post-comment, .post-comment p {
     font-size: 12pt;
     /* use this value to count block height */
     line-height: 1.2em;
@@ -286,13 +282,17 @@
 }
 
 @media (max-width: 400px) {
-  .post-comment p {
+  .post-comment, .post-comment p {
     font-size: 8pt;
     /* use this value to count block height */
     line-height: 1.2em;
     /* max-height = line-height (1.2) * lines max number (3) */
     max-height: 3.6em;
   }
+}
+
+.post-comment p {
+  margin: 0;
 }
 
 .body-text {

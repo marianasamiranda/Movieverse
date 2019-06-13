@@ -1,0 +1,54 @@
+.navigation-sidebar {
+  position: fixed;
+}
+
+.navigation-sidebar ul {
+  font-family: "Roboto", sans-serif;
+  color: #555555;
+}
+
+.navigation-sidebar ul a {
+  color: #555555;
+}
+
+.tour-intro {
+  font-family: "Roboto", sans-serif;
+}
+
+.tour-intro img {
+  max-width: 100px;
+}
+
+@media (max-width: 575px) {
+  .tour-intro img {
+    display: none;
+  }
+}
+
+.tour-intro .middle {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.tour-content {
+  background-color: white;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 25px;
+}
+
+.tour-section {
+  border-top-color: #cccccc;
+  border-top-style: dotted;
+  border-top-width: 2px;
+  padding-top: 50px;
+  padding-bottom: 15px;
+  margin-top: 25px;
+  margin-bottom: 35px;
+  font-family: "Roboto", sans-serif;
+}
+
+.break {
+  margin-bottom: 20px;
+}
+/*# sourceMappingURL=Tour.css.map */

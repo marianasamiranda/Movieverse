@@ -80,7 +80,7 @@ public class UserService {
     }
 
 
-    private void clearUsersCache(String... usernames) {
+    public void clearUsersCache(String... usernames) {
         List<String> keys = new ArrayList<>();
         for (String username : usernames) {
             keys.add("profile_" + username);

@@ -66,7 +66,7 @@ export default class Profile extends Component {
       
       let data = x.data
       data['avatarImg'] = avatars + data['avatar']
-      
+            
       this.setState({
         data: x.data,
         stats: {

@@ -38,7 +38,7 @@ def populate_sql(movie):
             cursor.execute('''
                 INSERT INTO MovieMember (role, memberid, movieid, isActor)
                 VALUES (%s, %s, %s, %s)
-            ''', (person['role'][:255], person['id'], movie['id'], person['actor']))
+            ''', (person['role'][:255], person['id'], movie['id'], person in movie['cast']))
 
     for genre in movie['genres']:
         cursor.execute('''

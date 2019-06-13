@@ -127,8 +127,7 @@ public class UsersController {
             userService.newFriendRequest(token, username);
             return Util.ok("");
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (Exception e) {   
             return Util.badRequest(e.getMessage());
         }
     }
