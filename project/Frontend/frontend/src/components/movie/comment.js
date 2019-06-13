@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Image from 'react-bootstrap/Image';
 import Reply from './reply'
 import Axios from 'axios';
+import ResizableTextarea from './resizable-text-area'
 import moment from 'moment';
+import { getCurrentDate } from '../../utils';
 import { getToken } from '../../cookies'
 import { backend, labels } from '../../var'
 import OopsModal from '../aux_pages/oops-modal'
@@ -69,6 +71,39 @@ export default class Comment extends Component {
     }
   }
 
+  getComment = (newComment) => {
+
+    var f = {}
+
+    f['message'] = newComment
+    f['date'] = getCurrentDate()
+
+    let self=this
+
+    Axios.post(backend + '/comment/' + this.props.id + '/reply',
+      f,
+      { headers: { Authorization: "Bearer " + getToken() } })
+    .then(function(response) {
+      
+      let element = {
+        'id': response.data.id,
+        'userAvatar': response.data.userAvatar,
+        'username': response.data.username,
+        'date': response.data.date,
+        'content': response.data.content,
+        'likes': response.data.likes,
+        'isLiked': false
+      }
+
+      self.setState(prevState => ({
+        replies: [...prevState.replies, element],
+        numberReplies: self.state.numberReplies + 1
+      }))
+    }).catch((e) =>
+      console.log(e)
+    )
+  }
+
   getMoreComments(page) {
 
     var header = {}
@@ -88,11 +123,11 @@ export default class Comment extends Component {
 
       response.data.replies.forEach(function(reply) {
         reply["date"] = moment(reply.date).format("YYYY-MM-DD HH:mm")
-        newReplies.push(reply);
+        newReplies = [reply].concat(newReplies);
       });
 
       self.setState({
-        replies: self.state.replies === undefined ? newReplies : self.state.replies.concat(newReplies),
+        replies: self.state.replies === undefined ? newReplies : newReplies.concat(self.state.replies),
         currentPage: self.state.currentPage + 1,
         moreReplies: response.data.moreReplies,
         showingReplies: true
@@ -176,7 +211,7 @@ export default class Comment extends Component {
             </div>
           }
           {
-            this.state.replies.reverse().map(reply => {
+            this.state.replies.map(reply => {
               return (
                 <Reply key={ reply.id } id={ reply.id } profilepic={ `/avatars/` + reply.userAvatar } author={ reply.username } time={ reply.date } content={ reply.content } likes={ reply.likes } isLiked={ reply.isLiked } noAuth={ this.state.noAuth } lang={ this.props.lang } />
               )}
@@ -184,7 +219,7 @@ export default class Comment extends Component {
           }
           { !this.state.noAuth &&
             <div className="reply">
-              PLACEHOLDER PARA REPLY
+              <ResizableTextarea noAuth={ this.state.noAuth } callBackFromParent={ this.getComment } lang={this.props.lang} />
             </div>
           }
       </div>

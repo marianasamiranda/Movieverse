@@ -116,6 +116,8 @@ public class CommentService {
         map.put("likes", comment.getLikes());
         map.put("username", user.getUsername());
         map.put("userAvatar", user.getAvatar());
+        map.put("isLiked", false);
+
 
         return map;
     }

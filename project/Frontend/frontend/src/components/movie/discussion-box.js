@@ -87,9 +87,6 @@ export default class DiscussionBox extends Component {
     }).catch((e) =>
       console.log(e)
     )
-
-    this.forceUpdate()
-
   }
   
   render() {

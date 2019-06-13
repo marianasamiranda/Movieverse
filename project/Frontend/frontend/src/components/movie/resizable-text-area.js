@@ -90,6 +90,7 @@ export default class ResizableTextarea extends Component {
 					onChange={ this.handleChange }
 					readOnly={ this.state.noAuth }
 					onClick= { this.handleShowNotLoggedInModal.bind(this) }
+					maxLength="255"
 				/>
 				<div className="d-flex flex-row-reverse">
 					<div className="p-2">
