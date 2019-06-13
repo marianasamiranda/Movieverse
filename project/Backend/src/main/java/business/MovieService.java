@@ -1,5 +1,6 @@
 package business;
 
+import com.mchange.v2.collection.MapEntry;
 import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import data.ElasticSearch;
 import data.RedisCache;
@@ -13,6 +14,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -216,145 +218,144 @@ public class MovieService {
         return result;
     }
 
+
     public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
         var user = getUserByToken(token);
         var userMovie = new UserMovie();
         var movie = movieDAO.findById(movieId);
-
         try {
-            userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
-        }
-        catch(Exception e) {
-            userMovie.setMovie(movie);
-            userMovie.setmUser(user);
-        }
-
-        if(updates.containsKey("watched")) {
-
-            var watched = (boolean) updates.get("watched");
-            var feedEntryType = 1;
-
-            if(watched) {
-                // If movie was marked as watched
-
-                var dateWatched = util.parseDate((String) updates.get("dateWatched"));
-
-                if(updates.containsKey("favourited")) {
-                    // If movie was also marked as favourite
-
-                    setFavourite(updates, userMovie);
-                    addFeedEntry(2, user, movie.getORMID(), dateWatched);
-
-                }
-                if(updates.containsKey("rating")) {
-                    // If movie was rated
-
-                    feedEntryType = 0;
-
-                    int rating = (int) updates.get("rating");
-                    userMovie.setRating(rating);
-                }
-
-                userMovie.setStatus(true);
-                userMovie.setDateWatched(dateWatched);
-
-                userMovieDAO.merge(userMovie);
-                userMovieDAO.flush();
-
-                addFeedEntry(feedEntryType, user, movie.getORMID(), dateWatched);
-
+            System.out.println(1);
+            try {
+                userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+            } catch (Exception e) {
+                userMovie.setMovie(movie);
+                userMovie.setmUser(user);
             }
-            else {
-                // If movie was marked as unwatched
+            System.out.println(2);
+            if (updates.containsKey("watched")) {
+                System.out.println(3);
+                var watched = (boolean) updates.get("watched");
+                var feedEntryType = 1;
 
-                if(updates.containsKey("addedToWatchlist")) {
-                    // If movie was also added to watchlist
+                if (watched) {
+                    // If movie was marked as watched
+                    System.out.println(4);
+                    var dateWatched = util.parseDate((String) updates.get("dateWatched"));
+
+                    if (updates.containsKey("favourited")) {
+                        // If movie was also marked as favourite
+                        System.out.println(5);
+                        setFavourite(updates, userMovie);
+                        addFeedEntry(2, user, movie.getORMID(), dateWatched);
+                        System.out.println(6);
+
+                    }
+                    if (updates.containsKey("rating")) {
+                        // If movie was rated
+
+                        feedEntryType = 0;
+
+                        int rating = (int) updates.get("rating");
+                        userMovie.setRating(rating);
+                    }
+                    System.out.println(7);
+                    userMovie.setStatus(true);
+                    userMovie.setDateWatched(dateWatched);
+                    System.out.println(8);
+                    userMovieDAO.merge(userMovie);
+                    userMovieDAO.flush();
+                    System.out.println(9);
+                    addFeedEntry(feedEntryType, user, movie.getORMID(), dateWatched);
+                    System.out.println(10);
+                    updateMovieHoursAchievements(user, movie.getRuntime());
+                    System.out.println(11);
+
+                } else {
+                    // If movie was marked as unwatched
+
+                    if (updates.containsKey("addedToWatchlist")) {
+                        // If movie was also added to watchlist
+
+                        userMovie.setStatus(false);
+                        userMovie.setDateWatched(null);
+                        userMovie.setFavourite(false);
+                        userMovie.setDateFavourite(null);
+                        userMovie.setRating(null);
+
+                        userMovieDAO.merge(userMovie);
+                        userMovieDAO.flush();
+
+                    } else {
+                        // If movie was only marked as unwatched
+                        userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+
+                    }
+
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
+                }
+            } else if (updates.containsKey("addedToWatchlist")) {
+                boolean addedToWatchlist = (boolean) updates.get("addedToWatchlist");
+
+                if (addedToWatchlist) {
+                    // If movie was added to watchlist
 
                     userMovie.setStatus(false);
-                    userMovie.setDateWatched(null);
+
+                    userMovieDAO.merge(userMovie);
+                    userMovieDAO.flush();
+                } else {
+                    // If movie was removed from watchlist
+
+                    userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+                }
+            } else if (updates.containsKey("favourited")) {
+                boolean favourite = (boolean) updates.get("favourited");
+
+                if (favourite) {
+                    // If movie was added to favourites
+
+                    setFavourite(updates, userMovie);
+
+                    userMovieDAO.merge(userMovie);
+                    userMovieDAO.flush();
+
+                    addFeedEntry(2, user, movie.getORMID(), util.parseDate((String) updates.get("dateFavourited")));
+                } else {
+                    // If movie was removed from favourites
+
                     userMovie.setFavourite(false);
                     userMovie.setDateFavourite(null);
                     userMovie.setRating(null);
 
                     userMovieDAO.merge(userMovie);
                     userMovieDAO.flush();
+                    feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=2");
 
                 }
-                else {
-                    // If movie was only marked as unwatched
-                    userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
+            } else if (updates.containsKey("rating")) {
 
+                // If movie was rated
+
+                Integer rating = (Integer) updates.get("rating");
+
+                userMovie.setRating(rating);
+                userMovieDAO.merge(userMovie);
+                userMovieDAO.flush();
+
+                if (rating != null) {
+                    Feed f = getFeedWithType(movie.getTmdb(), 1);
+
+                    if (f != null)
+                        updateFeed(f, 0, util.parseDate((String) updates.get("dateRated")));
+                } else {
+                    Feed f = getFeedWithType(movie.getTmdb(), 0);
+
+                    updateFeed(f, 1, null);
                 }
-
-                feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId);
             }
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        else if(updates.containsKey("addedToWatchlist")) {
-            boolean addedToWatchlist = (boolean) updates.get("addedToWatchlist");
-
-            if(addedToWatchlist) {
-                // If movie was added to watchlist
-
-                userMovie.setStatus(false);
-
-                userMovieDAO.merge(userMovie);
-                userMovieDAO.flush();
-            }
-            else {
-                // If movie was removed from watchlist
-
-                userMovieDAO.removeEntity("muserid=" + user.getId() + " and movieid=" + movieId);
-            }
-        }
-        else if(updates.containsKey("favourited")) {
-            boolean favourite = (boolean) updates.get("favourited");
-
-            if(favourite) {
-                // If movie was added to favourites
-
-                setFavourite(updates, userMovie);
-
-                userMovieDAO.merge(userMovie);
-                userMovieDAO.flush();
-
-                addFeedEntry(2, user, movie.getORMID(), util.parseDate((String) updates.get("dateFavourited")));
-            }
-            else {
-                // If movie was removed from favourites
-
-                userMovie.setFavourite(false);
-                userMovie.setDateFavourite(null);
-                userMovie.setRating(null);
-
-                userMovieDAO.merge(userMovie);
-                userMovieDAO.flush();
-                feedDAO.removeEntity("muserid=" + user.getId() + "and idcontent=" + movieId + " and type=2");
-
-            }
-        }
-        else if(updates.containsKey("rating")) {
-
-            // If movie was rated
-
-            Integer rating = (Integer) updates.get("rating");
-
-            userMovie.setRating(rating);
-            userMovieDAO.merge(userMovie);
-            userMovieDAO.flush();
-
-            if(rating != null) {
-                Feed f = getFeedWithType(movie.getTmdb(), 1);
-
-                if(f != null)
-                    updateFeed(f, 0, util.parseDate((String) updates.get("dateRated")));
-            }
-            else {
-                Feed f = getFeedWithType(movie.getTmdb(), 0);
-
-                updateFeed(f, 1, null);
-            }
-        }
-
         return true;
     }
 
@@ -367,13 +368,25 @@ public class MovieService {
         1000, "1000 movie hours"
     );
 
+    @Transactional
     private void updateMovieHoursAchievements(MUser u, int movieRuntime) {
-        String badgeName = movieHoursAchievements.get(u.getHoursCount() + movieRuntime / 60);
-        if (badgeName != null)
-            userService.addAchievement(u, badgeName);
+        System.out.println("WTF");
+        int hoursB = u.getHoursCount();
+        int hoursA = hoursB + movieRuntime;
+        System.out.println(hoursA);
+        System.out.println(hoursB);
+        for(Map.Entry<Integer, String> m: movieHoursAchievements.entrySet()){
+            int key = m.getKey();
+            System.out.println(key);
+            if (key > hoursB && key<= hoursA){
+                System.out.println("YEAH");
+                userService.addAchievement(u, m.getValue());
+                break;
+            }
+        }
     }
 
-    private void addFirstFavouriteAchievement(MUser u) {
+    private void updateFirstFavouriteAchievement(MUser u) {
         userService.addAchievement(u, "First favourite movie");
     }
 
