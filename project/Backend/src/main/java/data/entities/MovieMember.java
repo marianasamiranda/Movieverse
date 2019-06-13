@@ -24,6 +24,8 @@ public class MovieMember {
 	private Member member;
 	
 	private Movie movie;
+
+	private boolean isActor;
 	
 	private void setId(int value) {
 		this.id = value;
@@ -44,7 +46,15 @@ public class MovieMember {
 	public String getRole() {
 		return role;
 	}
-	
+
+	public void setIsActor(boolean value) {
+		this.isActor = value;
+	}
+
+	public boolean getIsActor() {
+		return isActor;
+	}
+
 	public void setMovie(Movie value) {
 		this.movie = value;
 	}

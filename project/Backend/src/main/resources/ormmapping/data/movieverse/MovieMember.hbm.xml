@@ -16,5 +16,6 @@ License Type: Academic
 		</many-to-one>
 		<many-to-one name="movie" cascade="lock" column="MovieId" index="MovieMember_MovieId" class="data.entities.Movie" not-null="false" lazy="false">
 		</many-to-one>
+		<property name="isActor" column="IsActor" index="MovieMember_IsActor" type="boolean" not-null="true" lazy="false"/>
 	</class>
 </hibernate-mapping>
