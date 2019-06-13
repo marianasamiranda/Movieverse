@@ -368,10 +368,8 @@ public class MovieService {
         1000, "1000 movie hours"
     );
 
-    @Transactional
     private void updateMovieHoursAchievements(MUser u, int movieRuntime) {
-        System.out.println("WTF");
-        int hoursB = u.getHoursCount();
+        int hoursB = u.getMinutesCount() / 60;
         int hoursA = hoursB + movieRuntime;
         System.out.println(hoursA);
         System.out.println(hoursB);
@@ -379,7 +377,6 @@ public class MovieService {
             int key = m.getKey();
             System.out.println(key);
             if (key > hoursB && key<= hoursA){
-                System.out.println("YEAH");
                 userService.addAchievement(u, m.getValue());
                 break;
             }

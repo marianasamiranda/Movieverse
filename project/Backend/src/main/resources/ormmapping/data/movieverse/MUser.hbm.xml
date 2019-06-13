@@ -22,7 +22,7 @@ License Type: Academic
 		<property name="birthDate" column="BirthDate" type="date" not-null="true" lazy="false"/>
 		<property name="gender" column="Gender" type="character" length="1" not-null="true" lazy="false"/>
 		<property name="movieCount" column="MovieCount" type="integer" length="10" not-null="true" lazy="false"/>
-		<property name="hoursCount" column="HoursCount" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="minutesCount" column="MinutesCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="avatar" column="Avatar" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="joinDate" column="JoinDate" type="date" not-null="true" lazy="false"/>
 		<property name="token" column="Token" unique="true" type="string" length="255" not-null="false" lazy="false"/>
@@ -31,6 +31,7 @@ License Type: Academic
 		<property name="ratingsCount" column="RatingsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="friendsCount" column="FriendsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="likesCount" column="LikesCount" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="favouriteCount" column="FavouriteCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<set name="receivedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
 			<cache usage="read-write"/>
 			<key column="Sender" not-null="true"/>

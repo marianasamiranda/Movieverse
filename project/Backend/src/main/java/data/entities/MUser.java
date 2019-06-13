@@ -43,8 +43,8 @@ public class MUser {
 	
 	private int movieCount;
 	
-	private int hoursCount;
-	
+	private int minutesCount;
+
 	private String avatar;
 	
 	private java.util.Date joinDate;
@@ -60,6 +60,8 @@ public class MUser {
 	private int friendsCount;
 	
 	private int likesCount;
+
+	private int favouriteCount;
 	
 	private java.util.Set receivedFriendships = new java.util.HashSet();
 	
@@ -143,12 +145,12 @@ public class MUser {
 		return movieCount;
 	}
 	
-	public void setHoursCount(int value) {
-		this.hoursCount = value;
+	public void setMinutesCount(int value) {
+		this.minutesCount = value;
 	}
-	
-	public int getHoursCount() {
-		return hoursCount;
+
+	public int getMinutesCount() {
+		return minutesCount;
 	}
 	
 	public void setAvatar(String value) {
@@ -213,6 +215,14 @@ public class MUser {
 	
 	public int getLikesCount() {
 		return likesCount;
+	}
+
+	public void setFavouriteCount(int value) {
+		this.favouriteCount = value;
+	}
+
+	public int getFavouriteCount() {
+		return favouriteCount;
 	}
 
 	public List<MUser> getReceivedMusers() {
@@ -310,7 +320,6 @@ public class MUser {
 		}
 	}
 
-	@Transactional()
 	public void addBadge(Achievement aAchievement, Badge aBadge) {
 		aAchievement.setBadge(aBadge);
 		achievements.add(aAchievement);

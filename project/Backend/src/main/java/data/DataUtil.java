@@ -301,25 +301,25 @@ public class DataUtil {
 
 
         entityManager.createNativeQuery(
-        "CREATE OR REPLACE FUNCTION update_hourscount_function() RETURNS TRIGGER AS " +
+        "CREATE OR REPLACE FUNCTION update_minutescount_function() RETURNS TRIGGER AS " +
                 "'BEGIN\n" +
                 " \tIF TG_OP = ''INSERT'' OR (TG_OP = ''UPDATE'' AND NEW.status = true AND OLD.status = false) then\n" +
-                "       UPDATE muser SET hourscount = hourscount + movie.runtime, moviecount = moviecount + 1 FROM movie WHERE id=NEW.muserid AND movie.tmdb=NEW.movieid;\n" +
+                "       UPDATE muser SET minutescount = minutescount + movie.runtime, moviecount = moviecount + 1 FROM movie WHERE id=NEW.muserid AND movie.tmdb=NEW.movieid AND movie.runtime IS NOT NULL;\n" +
                 "    ELSIF TG_OP = ''DELETE'' OR (TG_OP = ''UPDATE'' AND NEW.status = false AND OLD.status = true) then\n" +
-                "       UPDATE muser SET hourscount = hourscount - movie.runtime, moviecount = moviecount - 1 FROM movie WHERE id=OLD.muserid AND movie.tmdb=OLD.movieid;\n" +
+                "       UPDATE muser SET minutescount = minutescount - movie.runtime, moviecount = moviecount - 1 FROM movie WHERE id=OLD.muserid AND movie.tmdb=OLD.movieid AND movie.runtime IS NOT NULL;\n" +
                 "    END IF;\n" +
                 "RETURN NULL; \n" +
                 "END;'\n" +
                 "LANGUAGE plpgsql;\n" +
                 "" +
-                "DROP TRIGGER IF EXISTS update_hourscount_trigger ON usermovie;\n" +
-                "CREATE TRIGGER update_hourscount_trigger AFTER UPDATE ON usermovie FOR EACH ROW WHEN (OLD.status IS DISTINCT FROM NEW.status) EXECUTE PROCEDURE update_hourscount_function();\n" +
+                "DROP TRIGGER IF EXISTS update_minutescount_trigger ON usermovie;\n" +
+                "CREATE TRIGGER update_minutescount_trigger AFTER UPDATE ON usermovie FOR EACH ROW WHEN (OLD.status IS DISTINCT FROM NEW.status) EXECUTE PROCEDURE update_minutescount_function();\n" +
                 "\n" +
-                "DROP TRIGGER IF EXISTS update_hourscount_trigger2 ON usermovie;\n" +
-                "CREATE TRIGGER update_hourscount_trigger2 AFTER INSERT ON usermovie FOR EACH ROW WHEN (NEW.status=true) EXECUTE PROCEDURE update_hourscount_function();\n" +
+                "DROP TRIGGER IF EXISTS update_minutescount_trigger2 ON usermovie;\n" +
+                "CREATE TRIGGER update_minutescount_trigger2 AFTER INSERT ON usermovie FOR EACH ROW WHEN (NEW.status=true) EXECUTE PROCEDURE update_minutescount_function();\n" +
                 "\n" +
-                "DROP TRIGGER IF EXISTS update_hourscount_trigger3 ON usermovie;\n" +
-                "CREATE TRIGGER update_hourscount_trigger3 AFTER DELETE ON usermovie FOR EACH ROW WHEN (OLD.status=true) EXECUTE PROCEDURE update_hourscount_function();"
+                "DROP TRIGGER IF EXISTS update_minutescount_trigger3 ON usermovie;\n" +
+                "CREATE TRIGGER update_minutescount_trigger3 AFTER DELETE ON usermovie FOR EACH ROW WHEN (OLD.status=true) EXECUTE PROCEDURE update_minutescount_function();\n"
         ).executeUpdate();
 
         entityManager.createNativeQuery(

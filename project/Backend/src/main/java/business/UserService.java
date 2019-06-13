@@ -2,6 +2,7 @@ package business;
 
 import data.ElasticSearch;
 import data.RedisCache;
+import data.daos.AchievementDAO;
 import data.daos.BadgeDAO;
 import data.daos.FriendshipDAO;
 import data.daos.MUserDAO;
@@ -46,6 +47,9 @@ public class UserService {
 
     @Autowired
     private BadgeDAO badgeDAO;
+
+    @Autowired
+    private AchievementDAO achievementDAO;
 
     @Autowired
     private Util util;
@@ -132,6 +136,7 @@ public class UserService {
             throw new Exception("Wrong Password");
     }
 
+    @Transactional
     public String login(String username, String password) throws Exception {
         if (username.equals("admin"))
             return loginAdmin(password);
@@ -150,7 +155,6 @@ public class UserService {
 
         return u.getToken();
     }
-
 
     public void logout(String token) throws Exception {
         String adminToken = redisCache.get("admin_token");
@@ -218,7 +222,7 @@ public class UserService {
         m.put("country", u.getUserCountry().getAlphaCode());
         m.put("genre", u.getFavouriteGenre() != null ? u.getFavouriteGenre().getName() : null);
         m.put("statsMovies", u.getMovieCount());
-        m.put("statsHours", u.getHoursCount());
+        m.put("statsHours", u.getMinutesCount()/60);
         m.put("statsComments", u.getCommentsCount());
         m.put("statsRatings", u.getRatingsCount());
         m.put("statsFriends", u.getFriendsCount());
@@ -525,7 +529,7 @@ public class UserService {
             a.setDate(util.localDateToDate(LocalDate.now()));
             a.setmUser(u);
             a.setBadge(b);
-            u.addBadge(a, b);
+            achievementDAO.persist(a);
         }
     }
 
