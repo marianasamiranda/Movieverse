@@ -238,7 +238,7 @@ export const labels = {
     members: 'Members',
     comments: 'Comments',
     aboutUs: 'About Us',
-    aboutUsText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec magna lorem. Etiam quis sapien convallis, eleifend arcu vel, euismod tellus. Suspendisse porttitor est nibh, id semper enim eleifend in. Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo. Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo. Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo.',
+    aboutUsText: 'Movieverse was created in July 2019, with the intention to provide our clients the best place to interact with their friends about movie preferences and tastes. Our love for the seventh art, and the ambition to produce the best movie related website available is what drove us to create this application. Here, you will be able to keep track of your movie history, discover new movies, check movies current playing in theaters, among, many other things. Join us today and become part of the ever growing Movieverse family!',
     //footer
     contactUs: 'Contact Us',
     rightsReserved: '© Movieverse 2019. All rights reserved.',
@@ -437,7 +437,7 @@ export const labels = {
     members: 'Membros',
     comments: 'Comentários',
     aboutUs: 'Sobre Nós',
-    aboutUsText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec magna lorem. Etiam quis sapien convallis, eleifend arcu vel, euismod tellus. Suspendisse porttitor est nibh, id semper enim eleifend in. Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo. Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo. Aliquam erat volutpat. Etiam finibus dui sed nunc semper condimentum. Vestibulum quis nulla quis quam pulvinar porttitor. Nullam ut dignissim justo.',
+    aboutUsText: 'Movieverse foi criado em julho de 2019, com a intenção de providenciar aos nossos clientes o melhor lugar para interagirem com os seus amigos sobre os gostos e preferências cinemáticas. O nosso gosto pela sétima arte, e a ambição de produzir o melhor website relacionado com filmes é o que nos conduziu a criar esta aplicação. Aqui, serás capaz de manter o teu histórico cinemático, descobrir novos filmes, ver quais são os filmes neste momento em exibição no cinema, entre outras coisas. Junta-te a nós hoje e torne-te parte da sempre crescente família Movieverse!',
     //footer
     contactUs: 'Contacta-nos',
     rightsReserved: '© Movieverse 2019. Todos os direitos reservados.',

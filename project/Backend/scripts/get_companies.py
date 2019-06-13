@@ -34,6 +34,7 @@ for i in ids_to_get:
         except KeyError:
             break
         except Exception:
+            traceback.print_exc()
             pass
 
 out.close()

@@ -1,6 +1,7 @@
 from requests import get
 from time import sleep
 import json
+import traceback
 
 downloaded_people = set()
 
@@ -35,6 +36,7 @@ for i in ids_to_get:
         except KeyError:
             break
         except Exception:
+            traceback.print_exc()
             pass
 
 out.close()

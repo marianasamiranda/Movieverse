@@ -36,9 +36,9 @@ def populate_sql(movie):
     for person in movie['cast'] + movie['crew']:
         if person['id'] in people:
             cursor.execute('''
-                INSERT INTO MovieMember (role, memberid, movieid)
-                VALUES (%s, %s, %s)
-            ''', (person['role'][:255], person['id'], movie['id']))
+                INSERT INTO MovieMember (role, memberid, movieid, isActor)
+                VALUES (%s, %s, %s, %s)
+            ''', (person['role'][:255], person['id'], movie['id'], person['actor']))
 
     for genre in movie['genres']:
         cursor.execute('''
