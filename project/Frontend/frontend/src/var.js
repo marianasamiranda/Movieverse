@@ -386,7 +386,8 @@ export const labels = {
     youNeed: 'You need to be',
     registeredOrLoggedIn: 'registered and logged in',
     toBeAbleEval: 'to watch, favourite, add to your watchlist or rate a movie.',
-    toBeAbleComment: 'to comment on a movie.'
+    toBeAbleComment: 'to comment on a movie.',
+    toBeAbleLike: 'to like a comment.'
   },
   pt: {
     //general
@@ -583,7 +584,8 @@ export const labels = {
     youNeed: 'Precisas de estar',
     registeredOrLoggedIn: 'registado e autenticado',
     toBeAbleEval: 'para ver, marcar como favorito, adicionar à tua watchlist ou avaliar um filme.',
-    toBeAbleComment: 'para comentar um filme.'
+    toBeAbleComment: 'para comentar um filme.',
+    toBeAbleLike: 'para gostar de comentários.'
   }
 }
 

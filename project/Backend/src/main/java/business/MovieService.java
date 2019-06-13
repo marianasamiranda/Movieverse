@@ -237,7 +237,7 @@ public class MovieService {
             if(watched) {
                 // If movie was marked as watched
 
-                var dateWatched = parseDate((String) updates.get("dateWatched"));
+                var dateWatched = util.parseDate((String) updates.get("dateWatched"));
 
                 if(updates.containsKey("favourited")) {
                     // If movie was also marked as favourite
@@ -317,7 +317,7 @@ public class MovieService {
                 userMovieDAO.merge(userMovie);
                 userMovieDAO.flush();
 
-                addFeedEntry(2, user, movie.getORMID(), parseDate((String) updates.get("dateFavourited")));
+                addFeedEntry(2, user, movie.getORMID(), util.parseDate((String) updates.get("dateFavourited")));
             }
             else {
                 // If movie was removed from favourites
@@ -346,7 +346,7 @@ public class MovieService {
                 Feed f = getFeedWithType(movie.getTmdb(), 1);
 
                 if(f != null)
-                    updateFeed(f, 0, parseDate((String) updates.get("dateRated")));
+                    updateFeed(f, 0, util.parseDate((String) updates.get("dateRated")));
             }
             else {
                 Feed f = getFeedWithType(movie.getTmdb(), 0);
@@ -385,24 +385,6 @@ public class MovieService {
         userService.addAchievement(u, "First comment");
     }
 
-    private Date parseDate(String stringDate) {
-        var date = new Date();
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-            date = sdf.parse(stringDate);
-        }
-        catch(ParseException e) {
-            e.printStackTrace();
-        }
-
-        return date;
-    }
-
-    private String formatDate(Date d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        return sdf.format(d);
-    }
-
     private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
         Feed f = new Feed();
 
@@ -428,7 +410,7 @@ public class MovieService {
     private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
 
         userMovie.setFavourite(true);
-        userMovie.setDateFavourite(parseDate((String) updates.get("dateFavourited")));
+        userMovie.setDateFavourite(util.parseDate((String) updates.get("dateFavourited")));
     }
 
 
@@ -553,38 +535,42 @@ public class MovieService {
 
         comment.setContent((String) content.get("message"));
 
-        var dateCommented = parseDate((String) content.get("date"));
-
-        if(content.containsKey("parent")) {
-            comment.setParent((Integer) content.get("parent"));
-        }
+        var dateCommented = util.parseDate((String) content.get("date"));
 
         comment.setTimestamp(new Timestamp(dateCommented.getTime()));
         comment.setLikes(0);
         comment.setMovie(movie);
 
+        commentDAO.persist(comment);
+        commentDAO.flush();
+
         var map = new HashMap<String, Object>();
         map.put("id", comment.getId());
         map.put("userId", user.getId());
-        map.put("date", formatDate(dateCommented));
+        map.put("date", util.formatDate(dateCommented));
         map.put("content", comment.getContent());
         map.put("likes", comment.getLikes());
         map.put("username", user.getUsername());
         map.put("userAvatar", user.getAvatar());
-
-        commentDAO.persist(comment);
 
         addFeedEntry(3, user, comment.getId(), dateCommented);
 
         return map;
     }
 
-    public Object getMovieComments(Integer movieId, int page) throws Exception {
+    public Object getMovieComments(Integer movieId, int page, String token) throws Exception {
 
-        var comments = commentDAO.getCommentsMovie(movieId, page * 20, 20);
+        List comments;
 
+        if(token != null) {
+            var user = getUserByToken(token);
+            comments = commentDAO.getCommentsMovieWithUserLikes(movieId, page * 10, 10, user.getId());
+        }
+        else {
+            comments = commentDAO.getCommentsMovie(movieId, page * 10, 10);
+        }
 
-        boolean moreComments = !(comments.size() < 20);
+        boolean moreComments = !(comments.size() < 10);
 
         Map<String, Object> result = new HashMap<>();
         result.put("comments", comments);

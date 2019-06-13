@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,5 +55,23 @@ public class Util {
 
     public Date localDateTimeToDateTime(LocalDateTime t) {
         return Date.from(t.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public Date parseDate(String stringDate) {
+        var date = new Date();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+            date = sdf.parse(stringDate);
+        }
+        catch(ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public String formatDate(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(d);
     }
 }
