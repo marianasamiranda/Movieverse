@@ -197,6 +197,7 @@ export default class MovieEvaluation extends Component {
     }
     if(this.state.addedWatchlist === true) {
       this.setState({
+        watched: true,
         addedWatchlist: false
       })
       f = {
@@ -205,14 +206,16 @@ export default class MovieEvaluation extends Component {
         addedToWatchlist: false
       }
     }
+    console.log(nextValue)
     f['rating'] = nextValue
     f['dateRated'] = getCurrentDate()
+    console.log(f)
     this.setState({
       rating: nextValue,
       message: movieEval[nextValue]
     });
 
-    Axios.patch(backend + '/movie/' + this.props.param + '/me',
+    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
