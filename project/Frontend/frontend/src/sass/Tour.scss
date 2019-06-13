@@ -1,0 +1,51 @@
+@import 'Variables';
+
+.navigation-sidebar {
+    position: fixed;
+
+    ul {
+        font-family: $font-stack;
+        color: #555555;
+        a {
+            color: #555555;
+        }
+    }
+}
+
+.tour-intro {
+    font-family: $font-stack;
+
+    img {
+        max-width: 100px;
+
+        @media(max-width: 575px) {
+            display: none;
+        }
+    }
+
+    .middle {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
+.tour-content {
+    background-color: white;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 25px;
+}
+
+.tour-section {
+    border-top-color: #cccccc;
+    border-top-style: dotted;
+    border-top-width: 2px;
+    padding-top: 50px;
+    padding-bottom: 15px;
+    margin-top: 25px;
+    margin-bottom: 35px;
+    font-family: $font-stack;
+}
+
+.break {
+    margin-bottom: 20px;
+}

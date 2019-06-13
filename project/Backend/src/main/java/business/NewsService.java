@@ -29,7 +29,8 @@ public class NewsService {
             return cachedNews;
 
         //not in cache
-        List news = newsDAO.findAll();
+        List<News> news = newsDAO.findAll();
+        news.sort((x,y) -> x.getDate().before(y.getDate()) ? 1 : -1);
         String json = util.toJson(news);
         redisCache.set("news", json);
         redisCache.set("news_date", Long.toString(util.unixTimeSeconds() + 3600)); //validity = 1 hour

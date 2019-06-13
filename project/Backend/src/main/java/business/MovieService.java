@@ -356,6 +356,8 @@ public class MovieService {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        userService.clearUsersCache(user.getUsername());
         return true;
     }
 
