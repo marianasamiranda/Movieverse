@@ -365,6 +365,7 @@ export const labels = {
     discussion: 'Discussion',
     addComment: 'Add comment',
     addCommentPlaceholder: 'Add comment...',
+    characterCount: 'Character Count',
     //admin
     globalStats: 'Global Statistics',
     genders: 'Genders',
@@ -585,6 +586,7 @@ export const labels = {
     discussion: 'Discussão',
     addComment: 'Adicionar comentário',
     addCommentPlaceholder: 'Adicione um comentário...',
+    characterCount: 'Contagem de caracteres',
     //admin
     globalStats: 'Estatísticas Globais',
     genders: 'Sexos',

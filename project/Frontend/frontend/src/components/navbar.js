@@ -46,7 +46,7 @@ export default class NavBar extends Component {
   }
 
   getAvatar() {
-    Axios.get(backend + "/avatar", { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
+    Axios.get(backend + "/user/avatar", { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
       this.setState({
         img: avatars + x.data.img,
         requests: x.data.requests

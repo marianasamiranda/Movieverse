@@ -106,8 +106,8 @@ class AvatarDropdown extends Component {
                {labels[this.props.lang].profile}
             </Link>
           </p>
-            <p className="text-center" onClick={() => { this.handleShowRequests();this.handleChange(); this.props.handleExpand()}}>
-            <Link>
+          <p className="text-center" onClick={() => { this.handleShowRequests();this.handleChange(); this.props.handleExpand()}}>
+            <Link to="#">
               <i className="far fa-user-circle fa-fw margin-right-10" />
                 {labels[this.props.lang].requests}
             </Link>

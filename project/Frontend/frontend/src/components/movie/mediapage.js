@@ -36,7 +36,7 @@ export default class MediaPage extends Component {
       });
 
     }).then(k => {
-      Axios.get(backend + '/media/' + this.props.match.params.id)
+      Axios.get(backend + '/movie/' + this.props.match.params.id + '/media')
       .then(x => {
         let tmpVideos = [];
         let tmpBackdrops = [];

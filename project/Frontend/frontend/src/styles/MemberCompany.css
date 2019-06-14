@@ -2,7 +2,7 @@
   color: #F10633;
 }
 
-.brown, .member-company-info .info-lable, .member-company-info .info-value, .member-company-name, .title-member-company-18 {
+.brown, .member-company-info .info-label, .member-company-info .info-value, .member-company-name, .title-member-company-18 {
   color: #594849;
 }
 
@@ -42,9 +42,9 @@
   margin: 0;
 }
 
-.member-company-info .info-lable {
-  font-weight: bold;
+.member-company-info .info-label {
   font-size: 15pt;
+  font-family: "Oswald", sans-serif;
 }
 
 .member-company-info .info-value {
@@ -78,13 +78,13 @@
   margin-top: 100px;
   margin-right: 20px;
   margin-bottom: 20px;
-  font-weight: bold;
   font-size: 40pt;
+  font-family: "Oswald", sans-serif;
 }
 
 .title-member-company-18 {
-  font-weight: bold;
   font-size: 18pt;
+  font-family: "Oswald", sans-serif;
 }
 
 #member-company-movies .movie-card-container .label {

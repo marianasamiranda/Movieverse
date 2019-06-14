@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Container from 'react-bootstrap/Container';
-import MovieCard from '../movie-card'
-import logo from '../../img/logo.png'
 import Axios from 'axios'
 import CompanyMain from './company-main'
 import CompanyAside from './company-aside'
@@ -9,6 +6,7 @@ import CompanyInfo from './company-info'
 import {backend, labels} from '../../var'
 import '../../styles/MemberCompany.css'
 import Loading from '../aux_pages/loading'
+import NotFoundError from '../aux_pages/notFoundError'
 
 export default class Company extends Component{
 
@@ -16,7 +14,8 @@ export default class Company extends Component{
         super(props)
         this.state = {
             id: props.match.params.id,
-            showLoader: true
+            showLoader: true,
+            error: false
         }
         this.get_company_info.bind(this)
     }
@@ -27,23 +26,28 @@ export default class Company extends Component{
 
     async get_company_info(id){
         return await Axios.get(backend + '/company/' + id).then(x => {
-          console.log(x)
           this.setState({
             showLoader: false,
             description: x.data.description,
             homepage: x.data.homepage,
             headquarters: x.data.headquarters,
             country: x.data.country,
-            image: x.data.image,
+            image: 'https://image.tmdb.org/t/p/w500/' + x.data.image,
             name: x.data.name,
             movies: x.data.movies,
             moreMovies: x.data.moreMovies
           })
         })
-        .catch(x => {alert("Erro")})
+        .catch(x => this.setState({
+            error: true
+        }))
     }
 
     render(){
+
+        if (this.state.error) {
+            return <NotFoundError lang={this.props.lang} />
+        }
 
         let company_info = (
             <CompanyInfo

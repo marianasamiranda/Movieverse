@@ -61,7 +61,7 @@ export default class Profile extends Component {
       query = "?username=" + user
     }
 
-    return Axios.get(backend + '/profile' + query, 
+    return Axios.get(backend + '/user/profile' + query, 
         { headers: { Authorization: "Bearer " + token } }).then(x => {
       
       let data = x.data
@@ -126,7 +126,7 @@ export default class Profile extends Component {
     let f = new FormData()
     f.set('image', this.state.newAvatar)
 
-    Axios.put(backend + '/avatar', f, { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
+    Axios.put(backend + '/user//avatar', f, { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
       let data = this.state.data
       data['avatar'] = x.data
       data['avatarImg'] = avatars + x.data + '?' + new Date().getTime()
@@ -168,7 +168,7 @@ export default class Profile extends Component {
       newGenreLoading: true
     })
 
-    Axios.put(backend + '/genre', {genre: this.state.newGenre}, 
+    Axios.put(backend + '/user/genre', {genre: this.state.newGenre}, 
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         let data = this.state.data
         data['genre'] = this.state.newGenre
@@ -181,7 +181,7 @@ export default class Profile extends Component {
   }
 
   handleFriendRequest(e) {
-    Axios.post(backend + '/friend-request', {username: this.state.user},
+    Axios.post(backend + '/user/friends/requests/new', {username: this.state.user},
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         let data = this.state.data
         data['friendship'] = 'requested'

@@ -406,6 +406,10 @@ table td:last-child {
   height: 400px;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .navbar {
   background-color: #202020;
   padding: 0.3rem;

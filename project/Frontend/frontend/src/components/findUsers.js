@@ -42,7 +42,7 @@ export default class FindPeople extends Component {
 
   search() {
     let query = '?name=' + this.state.name
-    Axios.get(backend + '/users-search' + query, 
+    Axios.get(backend + '/user/search' + query, 
         { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
       this.setState({
         results: x.data

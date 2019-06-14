@@ -45,7 +45,7 @@ export default class FriendRequests extends Component {
 
   //accept or ignore received request
   handleReceivedRequest(u, d) {
-    Axios.put(backend + '/process-request', {username: u, decision: d},
+    Axios.put(backend + '/user/friends/requests/process', {username: u, decision: d},
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         this.setState({
           received: this.state.received.filter(x => x.username !== u)
@@ -62,7 +62,7 @@ export default class FriendRequests extends Component {
 
   //cancel sent request
   handleSentRequest(u) {
-    Axios.put(backend + '/cancel-request', { username: u },
+    Axios.put(backend + '/user/friends/requests/cancel', { username: u },
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         this.setState({
           sent: this.state.sent.filter(x => x.username !== u),
@@ -76,7 +76,7 @@ export default class FriendRequests extends Component {
 
   //TODO load N at a time ?
   loadRequests(t) {
-    Axios.get(backend + '/friend-requests?type=' + (t ? t : this.state.current),
+    Axios.get(backend + '/user/friends/requests?type=' + (t ? t : this.state.current),
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         this.setState({
           [this.state.current]: x.data,

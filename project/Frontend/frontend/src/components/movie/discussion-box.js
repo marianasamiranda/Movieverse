@@ -36,7 +36,7 @@ export default class DiscussionBox extends Component {
       header = { headers: { Authorization: "Bearer " + token } }
     }
 
-    Axios.get(backend + '/movie/' + this.state.movieId + '/comments/' + this.state.currentPage,
+    Axios.get(backend + '/movie/' + this.state.movieId + '/comments?page=' + this.state.currentPage,
       header)
     .then(function(response) {
       let newComments = [];

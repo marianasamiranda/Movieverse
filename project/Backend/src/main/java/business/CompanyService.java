@@ -25,12 +25,12 @@ public class CompanyService {
 
         Company m = companyDAO.findById(id);
 
-        List<Map<String, Object>> moviesInfo = movieDAO.getCompanyMoviesFromTo(id, 0, 50);
+        List<Map> moviesInfo = movieDAO.getCompanyMoviesFromTo(id, 0, 50);
         boolean moreMovies = !(moviesInfo.size() < 50);
 
         Map<String, Object> info = new HashMap<>();
         info.put("description", m.getDescription());
-        info.put("image", "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + m.getImage());
+        info.put("image", m.getImage());
         info.put("name", m.getName());
         info.put("movies", moviesInfo);
         info.put("homepage", m.getHomepage());
@@ -43,7 +43,7 @@ public class CompanyService {
     }
 
     public Object companyMovies(int id, int page) {
-        List<Map<String, Object>> moviesInfo = movieDAO.getCompanyMoviesFromTo(id, page * 50, 50);
+        List<Map> moviesInfo = movieDAO.getCompanyMoviesFromTo(id, page * 50, 50);
         boolean moreMovies = !(moviesInfo.size() < 50);
 
         Map<String, Object> info = new HashMap<>();

@@ -28,5 +28,4 @@ public class MiscController {
             return Util.badRequest("");
         }
     }
-    
 }

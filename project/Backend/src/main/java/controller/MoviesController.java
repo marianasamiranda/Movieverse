@@ -40,14 +40,14 @@ public class MoviesController {
 
 
     @RequestMapping(method = GET, value = "/movie/{id}/me")
-    public ResponseEntity<Object> getMovieMeInfo(@RequestHeader(value = "Authorization") String t, @PathVariable("id") String id) {
-
+    public ResponseEntity<Object> getMovieMeInfo(@RequestHeader(value = "Authorization") String t,
+                                                 @PathVariable("id") String id) {
         String token = t.split(" ")[1];
 
         try {
             return Util.ok(movieService.getMovieMeInfo(token, Integer.parseInt(id)));
         }
-        catch(IOException e) {
+        catch(Exception e) {
             return Util.badRequest("");
         }
     }
@@ -63,7 +63,7 @@ public class MoviesController {
         try {
             return Util.ok(movieService.patchMovieMeInfo(token, Integer.parseInt(id), updates));
         }
-        catch(IOException e) {
+        catch(Exception e) {
             return Util.badRequest("");
         }
     }
@@ -71,8 +71,8 @@ public class MoviesController {
     @LogMethod
     @RequestMapping(method = GET, value = "/movie-search")
     public ResponseEntity<Object> movieSearch(@RequestParam (value = "title") String title,
-                                        @RequestParam (value = "sort", required = false) String sort,
-                                        @RequestParam (value = "genre", required = false) String genre) {
+                                              @RequestParam (value = "sort", required = false) String sort,
+                                              @RequestParam (value = "genre", required = false) String genre) {
         try {
             return Util.ok(movieService.search(title, sort, genre));
         }
@@ -120,11 +120,70 @@ public class MoviesController {
         }
     }
 
-    @LogMethod
-    @RequestMapping(method = GET, value = "/movie/{movieid}/comments/{page}")
-    public ResponseEntity<Object> getMovieComments(@PathVariable(value = "movieid", required = true) Integer id,
+    @RequestMapping(method = GET, value = "/movie/{movieid}/comments")
+    public ResponseEntity<Object> getMovieComments(@PathVariable(value = "movieid") Integer id,
                                                    @RequestHeader(value = "Authorization", required = false) String t,
-                                                   @PathVariable(value = "page", required = true) int page) {
+                                                   @RequestParam(value = "page") int page) {
+        String token = null;
+        if(t != null)
+            token = t.split(" ")[1];
+
+        try {
+            return Util.ok(movieService.getMovieComments(id, page, token));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
+    @RequestMapping(method = GET, value = "/movie/{id}/media")
+    public ResponseEntity<Object> getMedia(@PathVariable(value = "id") int id) {
+        try {
+            return Util.ok(movieService.getMedia(id));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
+
+    //comments
+
+    @RequestMapping(method = POST, value = "/movie/comment/{commentid}/like")
+    public ResponseEntity<Object> likeComment(@PathVariable(value = "commentid") int id,
+                                              @RequestHeader(value = "Authorization") String t) {
+
+        String token = t.split(" ")[1];
+
+
+        try {
+            return Util.ok(movieService.likeAComment(id, token));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
+
+    @RequestMapping(method = POST, value = "/movie/comment/{commentid}/dislike")
+    public ResponseEntity<Object> dislikeComment(@PathVariable(value = "commentid") int id,
+                                                 @RequestHeader(value = "Authorization") String t) {
+
+        String token = t.split(" ")[1];
+
+        try {
+            return Util.ok(movieService.dislikeComment(id, token));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
+
+
+    @RequestMapping(method = GET, value = "/movie/comment/{commentid}/replies")
+    public ResponseEntity<Object> getCommentReplies(@PathVariable(value = "commentid") Integer id,
+                                                    @RequestHeader(value = "Authorization", required = false) String t,
+                                                    @RequestParam(value = "page") int page) {
 
         String token;
         if(t != null) {
@@ -135,11 +194,25 @@ public class MoviesController {
         }
 
         try {
-            return Util.ok(movieService.getMovieComments(id, page, token));
+            return Util.ok(movieService.getCommentReplies(id, page, token));
         }
         catch (Exception e) {
             return Util.badRequest(e.getMessage());
         }
     }
 
+
+    @RequestMapping(method = POST, value = "/movie/comment/{commentid}/reply")
+    public ResponseEntity<Object> replyToComment(@PathVariable(value = "commentid") int id,
+                                                 @RequestHeader(value = "Authorization") String t,
+                                                 @RequestBody Map<String, Object> content) {
+        String token = t.split(" ")[1];
+
+        try {
+            return Util.ok(movieService.replyToComment(id, token, content));
+        }
+        catch (Exception e) {
+            return Util.badRequest(e.getMessage());
+        }
+    }
 }

@@ -15,22 +15,23 @@ public class CompanyController {
     CompanyService companyService;
 
     @RequestMapping(method = GET, value = "/company/{id}")
-    public ResponseEntity<Object> companyProfile(@PathVariable(value = "id", required = true) int id) {
+    public ResponseEntity<Object> companyProfile(@PathVariable(value = "id") int id) {
         try {
             return Util.ok(companyService.companyInfo(id));
         }
         catch (Exception e) {
-            return Util.badRequest(e.getMessage());
+            return Util.badRequest("");
         }
     }
 
-    @RequestMapping(method = GET, value = "/company-movies/{id}/{page}")
-    public ResponseEntity<Object> companyMovies(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "page", required = true) int page) {
+    @RequestMapping(method = GET, value = "/company/{id}/movies")
+    public ResponseEntity<Object> companyMovies(@PathVariable(value = "id") int id,
+                                                @RequestParam(value = "page") int page) {
         try {
             return Util.ok(companyService.companyMovies(id,page));
         }
         catch (Exception e) {
-            return Util.badRequest(e.getMessage());
+            return Util.badRequest("");
         }
     }
 

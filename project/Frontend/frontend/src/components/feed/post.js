@@ -141,12 +141,12 @@ function PostBodyRating(props){
   for(var i = 0; i < 5; i++){
     if(i < rating){
       items.push(
-        <td>
+        <td key={i}>
           <div className="gold-bgimg-star"></div>
         </td>)
     }else{
       items.push(
-        <td>
+        <td key={i}>
           <div className="black-bgimg-star"></div>
         </td>)
     }
