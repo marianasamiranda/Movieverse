@@ -18,11 +18,13 @@ License Type: Academic
 		<property name="imdb" column="Imdb" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="release" column="Release" type="date" not-null="false" lazy="false"/>
 		<property name="runtime" column="Runtime" type="integer" length="10" not-null="false" lazy="false"/>
-		<property name="ratingSum" column="RatingSum" type="integer" length="10" not-null="false" lazy="false"/>
-		<property name="ratingCount" column="RatingCount" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="ratingSum" column="RatingSum" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="ratingCount" column="RatingCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="budget" column="Budget" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="language" column="Language" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="tagline" column="Tagline" type="text" not-null="false" lazy="false"/>
+		<property name="favouriteCount" column="FavouriteCount" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="watchCount" column="WatchCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<set name="userMovies" lazy="true" cascade="save-update,lock" inverse="true">
 			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>

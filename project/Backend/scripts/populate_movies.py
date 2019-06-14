@@ -29,8 +29,8 @@ for i in cursor.fetchall():
 
 def populate_sql(movie):
     cursor.execute('''
-            INSERT INTO Movie (tmdb, name, poster, backdrop, plot, imdb, language, tagline, release, runtime, ratingsum, ratingcount)
-            VALUES (%(id)s,%(name)s,%(poster)s,%(backdrop)s,%(plot)s,%(imdb)s,%(language)s,%(tagline)s,%(release)s,%(runtime)s,0,0)
+            INSERT INTO Movie (tmdb, name, poster, backdrop, plot, imdb, language, tagline, release, runtime, ratingsum, ratingcount, favouritecount, watchCount)
+            VALUES (%(id)s,%(name)s,%(poster)s,%(backdrop)s,%(plot)s,%(imdb)s,%(language)s,%(tagline)s,%(release)s,%(runtime)s,0,0,0,0)
         ''', movie)
 
     for person in movie['cast'] + movie['crew']:
@@ -73,6 +73,7 @@ def populate_sql(movie):
             VALUES (%s, 'v', %s)
         ''', (movie['id'], video['path']))
 
+def populate_sql_recommended(movie):
     #TODO verificar nome da tabela
     for m in movie['recommended']:
         cursor.execute('''
@@ -83,7 +84,7 @@ def populate_sql(movie):
 
 def populate_es(docs):
     es = db.elasticsearch()
-    helpers.bulk(es, docs)
+    helpers.bulk(es, docs,  request_timeout=200)
 
 
 docs = []
@@ -93,7 +94,7 @@ for line in file:
         print(current)
     current += 1
     
-    movie = json.loads(line, encoding='utf8')
+    movie = json.loads(line)
     
     if movie['id'] not in processed:
         movie['release'] = movie['release'] if movie['release'] != '' else '9999-01-01'
@@ -113,6 +114,19 @@ for line in file:
         })
 
         processed.add(movie['id'])
+
+processed = set()
+docs = []
+current = 0
+for line in file:
+    if current % 1000 == 0:
+        print(current)
+    current += 1
+
+    movie = json.loads(line)
+
+    if movie['id'] not in processed:
+        populate_sql_recommended(movie)
 
 file.close()
 conn.commit()
