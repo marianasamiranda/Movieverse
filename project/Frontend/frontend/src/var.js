@@ -616,6 +616,15 @@ export const labels = {
   }
 }
 
+export const screen_size_content_limit = [
+  {'wsize': 0, 'limit': 190, 'maxh': 150, 'minh': 70},
+  {'wsize': 400, 'limit': 100, 'maxh': 200, 'minh': 90},
+  {'wsize': 500, 'limit': 190, 'maxh': 200, 'minh': 120},
+  {'wsize': 550, 'limit': 240, 'maxh': 200, 'minh': 120},
+  {'wsize': 767, 'limit': 320, 'maxh': 200, 'minh': 120},
+  {'wsize': 992, 'limit': 180, 'maxh': 200, 'minh':120},
+  {'wsize': 1198, 'limit': 240, 'maxh': 200, 'minh':120}
+]
 
 ////////////////
 

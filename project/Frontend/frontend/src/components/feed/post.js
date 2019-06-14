@@ -5,7 +5,7 @@ import {avatars} from '../../var'
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import ReactTextCollapse from 'react-text-collapse';
-import {labels} from '../../var'
+import {labels, screen_size_content_limit} from '../../var'
 
 function ProfilePhoto(props){
   return (
@@ -64,17 +64,64 @@ class PostBodyComment extends Component{
     super(props);
     this.state = {
       content: props.content,
+      content_length: props.content.length,
       lang: props.lang,
+      show_more: false
     }
   }
 
+  /**
+   * Calculate & Update state of new dimensions
+   */
+  handleResize() {
+    var limitContent, collapse_max_height, collapse_min_height;
+    let wsize = window.innerWidth;
+
+    for(var i = screen_size_content_limit.length - 1; i >= 0; i--){
+      if(screen_size_content_limit[i]['wsize'] < wsize){
+        limitContent = screen_size_content_limit[i]['limit']
+        collapse_max_height = screen_size_content_limit[i]['maxh']
+        collapse_min_height = screen_size_content_limit[i]['minh']
+        break;
+      }
+    }
+
+    if(this.state.content_length > limitContent){
+      this.setState({
+        show_more: true,
+        collapse_max_height: collapse_max_height,
+        collapse_min_height: collapse_min_height
+      })
+    }else{
+      this.setState({
+        show_more: false
+      })
+    }
+  }
+
+  /**
+   * Add event listener
+   */
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize.bind(this));
+  }
+
+  /**
+   * Remove event listener
+   */
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize.bind(this));
+  }
+
   render() {
+
     let TEXT_COLLAPSE_OPTIONS = {
       collapse: false,
       collapseText: <p>... {labels[this.props.lang].show_more}</p>,
       expandText: <p>{labels[this.props.lang].show_less}</p>,
-      minHeight: 78,
-      maxHeight: 180,
+      minHeight: this.state.collapse_min_height,
+      maxHeight: this.state.collapse_max_height,
       textStyle: {
         color: 'red'
       }
@@ -82,20 +129,18 @@ class PostBodyComment extends Component{
 
     return (
       <div className="post-comment">
-        <ReactTextCollapse options={TEXT_COLLAPSE_OPTIONS}>
+        {
+          this.state.show_more?
+            <ReactTextCollapse options={TEXT_COLLAPSE_OPTIONS}>
+              <p>"{this.state.content}"</p>
+            </ReactTextCollapse>
+          :
           <p>"{this.state.content}"</p>
-        </ReactTextCollapse>
+        }
+        
       </div>
     );
   }
-  // render() {
-  //   return (
-  //     <div className="post-comment">
-  //         <p id="comment" className={this.state.comment_class} style={this.state.comment_style}>"{this.state.content}"</p>
-  //         <p id="show_more" className="red" onClick={this.show_more} style={this.state.show_more_style}>Show more</p>
-  //       </div>
-  //   );
-  // }
 
 }
 

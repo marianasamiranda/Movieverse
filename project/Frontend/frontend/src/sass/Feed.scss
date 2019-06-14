@@ -204,7 +204,7 @@
 }
 
 %post-text{
-    @media(min-width: 768px) {
+    @media(min-width: 767px) {
         font-size: 15pt;
         /* use this value to count block height */
         line-height: 1.2em;
@@ -212,7 +212,7 @@
         max-height: 7.2em;
     }
 
-    @media(min-width: 375px) and (max-width: 768px) {
+    @media(min-width: 375px) and (max-width: 767px) {
         font-size: 12pt;
         /* use this value to count block height */
         line-height: 1.2em;
