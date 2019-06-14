@@ -66,7 +66,7 @@ export default class MoviesCard extends Component {
         loading: true
       })
       const query = this.state.currentTab + '?begin=' + this.state.current * limit + '&limit=24'
-      Axios.get(backend + '/profile/' + query,
+      Axios.get(backend + '/user/movies/' + query,
           { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
         this.setState({
           [this.state.currentTab]: this.state[this.state.currentTab].concat(this.buildMovieCards(x.data)),

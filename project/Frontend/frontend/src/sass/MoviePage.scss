@@ -356,3 +356,9 @@
         color: $darker-color;
     }
 }
+
+.hide-when-small {
+    @media(max-width: 370px) {
+        display: none;
+    }
+}

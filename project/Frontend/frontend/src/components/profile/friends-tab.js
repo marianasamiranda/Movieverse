@@ -58,7 +58,7 @@ export default class FriendsCard extends Component {
         loading: true
       })
       const query = 'friends?begin=' + this.state.current * limit + '&limit=24'
-      Axios.get(backend + '/profile/' + query,
+      Axios.get(backend + '/user/friends/' + query,
         { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
           this.setState({
             friends: this.state.friends.concat(this.buildCards(x.data)),

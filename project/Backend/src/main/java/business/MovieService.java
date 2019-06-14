@@ -1,7 +1,5 @@
 package business;
 
-import com.mchange.v2.collection.MapEntry;
-import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import data.ElasticSearch;
 import data.RedisCache;
 import data.daos.*;
@@ -15,11 +13,8 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,16 +64,6 @@ public class MovieService {
     private UserService userService;
 
 
-    public MovieService() {}
-
-    public MUser getUserByToken(String token) {
-        try {
-            return mUserDAO.loadEntity("token='" + token + "'");
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
 
     public Feed getFeedWithType(Integer contentId, Integer type) {
         try {
@@ -87,9 +72,8 @@ public class MovieService {
         catch (Exception e) {
             return null;
         }
-
-
     }
+
 
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
@@ -169,6 +153,7 @@ public class MovieService {
         return result;
     }
 
+
     public Map<String, Object> getShort(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
 
@@ -182,9 +167,10 @@ public class MovieService {
         return result;
     }
 
-    public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws IOException {
 
-        var user = getUserByToken(token);
+    public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws Exception {
+
+        var user = mUserDAO.getSimpleUserByToken(token);
         var userMovie = new UserMovie();
 
         try {
@@ -222,8 +208,8 @@ public class MovieService {
     }
 
 
-    public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws IOException {
-        var user = getUserByToken(token);
+    public boolean patchMovieMeInfo(String token, Integer movieId, Map<String, Object> updates) throws Exception {
+        var user = mUserDAO.getSimpleUserByToken(token);
         var userMovie = new UserMovie();
         var movie = movieDAO.findById(movieId);
         try {
@@ -377,6 +363,7 @@ public class MovieService {
         1000, "1000 movie hours"
     );
 
+
     public void updateMovieHoursAchievements(MUser u, int movieRuntime) {
         int hoursB = u.getMinutesCount() / 60;
         int hoursA = (u.getMinutesCount() + movieRuntime) / 60;
@@ -392,20 +379,24 @@ public class MovieService {
         }
     }
 
-    public void updateFirstFavouriteAchievement(MUser u) {
+
+    private void updateFirstFavouriteAchievement(MUser u) {
         if (u.getFavouriteCount() == 0)
             userService.addAchievement(u, "First favourite movie");
     }
 
-    public void updateFirstRatingAchievement(MUser u) {
+
+    private void updateFirstRatingAchievement(MUser u) {
         if (u.getRatingsCount() == 0)
             userService.addAchievement(u, "First rating");
     }
 
-    public void updateFirstCommentAchievement(MUser u) {
+
+    private void updateFirstCommentAchievement(MUser u) {
         if (u.getCommentsCount() == 0)
             userService.addAchievement(u, "First comment");
     }
+
 
     private Map<Integer, String> likesAchievements = Map.of(
             1, "1 like single comment",
@@ -418,7 +409,7 @@ public class MovieService {
 
     private List<Integer> likesNumber = new ArrayList<>(likesAchievements.keySet()).stream().sorted().collect(Collectors.toList());
 
-    public void updateLikesAchievements(MUser u, int likes) {
+    private void updateLikesAchievements(MUser u, int likes) {
         int likesB = likes - 1;
         int likesA = likes;
 
@@ -436,6 +427,7 @@ public class MovieService {
         }
     }
 
+
     private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
         Feed f = new Feed();
 
@@ -446,6 +438,7 @@ public class MovieService {
 
         feedDAO.persist(f);
     }
+
 
     private void updateFeed(Feed f, int feedEntryType, Date date) {
         f.setType(feedEntryType);
@@ -458,12 +451,172 @@ public class MovieService {
         feedDAO.flush();
     }
 
+
     private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
 
         userMovie.setFavourite(true);
         userMovie.setDateFavourite(util.parseDate((String) updates.get("dateFavourited")));
     }
 
+
+    public Map postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
+
+        var user = mUserDAO.getSimpleUserByToken(token);
+        var movie = movieDAO.loadEntity("tmdb=" + movieId);
+
+        var comment = new Comment();
+
+        comment.setCommenter(user);
+
+        comment.setContent((String) content.get("message"));
+
+        var dateCommented = util.parseDate((String) content.get("date"));
+
+        comment.setTimestamp(new Timestamp(dateCommented.getTime()));
+        comment.setLikes(0);
+        comment.setMovie(movie);
+
+        commentDAO.persist(comment);
+        commentDAO.flush();
+
+        var map = new HashMap<String, Object>();
+        map.put("id", comment.getId());
+        map.put("userId", user.getId());
+        map.put("date", util.formatDate(dateCommented));
+        map.put("content", comment.getContent());
+        map.put("likes", comment.getLikes());
+        map.put("username", user.getUsername());
+        map.put("userAvatar", user.getAvatar());
+
+        addFeedEntry(3, user, comment.getId(), dateCommented);
+        updateFirstCommentAchievement(user);
+
+        return map;
+    }
+
+
+    public Object getMovieComments(Integer movieId, int page, String token) throws Exception {
+
+        List comments;
+
+        if(token != null) {
+            var user = mUserDAO.getSimpleUserByToken(token);
+            comments = commentDAO.getCommentsMovieWithUserLikes(movieId, page * 10, 10, user.getId());
+        }
+        else {
+            comments = commentDAO.getCommentsMovie(movieId, page * 10, 10);
+        }
+
+        boolean moreComments = !(comments.size() < 10);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("comments", comments);
+        result.put("moreComments", moreComments);
+
+        return result;
+    }
+
+
+    public Map<String, Object>  getMedia(int movieId) {
+        HashMap<String, Object> result = new HashMap<>();
+        Map media = mediaDAO.getMovieMedia(movieId);
+        result.put("videos", media.get('v'));
+        result.put("backdrops", media.get('b'));
+        result.put("posters", media.get('p'));
+        return result;
+    }
+
+
+    @Transactional
+    public boolean likeAComment(Integer id, String token) throws Exception {
+
+        var user = mUserDAO.getSimpleUserByToken(token);
+        var comment = commentDAO.findById(id);
+
+        comment.addUpvoter(user);
+
+        commentDAO.merge(comment);
+        commentDAO.flush();
+
+        updateLikesAchievements(user, comment.getLikes());
+
+        return true;
+    }
+
+
+    @Transactional
+    public boolean dislikeComment(Integer id, String token) throws Exception {
+        var user = mUserDAO.getSimpleUserByToken(token);
+        var comment = commentDAO.findById(id);
+
+        comment.removeUpvoter(user);
+
+        commentDAO.merge(comment);
+        commentDAO.flush();
+
+        return true;
+
+    }
+
+
+    @Transactional
+    public Object getCommentReplies(Integer commentId, int page, String token) throws Exception {
+        List replies;
+
+        if(token != null) {
+            var user = mUserDAO.getSimpleUserByToken(token);
+            replies = commentDAO.getRepliesCommentWithUserLikes(commentId, page * 2, 2, user.getId());
+        }
+        else {
+            replies = commentDAO.getRepliesComment(commentId, page * 2, 2);
+        }
+
+        boolean moreReplies = !(replies.size() < 2);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("replies", replies);
+        result.put("moreReplies", moreReplies);
+
+        return result;
+    }
+
+
+    @Transactional
+    public Object replyToComment(int id, String token, Map<String, Object> content) throws Exception {
+        var user = mUserDAO.getSimpleUserByToken(token);
+        var parentComment = commentDAO.findById(id);
+
+        var comment = new Comment();
+
+        comment.setCommenter(user);
+
+        comment.setContent((String) content.get("message"));
+
+        var dateCommented = util.parseDate((String) content.get("date"));
+
+        comment.setTimestamp(new Timestamp(dateCommented.getTime()));
+        comment.setLikes(0);
+        comment.setParent(id);
+        comment.setMovie(parentComment.getMovie());
+
+        commentDAO.persist(comment);
+        commentDAO.flush();
+
+        var map = new HashMap<String, Object>();
+
+        map.put("id", comment.getId());
+        map.put("userId", user.getId());
+        map.put("date", util.formatDate(dateCommented));
+        map.put("content", comment.getContent());
+        map.put("likes", comment.getLikes());
+        map.put("username", user.getUsername());
+        map.put("userAvatar", user.getAvatar());
+        map.put("isLiked", false);
+
+        updateFirstCommentAchievement(user);
+
+        return map;
+    }
 
 
     public List search(String title, String sort, String genre) throws IOException {
@@ -566,68 +719,13 @@ public class MovieService {
 
     public List<Integer> theatersIds() {
         return theaterDAO.findAll()
-                         .stream()
-                         .map(Theater::getId)
-                         .collect(Collectors.toList());
+                .stream()
+                .map(Theater::getId)
+                .collect(Collectors.toList());
     }
 
     public List randomUpcomingMovies(int limit) {
         return movieDAO.getRandomUpcomingMovies(limit);
     }
 
-    public Map postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
-
-        var user = getUserByToken(token);
-        var movie = movieDAO.loadEntity("tmdb=" + movieId);
-
-        var comment = new Comment();
-
-        comment.setCommenter(user);
-
-        comment.setContent((String) content.get("message"));
-
-        var dateCommented = util.parseDate((String) content.get("date"));
-
-        comment.setTimestamp(new Timestamp(dateCommented.getTime()));
-        comment.setLikes(0);
-        comment.setMovie(movie);
-
-        commentDAO.persist(comment);
-        commentDAO.flush();
-
-        var map = new HashMap<String, Object>();
-        map.put("id", comment.getId());
-        map.put("userId", user.getId());
-        map.put("date", util.formatDate(dateCommented));
-        map.put("content", comment.getContent());
-        map.put("likes", comment.getLikes());
-        map.put("username", user.getUsername());
-        map.put("userAvatar", user.getAvatar());
-
-        addFeedEntry(3, user, comment.getId(), dateCommented);
-        updateFirstCommentAchievement(user);
-
-        return map;
-    }
-
-    public Object getMovieComments(Integer movieId, int page, String token) throws Exception {
-
-        List comments;
-
-        if(token != null) {
-            var user = getUserByToken(token);
-            comments = commentDAO.getCommentsMovieWithUserLikes(movieId, page * 10, 10, user.getId());
-        }
-        else {
-            comments = commentDAO.getCommentsMovie(movieId, page * 10, 10);
-        }
-
-        boolean moreComments = !(comments.size() < 10);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("comments", comments);
-        result.put("moreComments", moreComments);
-
-        return result;
-    }
 }

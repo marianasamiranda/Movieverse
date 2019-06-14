@@ -257,7 +257,7 @@ export default class MoviePage extends Component {
                   </TabList>
                   { this.state.posters.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.posters}/>
+                      <HorizontalSlider more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.posters}/>
                     </TabPanel> 
                   }
                   { this.state.posters.length !== 5 && this.state.posters.length !== 0 &&
@@ -267,7 +267,7 @@ export default class MoviePage extends Component {
                   }
                   { this.state.videos.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.videos}/>
+                      <HorizontalSlider more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.videos}/>
                     </TabPanel>
                   }
                   { this.state.videos.length !== 5 && this.state.videos.length !== 0 &&
@@ -277,7 +277,7 @@ export default class MoviePage extends Component {
                   }
                   { this.state.backdrops.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/media/${this.props.match.params.id}`} loadMore="true" content={this.state.backdrops}/>   
+                      <HorizontalSlider more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.backdrops}/>   
                     </TabPanel>
                   }
                   { this.state.backdrops.length !== 5 && this.state.backdrops.length !== 0 &&

@@ -41,7 +41,7 @@ export default class Comment extends Component {
 
     if(this.state.liked === false) {
 
-      Axios.post(backend + '/comment/' + this.props.id + '/like',
+      Axios.post(backend + '/movie/comment/' + this.props.id + '/like',
         {},
         { headers: { Authorization: "Bearer " + token } })
       .then((response) =>
@@ -56,7 +56,7 @@ export default class Comment extends Component {
     }
     else {
       
-      Axios.post(backend + '/comment/' + this.props.id + '/dislike',
+      Axios.post(backend + '/movie/comment/' + this.props.id + '/dislike',
         {},
         { headers: { Authorization: "Bearer " + token } })
       .then((response) =>
@@ -80,7 +80,7 @@ export default class Comment extends Component {
 
     let self=this
 
-    Axios.post(backend + '/comment/' + this.props.id + '/reply',
+    Axios.post(backend + '/movie/comment/' + this.props.id + '/reply',
       f,
       { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
@@ -117,7 +117,7 @@ export default class Comment extends Component {
 
     let self = this;
 
-    Axios.get(backend + '/comment/' + self.props.id + '/replies/' + page,
+    Axios.get(backend + '/movie/comment/' + self.props.id + '/replies?page=' + page,
       header)
     .then(function(response) {
       

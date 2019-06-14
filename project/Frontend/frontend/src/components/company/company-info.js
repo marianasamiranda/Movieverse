@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {labels} from '../../var'
 
 export default function CompanyInfo(props){
@@ -6,15 +6,15 @@ export default function CompanyInfo(props){
     return(
         <div className="member-company-info">
             <div className="margin-bottom-10">
-                <p className="info-lable">{labels[props.lang].country}</p>
-                <p className="info-value">{props.country}</p>
+                <p className="info-label">{labels[props.lang].country}</p>
+                <p className="info-value">{props.country ? props.country : '-'}</p>
             </div>
             <div className="margin-bottom-10">
-                <p className="info-lable">{labels[props.lang].headquarters}</p>
-                <p className="info-value">{props.headquarters}</p>
+                <p className="info-label">{labels[props.lang].headquarters}</p>
+                <p className="info-value">{props.headquarters ? props.headquarters : '-'}</p>
             </div>
             <div className="">
-                <p className="info-lable">{labels[props.lang].homepage}</p>
+                <p className="info-label">{labels[props.lang].homepage}</p>
                 <a href={props.homepage}><u>{props.name}</u></a>
             </div>
         </div>

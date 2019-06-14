@@ -31,7 +31,7 @@ export default class Feed extends Component {
         query = "?username=" + user
       }
   
-      return Axios.get(backend + '/feed' + query, 
+      return Axios.get(backend + '/user/feed' + query, 
           { headers: { Authorization: "Bearer " + token } }).then(x => {
         
         console.log(x.data)

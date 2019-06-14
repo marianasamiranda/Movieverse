@@ -46,7 +46,7 @@ export default class MemberMain extends Component{
             })
 
         }else{
-            var url = backend + '/member-movies/' + this.state.id + "/";
+            var url = backend + '/member/' + this.state.id + "/movies?page=";
 
             var nextPage = this.state.currentPage + 1
             

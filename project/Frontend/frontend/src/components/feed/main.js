@@ -39,7 +39,7 @@ export default class Main extends Component {
 
     }else{
         const token = getToken()
-        var url = backend + '/feed-entries/';
+        var url = backend + '/user/feed/entries';
 
         var nextPage = this.state.currentPage + 1
         
@@ -95,7 +95,7 @@ export default class Main extends Component {
                     this.state.entriesRendered.map(element => {
                       return(
                         <Post
-                          data = {element}
+                          data={element}
                           lang={this.props.lang}
                         >
                         </Post>

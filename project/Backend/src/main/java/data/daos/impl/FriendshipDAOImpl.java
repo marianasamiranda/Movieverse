@@ -25,9 +25,11 @@ public class FriendshipDAOImpl extends DAOImpl<Integer , Friendship> implements 
         return loadEntity("sender=" + sender + "and receiver= " +  receiver);
     }
 
+
     public void removeFriendship(int sender, int receiver) {
         removeEntity("sender=" + sender + "and receiver= " +  receiver);
     }
+
 
     public List requestsReceived(int id) {
         Query query = entityManager.createNativeQuery("SELECT * FROM requestsReceived(?1)")
@@ -36,12 +38,14 @@ public class FriendshipDAOImpl extends DAOImpl<Integer , Friendship> implements 
         return dataUtil.queryListToListMap(l, Arrays.asList("username", "name", "country", "avatar", "common"));
     }
 
+
     public List requestsSent(int id) {
         Query query = entityManager.createNativeQuery("SELECT * FROM requestsSent(?1)")
                                    .setParameter(1, id);
         List<Object[]> l = query.getResultList();
         return dataUtil.queryListToListMap(l, Arrays.asList("username", "name", "country", "avatar", "common"));
     }
+
 
     public String friendshipStatus(int selfId, String requestedUsername) {
         Query query = entityManager.createNativeQuery(
@@ -59,12 +63,9 @@ public class FriendshipDAOImpl extends DAOImpl<Integer , Friendship> implements 
          Boolean pending = (Boolean) results.get(0)[0];
          Integer sender = (Integer) results.get(0)[1];
 
-         if (pending && sender == selfId)
-             return "requested";
-         else if (pending && sender == selfId)
-             return "received";
-         else return "friends";
+         if (pending)
+             return sender == selfId ? "requested" : "received";
+         else
+             return "friends";
     }
-
-
 }

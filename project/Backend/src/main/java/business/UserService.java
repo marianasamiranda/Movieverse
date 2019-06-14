@@ -201,12 +201,9 @@ public class UserService {
         if (username != null) {
             if (u.getUsername().equals(username))
                 self = true;
-
             //friendship status
             else {
-
                 friendship = friendshipDAO.friendshipStatus(u.getId(),username);
-
                 u = mUserDAO.getUserByUsername(username);
                 if (u == null)
                     throw new Exception("User doesn't exists");

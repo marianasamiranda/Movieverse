@@ -57,7 +57,7 @@ export default class PeopleSearch extends Component {
   }
 
   getInfo() {
-    Axios.get(backend + '/people-search-page').then(x => {
+    Axios.get(backend + '/member/search-page').then(x => {
       this.setState({
         bornToday: x.data.bornToday,
         mostCredits: x.data.mostCredits
@@ -92,7 +92,7 @@ export default class PeopleSearch extends Component {
 
   search() {
     let query = '?name=' + this.state.name
-    Axios.get(backend + '/people-search' + query).then(x => {
+    Axios.get(backend + '/member/search' + query).then(x => {
       this.setState({
         results: x.data
       })

@@ -105,6 +105,12 @@ export default class ResizableTextarea extends Component {
 							</Button>
 						}
 					</div>
+					<div className="p-2">
+						<p>
+							<span className="hide-when-small">{labels[this.props.lang].characterCount}: </span> 
+							{this.state.value ? this.state.value.length : 0}/255
+						</p>
+					</div>
 				</div>
 			</Form>
 		</>

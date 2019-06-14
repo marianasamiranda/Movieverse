@@ -8,15 +8,17 @@ import '../styles/Tour.css'
 
 export default class Tour extends Component {
   componentDidMount() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#__"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-
         document.querySelector(this.getAttribute('href')).scrollIntoView({
           behavior: 'smooth'
         });
       });
     });
+  }
+
+  componentWillUnmount() {
   }
 
   render() {
@@ -30,15 +32,15 @@ export default class Tour extends Component {
                   Contents
                 </div>
                 <ul>
-                  <li><a href="#authentication">{labels[this.props.lang].authentication}</a></li>
-                  <li><a href="#feed">{labels[this.props.lang].feed}</a></li>
-                  <li><a href="#profile">{labels[this.props.lang].profile}</a></li>
-                  <li><a href="#movies">{labels[this.props.lang].movies}</a></li>
-                  <li><a href="#people">{labels[this.props.lang].people}</a></li>
-                  <li><a href="#users">{labels[this.props.lang].users}</a></li>
-                  <li><a href="#search">{labels[this.props.lang].search}</a></li>
-                  <li><a href="#news">{labels[this.props.lang].news}</a></li>
-                  <li><a href="#showtimes">{labels[this.props.lang].showtimes}</a></li>
+                  <li><a href="#__authentication">{labels[this.props.lang].authentication}</a></li>
+                  <li><a href="#__feed">{labels[this.props.lang].feed}</a></li>
+                  <li><a href="#__profile">{labels[this.props.lang].profile}</a></li>
+                  <li><a href="#__movies">{labels[this.props.lang].movies}</a></li>
+                  <li><a href="#__people">{labels[this.props.lang].people}</a></li>
+                  <li><a href="#__users">{labels[this.props.lang].users}</a></li>
+                  <li><a href="#__search">{labels[this.props.lang].search}</a></li>
+                  <li><a href="#__news">{labels[this.props.lang].news}</a></li>
+                  <li><a href="#__showtimes">{labels[this.props.lang].showtimes}</a></li>
                 </ul>
               </aside>
             </Col>
@@ -63,7 +65,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="authentication"> 
+                <section className="tour-section" id="__authentication"> 
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -90,7 +92,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="feed">
+                <section className="tour-section" id="__feed">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -100,7 +102,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="profile">
+                <section className="tour-section" id="__profile">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -150,7 +152,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="movies">
+                <section className="tour-section" id="__movies">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -160,7 +162,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="people">
+                <section className="tour-section" id="__people">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -170,7 +172,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="users">
+                <section className="tour-section" id="__users">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -204,7 +206,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="search">
+                <section className="tour-section" id="__search">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -219,7 +221,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="news">
+                <section className="tour-section" id="__news">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">
@@ -237,7 +239,7 @@ export default class Tour extends Component {
                   </Row>
                 </section>
 
-                <section className="tour-section" id="showtimes">
+                <section className="tour-section" id="__showtimes">
                   <Row>
                     <Col xs="12">
                       <div className="title-medium">

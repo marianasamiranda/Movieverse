@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import imdb from '../../img/imdb.svg';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import MovieCard from '../movie-card'
-import HorizontalSlider from '../horizontal-slider';
 import InfiniteScroll from 'react-infinite-scroller';
 import {backend, labels} from '../../var'
 import Axios from 'axios'
-
 
 export default class CompanyMain extends Component{
 
@@ -29,7 +26,7 @@ export default class CompanyMain extends Component{
         this.loadItems.bind(this)
     }
 
-    loadItems(page) {
+    loadItems() {
 
         if(this.state.moviesNotRendered.length > 8){
             let nextMovies = this.state.moviesNotRendered.slice(0,8);
@@ -44,7 +41,7 @@ export default class CompanyMain extends Component{
             })
 
         }else{
-            var url = backend + '/company-movies/' + this.state.id + "/";
+            var url = backend + '/company/' + this.state.id + "/movies?page=";
 
             var nextPage = this.state.currentPage + 1
             
@@ -115,7 +112,11 @@ export default class CompanyMain extends Component{
                                 this.state.moviesRendered.map(element => {
                                 return(
                                     <Col xs="6" sm="3" >
-                                        <MovieCard img={"https://image.tmdb.org/t/p/w200/" + element.poster} title={element.name} class="max-height-100"/>
+                                        <MovieCard 
+                                            img={"https://image.tmdb.org/t/p/w200/" + element.poster} 
+                                            title={element.name} 
+                                            class="max-height-100"
+                                            id={element.id}/>
                                     </Col>)
                             })}
                         </Row>
