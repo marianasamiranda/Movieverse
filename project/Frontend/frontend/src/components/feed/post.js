@@ -65,18 +65,8 @@ class PostBodyComment extends Component{
     this.state = {
       content: props.content,
       lang: props.lang,
-      // comment_class: "body-text",
-      // comment_style: {},
-      // show_more_style: {display: "block"}
     }
   }
-
-  // show_more = (e) => {
-  //   this.setState({
-  //     comment_style: {maxHeight: 'none'},
-  //     show_more_style: {display: 'none'} 
-  //   })
-  // }
 
   render() {
     let TEXT_COLLAPSE_OPTIONS = {
@@ -215,7 +205,7 @@ function PostBody(props){
 
   return (
     <div className="container flex">
-      <div className="row">
+      <div className="row full-width">
         <div className="col-4">
           <div className="movie-card-container">
             <Link to={'/movie/' + props.data.movieid}>
