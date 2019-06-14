@@ -207,7 +207,7 @@ export default class Comment extends Component {
           <div className="replies-container">
           { this.state.replies.length !== this.state.numberReplies &&
             <div className="reply text-center">
-              <a onClick={this.handleShowMore.bind(this)}>Show more...</a>
+              <div onClick={this.handleShowMore.bind(this)}>Show more...</div>
             </div>
           }
           {

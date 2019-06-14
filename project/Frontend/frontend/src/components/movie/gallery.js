@@ -6,63 +6,42 @@ import Image from 'react-bootstrap/Image'
 
 export default class Gallery extends Component {
 
-    createGallery = () => {
-        let gallery = []
-        let i = 0
+  constructor(props) {
+    super(props);
 
-        if(this.props.type === 'video') {
-            this.symbol = <i className="fas fa-play-circle fa-5x"></i>;
-        }
-        else if (this.props.type === 'image') {
-            this.symbol = <i className="fas fa-search fa-5x"></i>;
-        }
-
-        while (i+1 < this.props.data.length) {
-            gallery.push(<Row>
-                <Col lg="6">
-                    <div className="galleryItem">
-                        <div className="galleryContainer">
-                            <Image className="image" src={this.props.data[i].src} />
-                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i].href} className="overlay">
-                                <div className="text">{this.symbol}</div>
-                            </a>
-                        </div>
-                    </div>
-                </Col>
-                <Col lg="6">
-                    <div className="galleryItem">
-                        <div className="galleryContainer">
-                            <Image className="image" src={this.props.data[i+1].src} />
-                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i+1].href} className="overlay">
-                                <div className="text">{this.symbol}</div>
-                            </a>
-                        </div>
-                    </div>
-                </Col>
-            </Row>)
-            i+=2;
-        }
-        if (i < this.props.data.length) {
-            gallery.push(<Row>
-                <Col lg="6">
-                    <div className="galleryItem">
-                        <div className="galleryContainer">
-                            <Image className="image" src={this.props.data[i].src} />
-                            <a target='_blank' rel="noopener noreferrer" href={this.props.data[i].href} className="overlay">
-                                <div className="text">{this.symbol}</div>
-                            </a>
-                        </div>
-                    </div>
-                </Col>
-            </Row>)
-        }
-        return gallery
+    this.state = {
+      columnSize: Math.floor(12/this.props.numberColumns)
     }
-
-    render() {
-        return <Container>
-            {this.createGallery()}
-        </Container>
+  }
     
+  render() {
+
+    let symbol;
+
+    if(this.props.type === 'video') {
+      symbol = <i className="fas fa-play-circle fa-5x"></i>;
     }
+    else if (this.props.type === 'image') {
+      symbol = <i className="fas fa-search fa-5x"></i>;
+    }
+    
+    let self=this
+
+    return <Container>
+      <Row>
+        { this.props.data.map(function(content, i) { 
+          return <Col key={i} lg={self.state.columnSize}>
+            <div className="galleryItem">
+              <div className="galleryContainer">
+                <Image className="image" src={ content.src } />
+                <a target='_blank' rel="noopener noreferrer" href={ content.href } className="overlay">
+                  <div className="text">{ symbol }</div>
+                </a>
+              </div>
+            </div>
+          </Col>
+        })}
+      </Row>
+    </Container>
+  }
 }

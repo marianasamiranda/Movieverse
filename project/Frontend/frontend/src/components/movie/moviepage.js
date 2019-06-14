@@ -8,6 +8,7 @@ import MovieCard from '../movie-card'
 import DiscussionBox from './discussion-box'
 import MovieEvaluation from './movie-evaluation'
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 import Loading from '../aux_pages/loading'
 import { backend, labels } from '../../var'
 import Language from '../language'
@@ -61,7 +62,7 @@ export default class MoviePage extends Component {
 
         if(x.data.backdrops) {
           for(const url of x.data.backdrops) {
-            var backdropId = url.split(/[\/.]/)[1];
+            var backdropId = url.split(/[/.]/)[1];
             originalURL = "https://image.tmdb.org/t/p/original/" + backdropId + ".jpg"
             
             source = "https://image.tmdb.org/t/p/w500_and_h282_face/" + backdropId + ".jpg"
@@ -85,7 +86,7 @@ export default class MoviePage extends Component {
 
         if(x.data.posters) {
           for(const url of x.data.posters) {
-            var posterId = url.split(/[\/.]/)[1];
+            var posterId = url.split(/[/.]/)[1];
             originalURL = "https://image.tmdb.org/t/p/original/" + posterId + ".jpg"
             source = "https://image.tmdb.org/t/p/w220_and_h330_face/" + posterId + ".jpg"
             posters.push({
@@ -149,7 +150,7 @@ export default class MoviePage extends Component {
     if(this.state.windowSize < 768) {
       headerTitle = <div className="movie-title-div">
         <span>{this.state.movie.name} </span>
-        <a target="_blank" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+        <a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
           <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
         </a>
         <br />
@@ -161,7 +162,7 @@ export default class MoviePage extends Component {
       headerTitle = <div className="movie-title-div d-flex">
           <div className="mr-auto p-2">
             <span>{this.state.movie.name} </span>
-            <a target="_blank" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+            <a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
               <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
             </a>
           </div>
@@ -192,21 +193,51 @@ export default class MoviePage extends Component {
               {this.state.movie.tagline}
               <h1>{labels[this.props.lang].summary}</h1>
                 <p>{this.state.movie.plot}</p>
-              <h1>{labels[this.props.lang].cast}</h1>
-              <Row>
-                <Col lg="3" md="3" xs="3">
-                  <MovieCard small img="http://placehold.it/228x337" title="Olivia Colman" info="Queen Anne" />
-                </Col>
-                <Col lg="3" md="3" xs="3">
-                  <MovieCard small img="http://placehold.it/228x337" title="Emma Stone" info="Abigail" />
-                </Col>
-                <Col lg="3" md="3" xs="3">
-                  <MovieCard small img="http://placehold.it/228x337" title="Rachel Weisz" info="Lady Sarah" />
-                </Col>
-                <Col lg="3" md="3" xs="3">
-                  <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
-                </Col>
-              </Row>
+              <Tabs>
+                <TabList>
+                  <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}>{labels[this.props.lang].cast} & {labels[this.props.lang].crew}</h1>
+                  <Tab>{labels[this.props.lang].cast}</Tab>
+                  <Tab>{labels[this.props.lang].crew}</Tab>
+                </TabList>
+                <TabPanel>
+                  <Row>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Olivia Colman" info="Queen Anne" />
+                    </Col>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Emma Stone" info="Abigail" />
+                    </Col>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Rachel Weisz" info="Lady Sarah" />
+                    </Col>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
+                    </Col>
+                  </Row>
+                </TabPanel> 
+                <TabPanel>
+                  <Row>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Olivia Colman" info="Queen Anne" />
+                    </Col>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Emma Stone" info="Abigail" />
+                    </Col>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Rachel Weisz" info="Lady Sarah" />
+                    </Col>
+                    <Col lg="3" md="3" xs="3">
+                      <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
+                    </Col>
+                  </Row>
+                </TabPanel> 
+                <Link
+                  to={`/movie/${ this.props.match.params.id }/members`}
+                  className="btn btn-secondary btn-sm button-slim float-right"
+                >
+                  { labels[this.props.lang].showCastCrew }
+                </Link>
+              </Tabs>
               {(this.state.backdrops.length !== 0  ||
                 this.state.posters.length   !== 0  ||
                 this.state.videos.length    !== 0) &&
