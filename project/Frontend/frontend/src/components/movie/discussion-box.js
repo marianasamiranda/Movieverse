@@ -78,7 +78,8 @@ export default class DiscussionBox extends Component {
         'date': response.data.date,
         'content': response.data.content,
         'likes': response.data.likes,
-        'isLiked': false
+        'isLiked': false,
+        'numberReplies': 0
       }
 
       self.setState(prevState => ({
