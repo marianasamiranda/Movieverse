@@ -18,7 +18,7 @@ export default class MediaPage extends Component {
     this.state = {
       movieName: undefined,
       movieYear: undefined,
-      selected_tab: undefined,
+      selectedTab: undefined,
       activeKey: 1,
       videos: [],
       backdrops: [],
@@ -38,13 +38,13 @@ export default class MediaPage extends Component {
     }).then(k => {
       Axios.get(backend + '/media/' + this.props.match.params.id)
       .then(x => {
-        let tmp_videos = [];
-        let tmp_backdrops = [];
-        let tmp_posters = [];
+        let tmpVideos = [];
+        let tmpBackdrops = [];
+        let tmpPosters = [];
 
         if(x.data.videos) {
           x.data.videos.map((video) =>
-            tmp_videos.push({
+            tmpVideos.push({
               'href': 'https://www.youtube.com/watch?v=' + video,
               'src': 'http://img.youtube.com/vi/' + video + '/0.jpg'
             })
@@ -53,7 +53,7 @@ export default class MediaPage extends Component {
 
         if(x.data.backdrops) {
           x.data.backdrops.map((backdrop) =>
-            tmp_backdrops.push({
+            tmpBackdrops.push({
               'href': 'https://image.tmdb.org/t/p/original/' + backdrop,
               'src': 'https://image.tmdb.org/t/p/w500_and_h282_face/' + backdrop
             })
@@ -62,7 +62,7 @@ export default class MediaPage extends Component {
 
         if(x.data.posters) {
           x.data.posters.map((poster) =>
-            tmp_posters.push({
+            tmpPosters.push({
               'href': 'https://image.tmdb.org/t/p/original/' + poster,
               'src': 'https://image.tmdb.org/t/p/w500/' + poster
             })
@@ -70,13 +70,13 @@ export default class MediaPage extends Component {
         }
 
         this.setState({
-          videos: tmp_videos,
-          backdrops: tmp_backdrops,
-          posters: tmp_posters
+          videos: tmpVideos,
+          backdrops: tmpBackdrops,
+          posters: tmpPosters
         });
 
         this.setState({
-          selected_tab: <Gallery type='image' data={this.state.posters} />
+          selectedTab: <Gallery key={1} type='image' numberColumns={4} data={this.state.posters} />
         })
   
       });
@@ -86,13 +86,13 @@ export default class MediaPage extends Component {
 
   handleSelect(eventKey) {
     if(eventKey === "1") {
-      this.setState({ activeKey: "1", selected_tab: <Gallery type='image' data={this.state.posters} />})
+      this.setState({ activeKey: "1", selectedTab: <Gallery key={1} type='image' numberColumns={4} data={this.state.posters} />})
     }
     else if (eventKey === "2") {
-      this.setState({ activeKey: "2", selected_tab: <Gallery type='image' data={this.state.backdrops} />})
+      this.setState({ activeKey: "2", selectedTab: <Gallery key={2} type='image' numberColumns={3} data={this.state.backdrops} />})
     }
     else if (eventKey === "3") {
-      this.setState({ activeKey: "3", selected_tab: <Gallery type='video' data={this.state.videos} />})
+      this.setState({ activeKey: "3", selectedTab: <Gallery key={3} type='video' numberColumns={3} data={this.state.videos} />})
     }
   }
 
@@ -133,7 +133,7 @@ export default class MediaPage extends Component {
           </Nav.Item>
         }
       </Nav>
-      {this.state.selected_tab}
+      {this.state.selectedTab}
     </div>
   }
 }

@@ -7,8 +7,8 @@ $strong-gray: #707070;
 
 @mixin title-member-company($size) {
     @extend .brown;
-    font-weight: bold;
     font-size: $size;
+    font-family: $font-title;
 }
 
 .member-company-info {

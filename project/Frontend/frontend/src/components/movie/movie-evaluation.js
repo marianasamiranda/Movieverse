@@ -209,7 +209,6 @@ export default class MovieEvaluation extends Component {
     console.log(nextValue)
     f['rating'] = nextValue
     f['dateRated'] = getCurrentDate()
-    console.log(f)
     this.setState({
       rating: nextValue,
       message: movieEval[nextValue]

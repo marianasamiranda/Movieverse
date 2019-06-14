@@ -7,6 +7,7 @@ import Member from './components/member/member'
 import Company from './components/company/company'
 import MoviePage from './components/movie/moviepage'
 import MediaPage from './components/movie/mediapage'
+import CrewPage from './components/movie/crewpage'
 import MovieSearch from './components/movieSearch'
 import PeopleSearch from './components/peopleSearch'
 import FindUsers from './components/findUsers'
@@ -131,6 +132,9 @@ class App extends Component {
 
               <Route exact path="/movie/:id" 
                 render={(props) => <MoviePage {...props} lang={this.state.language} />}  />
+
+              <Route exact path="/movie/:id/members" 
+                render={(props) => <CrewPage {...props} lang={this.state.language} />}  />
 
               <Route exact path="/media/:id"
                 render={(props) => <MediaPage {...props} lang={this.state.language} />}  />

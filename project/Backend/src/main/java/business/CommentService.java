@@ -26,6 +26,9 @@ public class CommentService {
     MUserDAO mUserDAO;
 
     @Autowired
+    MovieService movieService;
+
+    @Autowired
     private Util util;
 
     public MUser getUserByToken(String token) {
@@ -47,6 +50,8 @@ public class CommentService {
 
         commentDAO.merge(comment);
         commentDAO.flush();
+
+        movieService.updateLikesAchievements(user, comment.getLikes());
 
         return true;
     }
@@ -118,6 +123,7 @@ public class CommentService {
         map.put("userAvatar", user.getAvatar());
         map.put("isLiked", false);
 
+        movieService.updateFirstCommentAchievement(user);
 
         return map;
     }

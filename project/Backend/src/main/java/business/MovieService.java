@@ -51,6 +51,9 @@ public class MovieService {
     private CommentDAO commentDAO;
 
     @Autowired
+    private AchievementDAO achievementDAO;
+
+    @Autowired
     private MediaDAO mediaDAO;
 
     @Autowired
@@ -248,6 +251,7 @@ public class MovieService {
                         setFavourite(updates, userMovie);
                         addFeedEntry(2, user, movie.getORMID(), dateWatched);
                         System.out.println(6);
+                        updateFirstFavouriteAchievement(user);
 
                     }
                     if (updates.containsKey("rating")) {
@@ -320,6 +324,7 @@ public class MovieService {
                     userMovieDAO.flush();
 
                     addFeedEntry(2, user, movie.getORMID(), util.parseDate((String) updates.get("dateFavourited")));
+                    updateFirstFavouriteAchievement(user);
                 } else {
                     // If movie was removed from favourites
 
@@ -347,6 +352,8 @@ public class MovieService {
 
                     if (f != null)
                         updateFeed(f, 0, util.parseDate((String) updates.get("dateRated")));
+
+                    updateFirstRatingAchievement(user);
                 } else {
                     Feed f = getFeedWithType(movie.getTmdb(), 0);
 
@@ -370,11 +377,11 @@ public class MovieService {
         1000, "1000 movie hours"
     );
 
-    private void updateMovieHoursAchievements(MUser u, int movieRuntime) {
+    public void updateMovieHoursAchievements(MUser u, int movieRuntime) {
         int hoursB = u.getMinutesCount() / 60;
-        int hoursA = hoursB + movieRuntime;
-        System.out.println(hoursA);
+        int hoursA = (u.getMinutesCount() + movieRuntime) / 60;
         System.out.println(hoursB);
+        System.out.println(hoursA);
         for(Map.Entry<Integer, String> m: movieHoursAchievements.entrySet()){
             int key = m.getKey();
             System.out.println(key);
@@ -385,16 +392,48 @@ public class MovieService {
         }
     }
 
-    private void updateFirstFavouriteAchievement(MUser u) {
-        userService.addAchievement(u, "First favourite movie");
+    public void updateFirstFavouriteAchievement(MUser u) {
+        if (u.getFavouriteCount() == 0)
+            userService.addAchievement(u, "First favourite movie");
     }
 
-    private void updateFirstRatingAchievement(MUser u) {
-        userService.addAchievement(u, "First rating");
+    public void updateFirstRatingAchievement(MUser u) {
+        if (u.getRatingsCount() == 0)
+            userService.addAchievement(u, "First rating");
     }
 
-    private void updateFirstCommentAchievement(MUser u) {
-        userService.addAchievement(u, "First comment");
+    public void updateFirstCommentAchievement(MUser u) {
+        if (u.getCommentsCount() == 0)
+            userService.addAchievement(u, "First comment");
+    }
+
+    private Map<Integer, String> likesAchievements = Map.of(
+            1, "1 like single comment",
+            10, "10 likes single comment",
+            50, "50 likes single comment",
+            100, "100 likes single comment",
+            500, "500 likes single comment",
+            1000, "1000 likes single comment"
+    );
+
+    private List<Integer> likesNumber = new ArrayList<>(likesAchievements.keySet()).stream().sorted().collect(Collectors.toList());
+
+    public void updateLikesAchievements(MUser u, int likes) {
+        int likesB = likes - 1;
+        int likesA = likes;
+
+        int nrLikeBadges = achievementDAO.getMaxLikeBadge(u.getId()) - 1;
+        int maxLikeBadge = nrLikeBadges > -1? likesNumber.get(nrLikeBadges) : 0 ;
+
+        if (likesA < maxLikeBadge) return;
+
+        for(Map.Entry<Integer, String> m: likesAchievements.entrySet()){
+            int key = m.getKey();
+            if (key > likesB && key<= likesA){
+                userService.addAchievement(u, m.getValue());
+                break;
+            }
+        }
     }
 
     private void addFeedEntry(int feedEntryType, MUser user, int contentId, Date date) {
@@ -566,6 +605,7 @@ public class MovieService {
         map.put("userAvatar", user.getAvatar());
 
         addFeedEntry(3, user, comment.getId(), dateCommented);
+        updateFirstCommentAchievement(user);
 
         return map;
     }

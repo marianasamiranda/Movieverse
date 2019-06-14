@@ -42,6 +42,10 @@ public class Movie {
 	private String language;
 	
 	private String tagline;
+
+	private int favouriteCount;
+
+	private int watchCount;
 	
 	private java.util.Set userMovies = new java.util.HashSet();
 	
@@ -166,7 +170,23 @@ public class Movie {
 	public String getTagline() {
 		return tagline;
 	}
-	
+
+	public void setFavouriteCount(int value) {
+		this.favouriteCount = value;
+	}
+
+	public int getFavouriteCount() {
+		return favouriteCount;
+	}
+
+	public void setWatchCount(int value) {
+		this.watchCount = value;
+	}
+
+	public int getWatchCount() {
+		return watchCount;
+	}
+
 	public MUser[] getmUsers() {
 		java.util.ArrayList lValues = new java.util.ArrayList(5);
 		for(java.util.Iterator lIter = userMovies.iterator();lIter.hasNext();) {
