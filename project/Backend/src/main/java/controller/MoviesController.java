@@ -19,9 +19,16 @@ public class MoviesController {
     MovieService movieService;
 
     @RequestMapping(method = GET, value = "/movie/{id}")
-    public ResponseEntity<Object> getMovie(@PathVariable("id") String id) {
+    public ResponseEntity<Object> getMovie(@PathVariable("id") String id,
+                                           @RequestHeader(value = "Authorization", required = false) String t) {
         try {
-            return Util.ok(movieService.get(Integer.parseInt(id)));
+            int movieID = Integer.parseInt(id);
+            if (t != null) {
+                String token = t.split(" ")[1];
+                return Util.ok(movieService.getMovieMeInfo(token, movieID));
+            }
+            else
+                return Util.ok(movieService.get(movieID));
         }
         catch(Exception e) {
             return Util.badRequest("");
@@ -39,20 +46,7 @@ public class MoviesController {
     }
 
 
-    @RequestMapping(method = GET, value = "/movie/{id}/me")
-    public ResponseEntity<Object> getMovieMeInfo(@RequestHeader(value = "Authorization") String t,
-                                                 @PathVariable("id") String id) {
-        String token = t.split(" ")[1];
-
-        try {
-            return Util.ok(movieService.getMovieMeInfo(token, Integer.parseInt(id)));
-        }
-        catch(Exception e) {
-            return Util.badRequest("");
-        }
-    }
-
-    @RequestMapping(method = PATCH, value = "/movie/{id}/me")
+    @RequestMapping(method = PATCH, value = "/movie/{id}")
     public ResponseEntity<Object> patchMovieMeInfo(
             @RequestHeader(value = "Authorization") String t,
             @PathVariable("id") String id,
@@ -69,7 +63,7 @@ public class MoviesController {
     }
 
     @LogMethod
-    @RequestMapping(method = GET, value = "/movie-search")
+    @RequestMapping(method = GET, value = "/movie/search")
     public ResponseEntity<Object> movieSearch(@RequestParam (value = "title") String title,
                                               @RequestParam (value = "sort", required = false) String sort,
                                               @RequestParam (value = "genre", required = false) String genre) {
@@ -82,7 +76,7 @@ public class MoviesController {
         }
     }
 
-    @RequestMapping(method = GET, value = "/movie-search-page")
+    @RequestMapping(method = GET, value = "/movie/search-page")
     public ResponseEntity<Object> movieSearchPage() {
         try {
             return Util.ok(movieService.movieSearchPage());

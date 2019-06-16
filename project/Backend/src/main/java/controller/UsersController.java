@@ -32,7 +32,6 @@ public class UsersController {
             return Util.ok(userService.profileInfo(token, username));
         }
         catch (Exception e) {
-            e.printStackTrace();
             return Util.badRequest(e.getMessage());
         }
     }
@@ -40,15 +39,14 @@ public class UsersController {
 
     @LogMethod
     @RequestMapping(method = GET, value = "/user/feed")
-    public ResponseEntity<Object> feed(@RequestHeader(value = "Authorization") String t,
-                                       @RequestParam(value = "username", required = false) String username) {
+    public ResponseEntity<Object> feed(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
 
         try {
-            return Util.ok(userService.feedInfo(token, username));
+            return Util.ok(userService.feedInfo(token));
         }
         catch (Exception e) {
-            return Util.badRequest("");
+            return Util.badRequest(e.getMessage());
         }
     }
 
@@ -80,7 +78,7 @@ public class UsersController {
 
     @RequestMapping(method = PUT, value = "/user/avatar")
     public ResponseEntity<Object> setAvatar(@RequestHeader(value = "Authorization") String t,
-                                         @RequestParam(value = "image") MultipartFile file) {
+                                            @RequestParam(value = "image") MultipartFile file) {
         String token = t.split(" ")[1];
         try {
             return Util.ok(userService.newAvatar(token, file));
@@ -93,7 +91,7 @@ public class UsersController {
 
     @RequestMapping(method = PUT, value = "/user/genre")
     public ResponseEntity<Object> genre(@RequestHeader(value = "Authorization") String t,
-                                         @RequestBody Map body) {
+                                        @RequestBody Map body) {
         String token = t.split(" ")[1];
         try {
             userService.newGenre(token, (String) body.get("genre"));
@@ -168,18 +166,6 @@ public class UsersController {
     }
 
 
-    @RequestMapping(method = GET, value = "/user/search")
-    public ResponseEntity<Object> search(@RequestHeader(value = "Authorization") String t,
-                                         @RequestParam(value = "name") String name) {
-        String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.search(token, name));
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
-    }
-
     @RequestMapping(method = GET, value = "/user/movies/{movieListType}")
     public ResponseEntity<Object> userMovieList(@PathVariable("movieListType") String type,
                                                 @RequestHeader(value = "Authorization") String t,
@@ -207,6 +193,32 @@ public class UsersController {
         catch (Exception e) {
             e.printStackTrace();
             return Util.badRequest("");
+        }
+    }
+
+
+    @RequestMapping(method = GET, value = "/user/search")
+    public ResponseEntity<Object> search(@RequestHeader(value = "Authorization") String t,
+                                         @RequestParam(value = "name") String name) {
+        String token = t.split(" ")[1];
+        try {
+            return Util.ok(userService.search(token, name));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
+
+    @RequestMapping(method = GET, value = "/user/search-page")
+    public ResponseEntity<Object> searchPage(@RequestHeader(value = "Authorization") String t) {
+        String token = t.split(" ")[1];
+        try {
+            return Util.ok(userService.searchPage(token));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return Util.badRequest(e.getMessage());
         }
     }
 }

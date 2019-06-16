@@ -113,6 +113,17 @@ public class DataUtil {
                 "GROUP BY gender" +
             ")"
         ).executeUpdate();
+
+        entityManager.createNativeQuery(
+            "CREATE MATERIALIZED VIEW IF NOT EXISTS TopLikedUsers " +
+            "AS (" +
+                "SELECT username, Muser.name, avatar, alphacode, gender, likescount " +
+                "FROM Muser " +
+                "JOIN Country ON Country.id = Muser.id " +
+                "ORDER BY likescount " +
+                "LIMIT 100" +
+            ")"
+        ).executeUpdate();
     }
 
     @Transactional
@@ -405,7 +416,8 @@ public class DataUtil {
         objects.forEach(x -> {
             Map m = new HashMap();
             params.forEach(p -> {
-                System.out.println(x[params.indexOf(p)]);m.put(p, x[params.indexOf(p)]);});
+                System.out.println(x[params.indexOf(p)]);
+                m.put(p, x[params.indexOf(p)]);});
             l.add(m);
         });
         System.out.println(l.toString());

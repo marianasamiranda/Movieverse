@@ -11,6 +11,8 @@ import Flag from './flag'
 import Axios from 'axios'
 import { backend, avatars, labels } from '../var'
 import { getToken } from '../cookies';
+import Loading from './aux_pages/loading'
+import NoAuthError from './aux_pages/noAuthError'
 
 export default class FindPeople extends Component {
   constructor(props) {
@@ -19,14 +21,29 @@ export default class FindPeople extends Component {
       mightKnowLoading: false,
       name: undefined,
       nameTimeout: 0,
-      results: undefined
+      results: undefined,
+      loading: true,
+      data: []
     }
+    this.getInfo()
     this.handleName = this.handleName.bind(this)
     this.search = this.search.bind(this)
   }
 
   componentDidMount() {
     document.title = "Find Users | Movieverse"
+  }
+  
+  getInfo() {
+    Axios.get(backend + '/user/search-page', { headers: { Authorization: "Bearer " + getToken()}}).then(x => {
+      this.setState({
+        data: x.data,
+        loading: false
+      })
+    })
+    .catch(x => this.setState({
+      noAuth: true
+    }))
   }
 
   handleName(e) {
@@ -50,88 +67,73 @@ export default class FindPeople extends Component {
     })
   }
 
+  buildAvatars(data) {
+    console.log(data);
+    
+    let l = [], i = 0
+    data.forEach(x => {
+      l.push(
+        <Col lg="2" md="3" xs="4" key={i++}>
+          <MovieCard small
+            img={avatars + x.avatar}
+            title={x.username}
+            country={x.country}
+            info={x.name + (x.count !== undefined ? '\n(' + x.count + ' 👍)' : "")}
+            user
+          />
+        </Col>
+      )
+    })
+    return l
+  }
+
+
   render() {
+
+    if (this.state.noAuth) {
+      return <NoAuthError lang={this.props.lang} />
+    }
+
+    if (this.state.loading) {
+      return <Loading lang={this.props.lang} />
+    }
+
     let to_render
 
     if (this.state.results) {
-      let results = [], i = 0
-      Object.entries(this.state.results).forEach(x => {
-        results.push(
-          <Col lg="2" md="3" xs="4" key={i++}>
-            <MovieCard small
-              img={avatars + x[1].avatar}
-              title={x[1].username}
-              country={x[1].country}
-              info={x[1].name}
-              user
-            />
-          </Col>
-        )
-      })
+      //let results = [], i = 0
+      //Object.entries(this.state.results).forEach(x => {
+      //  results.push(
+      //    <Col lg="2" md="3" xs="4" key={i++}>
+      //      <MovieCard small
+      //        img={avatars + x[1].avatar}
+      //        title={x[1].username}
+      //        country={x[1].country}
+      //        info={x[1].name}
+      //        user
+      //      />
+      //    </Col>
+      //  )
+      //})
+      console.log(this.state.results);
+      
       to_render =
         <Container className="container-padding">
           <Row>
-            {results}
+            {this.buildAvatars(this.state.results)}
           </Row>
         </Container>
     }
 
     else to_render = 
-      <>
-      <Container className="container-padding">
-        <div className="title-medium">
-          {labels[this.props.lang].userMightKnow}
-        </div>
-        <Row>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (5)</>} info="Real Name" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (5)</>} info="Real Name" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (3)</>} info="Real Name" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (2)</>} info="Real Name" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (2)</>} info="Real Name" />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad (2)</>} info="Real Name" />
-          </Col>
-        </Row>
-        <Button variant="secondary" size="sm" className="button-slim" disabled={this.state.mightKnowLoading}>
-          {!this.state.mightKnowLoading ? "Show more" : "Loading ..."}
-        </Button>
-      </Container>
       <Container className="container-padding">
         <div className="title-medium">
           {labels[this.props.lang].mostUpvoted}
           </div>
         <Row>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
-          </Col>
-          <Col lg="2" md="3" xs="4">
-            <MovieCard small img="http://placehold.it/228x337" title={<><Flag country="pt" />asdsad</>} info={'x ' + labels[this.props.lang].likes} />
-          </Col>
+          {this.buildAvatars(this.state.data)}
         </Row>
       </Container>
-      </>
 
     return (
       <>

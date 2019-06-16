@@ -82,7 +82,7 @@ export default class MovieEvaluation extends Component {
       }
     }
 
-    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
@@ -127,7 +127,7 @@ export default class MovieEvaluation extends Component {
       }
     }
 
-    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
@@ -173,7 +173,7 @@ export default class MovieEvaluation extends Component {
       }
     }
 
-    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
@@ -214,7 +214,7 @@ export default class MovieEvaluation extends Component {
       message: movieEval[nextValue]
     });
 
-    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {
@@ -242,7 +242,7 @@ export default class MovieEvaluation extends Component {
 
     f['rating'] = null
 
-    Axios.patch(backend + '/movie/' + this.state.movieId + '/me',
+    Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
     .then(function(response) {

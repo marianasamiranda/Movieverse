@@ -2,10 +2,7 @@ package business;
 
 import data.ElasticSearch;
 import data.RedisCache;
-import data.daos.AchievementDAO;
-import data.daos.BadgeDAO;
-import data.daos.FriendshipDAO;
-import data.daos.MUserDAO;
+import data.daos.*;
 import data.entities.*;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -168,7 +165,7 @@ public class UserService {
     }
 
 
-    public Map feedInfo(String token, String username) throws Exception {
+    public Map feedInfo(String token) throws Exception {
         MUser u = mUserDAO.validateToken(token);
         boolean self = false;
 
@@ -530,6 +527,7 @@ public class UserService {
         }
     }
 
+
     public Object feedEntries(String token, Integer page) throws Exception{
         MUser u = mUserDAO.validateToken(token);
 
@@ -543,4 +541,25 @@ public class UserService {
         return res;
     }
 
+
+    public Object searchPage(String token) throws Exception {
+        mUserDAO.validateToken(token);
+
+        String cached = redisCache.get("usersSearchPageInfo");
+        if (cached != null)
+            return cached;
+
+        List<Map> top = mUserDAO.topUpvotedUsers(48);
+        top.forEach(x -> {
+            if (x.get("avatar") == null)
+                x.put("avatar", x.get("gender") + ".svg");
+            x.remove("gender");
+        });
+
+        String json = util.toJson(top);
+        redisCache.set("usersSearchPageInfo", json);
+        redisCache.set("usersSearchPageInfo_date", Long.toString(util.unixTimeSeconds() + 3600)); //1 hour
+
+        return top;
+    }
 }

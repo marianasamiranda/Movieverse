@@ -29,7 +29,7 @@ public class MembersController {
 
 
     @RequestMapping(method = GET, value = "/member/{id}")
-    public ResponseEntity<Object> profile(@PathVariable(value = "id", required = true) int id) {
+    public ResponseEntity<Object> profile(@PathVariable(value = "id") int id) {
         try {
             return Util.ok(memberService.memberInfo(id));
         }

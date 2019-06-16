@@ -88,7 +88,7 @@ export default class MovieSearch extends Component {
   }
 
   getInfo() {
-    Axios.get(backend + '/movie-search-page').then(x => {
+    Axios.get(backend + '/movie/search-page').then(x => {
       this.setState({
         latest: x.data.latest,
         popular: x.data.popular,
@@ -102,7 +102,7 @@ export default class MovieSearch extends Component {
     query += (this.state.genres ? '&genre=' + this.state.genres.join() : '')
     query += (this.state.sort ? '&sort=' + this.state.sort : '')    
 
-    Axios.get(backend + '/movie-search' + query).then(x => {
+    Axios.get(backend + '/movie/search' + query).then(x => {
       this.setState({
         results: x.data
       })      

@@ -310,4 +310,14 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
         return !query.getResultList().isEmpty();
     }
+
+
+    public List<Map> topUpvotedUsers(int size) {
+        Query query = entityManager.createNativeQuery("SELECT * FROM TopLikedUsers")
+                                   .setMaxResults(size);
+
+        List<Object[]> results = query.getResultList();
+        return dataUtil.queryListToListMap(results,
+                Arrays.asList("username", "name", "avatar", "country", "gender", "count"));
+    }
 }

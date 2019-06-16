@@ -27,9 +27,6 @@ export default class Feed extends Component {
       console.log(user)
       const token = getToken()
       let query = ""
-      if (user) {
-        query = "?username=" + user
-      }
   
       return Axios.get(backend + '/user/feed' + query, 
           { headers: { Authorization: "Bearer " + token } }).then(x => {
@@ -65,7 +62,7 @@ export default class Feed extends Component {
     render() {
       if (this.state.noAuth) {
         return (
-          <NoAuthError/>
+          <NoAuthError lang={this.props.lang}/>
         )
       }
       else if (!this.state.upcomings) {

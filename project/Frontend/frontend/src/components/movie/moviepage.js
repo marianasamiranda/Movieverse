@@ -108,7 +108,7 @@ export default class MoviePage extends Component {
           backdrops: []
         })
       }).then(k =>
-        Axios.get(backend + '/movie/' + this.props.match.params.id + '/me', 
+        Axios.get(backend + '/movie/' + this.props.match.params.id, 
       { headers: { Authorization: "Bearer " + token } })
         .then(y => {
 

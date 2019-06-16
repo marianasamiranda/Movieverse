@@ -134,6 +134,7 @@ table td:last-child {
   color: #333333;
   line-height: 15pt;
   padding-top: 8pt;
+  white-space: pre-line;
 }
 
 .movie-card-container p {

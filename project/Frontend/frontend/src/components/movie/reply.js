@@ -33,7 +33,7 @@ export default class Reply extends Component {
 
     if(this.state.liked === false) {
 
-      Axios.post(backend + '/movie/comment/' + this.props.id + '/like',
+      Axios.put(backend + '/movie/comment/' + this.props.id + '/like',
         {},
         { headers: { Authorization: "Bearer " + token } })
       .then((response) =>
@@ -48,7 +48,7 @@ export default class Reply extends Component {
     }
     else {
       
-      Axios.post(backend + '/movie/comment/' + this.props.id + '/dislike',
+      Axios.put(backend + '/movie/comment/' + this.props.id + '/dislike',
         {},
         { headers: { Authorization: "Bearer " + token } })
       .then((response) =>

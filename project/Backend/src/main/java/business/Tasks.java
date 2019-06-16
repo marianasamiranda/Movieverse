@@ -71,7 +71,7 @@ public class Tasks {
     @Scheduled(cron = EVERY_5_MINUTES)
     public void clearRedisCache() {
         List<String> valuesToCheck = new ArrayList<>(Arrays.asList(
-                "news", "frontPageInfo", "movieSearchPageInfo", "memberSearchPageInfo")
+            "news", "frontPageInfo", "movieSearchPageInfo", "memberSearchPageInfo", "usersSearchPageInfo")
         );
         movieService.theatersIds().forEach(x ->
             valuesToCheck.add("showtimes_" + x)
