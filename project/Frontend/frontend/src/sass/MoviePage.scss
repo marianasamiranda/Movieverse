@@ -37,7 +37,7 @@
     height: 7.5%;
     width: 68%;
     margin-left: 32%;
-    margin-top: -15.5%;
+    margin-top: -20%;
     font-weight: bold;
     position: relative;
     background-color: $primary-color;
@@ -46,6 +46,10 @@
 
     img {
         margin-top: -0.6%;
+    }
+
+    @media(max-width: 990px) {
+        margin-top: -23%;
     }
 
     @media(max-width: 768px) {
@@ -84,7 +88,7 @@
 }
 
 .movie-header {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .sidebar {
@@ -361,4 +365,9 @@
     @media(max-width: 370px) {
         display: none;
     }
+}
+
+.alert-showing {
+    padding: 0;
+    margin-top: .5em;
 }

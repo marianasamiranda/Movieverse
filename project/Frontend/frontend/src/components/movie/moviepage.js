@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Alert from 'react-bootstrap/Alert'
 import star from '../../img/star.png'
 import MovieCard from '../movie-card'
 import DiscussionBox from './discussion-box'
@@ -160,19 +161,19 @@ export default class MoviePage extends Component {
     }
     else {
       headerTitle = <div className="movie-title-div d-flex">
-          <div className="mr-auto p-2">
-            <span>{this.state.movie.name} </span>
-            <a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
-              <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
-            </a>
-          </div>
-          <div className="p-2">
-            <Image src={star} height="30vh" />
-          </div>
-          <div className="p-2">
-            {this.state.movie.rating }
-          </div>
+        <div className="mr-auto p-2">
+          <span>{this.state.movie.name} </span>
+          <a target="_blank" rel="noopener noreferrer" href={`http://www.imdb.com/title/${this.state.movie.imdb}`}>
+            <Image src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" height="30vh" />
+          </a>
         </div>
+        <div className="p-2">
+          <Image src={star} height="30vh" />
+        </div>
+        <div className="p-2">
+          {this.state.movie.rating }
+        </div>
+      </div>
     }
     const poster = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + this.state.movie.poster
     const backdrop = "https://image.tmdb.org/t/p/original/" + this.state.movie.backdrop
@@ -181,8 +182,13 @@ export default class MoviePage extends Component {
       <Container>
         <div className="movie-header">
           <div className="backdrop" style={{'background': `url("${backdrop}") no-repeat center center`, 'backgroundSize': 'cover'}}></div>
-          <div className="poster">
+          <div className="poster text-center">
             <Image src={poster} />
+            { this.state.movie.isShowing &&
+              <Alert key={0} variant="success" className="alert-showing">
+                Showing now!
+              </Alert>
+            }
           </div>
           { headerTitle }
           <MovieEvaluation noAuth={this.state.noAuth} id={this.state.movie.tmdb} watched={this.state.watched} favourited={this.state.favourited} watchlist={this.state.watchlist} rating={this.state.rating} lang={this.props.lang} />

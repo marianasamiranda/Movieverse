@@ -65,7 +65,8 @@ public class MovieService {
 
 
     public Map<String, Object> get(Integer id) throws Exception {
-        Movie m = movieDAO.loadEntityEager("tmdb=" + id);
+        Movie m = movieDAO.loadEntityEager(id);
+
         var rating = 0.0;
 
         try {
@@ -89,6 +90,7 @@ public class MovieService {
         result.put("release", m.getRelease());
         result.put("runtime", m.getRuntime());
         result.put("rating", rating);
+        result.put("isShowing", showtimeDAO.isShowing(id));
 
         if ((auxI = m.getBudget()) != null) {
             result.put("budget", auxI);
@@ -144,7 +146,7 @@ public class MovieService {
 
 
     public Map<String, Object> getShort(Integer id) throws Exception {
-        Movie m = movieDAO.loadEntityEager("tmdb=" + id);
+        Movie m = movieDAO.findById(id);
 
         Map<String, Object> result = new HashMap<>();
         result.put("name", m.getName());

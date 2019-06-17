@@ -8,4 +8,5 @@ import java.util.List;
 public interface ShowtimeDAO extends DAO<Integer , Showtime> {
 
     List getShowtimes(int theater);
+    boolean isShowing(int movieId);
 }

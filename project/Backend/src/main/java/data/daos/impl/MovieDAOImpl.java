@@ -25,10 +25,9 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
 
 
     @Transactional(readOnly=true)
-    public Movie loadEntityEager(String condition) {
-        Query query = entityManager.createQuery("SELECT c FROM " + entityClass.getName() + " c WHERE " + condition);
+    public Movie loadEntityEager(int id) {
+        Query query = entityManager.createQuery("SELECT c FROM " + entityClass.getName() + " c WHERE tmdb=" + id);
         Movie result = (Movie) query.getSingleResult();
-        // TODO: mudar para fetch
         Hibernate.initialize(result.getGenres());
         Hibernate.initialize(result.getCompanies());
         return result;
@@ -38,7 +37,7 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     @Transactional(readOnly=true)
     public List<Map<String, Object>> getMemberMoviesFromTo(int memberId, int offset, int limit){
 
-        Query query = entityManager.createNativeQuery("SELECT m.tmdb, m.name, m.poster, mm.role FROM Movie m join MovieMember mm on (m.tmdb = mm.movieid) where mm.memberid = " + memberId + " order by m.tmdb")
+        Query query = entityManager.createNativeQuery("SELECT m.tmdb, m.name, m.poster, mm.role FROM Movie m join MovieMember mm on (m.tmdb = mm.movieid) where mm.memberid = " + memberId + " order by m.tmdb desc")
                 .setFirstResult(offset)
                 .setMaxResults(limit);
 
@@ -65,14 +64,14 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     }
 
     @Transactional(readOnly=true)
-    public List<Map> getCompanyMoviesFromTo(int companyId, int offset, int limit){
+    public List<Map> getCompanyMoviesFromTo(int companyId, int offset, int limit) {
 
         Query query = entityManager.createNativeQuery(
             "SELECT m.tmdb, m.name, m.poster " +
             "FROM Movie m " +
             "JOIN MovieCompany mc ON m.tmdb = mc.movieid " +
             "WHERE mc.companyid = ?1 " +
-            "ORDER BY m.tmdb")
+            "ORDER BY m.tmdb DESC")
         .setParameter(1, companyId)
         .setFirstResult(offset)
         .setMaxResults(limit);

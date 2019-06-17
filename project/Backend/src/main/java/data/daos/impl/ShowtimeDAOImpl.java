@@ -42,4 +42,11 @@ public class ShowtimeDAOImpl extends DAOImpl<Integer , Showtime> implements Show
 
         return r;
     }
+
+    public boolean isShowing(int movieId) {
+        Query query = entityManager.createNativeQuery("SELECT EXISTS(SELECT 1 FROM showtime AS s WHERE s.movieid=?1)")
+                .setParameter(1, movieId);
+
+        return (boolean) query.getSingleResult();
+    }
 }
