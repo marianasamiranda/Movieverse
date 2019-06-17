@@ -201,40 +201,32 @@ export default class MoviePage extends Component {
                 <p>{this.state.movie.plot}</p>
               <Tabs>
                 <TabList>
-                  <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}>{labels[this.props.lang].cast} & {labels[this.props.lang].crew}</h1>
+                  <h1 className="h1-tabs">{labels[this.props.lang].cast} & {labels[this.props.lang].crew}</h1>
                   <Tab>{labels[this.props.lang].cast}</Tab>
                   <Tab>{labels[this.props.lang].crew}</Tab>
                 </TabList>
                 <TabPanel>
                   <Row>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Olivia Colman" info="Queen Anne" />
-                    </Col>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Emma Stone" info="Abigail" />
-                    </Col>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Rachel Weisz" info="Lady Sarah" />
-                    </Col>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
-                    </Col>
+                  { this.state.movie.actors.map(function(actor, i) {
+                      return <Col lg="3" md="3" xs="3">
+                        <Link to={`/member/${actor.memberId}`}>
+                          <MovieCard key={i} small img={`https://image.tmdb.org/t/p/w200/${actor.memberImage}`} title={actor.memberName} info={actor.memberRole} />
+                        </Link>
+                      </Col>
+                    })
+                  }
                   </Row>
                 </TabPanel> 
                 <TabPanel>
                   <Row>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Olivia Colman" info="Queen Anne" />
-                    </Col>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Emma Stone" info="Abigail" />
-                    </Col>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Rachel Weisz" info="Lady Sarah" />
-                    </Col>
-                    <Col lg="3" md="3" xs="3">
-                      <MovieCard small img="http://placehold.it/228x337" title="Nicholas Hoult" info="Harley" />
-                    </Col>
+                    { this.state.movie.crew.map(function(crew, i) {
+                        return <Col lg="3" md="3" xs="3">
+                          <Link to={`/member/${crew.memberId}`}>
+                            <MovieCard key={i} small img={`https://image.tmdb.org/t/p/w200/${crew.memberImage}`} title={crew.memberName} info={crew.memberRole} />
+                          </Link>
+                        </Col>
+                      })
+                    }
                   </Row>
                 </TabPanel> 
                 <Link
@@ -249,8 +241,7 @@ export default class MoviePage extends Component {
                 this.state.videos.length    !== 0) &&
                 <Tabs>
                   <TabList>
-                    <h1 style={{ 'display': 'inline-block', 'border': '0', 'paddingBottom': 0, 'marginBottom': 0 }}
-                    >{labels[this.props.lang].media}</h1>
+                    <h1 className="h1-tabs">{labels[this.props.lang].media}</h1>
                     { this.state.posters.length !== 0 &&
                       <Tab>{labels[this.props.lang].posters}</Tab>
                     }

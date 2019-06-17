@@ -58,7 +58,6 @@ export default class DiscussionBox extends Component {
   }
 
   getComment = (newComment) => {
-
     var f = {}
 
     f['message'] = newComment

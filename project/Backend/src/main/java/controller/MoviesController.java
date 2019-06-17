@@ -140,6 +140,28 @@ public class MoviesController {
         }
     }
 
+    @RequestMapping(method = GET, value = "/movie/{id}/cast")
+    public ResponseEntity<Object> getMovieCast(@PathVariable(value = "id") int id,
+                                               @RequestParam(value = "page") int page) {
+        try {
+            return Util.ok(movieService.getMovieMembers(id, page, true));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
+    @RequestMapping(method = GET, value = "/movie/{id}/crew")
+    public ResponseEntity<Object> getMovieCrew(@PathVariable(value = "id") int id,
+                                               @RequestParam(value = "page") int page) {
+        try {
+            return Util.ok(movieService.getMovieMembers(id, page, false));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
 
     //comments
 

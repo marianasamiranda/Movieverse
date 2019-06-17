@@ -325,7 +325,9 @@ export default class MovieEvaluation extends Component {
               onStarHover={ this.onStarHover.bind(this) }
               onStarHoverOut={ this.onStarHoverOut.bind(this) }
             />
-            <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs" style={{'fontSize': '1rem', 'position': 'relative', 'bottom': '0.7rem', 'left': '0.5em'}}></i>
+            { this.state.rating !== 0 &&
+              <i onClick={ this.starReset.bind(this)} className="fas fa-times fa-xs reset-star"></i>
+            }
             <p><span id="label-onrate" className="onrate">{ this.state.message }</span></p>
           </div>
         </Col>

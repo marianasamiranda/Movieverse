@@ -77,7 +77,7 @@ export default class Comment extends Component {
 
     f['message'] = newComment
 
-    let self=this
+    let self = this
 
     Axios.post(backend + '/movie/comment/' + this.props.id + '/reply',
       f,

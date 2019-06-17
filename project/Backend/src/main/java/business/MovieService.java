@@ -63,6 +63,8 @@ public class MovieService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MovieMemberDAO movieMemberDAO;
 
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager(id);
@@ -123,23 +125,26 @@ public class MovieService {
 
         var groupedMedia = mediaDAO.getMovieMedia(id);
 
-        if(groupedMedia.get('b')!=null)
+        if(groupedMedia.get('b') != null)
             result.put("backdrops", ((List<String>) groupedMedia.get('b'))
                     .stream()
                     .limit(5)
                     .collect(Collectors.toList()));
 
-        if(groupedMedia.get('v')!=null)
+        if(groupedMedia.get('v') != null)
             result.put("videos", ((List<String>) groupedMedia.get('v'))
                     .stream()
                     .limit(5)
                     .collect(Collectors.toList()));
 
-        if(groupedMedia.get('p')!=null)
+        if(groupedMedia.get('p') != null)
             result.put("posters", ((List<String>) groupedMedia.get('p'))
                     .stream()
                     .limit(5)
                     .collect(Collectors.toList()));
+
+        result.put("actors", movieMemberDAO.listMainMovieMembers(id, true, 4));
+        result.put("crew", movieMemberDAO.listMainMovieMembers(id, false, 4));
 
         return result;
     }
@@ -492,6 +497,19 @@ public class MovieService {
         return result;
     }
 
+    @Transactional
+    public Object getMovieMembers(Integer movieId, int page, boolean isActor) {
+        List members = movieMemberDAO.getMovieMembers(movieId, isActor,page * 20, 20);
+
+        boolean moreMembers = !(members.size() < 20);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("members", members);
+        result.put("moreMembers", moreMembers);
+
+        return result;
+    }
+
 
     public Map<String, Object>  getMedia(int movieId) {
         HashMap<String, Object> result = new HashMap<>();
@@ -499,6 +517,7 @@ public class MovieService {
         result.put("videos", media.get('v'));
         result.put("backdrops", media.get('b'));
         result.put("posters", media.get('p'));
+
         return result;
     }
 

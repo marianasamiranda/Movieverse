@@ -28,7 +28,9 @@
     }
 
     @media(max-width: 767px) {
-        margin-left: 40%;
+        margin-left: 30%;
+        min-width: 40%;
+        margin-top:-30%;
     }
 }
   
@@ -84,6 +86,7 @@
     @media(max-width: 767px) {
         width: 100%;
         margin-left: 0%;
+        text-align: center;
     }
 }
 
@@ -370,4 +373,19 @@
 .alert-showing {
     padding: 0;
     margin-top: .5em;
+}
+
+.reset-star {
+    font-size: 1rem;
+    position: relative;
+    bottom: 0.7rem;
+    left: 0.5em;
+}
+
+
+.h1-tabs {
+    display: inline-block   !important;
+    border: 0               !important;
+    padding-bottom: 0       !important;
+    margin-bottom: 0        !important;
 }
