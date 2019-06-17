@@ -10,7 +10,6 @@ import favouriteDisabled from '../../img/favourite-disabled.png'
 import '../../styles/MoviePage.css'
 import { getToken } from '../../cookies'
 import { backend, labels } from '../../var'
-import { getCurrentDate } from '../../utils'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Axios from 'axios';
@@ -51,15 +50,11 @@ export default class MovieEvaluation extends Component {
       f = {
         'watched': true,
         'watchlist': false,
-        'dateWatched': getCurrentDate()
       }
     }
     else if (this.state.watched === false) {
       this.setState( { watched: true });
-      f = {
-        'watched': true,
-        'dateWatched': getCurrentDate()
-      }
+      f['watched'] = true
     }
     else {
       if (this.state.favourited === true) {
@@ -99,26 +94,20 @@ export default class MovieEvaluation extends Component {
     }
     var f = {}
     if (this.state.favourited === false) {
-      var date = getCurrentDate()
       if(this.state.watched === false) {
         this.setState( {watched: true} );
-        f = {
-          watched: true,
-          dateWatched: date
-        }
+        f['watched'] = true
       }
       if(this.state.addedWatchlist === true) {
         this.setState( { addedWatchlist: false })
         f = {
           watched: true,
-          dateWatched: date,
           addedToWatchlist: false
         }
       }
 
       this.setState( { favourited: true });
       f['favourited'] = true
-      f['dateFavourited'] = date
     }
     else {
       this.setState( { favourited: false });
@@ -184,16 +173,12 @@ export default class MovieEvaluation extends Component {
   }
 
   onStarClick(nextValue, prevValue, name) {
-    var date = getCurrentDate()
     var f = {}
     if(this.state.watched === false) {
       this.setState({
         watched: true
       });
-      f = {
-        watched: true,
-        dateWatched: date
-      }
+      f['watched'] = true
     }
     if(this.state.addedWatchlist === true) {
       this.setState({
@@ -202,13 +187,11 @@ export default class MovieEvaluation extends Component {
       })
       f = {
         watched: true,
-        dateWatched: date,
         addedToWatchlist: false
       }
     }
-    console.log(nextValue)
     f['rating'] = nextValue
-    f['dateRated'] = getCurrentDate()
+
     this.setState({
       rating: nextValue,
       message: movieEval[nextValue]

@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col'
 import { getToken } from '../../cookies'
 import { backend, labels } from '../../var'
 import Axios from 'axios';
+import { Link } from 'react-router-dom'
 import OopsModal from '../aux_pages/oops-modal'
 import '../../styles/Comment.css'
 
@@ -83,13 +84,18 @@ export default class Reply extends Component {
       <div className="reply">
         <Row>
           <Col style={{'maxWidth': '65px'}}>
-            <Image className="reply-pic" src={ this.props.profilepic } />
+            <Link to={`/u/${this.props.author}`}>
+              <Image className="reply-pic" src={ this.props.profilepic } />
+            </Link>
           </Col>
           <Col>
-            { this.props.content }
+            <Link to={`/u/${this.props.author}`} style={{ 'color': 'black', 'textDecoration': 'none' }}>
+              <strong>{ this.props.author } </strong>
+            </Link>
+            <div>{ this.props.content }</div>
             <div className="reply-info">
               <div className="reply-time">
-                { this.props.time }
+                <i className="far fa-clock"></i> { this.props.time }
               </div>
               |
               { this.state.liked &&

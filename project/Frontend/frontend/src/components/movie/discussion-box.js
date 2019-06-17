@@ -5,7 +5,6 @@ import '../../styles/Comment.css';
 import Axios from 'axios';
 import { backend, labels } from '../../var'
 import { getToken } from '../../cookies'
-import { getCurrentDate } from '../../utils';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -43,6 +42,7 @@ export default class DiscussionBox extends Component {
 
       response.data.comments.forEach(function(comment) {
         comment["date"] = moment(comment.date).format("YYYY-MM-DD HH:mm")
+        comment["userAvatar"] = comment.userAvatar !== null ? comment.userAvatar : comment.userGender + '.svg'
         newComments.push(comment);
       });
       
@@ -62,7 +62,6 @@ export default class DiscussionBox extends Component {
     var f = {}
 
     f['message'] = newComment
-    f['date'] = getCurrentDate()
 
     let self=this
 

@@ -64,17 +64,6 @@ public class MovieService {
     private UserService userService;
 
 
-
-    public Feed getFeedWithType(Integer contentId, Integer type) {
-        try {
-            return feedDAO.loadEntity("idContent=" + contentId + " and type=" + type);
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager("tmdb=" + id);
         var rating = 0.0;
@@ -213,30 +202,27 @@ public class MovieService {
         var userMovie = new UserMovie();
         var movie = movieDAO.findById(movieId);
         try {
-            System.out.println(1);
             try {
                 userMovie = userMovieDAO.loadEntity("muserid=" + user.getId() + " and movieid=" + movieId);
             } catch (Exception e) {
                 userMovie.setMovie(movie);
                 userMovie.setmUser(user);
             }
-            System.out.println(2);
             if (updates.containsKey("watched")) {
-                System.out.println(3);
                 var watched = (boolean) updates.get("watched");
                 var feedEntryType = 1;
 
                 if (watched) {
                     // If movie was marked as watched
-                    System.out.println(4);
-                    var dateWatched = util.parseDate((String) updates.get("dateWatched"));
+                    var dateWatched = new Date();
 
                     if (updates.containsKey("favourited")) {
                         // If movie was also marked as favourite
-                        System.out.println(5);
-                        setFavourite(updates, userMovie);
+
+                        userMovie.setFavourite(true);
+                        userMovie.setDateFavourite(new Date());
+
                         addFeedEntry(2, user, movie.getORMID(), dateWatched);
-                        System.out.println(6);
                         updateFirstFavouriteAchievement(user);
 
                     }
@@ -248,17 +234,12 @@ public class MovieService {
                         int rating = (int) updates.get("rating");
                         userMovie.setRating(rating);
                     }
-                    System.out.println(7);
                     userMovie.setStatus(true);
                     userMovie.setDateWatched(dateWatched);
-                    System.out.println(8);
                     userMovieDAO.merge(userMovie);
                     userMovieDAO.flush();
-                    System.out.println(9);
                     addFeedEntry(feedEntryType, user, movie.getORMID(), dateWatched);
-                    System.out.println(10);
                     updateMovieHoursAchievements(user, movie.getRuntime());
-                    System.out.println(11);
 
                 } else {
                     // If movie was marked as unwatched
@@ -304,12 +285,15 @@ public class MovieService {
                 if (favourite) {
                     // If movie was added to favourites
 
-                    setFavourite(updates, userMovie);
+                    var dateFavourited = new Date();
+
+                    userMovie.setFavourite(true);
+                    userMovie.setDateFavourite(dateFavourited);
 
                     userMovieDAO.merge(userMovie);
                     userMovieDAO.flush();
 
-                    addFeedEntry(2, user, movie.getORMID(), util.parseDate((String) updates.get("dateFavourited")));
+                    addFeedEntry(2, user, movie.getORMID(), dateFavourited);
                     updateFirstFavouriteAchievement(user);
                 } else {
                     // If movie was removed from favourites
@@ -334,14 +318,14 @@ public class MovieService {
                 userMovieDAO.flush();
 
                 if (rating != null) {
-                    Feed f = getFeedWithType(movie.getTmdb(), 1);
+                    Feed f = feedDAO.getFeedWithType(movie.getTmdb(), 1);
 
                     if (f != null)
-                        updateFeed(f, 0, util.parseDate((String) updates.get("dateRated")));
+                        updateFeed(f, 0, new Date());
 
                     updateFirstRatingAchievement(user);
                 } else {
-                    Feed f = getFeedWithType(movie.getTmdb(), 0);
+                    Feed f = feedDAO.getFeedWithType(movie.getTmdb(), 0);
 
                     updateFeed(f, 1, null);
                 }
@@ -367,11 +351,8 @@ public class MovieService {
     public void updateMovieHoursAchievements(MUser u, int movieRuntime) {
         int hoursB = u.getMinutesCount() / 60;
         int hoursA = (u.getMinutesCount() + movieRuntime) / 60;
-        System.out.println(hoursB);
-        System.out.println(hoursA);
         for(Map.Entry<Integer, String> m: movieHoursAchievements.entrySet()){
             int key = m.getKey();
-            System.out.println(key);
             if (key > hoursB && key<= hoursA){
                 userService.addAchievement(u, m.getValue());
                 break;
@@ -452,13 +433,6 @@ public class MovieService {
     }
 
 
-    private void setFavourite(Map<String, Object> updates, UserMovie userMovie) {
-
-        userMovie.setFavourite(true);
-        userMovie.setDateFavourite(util.parseDate((String) updates.get("dateFavourited")));
-    }
-
-
     public Map postComment(Integer movieId, String token, Map<String, Object> content) throws Exception {
 
         var user = mUserDAO.getSimpleUserByToken(token);
@@ -470,7 +444,7 @@ public class MovieService {
 
         comment.setContent((String) content.get("message"));
 
-        var dateCommented = util.parseDate((String) content.get("date"));
+        var dateCommented = new Date();
 
         comment.setTimestamp(new Timestamp(dateCommented.getTime()));
         comment.setLikes(0);
@@ -486,7 +460,7 @@ public class MovieService {
         map.put("content", comment.getContent());
         map.put("likes", comment.getLikes());
         map.put("username", user.getUsername());
-        map.put("userAvatar", user.getAvatar());
+        map.put("userAvatar", user.getAvatar() != null ? user.getAvatar() : user.getGender() + ".svg");
 
         addFeedEntry(3, user, comment.getId(), dateCommented);
         updateFirstCommentAchievement(user);
@@ -592,7 +566,7 @@ public class MovieService {
 
         comment.setContent((String) content.get("message"));
 
-        var dateCommented = util.parseDate((String) content.get("date"));
+        var dateCommented = new Date();
 
         comment.setTimestamp(new Timestamp(dateCommented.getTime()));
         comment.setLikes(0);
@@ -610,7 +584,7 @@ public class MovieService {
         map.put("content", comment.getContent());
         map.put("likes", comment.getLikes());
         map.put("username", user.getUsername());
-        map.put("userAvatar", user.getAvatar());
+        map.put("userAvatar", user.getAvatar() != null ? user.getAvatar() : user.getGender() + ".svg");
         map.put("isLiked", false);
 
         updateFirstCommentAchievement(user);

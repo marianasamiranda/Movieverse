@@ -4,7 +4,7 @@ import Reply from './reply'
 import Axios from 'axios';
 import ResizableTextarea from './resizable-text-area'
 import moment from 'moment';
-import { getCurrentDate } from '../../utils';
+import { Link } from 'react-router-dom'
 import { getToken } from '../../cookies'
 import { backend, labels } from '../../var'
 import OopsModal from '../aux_pages/oops-modal'
@@ -76,7 +76,6 @@ export default class Comment extends Component {
     var f = {}
 
     f['message'] = newComment
-    f['date'] = getCurrentDate()
 
     let self=this
 
@@ -87,8 +86,8 @@ export default class Comment extends Component {
       
       let element = {
         'id': response.data.id,
-        'userAvatar': response.data.userAvatar,
         'username': response.data.username,
+        'userAvatar': response.data.userAvatar,
         'date': response.data.date,
         'content': response.data.content,
         'likes': response.data.likes,
@@ -125,6 +124,7 @@ export default class Comment extends Component {
 
       response.data.replies.forEach(function(reply) {
         reply["date"] = moment(reply.date).format("YYYY-MM-DD HH:mm")
+        reply["userAvatar"] = reply.userAvatar !== null ? reply.userAvatar : reply.userGender + '.svg'
         newReplies = [reply].concat(newReplies);
       });
 
@@ -183,9 +183,13 @@ export default class Comment extends Component {
       <div className="comment" style={{ 'marginBottom': '30px'}}>
         <div className="comment-container">
           <div className="info d-flex">
-            <Image className="profile-pic p-2" src={this.props.profilepic} />
+            <Link to={`/u/${this.props.author}`}>
+              <Image className="profile-pic p-2" src={this.props.profilepic} />
+            </Link>
             <div className="info-author p-2">
-              by {this.props.author}
+              <Link to={`/u/${this.props.author}`} style={{ 'color': 'black', 'textDecoration': 'none' }}>
+                <strong>{this.props.author}</strong>
+              </Link>
               <br />
               <i className="far fa-clock"></i> {this.props.time}
             </div>
