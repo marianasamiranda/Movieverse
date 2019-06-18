@@ -88,3 +88,7 @@ buildNumber.properties
 !.vscode/extensions.json
 
 benchmark/locustfile_custom.py
+
+# CSS
+*.css
+*.css.map

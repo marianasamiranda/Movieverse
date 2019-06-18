@@ -93,6 +93,8 @@ public class MovieService {
         result.put("runtime", m.getRuntime());
         result.put("rating", rating);
         result.put("isShowing", showtimeDAO.isShowing(id));
+        result.put("watchCount", m.getWatchCount());
+        result.put("favouriteCount", m.getFavouriteCount());
 
         if ((auxI = m.getBudget()) != null) {
             result.put("budget", auxI);
