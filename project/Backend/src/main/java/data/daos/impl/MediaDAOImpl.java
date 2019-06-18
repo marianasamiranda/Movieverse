@@ -4,7 +4,7 @@ import business.Util;
 import data.daos.MediaDAO;
 import data.entities.Media;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 
-@Component("mediaDAO")
+@Repository("mediaDAO")
 public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
 
     @PersistenceContext
@@ -65,12 +65,14 @@ public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
     }
 
     @Transactional(readOnly=true)
-    public List<Object> getMovieMedia(int id, char type) {
+    public List<Object> getMovieMedia(int id, char type, int offset, int limit) {
         Query query = entityManager.createNativeQuery("SELECT m.path " +
                 "FROM Media m " +
                 "WHERE m.movieid = ?1 AND m.type = ?2")
                 .setParameter(1, id)
-                .setParameter(2, type);
+                .setParameter(2, type)
+                .setFirstResult(offset)
+                .setMaxResults(limit);
         return getObjects(query);
     }
 

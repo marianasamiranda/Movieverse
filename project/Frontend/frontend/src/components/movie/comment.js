@@ -101,8 +101,6 @@ export default class Comment extends Component {
     }).catch((e) =>
       console.log(e)
     )
-
-    console.log(self.state.numberReplies)
   }
 
   getMoreComments(page) {

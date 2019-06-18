@@ -39,7 +39,7 @@
     height: 7.5%;
     width: 68%;
     margin-left: 32%;
-    margin-top: -20%;
+    margin-top: -16%;
     font-weight: bold;
     position: relative;
     background-color: $primary-color;
@@ -51,7 +51,7 @@
     }
 
     @media(max-width: 990px) {
-        margin-top: -23%;
+        margin-top: -15%;
     }
 
     @media(max-width: 768px) {
@@ -87,7 +87,12 @@
         width: 100%;
         margin-left: 0%;
         text-align: center;
+        padding-top: 1em;
     }
+}
+
+.eval-item {
+    line-height: 2.5em;
 }
 
 .movie-header {

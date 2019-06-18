@@ -130,19 +130,44 @@ public class MoviesController {
         }
     }
 
-    @RequestMapping(method = GET, value = "/movie/{id}/media")
-    public ResponseEntity<Object> getMedia(@PathVariable(value = "id") int id) {
+    @RequestMapping(method = GET, value = "/movie/{id}/posters")
+    public ResponseEntity<Object> getPosters(@PathVariable(value = "id") int id,
+                                             @RequestParam(value = "page") int page) {
         try {
-            return Util.ok(movieService.getMedia(id));
+            return Util.ok(movieService.getPosters(id, page));
         }
         catch (Exception e) {
             return Util.badRequest("");
         }
     }
 
-    @RequestMapping(method = GET, value = "/movie/{id}/cast")
-    public ResponseEntity<Object> getMovieCast(@PathVariable(value = "id") int id,
+    @RequestMapping(method = GET, value = "/movie/{id}/videos")
+    public ResponseEntity<Object> getVideos(@PathVariable(value = "id") int id,
+                                            @RequestParam(value = "page") int page) {
+        try {
+            return Util.ok(movieService.getVideos(id, page));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
+
+    @RequestMapping(method = GET, value = "/movie/{id}/backdrops")
+    public ResponseEntity<Object> getBackdrops(@PathVariable(value = "id") int id,
                                                @RequestParam(value = "page") int page) {
+        try {
+            return Util.ok(movieService.getBackdrops(id, page));
+        }
+        catch (Exception e) {
+            return Util.badRequest("");
+        }
+    }
+
+
+    @RequestMapping(method = GET, value = "/movie/{id}/cast")
+    public ResponseEntity<Object> getMovieActors(@PathVariable(value = "id") int id,
+                                                 @RequestParam(value = "page") int page) {
         try {
             return Util.ok(movieService.getMovieMembers(id, page, true));
         }

@@ -304,13 +304,13 @@ export default class MovieEvaluation extends Component {
       <OopsModal showModal={this.state.showModal} handleClose={this.handleCloseNotLoggedInModal.bind(this)} message={ message } />
       <Row className="eval-wrapper">
         <Col lg="6" md="5" sm="12">
-          <div style={{'lineHeight':'2.2em'}} onClick={this.handleShowNotLoggedInModal.bind(this)}>
+          <div className="eval-item" onClick={this.handleShowNotLoggedInModal.bind(this)}>
             { watchedMovie }
           </div>
-          <div style={{'lineHeight':'2.2em'}} onClick={this.handleShowNotLoggedInModal.bind(this)}>
+          <div className="eval-item" onClick={this.handleShowNotLoggedInModal.bind(this)}>
             { favouritedMovie }
           </div>      
-          <div style={{'lineHeight':'2.2em'}} onClick={this.handleShowNotLoggedInModal.bind(this)}>
+          <div className="eval-item" onClick={this.handleShowNotLoggedInModal.bind(this)}>
             { addedWatchlist }
           </div>
         </Col>

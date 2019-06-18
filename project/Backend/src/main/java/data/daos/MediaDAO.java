@@ -12,5 +12,5 @@ public interface MediaDAO extends DAO<Integer , Media> {
 
     Map getMovieMedia(int id);
 
-    List<Object> getMovieMedia(int id, char type);
+    List getMovieMedia(int id, char type, int offset, int limit);
 }

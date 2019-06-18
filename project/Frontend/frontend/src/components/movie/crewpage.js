@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import Axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import Row from 'react-bootstrap/Row'
+import Loading from '../aux_pages/loading';
 import Col from 'react-bootstrap/Col'
 import MovieCard from '../movie-card'
 
@@ -45,14 +46,10 @@ export default class CrewPage extends Component {
   }
 
   loadCast() {
-
-    console.log("OLA DO LOADCAST")
-
     let self = this
 
     Axios.get(backend + '/movie/' + this.props.match.params.id + '/cast?page=' + this.state.castPage)
     .then(function(response) {
-
 
       self.setState({
         cast: self.state.cast === undefined ? response.data.members : self.state.cast.concat(response.data.members),
@@ -66,10 +63,6 @@ export default class CrewPage extends Component {
   }
 
   loadCrew() {
-
-    console.log("OLA DO LOADCREW")
-
-
     let self = this
 
     Axios.get(backend + '/movie/' + this.props.match.params.id + '/crew?page=' + this.state.crewPage)
@@ -97,6 +90,14 @@ export default class CrewPage extends Component {
 
   render() {
     const loader = <div key={0} className="loader">{labels[this.props.lang].loading}... </div>;
+
+    if (
+      this.state.cast === undefined &&
+      this.state.crew === undefined) {
+      return (
+        <Loading lang={this.props.lang} />
+      )
+    }
 
     return <div>
       <Jumbotron className="media-header" fluid>

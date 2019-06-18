@@ -511,16 +511,46 @@ public class MovieService {
     }
 
 
-    public Map<String, Object>  getMedia(int movieId) {
-        HashMap<String, Object> result = new HashMap<>();
-        Map media = mediaDAO.getMovieMedia(movieId);
-        result.put("videos", media.get('v'));
-        result.put("backdrops", media.get('b'));
-        result.put("posters", media.get('p'));
+    @Transactional
+    public Object getBackdrops(int movieId, int page) {
+        List backdrops = mediaDAO.getMovieMedia(movieId, 'b',page * 20, 20);
+
+        boolean moreBackdrops = !(backdrops.size() < 20);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("backdrops", backdrops);
+        result.put("moreBackdrops", moreBackdrops);
 
         return result;
     }
 
+
+    @Transactional
+    public Object getVideos(int movieId, int page) {
+        List videos = mediaDAO.getMovieMedia(movieId, 'v',page * 20, 20);
+
+        boolean moreVideos = !(videos.size() < 20);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("videos", videos);
+        result.put("moreVideos", moreVideos);
+
+        return result;
+    }
+
+
+    @Transactional
+    public Object getPosters(int movieId, int page) {
+        List posters = mediaDAO.getMovieMedia(movieId, 'p',page * 20, 20);
+
+        boolean morePosters = !(posters.size() < 20);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("posters", posters);
+        result.put("morePosters", morePosters);
+
+        return result;
+    }
 
     @Transactional
     public boolean likeAComment(Integer id, String token) throws Exception {
