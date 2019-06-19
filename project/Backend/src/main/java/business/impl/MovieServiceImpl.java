@@ -179,17 +179,18 @@ public class MovieServiceImpl implements MovieService {
         var user = mUserDAO.getSimpleUserByToken(token);
         var userMovie = new UserMovie();
 
-        try {
-            userMovie = userMovieDAO.getUserMovie(user.getId(), movieId);
-        }
-        catch(Exception e) {
-            if(user != null) {
+
+        userMovie = userMovieDAO.getUserMovie(user.getId(), movieId);
+
+        if (userMovie == null){
+              if(user != null) {
                 var result = new HashMap<>();
                 result.put("watched", false);
                 return result;
             }
             else throw new IOException();
         }
+
 
         var result = new HashMap<>();
 
