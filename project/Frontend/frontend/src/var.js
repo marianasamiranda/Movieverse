@@ -366,6 +366,9 @@ export const labels = {
     addComment: 'Add comment',
     addCommentPlaceholder: 'Add comment...',
     characterCount: 'Character Count',
+    nowShowing: 'Now showing!',
+    peopleWatched: 'people watched',
+    peopleFavourited: 'people favourited',
     //admin
     globalStats: 'Global Statistics',
     genders: 'Genders',
@@ -587,6 +590,9 @@ export const labels = {
     addComment: 'Adicionar comentário',
     addCommentPlaceholder: 'Adicione um comentário...',
     characterCount: 'Contagem de caracteres',
+    nowShowing: 'Em exibição!',
+    peopleWatched: 'pessoas viram',
+    peopleFavourited: 'pessoas gostam',
     //admin
     globalStats: 'Estatísticas Globais',
     genders: 'Sexos',
@@ -614,7 +620,6 @@ export const labels = {
     toBeAbleLike: 'para gostar de comentários.',
     //tour
     tour: 'Tour',
-
   }
 }
 
