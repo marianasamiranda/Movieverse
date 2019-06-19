@@ -105,7 +105,7 @@ export default class MemberMain extends Component{
                     {labels[this.props.lang].photoGallery}
                 </h4>
                 <hr className="section-divider light-gray"></hr>
-                <HorizontalSlider more="/media" content={this.state.backdrops} loadMore={false}/>
+                <HorizontalSlider more="/media" content={this.state.backdrops} loadMore={false} lang={ this.props.lang }/>
             </div>
             <div>
                 <h4 className="title-member-company-18">

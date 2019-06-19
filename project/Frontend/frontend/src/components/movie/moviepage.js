@@ -4,6 +4,8 @@ import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
+import watched from '../../img/watched.png'
+import favourite from '../../img/favourite.png'
 import star from '../../img/star.png'
 import MovieCard from '../movie-card'
 import DiscussionBox from './discussion-box'
@@ -186,7 +188,7 @@ export default class MoviePage extends Component {
             <Image src={poster} />
             { this.state.movie.isShowing &&
               <Alert key={0} variant="success" className="alert-showing">
-                Showing now!
+                { labels[this.props.lang].nowShowing }
               </Alert>
             }
           </div>
@@ -196,9 +198,11 @@ export default class MoviePage extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="movie-content col-lg-8 order-lg-1 order-sm-2 order-2">
-              {this.state.movie.tagline}
-              <h1>{labels[this.props.lang].summary}</h1>
-                <p>{this.state.movie.plot}</p>
+              <div className="tagline">
+                { this.state.movie.tagline }
+              </div>
+              <h1>{ labels[this.props.lang].summary }</h1>
+                <p>{ this.state.movie.plot }</p>
               <Tabs>
                 <TabList>
                   <h1 className="h1-tabs">{labels[this.props.lang].cast} & {labels[this.props.lang].crew}</h1>
@@ -254,46 +258,53 @@ export default class MoviePage extends Component {
                   </TabList>
                   { this.state.posters.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.posters}/>
+                      <HorizontalSlider lang={ this.props.lang } more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.posters}/>
                     </TabPanel> 
                   }
                   { this.state.posters.length !== 5 && this.state.posters.length !== 0 &&
                     <TabPanel>
-                      <HorizontalSlider content={this.state.posters}/>
+                      <HorizontalSlider lang={ this.props.lang } content={this.state.posters}/>
                     </TabPanel>
                   }
                   { this.state.videos.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.videos}/>
+                      <HorizontalSlider lang={ this.props.lang } more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.videos}/>
                     </TabPanel>
                   }
                   { this.state.videos.length !== 5 && this.state.videos.length !== 0 &&
                     <TabPanel>
-                      <HorizontalSlider content={this.state.videos}/>
+                      <HorizontalSlider lang={ this.props.lang } content={this.state.videos}/>
                     </TabPanel>
                   }
                   { this.state.backdrops.length === 5 &&
                     <TabPanel>
-                      <HorizontalSlider more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.backdrops}/>   
+                      <HorizontalSlider lang={ this.props.lang } more={`/movie/${this.props.match.params.id}/media`} loadMore="true" content={this.state.backdrops}/>   
                     </TabPanel>
                   }
                   { this.state.backdrops.length !== 5 && this.state.backdrops.length !== 0 &&
                     <TabPanel>
-                      <HorizontalSlider content={this.state.backdrops}/>   
+                      <HorizontalSlider lang={ this.props.lang } content={this.state.backdrops}/>   
                     </TabPanel>
                   }
                 </Tabs>
               }
-              <h1>{labels[this.props.lang].discussion}</h1>
+              <h1>{ labels[this.props.lang].discussion }</h1>
               <DiscussionBox noAuth={ this.state.noAuth } lang={ this.props.lang } movie={ this.props.match.params.id } />
             </div>
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
-                <h6>{labels[this.props.lang].originalLanguage}</h6>
-                <Language language={this.state.movie.language} />
-                <h6>{labels[this.props.lang].runtime}</h6>
-                <p>{this.state.movie.runtime}m</p>
-                <h6>{labels[this.props.lang].genres}</h6>
+                <div className="movie-counting">
+                  <Image src={ watched } width="30em" style={{ 'marginRight': '0.5em'}} /> { this.state.movie.watchCount } { labels[this.props.lang].peopleWatched }
+                </div>
+                <div className="movie-counting">
+                  <Image src={ favourite } width="30em" style={{ 'marginRight': '0.5em'}} /> { this.state.movie.favouriteCount } { labels[this.props.lang].peopleFavourited }
+                </div>
+                <hr />
+                <h6>{ labels[this.props.lang].originalLanguage }</h6>
+                <Language language={ this.state.movie.language } />
+                <h6>{ labels[this.props.lang].runtime }</h6>
+                <p>{ this.state.movie.runtime }m</p>
+                <h6>{ labels[this.props.lang].genres }</h6>
                 <div className="movie-genre">
                   <ul>
                     { this.state.movie.genres.map(function(genre, i) {

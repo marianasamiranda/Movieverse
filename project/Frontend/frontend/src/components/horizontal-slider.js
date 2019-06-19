@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Image from 'react-bootstrap/Image';
+import { labels } from '../var'
 import { Link } from 'react-router-dom';
 
 export default class HorizontalSlider extends Component {
@@ -30,7 +31,7 @@ export default class HorizontalSlider extends Component {
         this.state.loadMore ? (
           <div className="hitem">
           <Link to={this.state.moreLink} className="showMoreMedia vertical-align">
-            Show More&#160;<i className="fas fa-plus-circle"></i>
+            { labels[this.props.lang].showMore }&#160;<i className="fas fa-plus-circle"></i>
           </Link>
         </div>
         ) : ""
