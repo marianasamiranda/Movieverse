@@ -2,7 +2,7 @@ package data.daos.impl;
 
 import data.daos.MovieMemberDAO;
 import data.entities.MovieMember;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Component("movieMemberDAO")
+@Repository
 public class MovieMemberDAOImpl extends DAOImpl<Integer , MovieMember> implements MovieMemberDAO {
 
     @PersistenceContext

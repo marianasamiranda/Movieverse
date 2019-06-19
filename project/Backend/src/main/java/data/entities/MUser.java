@@ -144,13 +144,29 @@ public class MUser {
 	public int getMovieCount() {
 		return movieCount;
 	}
-	
+
+	public void addMovieCount() {
+		this.movieCount++;
+	}
+
+	public void removeMovieCount() {
+		this.movieCount--;
+	}
+
 	public void setMinutesCount(int value) {
 		this.minutesCount = value;
 	}
 
 	public int getMinutesCount() {
 		return minutesCount;
+	}
+
+	public void addMinutesCount(int runtime) {
+		this.minutesCount += runtime;
+	}
+
+	public void removeMinutesCount(int runtime){
+		this.minutesCount -= runtime;
 	}
 	
 	public void setAvatar(String value) {
@@ -200,6 +216,14 @@ public class MUser {
 	public int getRatingsCount() {
 		return ratingsCount;
 	}
+
+	public void addRatingCount() {
+		this.ratingsCount++;
+	}
+
+	public void removeRatingCount(){
+		this.ratingsCount--;
+	}
 	
 	public void setFriendsCount(int value) {
 		this.friendsCount = value;
@@ -223,6 +247,14 @@ public class MUser {
 
 	public int getFavouriteCount() {
 		return favouriteCount;
+	}
+
+	public void addFavouriteCount() {
+		this.favouriteCount++;
+	}
+
+	public void removeFavouriteCount(){
+		this.favouriteCount--;
 	}
 
 	public List<MUser> getReceivedMusers() {

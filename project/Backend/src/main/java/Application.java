@@ -14,16 +14,19 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.management.MBeanServer;
 import javax.persistence.EntityManagerFactory;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.management.ManagementFactory;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"data", "controller", "business", "log"})
@@ -31,6 +34,7 @@ import java.lang.annotation.Target;
 //@EntityScan("security.domain")
 //@EnableJpaRepositories("security.repository")
 @EnableTransactionManagement
+@EnableRetry
 @EnableScheduling
 public class Application {
 
@@ -66,6 +70,7 @@ public class Application {
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
+
 
 /*
     @Bean

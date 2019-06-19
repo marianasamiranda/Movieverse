@@ -2,10 +2,10 @@ package data.daos.impl;
 
 import data.daos.CompanyDAO;
 import data.entities.Company;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
-@Component("companyDAO")
+@Repository
 public class CompanyDAOImpl extends DAOImpl<Integer , Company> implements CompanyDAO {
 
 

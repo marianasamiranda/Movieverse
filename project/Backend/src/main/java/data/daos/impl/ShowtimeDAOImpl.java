@@ -2,7 +2,7 @@ package data.daos.impl;
 
 import data.daos.ShowtimeDAO;
 import data.entities.Showtime;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Component("showtimeDAO")
+@Repository
 public class ShowtimeDAOImpl extends DAOImpl<Integer , Showtime> implements ShowtimeDAO {
 
     @PersistenceContext

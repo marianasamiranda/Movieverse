@@ -138,15 +138,35 @@ public class Movie {
 	public int getRatingSum() {
 		return ratingSum;
 	}
+
+	public void addRatingSum(int rating) {
+		this.ratingSum += rating;
+	}
+
+	public void removeRatingSum(int rating){
+		this.ratingSum -= rating;
+	}
+
+	public void updatingRatingSum(int oldRating, int newRating){
+		this.ratingSum = this.ratingSum + newRating - oldRating;
+	}
 	
 	public void setRatingCount(int value) {
 		this.ratingCount = value;
 	}
-	
+
 	public int getRatingCount() {
 		return ratingCount;
 	}
-	
+
+	public void addRatingCount() {
+		this.ratingCount++;
+	}
+
+	public void removeRatingCount(){
+		this.ratingCount--;
+	}
+
 	public void setBudget(Integer value) {
 		this.budget = value;
 	}
@@ -179,12 +199,28 @@ public class Movie {
 		return favouriteCount;
 	}
 
+	public void addFavouriteCount() {
+		this.favouriteCount++;
+	}
+
+	public void removeFavouriteCount(){
+		this.favouriteCount--;
+	}
+
 	public void setWatchCount(int value) {
 		this.watchCount = value;
 	}
 
 	public int getWatchCount() {
 		return watchCount;
+	}
+
+	public void addWatchCount() {
+		this.watchCount++;
+	}
+
+	public void removeWatchCount(){
+		this.watchCount--;
 	}
 
 	public MUser[] getmUsers() {

@@ -1,6 +1,5 @@
 package controller;
 
-import business.MovieService;
 import business.UserService;
 import log.LogMethod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +17,13 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    MovieService movieService;
-
 
     @LogMethod
     @RequestMapping(method = GET, value = "/user/profile")
     public ResponseEntity<Object> profile(@RequestHeader(value = "Authorization") String t,
                                           @RequestParam(value = "username", required = false) String username) {
         String token = t.split(" ")[1];
-
-        try {
-            return Util.ok(userService.profileInfo(token, username));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.profileInfo(token, username));
     }
 
 
@@ -41,38 +31,21 @@ public class UsersController {
     @RequestMapping(method = GET, value = "/user/feed")
     public ResponseEntity<Object> feed(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
-
-        try {
-            return Util.ok(userService.feedInfo(token));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.feedInfo(token));
     }
 
     @RequestMapping(method = GET, value = "/user/feed/entries")
     public ResponseEntity<Object> feedEntries(@RequestHeader(value = "Authorization") String t,
                                               @RequestParam(value = "page") Integer page) {
         String token = t.split(" ")[1];
-
-        try {
-            return Util.ok(userService.feedEntries(token, page));
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> userService.feedEntries(token, page));
     }
 
 
     @RequestMapping(method = GET, value = "/user/avatar")
     public ResponseEntity<Object> getAvatar(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.getAvatar(token));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.getAvatar(token));
     }
 
 
@@ -80,12 +53,7 @@ public class UsersController {
     public ResponseEntity<Object> setAvatar(@RequestHeader(value = "Authorization") String t,
                                             @RequestParam(value = "image") MultipartFile file) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.newAvatar(token, file));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.newAvatar(token, file));
     }
 
 
@@ -93,13 +61,10 @@ public class UsersController {
     public ResponseEntity<Object> genre(@RequestHeader(value = "Authorization") String t,
                                         @RequestBody Map body) {
         String token = t.split(" ")[1];
-        try {
+        return Util.callServiceAndReturnError(() -> {
             userService.newGenre(token, (String) body.get("genre"));
-            return Util.ok("");
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+            return "";
+        });
     }
 
 
@@ -107,12 +72,7 @@ public class UsersController {
     public ResponseEntity<Object> genre(@RequestHeader(value = "Authorization") String t,
                                         @RequestParam(value = "type") String type) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.getFriendRequests(token, type));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.getFriendRequests(token, type));
     }
 
 
@@ -121,13 +81,10 @@ public class UsersController {
                                                 @RequestBody Map body) {
         String token = t.split(" ")[1];
         String username = (String) body.get("username");
-        try {
+        return Util.callServiceAndReturnError(() -> {
             userService.newFriendRequest(token, username);
-            return Util.ok("");
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+            return "";
+        });
     }
 
 
@@ -138,14 +95,10 @@ public class UsersController {
         String token = t.split(" ")[1];
         String username = (String) body.get("username");
         boolean decision = (boolean) body.get("decision");
-
-        try {
+        return Util.callServiceAndReturnError(() -> {
             userService.processRequest(token, username, decision);
-            return Util.ok("");
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+            return "";
+        });
     }
 
 
@@ -155,14 +108,10 @@ public class UsersController {
                                                 @RequestBody Map body) {
         String token = t.split(" ")[1];
         String username = (String) body.get("username");
-
-        try {
+        return Util.callServiceAndReturnError(() -> {
             userService.cancelRequest(token, username);
-            return Util.ok("");
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+            return "";
+        });
     }
 
 
@@ -172,13 +121,7 @@ public class UsersController {
                                                 @RequestParam(value = "begin") int begin,
                                                 @RequestParam(value = "limit") int limit) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.movieList(token, type, begin, limit));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> userService.movieList(token, type, begin, limit));
     }
 
 
@@ -187,13 +130,7 @@ public class UsersController {
                                                 @RequestParam(value = "begin") int begin,
                                                 @RequestParam(value = "limit") int limit) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.friendsList(token, begin, limit));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> userService.friendsList(token, begin, limit));
     }
 
 
@@ -201,24 +138,13 @@ public class UsersController {
     public ResponseEntity<Object> search(@RequestHeader(value = "Authorization") String t,
                                          @RequestParam(value = "name") String name) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.search(token, name));
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> userService.search(token, name));
     }
 
 
     @RequestMapping(method = GET, value = "/user/search-page")
     public ResponseEntity<Object> searchPage(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
-        try {
-            return Util.ok(userService.searchPage(token));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(()->userService.searchPage(token));
     }
 }

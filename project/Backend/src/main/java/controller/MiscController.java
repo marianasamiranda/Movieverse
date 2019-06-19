@@ -20,12 +20,6 @@ public class MiscController {
     @LogMethod
     @RequestMapping(method = GET, value = "/frontpage")
     public ResponseEntity<Object> frontpage() {
-        try {
-            return Util.ok(miscService.frontPageInfo());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> miscService.frontPageInfo());
     }
 }

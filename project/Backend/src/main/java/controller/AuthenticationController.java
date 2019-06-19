@@ -25,14 +25,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> login(@RequestBody Map body) {
         String username = ((String) body.get("username"));
         String password = (String) body.get("password");
-
-        try {
-            String token = userService.login(username, password);
-            return Util.ok(token);
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.login(username, password));
     }
 
 
@@ -47,26 +40,16 @@ public class AuthenticationController {
         String d = (String) body.get("birthdate");
         LocalDate birthdate = LocalDate.parse(d.substring(0, d.length()-2), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         char gender = ((String) body.get("gender")).charAt(0);
-        try {
-            String r = userService.registerUser(email, username, name, password, country, birthdate, gender);
-            return Util.ok(r);
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        return Util.callServiceAndReturnError(() -> userService.registerUser(email, username, name, password, country, birthdate, gender));
     }
 
 
     @RequestMapping(method = POST, value = "/logout")
     public ResponseEntity<Object> logout(@RequestHeader(value = "Authorization") String t) {
         String token = t.split(" ")[1];
-        try {
+        return Util.callServiceAndReturnError(() -> {
             userService.logout(token);
-            return Util.ok("");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return Util.badRequest(e.getMessage());
-        }
+            return "";
+        });
     }
 }

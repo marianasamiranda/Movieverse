@@ -2,16 +2,14 @@ package data.daos.impl;
 
 import data.daos.AchievementDAO;
 import data.entities.Achievement;
-import data.entities.MUser;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
 
 
-@Component("achievementDAO")
+@Repository
 public class AchievementDAOImpl extends DAOImpl<Integer , Achievement> implements AchievementDAO {
 
     @PersistenceContext

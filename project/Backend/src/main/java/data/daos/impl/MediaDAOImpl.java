@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 
-@Repository("mediaDAO")
+@Repository
 public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
 
     @PersistenceContext

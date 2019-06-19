@@ -4,9 +4,8 @@ import data.DataUtil;
 import data.daos.InvalidTokenException;
 import data.daos.MUserDAO;
 import data.entities.MUser;
-import data.entities.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -20,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-@Component("muserDAO")
+@Repository
 public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
     @PersistenceContext
@@ -37,8 +36,7 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
             "FROM " + entityClass.getName() + " c " +
             "LEFT JOIN FETCH c.userCountry " +
             "LEFT JOIN FETCH c.favouriteGenre WHERE " + condition)
-            .setMaxResults(1)
-            .setHint("org.hibernate.cacheable", true);
+            .setMaxResults(1);
         List<MUser> result = (List<MUser>) query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
@@ -246,6 +244,8 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         l.forEach(x -> System.out.println(x[0]));
         return dataUtil.queryListToListMap(l, Arrays.asList("id", "poster"));
     }
+
+
 
 
     public int totalNumberOfLikes() {

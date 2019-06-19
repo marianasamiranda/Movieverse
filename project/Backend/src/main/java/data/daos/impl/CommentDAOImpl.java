@@ -2,7 +2,7 @@ package data.daos.impl;
 
 import data.daos.CommentDAO;
 import data.entities.Comment;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Component("commentDAO")
+@Repository
 public class CommentDAOImpl extends DAOImpl<Integer , Comment> implements CommentDAO {
 
     @PersistenceContext

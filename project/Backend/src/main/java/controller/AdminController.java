@@ -20,13 +20,8 @@ public class AdminController {
     @RequestMapping(method = GET, value = "/admin/stats")
     public ResponseEntity<Object> stats(@RequestHeader(value = "Authorization") String t,
                                         @RequestParam(value = "time", required = false) Integer time) {
-        try {
-            String token = t.split(" ")[1];
-            return Util.ok(adminService.stats(token, time));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+       String token = t.split(" ")[1];
+       return Util.callServiceAndReturnError(() -> adminService.stats(token, time));
     }
 
 
@@ -34,12 +29,7 @@ public class AdminController {
     @RequestMapping(method = GET, value = "/admin/stats/plots")
     public ResponseEntity<Object> plots(@RequestHeader(value = "Authorization") String t,
                                         @RequestParam(value = "time") Integer time) {
-        try {
-            String token = t.split(" ")[1];
-            return Util.ok(adminService.plots(token, time));
-        }
-        catch (Exception e) {
-            return Util.badRequest(e.getMessage());
-        }
+        String token = t.split(" ")[1];
+        return Util.callServiceAndReturnError(() -> adminService.plots(token, time));
     }
 }

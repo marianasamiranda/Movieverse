@@ -291,73 +291,7 @@ public class DataUtil {
 
     @Transactional
     public void createTriggers() {
-        //i am stupid ja esta a ser feito friendsCount++ na classe MUser
-      /*  entityManager.createNativeQuery(
-            "CREATE OR REPLACE FUNCTION update_friendscount_function() RETURNS TRIGGER AS\n" +
-                "'BEGIN\n" +
-                "    IF TG_OP = ''INSERT'' then\n" +
-                "       UPDATE muser SET friendscount = friendscount + 1 WHERE id=NEW.muserid;\n" +
-                "    ELSIF TG_OP = ''DELETE'' then\n" +
-                "       UPDATE muser SET friendscount = friendscount - 1 WHERE id=OLD.muserid;\n" +
-                "    END IF;\n" +
-                "RETURN NULL;\n" +
-                "END;'\n" +
-                "LANGUAGE plpgsql;\n" +
-                "\n" +
-                "DROP TRIGGER IF EXISTS update_friendscount_trigger ON muserfriendship;\n" +
-                "CREATE TRIGGER update_friendscount_trigger AFTER INSERT OR DELETE\n" +
-            "ON muserfriendship FOR EACH ROW EXECUTE PROCEDURE update_friendscount_function();"
-        ).executeUpdate();
-*/
 
-
-        entityManager.createNativeQuery(
-        "CREATE OR REPLACE FUNCTION update_minutescount_function() RETURNS TRIGGER AS " +
-                "'BEGIN\n" +
-                " \tIF TG_OP = ''INSERT'' OR (TG_OP = ''UPDATE'' AND NEW.status = true AND OLD.status = false) then\n" +
-                "       UPDATE muser SET minutescount = minutescount + movie.runtime, moviecount = moviecount + 1 FROM movie WHERE id=NEW.muserid AND movie.tmdb=NEW.movieid AND movie.runtime IS NOT NULL;\n" +
-                "    ELSIF TG_OP = ''DELETE'' OR (TG_OP = ''UPDATE'' AND NEW.status = false AND OLD.status = true) then\n" +
-                "       UPDATE muser SET minutescount = minutescount - movie.runtime, moviecount = moviecount - 1 FROM movie WHERE id=OLD.muserid AND movie.tmdb=OLD.movieid AND movie.runtime IS NOT NULL;\n" +
-                "    END IF;\n" +
-                "RETURN NULL; \n" +
-                "END;'\n" +
-                "LANGUAGE plpgsql;\n" +
-                "" +
-                "DROP TRIGGER IF EXISTS update_minutescount_trigger ON usermovie;\n" +
-                "CREATE TRIGGER update_minutescount_trigger AFTER UPDATE ON usermovie FOR EACH ROW WHEN (OLD.status IS DISTINCT FROM NEW.status) EXECUTE PROCEDURE update_minutescount_function();\n" +
-                "\n" +
-                "DROP TRIGGER IF EXISTS update_minutescount_trigger2 ON usermovie;\n" +
-                "CREATE TRIGGER update_minutescount_trigger2 AFTER INSERT ON usermovie FOR EACH ROW WHEN (NEW.status=true) EXECUTE PROCEDURE update_minutescount_function();\n" +
-                "\n" +
-                "DROP TRIGGER IF EXISTS update_minutescount_trigger3 ON usermovie;\n" +
-                "CREATE TRIGGER update_minutescount_trigger3 AFTER DELETE ON usermovie FOR EACH ROW WHEN (OLD.status=true) EXECUTE PROCEDURE update_minutescount_function();\n"
-        ).executeUpdate();
-
-        entityManager.createNativeQuery(
-        "CREATE OR REPLACE FUNCTION update_ratingscount_function() RETURNS TRIGGER AS\n" +
-                "'BEGIN\n" +
-                " \tIF TG_OP = ''INSERT'' OR (TG_OP = ''UPDATE'' AND OLD.rating IS NULL) then\n" +
-                "       UPDATE muser SET ratingscount = ratingscount + 1 WHERE id=NEW.muserid;\n" +
-                "       UPDATE movie SET ratingcount = ratingcount + 1, ratingsum = ratingsum + NEW.rating WHERE movie.tmdb=NEW.movieid;\n" +
-                "    ELSIF TG_OP = ''DELETE'' OR (TG_OP = ''UPDATE'' AND NEW.rating IS NULL) then\n" +
-                "       UPDATE muser SET ratingscount = ratingscount - 1 WHERE id=OLD.muserid;\n" +
-                "       UPDATE movie SET ratingcount = ratingcount - 1, ratingsum = ratingsum - OLD.rating WHERE movie.tmdb=OLD.movieid;\n" +
-                "    ELSIF TG_OP = ''UPDATE'' then\n" +
-                "       UPDATE movie SET ratingsum = ratingsum - OLD.rating + NEW.rating WHERE movie.tmdb=OLD.movieid;\n" +
-                "    END IF;\n" +
-                "RETURN NULL; \n" +
-                "END;'\n" +
-                "LANGUAGE plpgsql;" +
-                "" +
-                "DROP TRIGGER IF EXISTS update_ratingscount_trigger ON usermovie;\n" +
-                "CREATE TRIGGER update_ratingscount_trigger AFTER UPDATE ON usermovie FOR EACH ROW WHEN (OLD.rating IS DISTINCT FROM NEW.rating) EXECUTE PROCEDURE update_ratingscount_function();\n" +
-                "\n" +
-                "DROP TRIGGER IF EXISTS update_ratingscount_trigger2 ON usermovie;\n" +
-                "CREATE TRIGGER update_ratingscount_trigger2 AFTER INSERT ON usermovie FOR EACH ROW WHEN (NEW.rating IS NOT NULL) EXECUTE PROCEDURE update_ratingscount_function();\n" +
-                "\n" +
-                "DROP TRIGGER IF EXISTS update_ratingscount_trigger3 ON usermovie;\n" +
-                "CREATE TRIGGER update_ratingscount_trigger3 AFTER DELETE ON usermovie FOR EACH ROW WHEN (OLD.rating IS NOT NULL) EXECUTE PROCEDURE update_ratingscount_function();\n"
-        ).executeUpdate();
 
         entityManager.createNativeQuery(
         "CREATE OR REPLACE FUNCTION update_commentscount_function() RETURNS TRIGGER AS\n" +
@@ -376,25 +310,6 @@ public class DataUtil {
                 "CREATE TRIGGER update_commentscount_trigger AFTER INSERT OR DELETE ON comment FOR EACH ROw EXECUTE PROCEDURE update_commentscount_function();\n"
         ).executeUpdate();
 
-        /*entityManager.createNativeQuery(
-        "CREATE OR REPLACE FUNCTION update_likescount_function() RETURNS TRIGGER AS\n" +
-                "'BEGIN\n" +
-                " \tIF TG_OP = ''INSERT'' then\n" +
-                "       UPDATE muser SET likescount = likescount + 1 WHERE id=NEW.muserid;\n" +
-                "       UPDATE comment SET likes = likes + 1 WHERE id=NEW.commentid;\n" +
-                "    ELSIF TG_OP = ''DELETE'' then\n" +
-                "       UPDATE muser SET likescount = likescount - 1 WHERE id=OLD.muserid;\n" +
-                "       UPDATE comment SET likes = likes - 1 WHERE id=OLD.commentid;\n" +
-                "    END IF;\n" +
-                "RETURN NULL; \n" +
-                "END;'\n" +
-                "LANGUAGE plpgsql;" +
-                "" +
-                "\n" +
-                "DROP TRIGGER IF EXISTS update_likescount_trigger ON musercomment;\n" +
-                "CREATE TRIGGER update_likescount_trigger AFTER INSERT OR DELETE ON musercomment FOR EACH ROw EXECUTE PROCEDURE update_likescount_function();\n"
-        ).executeUpdate();
-*/
     }
 
     @Transactional

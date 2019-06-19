@@ -5,7 +5,7 @@ import data.daos.MovieDAO;
 import data.entities.Movie;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 import java.util.*;
 
 
-@Component("movieDAO")
+@Repository
 public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
 
     @PersistenceContext

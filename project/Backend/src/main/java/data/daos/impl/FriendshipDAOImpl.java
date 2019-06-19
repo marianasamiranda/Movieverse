@@ -4,7 +4,7 @@ import data.DataUtil;
 import data.daos.FriendshipDAO;
 import data.entities.Friendship;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +12,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 
-@Component("friendshipDAO")
+@Repository
 public class FriendshipDAOImpl extends DAOImpl<Integer , Friendship> implements FriendshipDAO {
 
     @PersistenceContext

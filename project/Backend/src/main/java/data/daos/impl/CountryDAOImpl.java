@@ -2,10 +2,10 @@ package data.daos.impl;
 
 import data.daos.CountryDAO;
 import data.entities.Country;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
-@Component("countryDAO")
+@Repository
 public class CountryDAOImpl extends DAOImpl<Integer , Country> implements CountryDAO {
 
 

@@ -4,7 +4,7 @@ import data.DataUtil;
 import data.daos.MemberDAO;
 import data.entities.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-@Component("memberDAO")
+@Repository
 public class MemberDAOImpl extends DAOImpl<Integer , Member> implements MemberDAO {
 
     @PersistenceContext

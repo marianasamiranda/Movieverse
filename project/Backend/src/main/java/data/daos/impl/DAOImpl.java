@@ -43,7 +43,6 @@ public abstract class DAOImpl<K, E> implements DAO<K, E> {
 		entityManager.persist(entity);
 	}
 
-
 	@Transactional(readOnly=false)
 	public void merge(E entity) {
 		entityManager.merge(entity);
@@ -73,14 +72,12 @@ public abstract class DAOImpl<K, E> implements DAO<K, E> {
 	@Transactional(readOnly=true)
 	public E loadEntity(String condition){
         Query query =  entityManager.createQuery("SELECT c FROM "+ entityClass.getName() + " c WHERE " + condition);
-		query.setHint("org.hibernate.cacheable", true);
         return (E) query.getSingleResult();
     }
 
 	@Transactional(readOnly=true)
 	public E loadEntity(String condition, String orderBy){
         Query query =  entityManager.createQuery("FROM "+ entityClass.getName() + " c WHERE " + condition + " ORDER BY " + orderBy);
-		query.setHint("org.hibernate.cacheable", true);
         E result = (E) query.getSingleResult();
         return result;
     }

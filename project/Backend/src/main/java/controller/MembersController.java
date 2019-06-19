@@ -19,45 +19,25 @@ public class MembersController {
     @LogMethod
     @RequestMapping(method = GET, value = "/member/search")
     public ResponseEntity<Object> membersSearch(@RequestParam(value = "name") String name) {
-        try {
-            return Util.ok(memberService.search(name));
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> memberService.search(name));
     }
 
 
     @RequestMapping(method = GET, value = "/member/{id}")
     public ResponseEntity<Object> profile(@PathVariable(value = "id") int id) {
-        try {
-            return Util.ok(memberService.memberInfo(id));
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> memberService.memberInfo(id));
     }
 
 
     @RequestMapping(method = GET, value = "/member/{id}/movies")
     public ResponseEntity<Object> memberMovies(@PathVariable(value = "id") int id,
                                                @RequestParam(value = "page") int page) {
-        try {
-            return Util.ok(memberService.memberMovies(id, page));
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> memberService.memberMovies(id, page));
     }
 
 
     @RequestMapping(method = GET, value = "/member/search-page")
     public ResponseEntity<Object> memberSearchPage() {
-        try {
-            return Util.ok(memberService.memberSearchPage());
-        }
-        catch (Exception e) {
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(() -> memberService.memberSearchPage());
     }
 }

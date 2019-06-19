@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +52,11 @@ public class Tasks {
 
     @PostConstruct
     public void startUp() {
+        try {
+            //downloadAndPopulateInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dataUtil.createViews();
         dataUtil.createFunctions();
         dataUtil.refreshViews();
@@ -108,8 +114,17 @@ public class Tasks {
 
 
     //@Scheduled(cron = "0 0 1 * * ?")
-    @Scheduled(cron = "* * * ? * *")
+    @Scheduled(cron = EVERY_DAY_1AM)
     public void downloadAndPopulateInfo() throws Exception {
-        //TODO: run python download and populate script
+        System.out.println("Populate Badges");
+
+        String path = new File("").getCanonicalPath();
+        Runtime.getRuntime().exec("python " + path +"/scripts/populate_badges.py" );
+        Runtime.getRuntime().exec("python " + path +"/scripts/populate_countries.py" );
+        Runtime.getRuntime().exec("python " + path +"/scripts/populate_genres.py" );
+        Runtime.getRuntime().exec("python " + path +"/scripts/populate_companies.py" );
+        Runtime.getRuntime().exec("python " + path +"/scripts/populate_people.py" );
+        Runtime.getRuntime().exec("python " + path +"/scripts/populate_movies.py" );
+
     }
 }

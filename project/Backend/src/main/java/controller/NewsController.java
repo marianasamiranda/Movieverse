@@ -20,12 +20,6 @@ public class NewsController {
     @LogMethod
     @RequestMapping(method = GET, value = "/news")
     public ResponseEntity<Object> news() {
-        try {
-            return Util.ok(newsService.getNews());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return Util.badRequest("");
-        }
+        return Util.callServiceAndReturn(()->newsService.getNews());
     }
 }

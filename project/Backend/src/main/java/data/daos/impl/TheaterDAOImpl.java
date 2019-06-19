@@ -2,14 +2,9 @@ package data.daos.impl;
 
 import data.daos.TheaterDAO;
 import data.entities.Theater;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-
-@Component("theaterDAO")
+@Repository
 public class TheaterDAOImpl extends DAOImpl<Integer , Theater> implements TheaterDAO {
 
 }
