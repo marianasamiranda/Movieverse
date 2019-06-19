@@ -100,6 +100,14 @@ export default class Tour extends Component {
                       </div>
                     </Col>
                   </Row>
+                  <Row>
+                    <Col md="7">
+                      feed img
+                    </Col>
+                    <Col md="5">
+                      {labels[this.props.lang].feedSection1}
+                    </Col>
+                  </Row>
                 </section>
 
                 <section className="tour-section" id="__profile">
@@ -160,6 +168,24 @@ export default class Tour extends Component {
                       </div>
                     </Col>
                   </Row>
+                  <Row>
+                    <Col md="12">
+                      {labels[this.props.lang].moviesSection1}
+                    </Col>
+                    <div className="break" />
+                    <Col md="12">
+                      movie page img
+                    </Col>
+                  </Row>
+                  <div className="break" />
+                  <Row>
+                    <Col md="5">
+                      {labels[this.props.lang].moviesSection2}
+                    </Col>
+                    <Col md="7">
+                      comments img
+                    </Col>
+                  </Row>
                 </section>
 
                 <section className="tour-section" id="__people">
@@ -168,6 +194,14 @@ export default class Tour extends Component {
                       <div className="title-medium">
                         {labels[this.props.lang].people}
                       </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="7">
+                      member img
+                    </Col>
+                    <Col md="5">
+                      {labels[this.props.lang].memberSection1}
                     </Col>
                   </Row>
                 </section>

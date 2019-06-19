@@ -3,222 +3,259 @@
         "country": "Portugal",
         "city": "Braga",
         "url": "http://cinemas.nos.pt/cinemas/Pages/braga-parque.aspx",
-        "imdb": "ci1032028"
+        "imdb": "ci1032028",
+        "id": 1
     },
     "Cineplace Nova Arcada": {
         "country": "Portugal",
         "city": "Braga",
         "url": "http://www.cineplaceportugal.pt/programacao/18",
-        "imdb": "ci88043394"
+        "imdb": "ci88043394",
+        "id": 2
     },
     "Cinemax Braga": {
         "country": "Portugal",
         "city": "Braga",
         "url": "https://cinemascinemax.com/salas/braga/",
-        "imdb": "ci1032024"
+        "imdb": "ci1032024",
+        "id": 3
     },
     "Cinemax Barcelos": {
         "country": "Portugal",
         "city": "Barcelos",
         "url": "https://cinemascinemax.com/salas/barcelos/",
-        "imdb": "ci1032023"
+        "imdb": "ci1032023",
+        "id": 4
     },
     "Fórum Vizela Cinema": {
         "country": "Portugal",
         "city": "Vizela",
         "url": "http://www.vizela.pt/?page_id=215",
-        "imdb": "ci32517405"
+        "imdb": "ci32517405",
+        "id": 5
     },
     "Castello Lopes Espaço Guimarães": {
         "country": "Portugal",
         "city": "Guimarães",
         "url": "https://castellolopescinemas.pt/exibicao/",
-        "imdb": "ci5186017"
+        "imdb": "ci5186017",
+        "id": 6
     },
     "Cinemas NOS Gaia Shopping": {
         "country": "Portugal",
         "city": "Gaia",
         "url": "http://cinemas.nos.pt/cinemas/Pages/gaiashopping.aspx",
-        "imdb": "ci1032190"
+        "imdb": "ci1032190",
+        "id": 7
     },
     "Cinemas NOS Maia Shopping": {
         "country": "Portugal",
         "city": "Maia",
         "url": "http://cinemas.nos.pt/cinemas/Pages/maiashopping.aspx",
-        "imdb": "ci1032191"
+        "imdb": "ci1032191",
+        "id": 8
     },
     "Cinemas NOS NorteShopping": {
         "country": "Portugal",
         "city": "Matosinhos",
         "url": "http://cinemas.nos.pt/cinemas/Pages/norteshopping.aspx",
-        "imdb": "ci1032193"
+        "imdb": "ci1032193",
+        "id": 9
     },
     "Cinemas NOS Parque Nascente": {
         "country": "Portugal",
         "city": "Rio Tinto",
         "url": "http://cinemas.nos.pt/cinemas/Pages/parque-nascente.aspx",
-        "imdb": "ci1032194"
+        "imdb": "ci1032194",
+        "id": 10
     },
     "Cineplace Mira Maia": {
         "country": "Portugal",
         "city": "Maia",
         "url": "http://www.cineplaceportugal.pt/programacao/19",
-        "imdb": "ci4586151"
+        "imdb": "ci4586151",
+        "id": 11
     },
     "Cinemax Penafiel": {
         "country": "Portugal",
         "city": "Penafiel",
         "url": "https://cinemax.pt/",
-        "imdb": "ci1032181"
+        "imdb": "ci1032181",
+        "id": 12
     },
     "Cinemas NOS Ferrara Plaza": {
         "country": "Portugal",
         "city": "Paços de Ferreira",
         "url": "http://cinemas.nos.pt/cinemas/Pages/ferrara-plaza.aspx",
-        "imdb": "ci1032189"
+        "imdb": "ci1032189",
+        "id": 13
     },
     "Cinemas NOS Alameda Shop e Spot": {
         "country": "Portugal",
         "city": "Porto",
         "url": "http://cinemas.nos.pt/cinemas/Pages/Alameda-Shop-Spot.aspx",
-        "imdb": "ci1032188"
+        "imdb": "ci1032188",
+        "id": 14
     },
     "Cinemas NOS Nosso Shopping": {
         "country": "Portugal",
         "city": "Vila Real",
         "url": "http://cinemas.nos.pt/cinemas/Pages/Nosso-Shopping.aspx",
-        "imdb": "ci1032250"
+        "imdb": "ci1032250",
+        "id": 15
     },
     "Cinemas NOS Glicínias": {
         "country": "Portugal",
         "city": "Aveiro",
         "url": "http://cinemas.nos.pt/cinemas/Pages/glicinias.aspx",
-        "imdb": "ci1032005"
+        "imdb": "ci1032005",
+        "id": 16
     },
     "Cinemas NOS Fórum Viseu": {
         "country": "Portugal",
         "city": "Viseu",
         "url": "http://cinemas.nos.pt/cinemas/Pages/forum-viseu.aspx",
-        "imdb": "ci1032245"
+        "imdb": "ci1032245",
+        "id": 17
     },
     "UCI Arrábida 20": {
         "country": "Portugal",
         "city": "Vila Nova de Gaia",
         "url": "http://www.ucicinemas.pt/Cinemas/Arrabida-20",
-        "imdb": "ci1032187"
+        "imdb": "ci1032187",
+        "id": 18
     },
     "Cinemas NOS Palácio do Gelo": {
         "country": "Portugal",
         "city": "Viseu",
         "url": "http://cinemas.nos.pt/cinemas/Pages/palacio-do-gelo.aspx",
-        "imdb": "ci1032246"
+        "imdb": "ci1032246",
+        "id": 19
     },
     "Cinemas NOS Alma Shopping Coimbra": {
         "country": "Portugal",
         "city": "Coimbra",
         "url": "http://cinemas.nos.pt/cinemas/Pages/Alma-Shopping.aspx",
-        "imdb": "ci1032044"
+        "imdb": "ci1032044",
+        "id": 20
     },
     "Cinemas NOS Fórum Coimbra": {
         "country": "Portugal",
         "city": "Coimbra",
         "url": "http://cinemas.nos.pt/cinemas/Pages/forum-coimbra.aspx",
-        "imdb": "ci1032046"
+        "imdb": "ci1032046",
+        "id": 21
     },
     "Cinemas NOS Colombo": {
         "country": "Portugal",
         "city": "Lisboa",
         "url": "http://cinemas.nos.pt/cinemas/Pages/colombo.aspx",
-        "imdb": "ci1032159"
+        "imdb": "ci1032159",
+        "id": 22
     },
     "Cinemas NOS Odivelas Strada": {
         "country": "Portugal",
         "city": "Odivelas",
         "url": "http://cinemas.nos.pt/cinemas/Pages/odivelas.aspx",
-        "imdb": "ci1032161"
+        "imdb": "ci1032161",
+        "id": 23
     },
     "Cinemas NOS Vasco da Gama": {
         "country": "Portugal",
         "city": "Lisboa",
         "url": "http://cinemas.nos.pt/cinemas/Pages/vasco-da-gama.aspx",
-        "imdb": "ci1032164"
+        "imdb": "ci1032164",
+        "id": 24
     },
     "Cinemas NOS Fórum Montijo": {
         "country": "Portugal",
         "city": "Montijo",
         "url": "http://cinemas.nos.pt/cinemas/Pages/forum-montijo.aspx",
-        "imdb": "ci1032229"
+        "imdb": "ci1032229",
+        "id": 25
     },
     "Cinemas NOS Alvaláxia": {
         "country": "Portugal",
         "city": "Lisboa",
         "url": "http://cinemas.nos.pt/cinemas/Pages/alvalaxia.aspx",
-        "imdb": "ci1032156"
+        "imdb": "ci1032156",
+        "id": 26
     },
     "Cinemas NOS Almada Fórum": {
         "country": "Portugal",
         "city": "Almada",
         "url": "http://cinemas.nos.pt/cinemas/Pages/almada-forum.aspx",
-        "imdb": "ci1032228"
+        "imdb": "ci1032228",
+        "id": 27
     },
     "Cinemas NOS Fórum Algarve": {
         "country": "Portugal",
         "city": "Faro",
         "url": "http://cinemas.nos.pt/cinemas/Pages/forum-algarve.aspx",
-        "imdb": "ci1032073"
+        "imdb": "ci1032073",
+        "id": 28
     },
     "Cinema City - Leiria": {
         "country": "Portugal",
         "city": "Leiria",
         "url": "https://www.cinemacity.pt/editorial/cinema-city-leiria/",
-        "imdb": "ci1032094"
+        "imdb": "ci1032094",
+        "id": 29
     },
     "Cinema City - Campo Pequeno": {
         "country": "Portugal",
         "city": "Lisboa",
         "url": "https://www.cinemacity.pt/editorial/cinema-city-campo-pequeno/",
-        "imdb": "ci1032123"
+        "imdb": "ci1032123",
+        "id": 30
     },
     "UCI El Corte Inglés": {
         "country": "Portugal",
         "city": "Lisboa",
         "url": "http://www.ucicinemas.pt/Cinemas/El-Corte-Ingles",
-        "imdb": "ci1032152"
+        "imdb": "ci1032152",
+        "id": 31
     },
     "Cinema City - Alegro Alfragide": {
         "country": "Portugal",
         "city": "Carnaxide",
         "url": "https://www.cinemacity.pt/editorial/cinema-city-alegro-alfragide/",
-        "imdb": "ci1032121"
+        "imdb": "ci1032121",
+        "id": 32
     },
     "Cinebox Cinemas": {
         "country": "Portugal",
         "city": "Castelo Branco",
         "url": "https://www.cineboxcinemas.pt/castelo_branco/",
-        "imdb": "ci102593830"
+        "imdb": "ci102593830",
+        "id": 33
     },
     "Cinemas NOS Algarve Mar Shopping": {
         "country": "Portugal",
         "city": "Almancil",
         "url": "http://cinemas.nos.pt/cinemas/Pages/algarve-mar-shopping.aspx",
-        "imdb": "ci102593864"
+        "imdb": "ci102593864",
+        "id": 34
     },
     "Cinema City - Alegro Setúbal": {
         "country": "Portugal",
         "city": "Setúbal",
         "url": "https://www.cinemacity.pt/editorial/cinema-city-alegro-setubal/",
-        "imdb": "ci63321969"
+        "imdb": "ci63321969",
+        "id": 35
     },
     "Cinemas NOS Evora Plaza": {
         "country": "Portugal",
         "city": "Évora",
         "url": "http://cinemas.nos.pt/cinemas/Pages/evora-plaza.aspx",
-        "imdb": "ci110462525"
+        "imdb": "ci110462525",
+        "id": 36
     },
     "Cineplace AlgarveShopping": {
         "country": "Portugal",
         "city": "Guia",
         "url": "http://www.cineplaceportugal.pt/programacao/4",
-        "imdb": "ci1032058"
+        "imdb": "ci1032058",
+        "id": 37
     }
 }
