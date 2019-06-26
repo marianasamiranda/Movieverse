@@ -21,34 +21,46 @@ export default class Aside extends Component {
         <div className="aside">
           <div className="row">
               <div className="col-6 aside-col">
-                <MovieCard 
-                  img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[0].poster}
-                  title={this.state.movies[0].name}
-                  info={this.state.movies[0].release} 
-                  id={this.state.movies[0].id}/>
+                {this.state.movies.length > 0?
+                  <MovieCard 
+                    img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[0].poster}
+                    title={this.state.movies[0].name}
+                    info={this.state.movies[0].release} 
+                    id={this.state.movies[0].id}/>
+                  :""
+                }
               </div>
               <div className="col-6 aside-col">
-                <MovieCard 
-                  img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[1].poster}
-                  title={this.state.movies[1].name}
-                  info={this.state.movies[1].release} 
-                  id={this.state.movies[1].id}/>
+                {this.state.movies.length > 1?
+                  <MovieCard 
+                    img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[1].poster}
+                    title={this.state.movies[1].name}
+                    info={this.state.movies[1].release} 
+                    id={this.state.movies[1].id}/>
+                    :""
+                  }
               </div>
           </div>
           <div className="row">
               <div className="col-6 aside-col">
-                <MovieCard 
-                  img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[2].poster}
-                  title={this.state.movies[2].name}
-                  info={this.state.movies[2].release} 
-                  id={this.state.movies[2].id}/>
+                {this.state.movies.length > 2?
+                  <MovieCard 
+                    img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[2].poster}
+                    title={this.state.movies[2].name}
+                    info={this.state.movies[2].release} 
+                    id={this.state.movies[2].id}/>
+                    :""
+                  }
               </div>
               <div className="col-6 aside-col">
-                <MovieCard 
-                  img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[3].poster}
-                  title={this.state.movies[3].name}
-                  info={this.state.movies[3].release}
-                  id={this.state.movies[3].id}/>
+                {this.state.movies.length > 3?
+                  <MovieCard 
+                    img={"https://image.tmdb.org/t/p/w200/" + this.state.movies[3].poster}
+                    title={this.state.movies[3].name}
+                    info={this.state.movies[3].release}
+                    id={this.state.movies[3].id}/>
+                    :""
+                  }
               </div>
             </div>
           </div>
