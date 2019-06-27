@@ -27,7 +27,20 @@ export default class Flag extends Component {
 
 const languages = {
   'en': 'GB',
-  'pt': 'PT'
+  'pt': 'PT',
+  'de': 'DE',
+  'es': 'ES',
+  'fr': 'FR',
+  'it': 'IT',
+  'nl': 'NL',
+  'ja': 'JP',
+  'ru': 'RU',
+  'id': 'ID',
+  'el': 'GR',
+  'hi': 'IN',
+  'ko': 'KR',
+  'zh_cn': 'CN',
+  'ar': 'SA',
 }
 
 const isoCountries = {

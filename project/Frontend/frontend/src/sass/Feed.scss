@@ -64,6 +64,7 @@
     background-color: #F9F9F9;
     border: 1px solid #C8C8C8;
     height: auto;
+    word-wrap: break-word;
 
     @media(min-width: 768px) {
         @include feed-container(90%, 30px 30px);

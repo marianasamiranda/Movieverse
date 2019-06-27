@@ -294,16 +294,16 @@ export default class MoviePage extends Component {
             <div className="col-lg-4 order-lg-2 order-sm-1 order-1">
               <div className="sidebar">
                 <div className="movie-counting">
-                  <Image src={ watched } width="30em" style={{ 'marginRight': '0.5em'}} /> { this.state.movie.watchCount } { labels[this.props.lang].peopleWatched }
+                  <Image src={watched} width="30em" style={{ 'marginRight': '0.5em' }} /> {this.state.movie.watchCount.toLocaleString() } { labels[this.props.lang].peopleWatched }
                 </div>
                 <div className="movie-counting">
-                  <Image src={ favourite } width="30em" style={{ 'marginRight': '0.5em'}} /> { this.state.movie.favouriteCount } { labels[this.props.lang].peopleFavourited }
+                  <Image src={favourite} width="30em" style={{ 'marginRight': '0.5em' }} /> {this.state.movie.favouriteCount.toLocaleString() } { labels[this.props.lang].peopleFavourited }
                 </div>
                 <hr />
                 <h6>{ labels[this.props.lang].originalLanguage }</h6>
                 <Language language={ this.state.movie.language } />
                 <h6>{ labels[this.props.lang].runtime }</h6>
-                <p>{ this.state.movie.runtime }m</p>
+                <p>{ this.state.movie.runtime ? this.state.movie.runtime + "m" : "-" }</p>
                 <h6>{ labels[this.props.lang].genres }</h6>
                 <div className="movie-genre">
                   <ul>

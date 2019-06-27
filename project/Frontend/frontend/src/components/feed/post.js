@@ -23,6 +23,7 @@ function PostHeader(props){
   let date = props.date
   let action = props.action
   let suffix = props.suffix
+  
 
   return (
     <div className="flex post-header">
@@ -309,7 +310,7 @@ export default class Post extends Component {
       movieposter = {"href": "http://placehold.it/228x337", "src": "http://placehold.it/228x337"}
     }
 
-    date = moment(this.state.data.timestmp).format('MM/DD/YYYY h:mm');
+    date = moment(this.state.data.timestmp).format('DD/MM/YYYY HH:mm');
 
     return (
       <div className="post-container">

@@ -99,6 +99,34 @@ export default class NavBar extends Component {
       }
     })
 
+    const languages = [
+      { name: 'English', code: 'en' },
+      { name: 'Português', code: 'pt' },
+      { name: 'Francais', code: 'fr' },
+      { name: 'Español', code: 'es' },
+      { name: 'Deutsch', code: 'de' },
+      { name: 'Italiano', code: 'it' },
+      { name: 'Nederlands', code: 'nl' },
+      { name: 'ελληνικά', code: 'el' },
+      { name: 'Pусский', code: 'ru' },
+      { name: 'हिंदी', code: 'hi' },
+      { name: 'Bahasa indonesia', code: 'id' },
+      { name: '日本人の', code: 'ja' },
+      { name: '한국어', code: 'ko' },
+      { name: '中国', code: 'zh_cn' },
+      { name: 'العربية', code: 'ar' },
+    ]
+
+    let langDropdownItems = []
+    languages.forEach(x => {
+      langDropdownItems.push(                
+        <NavDropdown.Item onSelect={() => this.props.changeLanguage(x.code)}>
+          <Flag language country={x.code}/> 
+          {x.name}
+        </NavDropdown.Item>
+      )
+    })
+
     return (
       <Navbar collapseOnSelect expand="lg" sticky="top" variant="dark"
         expanded={this.state.expanded}  onToggle={this.handleExpand}>
@@ -111,12 +139,7 @@ export default class NavBar extends Component {
             <Nav className="ml-auto align-items-center">
               {links}
               <NavDropdown className="nav-dropdown" title={<Flag language country={this.props.lang} />}>
-                <NavDropdown.Item onSelect={() => this.props.changeLanguage('en')}>
-                  <Flag language country='en'/> English
-                </NavDropdown.Item>
-                <NavDropdown.Item onSelect={() => this.props.changeLanguage('pt')}>
-                  <Flag language country='pt'/> Português
-                </NavDropdown.Item>
+                {langDropdownItems}
               </NavDropdown>
               {this.props.logged ?
               <AvatarDropdown

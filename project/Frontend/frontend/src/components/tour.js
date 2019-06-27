@@ -29,7 +29,7 @@ export default class Tour extends Component {
             <Col md="3" className="navigation-sidebar">
               <aside className="aside-container">
                 <div className="text-center title-medium">
-                  Contents
+                  {labels[this.props.lang].contents}
                 </div>
                 <ul>
                   <li><a href="#__authentication">{labels[this.props.lang].authentication}</a></li>
@@ -172,9 +172,9 @@ export default class Tour extends Component {
                     <Col md="12">
                       {labels[this.props.lang].moviesSection1}
                     </Col>
-                    <div className="break" />
-                    <Col md="12">
-                      movie page img
+                    <Col md="12" className="text-center">
+                      <div className="break" />
+                      <img src={require('../img/tour/movie.png')} alt="Movie page" width="80%" />
                     </Col>
                   </Row>
                   <div className="break" />
@@ -183,7 +183,7 @@ export default class Tour extends Component {
                       {labels[this.props.lang].moviesSection2}
                     </Col>
                     <Col md="7">
-                      comments img
+                      <img src={require('../img/tour/movie_comments.png')} alt="Movie comments" width="100%" />
                     </Col>
                   </Row>
                 </section>
@@ -198,7 +198,7 @@ export default class Tour extends Component {
                   </Row>
                   <Row>
                     <Col md="7">
-                      member img
+                      <img src={require('../img/tour/member.png')} alt="Member page" width="100%" />
                     </Col>
                     <Col md="5">
                       {labels[this.props.lang].memberSection1}
