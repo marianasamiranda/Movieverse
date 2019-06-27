@@ -47,8 +47,14 @@ export default class FriendRequests extends Component {
   handleReceivedRequest(u, d) {
     Axios.put(backend + '/user/friends/requests/process', {username: u, decision: d},
       { headers: { Authorization: "Bearer " + getToken() } }).then(x => {
+        
+        const received = this.state.received.filter(x => x.username !== u)
+
+        if (received.length === 0)
+          this.props.clearNotification()
+        
         this.setState({
-          received: this.state.received.filter(x => x.username !== u)
+          received: received
         })
 
         let feedback = '🔔 ' + labels[this.props.lang].requestFrom + ' ' + u + ' '

@@ -145,25 +145,25 @@ export default class FrontPage extends Component {
               <StatsItem 
                 img={require('../img/girl.png')} 
                 name={labels[this.props.lang].users}
-                number={this.state.data.users} />
+                number={formatNumber(this.state.data.users)} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
               <StatsItem 
                 img={require('../img/watch.png')} 
                 name={labels[this.props.lang].movies} 
-                number={this.state.data.movies} />
+                number={formatNumber(this.state.data.movies)} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
               <StatsItem 
                 img={require('../img/actor.png')} 
                 name={labels[this.props.lang].members}
-                number={this.state.data.members} />
+                number={formatNumber(this.state.data.members)} />
             </Col>
             <Col xs="12" sm="6" lg="3" className="stats-margin">
               <StatsItem 
                 img={require('../img/comments.png')} 
                 name={labels[this.props.lang].comments}
-                number={this.state.data.comments} />
+                number={formatNumber(this.state.data.comments)} />
             </Col>
           </Row>
         </Container>
@@ -187,4 +187,14 @@ export default class FrontPage extends Component {
       </div>
       )
   }
+}
+
+const formatNumber = (n) => {
+  const s = n.toString()
+  if (s.length >= 4 && s.length <= 6)
+    return (Math.round(n / 1000)).toString() + 'k'
+  else if (s.length >= 7)
+    return (Math.round(n / 100000)).toString() + 'M'
+  else
+    return n
 }

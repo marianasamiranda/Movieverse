@@ -4,16 +4,22 @@ import re
 import sys
 import subprocess
 import os
+import shutil
 
-if not os.path.exists('results'):
-    os.mkdir('results')
+
+
+if os.path.exists('results'):
+	shutil.rmtree('results')
+
+os.mkdir('results')
+
 
 def run_locust(name, time):
     if name == 'all':
         file = './locustfile.py'
     else:
         file = './locustfile_custom.py'
-    subprocess.call(['locust', '-f', file, '--no-web', '-c 6', '-r 6', '--run-time', time + 's', '--csv=results/' + name])
+    subprocess.call(['locust', '-f', file, '--no-web', '--logfile=results/' + name + '.log', '-c 100', '-r 25', '--run-time', time + 's', '--csv=results/' + name])
 
 def generate_task(method):
     s = ''
@@ -36,7 +42,7 @@ else:
 #all methods
 run_locust('all', time)
 
-methods = ['news', 'profile', 'showtimes', 'movie', 'member', 'movieSearch', 'peopleSearch']
+methods = ['news', 'profile', 'showtimes', 'movie', 'member', 'movieSearch', 'peopleSearch', 'feed']
 
 
 for method in methods:
@@ -53,3 +59,4 @@ for method in methods:
 
 subprocess.call(['python', 'plot.py', 'results/all_requests.csv'])
 subprocess.call(['python', 'plot.py', 'results/method_*_requests.csv'])
+subprocess.call(['python', 'plot_log.py', 'results/method_*.log'])

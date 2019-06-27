@@ -118,7 +118,7 @@ table td:last-child {
 
 .movie-card-container {
     margin-bottom: 30px;
-
+    
     .label {
         font-family: $font-stack-light;
         font-size: 16pt;
@@ -126,6 +126,7 @@ table td:last-child {
         line-height: 15pt;
         padding-top: 8pt;
         white-space: pre-line;
+        word-wrap: break-word;
     }
 
     p {

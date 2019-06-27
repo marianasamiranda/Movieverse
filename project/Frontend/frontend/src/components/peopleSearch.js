@@ -10,6 +10,8 @@ import Button from 'react-bootstrap/Button'
 import Axios from 'axios'
 import {backend, labels} from '../var'
 import NoResultsFound from './aux_pages/noResultsFound';
+import InfiniteScroller from 'react-infinite-scroller'
+
 
 export default class PeopleSearch extends Component {
   constructor(props) {
@@ -21,11 +23,15 @@ export default class PeopleSearch extends Component {
       bornToday: [],
       mostCredits: [],
       bornTodayCurrent: 1,
-      mostCreditsCurrent: 1
+      mostCreditsCurrent: 1,
+      cards: [],
+      next: 1
     }
     this.handleName = this.handleName.bind(this)
     this.search = this.search.bind(this)
     this.handleShowMore = this.handleShowMore.bind(this)
+    this.loadMore = this.loadMore.bind(this)
+
   }
 
   componentDidMount() {
@@ -65,10 +71,18 @@ export default class PeopleSearch extends Component {
     })
   }
 
-  buildCards(people) {
+  buildCards(people, isSearch, i) {
     let l = []
+    let p
+
+    if (isSearch) {
+      p = people.slice(18 * (i - 1), 18 * i)
+    }
+    else {
+      p = people
+    }
     
-    people.forEach(x => {
+    p.forEach(x => {
       let info
       if (x.total)
         info = x.total + ' ' + labels[this.props.lang].credits
@@ -77,8 +91,9 @@ export default class PeopleSearch extends Component {
 
       l.push(
         <Col lg="2" md="3" xs="4" key={people.indexOf(x)}>
+          <br></br>
           <MovieCard small
-            img={'http://image.tmdb.org/t/p/w200/' + x.image}
+            img={'http://image.tmdb.org/t/p/w154/' + x.image}
             title={x.name}
             member={x.id}
             info={info}
@@ -94,8 +109,18 @@ export default class PeopleSearch extends Component {
     let query = '?name=' + this.state.name
     Axios.get(backend + '/member/search' + query).then(x => {
       this.setState({
-        results: x.data
+        results: x.data,
+        cards: [],
+        next: 1
       })
+    })
+  }
+
+  loadMore() {
+    const cards = this.state.cards.concat(this.buildCards(this.state.results, true, this.state.next))
+    this.setState({
+      cards: cards,
+      next: this.state.next + 1,
     })
   }
 
@@ -113,7 +138,15 @@ export default class PeopleSearch extends Component {
         to_render = 
           <Container className="container-padding">
             <Row>
-              {this.buildCards(this.state.results)}
+              { /* this.buildCards(this.state.results) */}
+              <InfiniteScroller
+                pageStart={0}
+                loadMore={this.loadMore}
+                hasMore={this.state.cards.length < this.state.results.length}>
+                <Row>
+                  {this.state.cards}
+                </Row>
+              </InfiniteScroller>
             </Row>
           </Container>
       }

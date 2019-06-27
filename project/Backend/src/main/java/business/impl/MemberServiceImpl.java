@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
         boolQuery.should(QueryBuilders.existsQuery("image"));
 
         builder.query(boolQuery);
-        builder.size(30);
+        builder.size(90);
         builder.minScore(1.001f);
         search.source(builder);
         var response = elasticSearch.search(search);

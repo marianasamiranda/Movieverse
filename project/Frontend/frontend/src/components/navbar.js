@@ -43,6 +43,7 @@ export default class NavBar extends Component {
     this.handleExpand = this.handleExpand.bind(this)
     this.handleSession = this.handleSession.bind(this)
     this.getAvatar = this.getAvatar.bind(this)
+    this.clearNotification = this.clearNotification.bind(this)
   }
 
   getAvatar() {
@@ -77,6 +78,12 @@ export default class NavBar extends Component {
       avatar: undefined
     })
     this.props.handleSession()
+  }
+
+  clearNotification() {
+    this.setState({
+      requests: false
+    })
   }
 
   logout() {
@@ -149,6 +156,8 @@ export default class NavBar extends Component {
                 getAvatar={this.getAvatar} 
                 lang={this.props.lang}
                 requests={this.state.requests}
+                updatedReceived={this.updateReceived}
+                clearNotification={this.clearNotification}
                 />
                 : ""
               }

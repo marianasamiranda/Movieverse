@@ -12,6 +12,7 @@ import {genres, selectStyles, backend, labels} from '../var'
 import Axios from 'axios'
 import queryString from 'query-string'
 import NoResultsFound from './aux_pages/noResultsFound';
+import InfiniteScroller from 'react-infinite-scroller'
 
 const sort = ['dateAsc', 'dateDesc', 'rating']
 
@@ -29,7 +30,9 @@ export default class MovieSearch extends Component {
       upcoming: [],
       latestCurrent: 1,
       popularCurrent: 1,
-      upcomingCurrent: 1
+      upcomingCurrent: 1,
+      cards: [],
+      next: 1,
     })
 
     this.handleTitle = this.handleTitle.bind(this)
@@ -37,6 +40,7 @@ export default class MovieSearch extends Component {
     this.handleGenre = this.handleGenre.bind(this)
     this.search = this.search.bind(this)
     this.handleShowMore = this.handleShowMore.bind(this)
+    this.loadMore = this.loadMore.bind(this)
   }
 
   componentDidMount() {
@@ -103,16 +107,29 @@ export default class MovieSearch extends Component {
     query += (this.state.sort ? '&sort=' + this.state.sort : '')    
 
     Axios.get(backend + '/movie/search' + query).then(x => {
+      console.log('search');
+      
       this.setState({
-        results: x.data
+        results: x.data,
+        next: 1,
+        cards: [],
       })      
     })
     
   }
 
-  buildCards(movies) {
+  buildCards(movies, isSearch, i) {
     let l = []
-    movies.forEach(x => {
+    let m
+    
+    if (isSearch) {
+      m = movies.slice(18 * (i - 1), 18 * i)
+    }
+    else {
+      m = movies
+    }
+
+    m.forEach(x => {
       let info
       
       if (x.release && x.rating)
@@ -125,7 +142,7 @@ export default class MovieSearch extends Component {
       l.push(
         <Col lg="2" md="3" xs="4" key={movies.indexOf(x)}>
           <MovieCard small
-            img={'http://image.tmdb.org/t/p/w200/' + x.poster}
+            img={'http://image.tmdb.org/t/p/w154/' + x.poster}
             title={x.name}
             info={info}
             id={x.id}
@@ -134,6 +151,14 @@ export default class MovieSearch extends Component {
       )
     })
     return l
+  }
+
+  loadMore() {
+    const cards = this.state.cards.concat(this.buildCards(this.state.results, true, this.state.next))
+    this.setState({
+      cards: cards,
+      next: this.state.next + 1,
+    })
   }
 
   render() {
@@ -150,7 +175,14 @@ export default class MovieSearch extends Component {
       to_render =
         <Container className="container-padding">
           <Row>
-            {this.buildCards(this.state.results)}
+            <InfiniteScroller
+              pageStart={0}
+              loadMore={this.loadMore}
+              hasMore={this.state.cards.length < this.state.results.length}>
+              <Row>
+                {this.state.cards}
+              </Row>
+            </InfiniteScroller>
           </Row>
         </Container>
       }

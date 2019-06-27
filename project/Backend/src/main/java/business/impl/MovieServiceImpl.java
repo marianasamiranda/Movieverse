@@ -663,7 +663,7 @@ public class MovieServiceImpl implements MovieService {
                 builder.sort("rating", SortOrder.DESC);
         }
 
-        builder.size(30);
+        builder.size(90);
         if (genre == null || genre.split(",").length != 1)
             builder.minScore(1.001f);
 

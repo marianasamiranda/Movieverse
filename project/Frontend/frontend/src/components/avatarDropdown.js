@@ -81,14 +81,16 @@ class AvatarDropdown extends Component {
       show: false,
     })
   }
-  
-  logout 
 
   logout() {
     const token = clearToken()
     Axios.post(backend + '/logout', {}, { headers: { Authorization: "Bearer " + token } }).then(x => {
       this.props.handleSession()
     })
+  }
+
+  clearNotification() {
+    this.props.clearNotification()
   }
 
   render() {
@@ -125,6 +127,7 @@ class AvatarDropdown extends Component {
         show={this.state.showRequests} 
         handleShowRequests={this.handleShowRequests} 
         lang={this.props.lang} 
+        clearNotification={this.props.clearNotification}
         />
       </>
     )
