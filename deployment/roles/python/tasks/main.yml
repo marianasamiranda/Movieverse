@@ -1,0 +1,13 @@
+---
+
+- name: Sleep
+  command: sleep 2
+
+- name: Install python
+  apt:
+    name: ['python3', 'python-pip', 'libpq-dev', 'python-dev', 'python3-pip', 'python-psycopg2', 'python3-psycopg2', 'python3-elasticsearch']
+
+- name: Install pip3 packages
+  pip:
+    name: ['docker', 'bs4', 'docker-compose', 'psycopg2', 'psycopg2-binary', 'elasticsearch', 'xmltodict']
+    executable: pip3

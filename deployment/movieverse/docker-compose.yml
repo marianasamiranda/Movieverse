@@ -1,0 +1,39 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+  postgresql:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  nginx:
+    image: nginx:latest
+    container_name: loadbalancer
+    ports:
+      - "10000:80"
+  frontend:
+    image: frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+  movieverse:
+    image: movieverse
+    container_name: movieverse
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080

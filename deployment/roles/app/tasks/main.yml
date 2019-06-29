@@ -1,0 +1,7 @@
+---
+
+- name: Run populate script
+  command: chdir=movieverse/scripts python3 main.py
+
+- name: Restart movieverse container
+  command: docker restart movieverse

@@ -1,0 +1,46 @@
+---
+
+
+- name: Add docker repo key
+  apt_key: 
+    url: https://download.docker.com/linux/ubuntu/gpg
+    id: 0EBFCD88
+    state: present
+
+- name: Add docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    state: present
+
+- name: Install required software
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - docker-ce
+
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+    state: present
+    update_cache: yes
+  tags:
+    - docker
+
+- name: Build backend image
+  docker_image:
+    name: movieverse
+    build:
+      path: movieverse/app/
+    source: build
+
+- name: Build frontend image
+  docker_image:
+    name: frontend
+    build:
+      path: movieverse/frontend/
+    source: build
+
+- name: Run docker compose
+  docker_service:
+    project_src: movieverse/

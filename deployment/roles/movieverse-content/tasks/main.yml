@@ -1,0 +1,37 @@
+---
+
+- name: Download tar
+  copy:
+    src: '{{ tar_name }}'
+    dest: '{{ tar_name }}'
+
+- name: Create movieverse directory
+  file:
+    path: movieverse
+    state: directory
+
+- name: Untar content
+  command: tar -xvzf "{{ tar_name }}" -C movieverse
+
+- name: Get public IP
+  ipify_facts:
+  register: public_ip
+
+- name: List js files
+  raw: find movieverse/frontend/build/static/js/ -type f -name "*.js*"
+  register: js_dir
+  tags: update-cert
+
+- name: Change frontend's IP address
+  replace:
+    path: '{{ item }}'
+    regexp: 'localhost:8080'
+    replace: "{{ public_ip['ansible_facts']['ipify_public_ip'] }}:8080"
+  with_items: "{{ js_dir['stdout_lines'] }}"
+  tags: update-cert
+
+- name: Tar content
+  archive:
+    path: movieverse/frontend/build/
+    dest: movieverse/frontend/build.tar.gz
+    format: gz

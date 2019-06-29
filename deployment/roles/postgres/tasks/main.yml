@@ -1,0 +1,7 @@
+---
+
+- name: Create movieverse database
+  postgresql_db:
+    name: movieverse
+    login_host: localhost
+    login_password: postgres
