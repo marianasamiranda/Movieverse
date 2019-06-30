@@ -10,6 +10,8 @@ import java.util.Map;
 public interface UserService {
     void clearUsersCache(String... usernames);
 
+    Integer getUserIdByToken(String token) throws Exception;
+
     String registerUser(String email, String username, String name, String password,
                         String country, LocalDate birthdate, char gender) throws Exception;
 

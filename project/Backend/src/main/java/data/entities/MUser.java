@@ -50,9 +50,7 @@ public class MUser {
 	private java.util.Date joinDate;
 	
 	private String token;
-	
-	private java.sql.Timestamp tokenLimit;
-	
+
 	private int commentsCount;
 	
 	private int ratingsCount;
@@ -74,9 +72,7 @@ public class MUser {
 	private java.util.Set userMovies = new java.util.HashSet();
 	
 	private java.util.Set requestedFriendships = new java.util.HashSet();
-	
-	private java.util.Set friends = new java.util.HashSet();
-	
+
 	private void setId(int value) {
 		this.id = value;
 	}
@@ -191,14 +187,6 @@ public class MUser {
 	
 	public String getToken() {
 		return token;
-	}
-	
-	public void setTokenLimit(java.sql.Timestamp value) {
-		this.tokenLimit = value;
-	}
-	
-	public java.sql.Timestamp getTokenLimit() {
-		return tokenLimit;
 	}
 	
 	public void setCommentsCount(int value) {
@@ -455,18 +443,7 @@ public class MUser {
 
 	}
 
-
-	public void setFriends(java.util.Set value) {
-		this.friends = value;
-	}
-	
-	public java.util.Set getFriends() {
-		return friends;
-	}
-
-
-	public void addFriend(Friendship friend) {
-		friends.add(friend);
+	public void addFriend() {
 		friendsCount++;
 	}
 	
@@ -477,11 +454,7 @@ public class MUser {
 	public Genre getFavouriteGenre() {
 		return favouriteGenre;
 	}
-	
-	public void setTokenLimit(java.util.Date tokenLimit) {
-		//TODO: Implement Method
-		throw new UnsupportedOperationException();
-	}
+
 	
 	public String toString() {
 		return String.valueOf(getId());

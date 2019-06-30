@@ -95,7 +95,6 @@ public class Comment {
 		return upvoter;
 	}
 	
-	
 	public void setMovie(Movie value) {
 		this.movie = value;
 	}

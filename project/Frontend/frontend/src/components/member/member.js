@@ -9,6 +9,7 @@ import MemberInfo from './member-info'
 import {backend, labels} from '../../var'
 import '../../styles/MemberCompany.css'
 import Loading from '../aux_pages/loading'
+import NotFoundError from '../aux_pages/notFoundError'
 
 export default class Member extends Component{
 
@@ -49,10 +50,20 @@ export default class Member extends Component{
             backdrops: backdrops
           })
         })
-        .catch(x => {alert("Erro")})
+        .catch(x => {
+ 	    this.setState({
+	        noMember: true
+	    })
+	})
     }
 
     render(){
+
+       if (this.state.noMember) {
+          return (
+	    <NotFoundError lang={this.props.lang} />
+          )
+       }
 
         let member_info = (
             <MemberInfo

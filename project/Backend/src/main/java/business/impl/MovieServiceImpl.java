@@ -71,7 +71,9 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private MovieMemberDAO movieMemberDAO;
 
+
     @Override
+    @Transactional(readOnly=true)
     public Map<String, Object> get(Integer id) throws Exception {
         Movie m = movieDAO.loadEntityEager(id);
 
@@ -151,8 +153,9 @@ public class MovieServiceImpl implements MovieService {
                     .limit(5)
                     .collect(Collectors.toList()));
 
-        result.put("actors", movieMemberDAO.listMainMovieMembers(id, true, 4));
-        result.put("crew", movieMemberDAO.listMainMovieMembers(id, false, 4));
+        Map moviemembers = movieMemberDAO.listMainMovieMembers(id,4);
+        result.put("actors", moviemembers.get(1) );
+        result.put("crew", moviemembers.get(0));
 
         return result;
     }
@@ -176,14 +179,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public HashMap<Object, Object> getMovieMeInfo(String token, Integer movieId) throws Exception {
 
-        var user = mUserDAO.getSimpleUserByToken(token);
+        Integer id = userService.getUserIdByToken(token);
         var userMovie = new UserMovie();
 
 
-        userMovie = userMovieDAO.getUserMovie(user.getId(), movieId);
+        userMovie = userMovieDAO.getUserMovie(id, movieId);
 
         if (userMovie == null){
-              if(user != null) {
+              if(id != null) {
                 var result = new HashMap<>();
                 result.put("watched", false);
                 return result;
@@ -229,6 +232,7 @@ public class MovieServiceImpl implements MovieService {
             userMovie = new UserMovie();
             userMovie.setMovie(movie);
             userMovie.setmUser(user);
+            userMovieDAO.persist(userMovie);
         }
 
         boolean insertUserMovie = true;
@@ -451,6 +455,7 @@ public class MovieServiceImpl implements MovieService {
 
         addFeedEntry(3, user, comment.getId(), dateCommented);
         updateFirstCommentAchievement(user);
+        userService.clearUsersCache(user.getUsername());
 
         return map;
     }
@@ -462,8 +467,8 @@ public class MovieServiceImpl implements MovieService {
         List comments;
 
         if(token != null) {
-            var user = mUserDAO.getSimpleUserByToken(token);
-            comments = commentDAO.getCommentsMovieWithUserLikes(movieId, page * 10, 10, user.getId());
+            Integer id = userService.getUserIdByToken(token);
+            comments = commentDAO.getCommentsMovieWithUserLikes(movieId, page * 10, 10, id);
         }
         else {
             comments = commentDAO.getCommentsMovie(movieId, page * 10, 10);
@@ -575,8 +580,8 @@ public class MovieServiceImpl implements MovieService {
         List replies;
 
         if(token != null) {
-            var user = mUserDAO.getSimpleUserByToken(token);
-            replies = commentDAO.getRepliesCommentWithUserLikes(commentId, page * 2, 2, user.getId());
+            Integer id = userService.getUserIdByToken(token);
+            replies = commentDAO.getRepliesCommentWithUserLikes(commentId, page * 2, 2, id);
         }
         else {
             replies = commentDAO.getRepliesComment(commentId, page * 2, 2);
@@ -626,7 +631,7 @@ public class MovieServiceImpl implements MovieService {
         map.put("isLiked", false);
 
         updateFirstCommentAchievement(user);
-
+        userService.clearUsersCache(user.getUsername());
         return map;
     }
 
@@ -777,11 +782,13 @@ public class MovieServiceImpl implements MovieService {
         userMovie.setStatus(true);
         userMovie.setDateWatched(new Date());
 
-        updateMovieHoursAchievements(user, movie.getRuntime());
+        int runtime = movie.getRuntime() == null ? 0 : movie.getRuntime();
+
+        updateMovieHoursAchievements(user, runtime);
 
         movie.addWatchCount();
         user.addMovieCount();
-        user.addMinutesCount(movie.getRuntime());
+        user.addMinutesCount(runtime);
     }
 
 

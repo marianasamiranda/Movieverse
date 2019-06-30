@@ -6,16 +6,13 @@ License Type: Academic
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="data.entities.Friendship" table="Friendship" lazy="false" dynamic-update="true">
-		<cache usage="read-write"/>
-		<id name="id" column="Id" type="integer" unsaved-value="0">
-			<generator class="identity">
-			</generator>
-		</id>
+		<composite-id>
+			<key-many-to-one name="requestedMuser" column="Sender" class="data.entities.MUser">
+			</key-many-to-one>
+			<key-many-to-one name="receivedMuser" column="Receiver" class="data.entities.MUser">
+			</key-many-to-one>
+		</composite-id>
 		<property name="date" column="`Date`" type="date" not-null="true" lazy="false"/>
 		<property name="pending" column="Pending" index="Friendship_Pending" type="boolean" not-null="true" lazy="false"/>
-		<many-to-one name="requestedMuser" cascade="lock" column="Sender"  class="data.entities.MUser" not-null="false" lazy="false">
-		</many-to-one>
-		<many-to-one name="receivedMuser" cascade="lock" column="Receiver" class="data.entities.MUser" not-null="false" lazy="false">
-		</many-to-one>
 	</class>
 </hibernate-mapping>

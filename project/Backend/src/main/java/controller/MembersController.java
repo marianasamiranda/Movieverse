@@ -19,12 +19,15 @@ public class MembersController {
     @LogMethod
     @RequestMapping(method = GET, value = "/member/search")
     public ResponseEntity<Object> membersSearch(@RequestParam(value = "name") String name) {
+        System.out.println("==============MEMBERSEACBH==========");
+
         return Util.callServiceAndReturn(() -> memberService.search(name));
     }
 
 
     @RequestMapping(method = GET, value = "/member/{id}")
     public ResponseEntity<Object> profile(@PathVariable(value = "id") int id) {
+        System.out.println("==============MEMBER==========");
         return Util.callServiceAndReturn(() -> memberService.memberInfo(id));
     }
 

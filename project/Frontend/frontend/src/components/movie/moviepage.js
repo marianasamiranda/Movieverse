@@ -19,6 +19,7 @@ import { getToken } from '../../cookies'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import HorizontalSlider from '../horizontal-slider';
 import '../../styles/MoviePage.css'
+import NotFoundError from '../aux_pages/notFoundError'
 
 export default class MoviePage extends Component {
 
@@ -106,6 +107,7 @@ export default class MoviePage extends Component {
         })
       }).catch(e => {
         this.setState({
+          noMovie: true,
           posters: [],
           videos: [],
           backdrops: []
@@ -125,13 +127,13 @@ export default class MoviePage extends Component {
           })
       })
       .catch(o => {
-        this.setState({
-          movie: movieInfo,
-          noAuth: true,
-          watched: false,
-          favourited: false,
-          watchlist: false
-        })
+          this.setState({
+	    movie: movieInfo,
+	    noAuth: true,
+	    watched: false,
+	    favourited: false,
+	    watchlist: false
+          })
       })
     )
   };
@@ -142,11 +144,18 @@ export default class MoviePage extends Component {
 
   render() {
 
-    if (!this.state.movie) {
+    if (this.state.noMovie) {
+      return (
+        <NotFoundError lang={this.props.lang} />
+      )
+    }
+
+    else if (!this.state.movie) {
       return (
         <Loading lang={this.props.lang} />
       )
     }
+
 
     let headerTitle;
 
@@ -303,7 +312,7 @@ export default class MoviePage extends Component {
                 <h6>{ labels[this.props.lang].originalLanguage }</h6>
                 <Language language={ this.state.movie.language } />
                 <h6>{ labels[this.props.lang].runtime }</h6>
-                <p>{ this.state.movie.runtime ? this.state.movie.runtime + "m" : "-" }</p>
+                                <p>{ this.state.movie.runtime ? this.state.movie.runtime + "m" : "-" }</p>
                 <h6>{ labels[this.props.lang].genres }</h6>
                 <div className="movie-genre">
                   <ul>

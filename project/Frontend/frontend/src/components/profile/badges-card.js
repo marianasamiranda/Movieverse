@@ -9,10 +9,12 @@ export default class BadgesCard extends Component {
 
     let l = []
     let i = 0
+    let names = []
+    this.props.userBadges.forEach(x => names.push(x.name))
     badges.forEach(x => {
-      l.push( //TODO collected
+      l.push( 
         <Col xs="3" sm="2" key={i++} className="text-center badge-col badge">
-          <Badge name={x.name} img={x.image} collected info={x.description}/>
+          <Badge name={x.name} img={x.image} collected={names.includes(x.name)} info={x.description}/>
         </Col>
       )
     })

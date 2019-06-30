@@ -13,12 +13,12 @@
  */
 package data.entities;
 
-public class UserMovie {
+import java.io.Serializable;
+public class UserMovie implements Serializable {
 	public UserMovie() {
 	}
-	
-	private int id;
-	
+
+
 	private boolean status;
 	
 	private Integer rating;
@@ -29,22 +29,28 @@ public class UserMovie {
 	
 	private java.util.Date dateFavourite;
 	
-	private boolean visible;
-	
 	private Movie movie;
-	
+
+	private int movieId;
+
+	private void setMovieId(int value) {
+		this.movieId = value;
+	}
+
+	public int getMovieId() {
+		return movieId;
+	}
+
 	private MUser mUser;
-	
-	private void setId(int value) {
-		this.id = value;
+
+	private int mUserId;
+
+	private void setmUserId(int value) {
+		this.mUserId = value;
 	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public int getORMID() {
-		return getId();
+
+	public int getmUserId() {
+		return mUserId;
 	}
 	
 	public void setStatus(boolean value) {
@@ -86,17 +92,10 @@ public class UserMovie {
 	public java.util.Date getDateFavourite() {
 		return dateFavourite;
 	}
-	
-	public void setVisible(boolean value) {
-		this.visible = value;
-	}
-	
-	public boolean getVisible() {
-		return visible;
-	}
-	
+
 	public void setmUser(MUser value) {
 		this.mUser = value;
+		this.mUserId = value.getId();
 	}
 	
 	public MUser getmUser() {
@@ -105,6 +104,7 @@ public class UserMovie {
 	
 	public void setMovie(Movie value) {
 		this.movie = value;
+		this.movieId = movie.getTmdb();
 	}
 	
 	public Movie getMovie() {
@@ -112,7 +112,6 @@ public class UserMovie {
 	}
 	
 	public String toString() {
-		return String.valueOf(getId());
+		return String.valueOf(((getMovie() == null) ? "" : String.valueOf(getMovie().getORMID())) + " " + ((getmUser() == null) ? "" : String.valueOf(getmUser().getORMID())));
 	}
-	
 }

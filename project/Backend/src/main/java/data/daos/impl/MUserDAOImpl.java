@@ -79,14 +79,12 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
     public List<MUser> listReceivedMUser(int muserId) {
         String query = "SELECT m FROM " + entityClass.getName() + " as m inner join m.receivedFriendships as f where f.pending='t' and f.receivedMuser.id=" +  muserId;
         Query e_query =  entityManager.createQuery(query);
-        e_query.setHint("org.hibernate.cacheable", true);
         return e_query.getResultList();
     }
 
     public List<MUser> listRequestedMUser(int muserId) {
         String query = "SELECT m FROM " + entityClass.getName() + " as m inner join m.requestedFriendships as f where f.pending='t' and f.requestedMuser.id=" +  muserId;
         Query e_query =  entityManager.createQuery(query);
-        e_query.setHint("org.hibernate.cacheable", true);
         return e_query.getResultList();
     }
 
@@ -115,8 +113,7 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
     public List<MUser> listFriends(int muserId){
         Query query = entityManager.createNativeQuery(listFriendsQuery, MUser.class)
-                                   .setParameter(1, muserId)
-                                   .setHint("org.hibernate.cacheable", true);
+                                   .setParameter(1, muserId);
         return query.getResultList();
     }
 
@@ -124,8 +121,7 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         Query query = entityManager.createNativeQuery(listFriendsQuery, MUser.class)
                                    .setParameter(1, muserId)
                                    .setFirstResult(begin)
-                                   .setMaxResults(limit)
-                                   .setHint("org.hibernate.cacheable", true);
+                                   .setMaxResults(limit);
         return query.getResultList();
     }
 
@@ -281,13 +277,13 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
         Query query = entityManager.createNativeQuery(
             "SELECT Muser.* " +
             "FROM Muser " +
-            "LEFT JOIN Achievement ON Achievement.muserid = muser.id " +
             "LEFT JOIN " +
-                "(SELECT * " +
-                "FROM Badge " +
-                "WHERE name = ?1) as T " +
-                "ON Achievement.id = achievement.id " +
-            "WHERE T.id IS NULL " +
+                "(SELECT muserid " +
+                "FROM Badge INNER JOIN Achievement " +
+                "ON Badge.name=?1 AND " +
+                "Achievement.badgeid = Badge.id) as T " +
+                "ON T.muserid = Muser.id " +
+            "WHERE T IS NULL " +
                 "AND CURRENT_DATE - muser.joindate >= ?2",
             MUser.class
         ).setParameter(1, badgesNameYears.get(years - 1))

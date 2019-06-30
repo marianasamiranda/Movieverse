@@ -13,30 +13,38 @@
  */
 package data.entities;
 
-public class Friendship {
+import java.io.Serializable;
+
+public class Friendship implements Serializable {
 	public Friendship() {
 	}
-	
-	private int id;
-	
+
 	private java.util.Date date;
 	
 	private boolean pending;
 	
 	private MUser requestedMuser;
-	
+
+	private int requestedMuserId;
+
+	private void setRequestedMuserId(int value) {
+		this.requestedMuserId = value;
+	}
+
+	public int getRequestedMuserId() {
+		return requestedMuserId;
+	}
+
 	private MUser receivedMuser;
-	
-	private void setId(int value) {
-		this.id = value;
+
+	private int receivedMuserId;
+
+	private void setReceivedMuserId(int value) {
+		this.receivedMuserId = value;
 	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public int getORMID() {
-		return getId();
+
+	public int getReceivedMuserId() {
+		return receivedMuserId;
 	}
 	
 	public void setDate(java.util.Date value) {
@@ -72,7 +80,6 @@ public class Friendship {
 	}
 	
 	public String toString() {
-		return String.valueOf(getId());
+		return String.valueOf(((getRequestedMuser() == null) ? "" : String.valueOf(getRequestedMuser().getORMID())) + " " + ((getReceivedMuser() == null) ? "" : String.valueOf(getReceivedMuser().getORMID())));
 	}
-	
 }

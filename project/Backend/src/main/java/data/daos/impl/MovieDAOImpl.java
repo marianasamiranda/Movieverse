@@ -15,7 +15,7 @@ import java.util.*;
 
 
 @Repository
-public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
+public class  MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -28,8 +28,6 @@ public class MovieDAOImpl extends DAOImpl<Integer , Movie> implements MovieDAO {
     public Movie loadEntityEager(int id) {
         Query query = entityManager.createQuery("SELECT c FROM " + entityClass.getName() + " c WHERE tmdb=" + id);
         Movie result = (Movie) query.getSingleResult();
-        Hibernate.initialize(result.getGenres());
-        Hibernate.initialize(result.getCompanies());
         return result;
     }
 

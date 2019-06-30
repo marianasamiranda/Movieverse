@@ -66,7 +66,8 @@ export default class Profile extends Component {
       
       let data = x.data
       data['avatarImg'] = avatars + data['avatar']
-            
+          
+      //TODO remove this.state.data
       this.setState({
         data: x.data,
         stats: {
@@ -76,9 +77,10 @@ export default class Profile extends Component {
           ratings: x.data.statsRatings,
           friends: x.data.statsFriends
         },
-        user: x.data['self'] ? undefined : user,
-        friends: x.data['friends'],
-        isFriend: data['friendship'],
+        user: x.data.self ? undefined : user,
+        badges: x.data.badges,
+        friends: x.data.friends,
+        isFriend: x.data.friendship,
         movies: {
           recent: x.data.recent,
           favourites: x.data.favourite,
@@ -298,7 +300,7 @@ export default class Profile extends Component {
               </Row>
             </Col>
             <Col xs="12" lg="6" xl={{span: 5, offset: 1}}>
-              <BadgesCard />  {/* TODO pass badges */}
+              <BadgesCard userBadges={this.state.badges}/> 
             </Col>
           </Row>
           <Row>

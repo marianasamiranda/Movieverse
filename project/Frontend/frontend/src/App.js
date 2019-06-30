@@ -99,9 +99,8 @@ class App extends Component {
         />
       }
       else { //TODO change to Feed
-        mainPage = <Route exact path="/" render={() => 
-          <Profile setAvatar={this.setAvatar} lang={this.state.language} /> }
-        />
+        mainPage = <Route exact path="/" 
+                render={() => <Feed lang={this.state.language}/>} />
       }
     }
 

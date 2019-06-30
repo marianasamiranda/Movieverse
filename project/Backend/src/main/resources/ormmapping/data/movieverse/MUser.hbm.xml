@@ -6,7 +6,6 @@ License Type: Academic
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="data.entities.MUser" table="MUser" lazy="false" dynamic-update="true">
-	    <cache usage = "read-write"/>
 		<id name="id" column="Id" type="integer" unsaved-value="0">
 			<generator class="identity">
 			</generator>
@@ -26,14 +25,12 @@ License Type: Academic
 		<property name="avatar" column="Avatar" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="joinDate" column="JoinDate" type="date" not-null="true" lazy="false"/>
 		<property name="token" column="Token" unique="true" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="tokenLimit" column="TokenLimit" type="timestamp" not-null="false" lazy="false"/>
 		<property name="commentsCount" column="CommentsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="ratingsCount" column="RatingsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="friendsCount" column="FriendsCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="likesCount" column="LikesCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="favouriteCount" column="FavouriteCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<set name="receivedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
-			<cache usage="read-write"/>
 			<key column="Sender" not-null="true"/>
 			<one-to-many class="data.entities.Friendship"/>
 		</set>
@@ -46,7 +43,6 @@ License Type: Academic
 			<one-to-many class="data.entities.Feed"/>
 		</set>
 		<set name="achievements" lazy="true" cascade="save-update,lock" inverse="true">
-			<cache usage="read-write"/>
 			<key column="MUserId" not-null="true"/>
 			<one-to-many class="data.entities.Achievement"/>
 		</set>
@@ -55,15 +51,8 @@ License Type: Academic
 			<one-to-many class="data.entities.UserMovie"/>
 		</set>
 		<set name="requestedFriendships" lazy="true" cascade="save-update,lock" inverse="true">
-			<cache usage="read-write"/>
 			<key column="Receiver" not-null="true"/>
 			<one-to-many class="data.entities.Friendship"/>
-		</set>
-		<set name="friends" table="MUserFriendship" lazy="true" cascade="save-update,lock">
-			<cache usage="read-write"/>
-			<key column="MUserId" not-null="true"/>
-			<many-to-many column="FriendshipId" class="data.entities.Friendship">
-			</many-to-many>
 		</set>
 	</class>
 </hibernate-mapping>

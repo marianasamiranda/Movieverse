@@ -6,7 +6,6 @@ License Type: Academic
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 <class name="data.entities.Movie" table="Movie" lazy="false" dynamic-update="true"  optimistic-lock="dirty"   >
-		<cache usage="read-write"/>
 		<id name="tmdb" column="Tmdb" type="integer" unsaved-value="0">
 			<generator class="native">
 			</generator>
@@ -26,16 +25,17 @@ License Type: Academic
 		<property name="favouriteCount" column="FavouriteCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="watchCount" column="WatchCount" type="integer" length="10" not-null="true" lazy="false"/>
 		<set name="userMovies" lazy="true" cascade="save-update,lock" inverse="true">
-			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.UserMovie"/>
 		</set>
 		<set name="genres" table="MovieGenre" lazy="true" cascade="save-update,lock">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<many-to-many column="GenreId" class="data.entities.Genre">
 			</many-to-many>
 		</set>
 		<set name="companies" table="MovieCompany" lazy="true" cascade="save-update,lock">
+			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<many-to-many column="CompanyId" class="data.entities.Company">
 			</many-to-many>
@@ -51,7 +51,6 @@ License Type: Academic
 			<one-to-many class="data.entities.MovieMember"/>
 		</set>
 		<set name="showtime" lazy="true" cascade="save-update,lock" inverse="true">
-			<cache usage="read-write"/>
 			<key column="MovieId" not-null="true"/>
 			<one-to-many class="data.entities.Showtime"/>
 		</set>

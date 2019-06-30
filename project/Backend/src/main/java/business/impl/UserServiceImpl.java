@@ -99,6 +99,18 @@ public class UserServiceImpl implements UserService {
             throw new Exception("Email already registered");
     }
 
+    public Integer getUserIdByToken(String token) throws Exception {
+        String o = redisCache.get(token);
+        Integer id = null;
+        if (o != null)
+            id = (Integer) util.fromJson(o, Integer.class);
+        if (id == null){
+            id = mUserDAO.validateToken(token).getId();
+            redisCache.set(token, util.toJson(id));
+        }
+        return id;
+    }
+
 
     //Public methods
 
@@ -117,7 +129,6 @@ public class UserServiceImpl implements UserService {
         u.setJoinDate(util.localDateToDate(LocalDate.now()));
         u.setUserCountry(countryService.getCountryByCode(country));
         u.setToken(Security.generateToken());
-        //u.setTokenLimit(util.localDateTimeToDateTime(LocalDateTime.now().plusSeconds(TOKENLIMIT)));
         save(u);
 
         elasticSearch.addUser(u);
@@ -150,9 +161,11 @@ public class UserServiceImpl implements UserService {
         if (!Security.checkMatch(password, u.getPassword()))
             throw new Exception("Wrong password");
 
-        u.setToken(Security.generateToken());
-        //u.setTokenLimit(util.localDateTimeToDateTime(LocalDateTime.now().plusSeconds(TOKENLIMIT)));
+        String token = Security.generateToken();
+        u.setToken(token);
         mUserDAO.merge(u);
+
+        redisCache.set(token, util.toJson(u.getId()));
 
         return u.getToken();
     }
@@ -166,16 +179,17 @@ public class UserServiceImpl implements UserService {
             MUser u = mUserDAO.validateToken(token);
             u.setToken(null);
             mUserDAO.merge(u);
+            redisCache.del(token);
         }
     }
 
 
     @Override
     public Map feedInfo(String token) throws Exception {
-        MUser u = mUserDAO.validateToken(token);
+        Integer id = getUserIdByToken(token);
         boolean self = false;
 
-        List<Map> feedEntries = mUserDAO.getFeedEntries(u.getId(), 0, 50);
+        List<Map> feedEntries = mUserDAO.getFeedEntries(id, 0, 50);
         boolean moreEntries = !(feedEntries.size() < 50);
 
         Map<String, Object> m = new HashMap<>();
@@ -407,8 +421,8 @@ public class UserServiceImpl implements UserService {
             friendship.setPending(false);
             friendship.setDate(util.localDateToDate(LocalDate.now()));
 
-            u.addFriend(friendship);
-            target.addFriend(friendship);
+            u.addFriend();
+            target.addFriend();
 
             updateFriendsAchievements(u);
             updateFriendsAchievements(target);
@@ -431,7 +445,7 @@ public class UserServiceImpl implements UserService {
     );
 
     private void updateFriendsAchievements(MUser u) {
-        String badgeName = friendsAchievements.get(u.getFriendsCount() + 1);
+        String badgeName = friendsAchievements.get(u.getFriendsCount());
         if (badgeName != null)
             addAchievement(u, badgeName);
     }
@@ -455,21 +469,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object movieList(String token, String type, int begin, int limit) throws Exception {
-        MUser u = mUserDAO.validateToken(token);
+        Integer id = getUserIdByToken(token);
 
         List results;
         switch (type) {
             case "recent":
-                results = mUserDAO.recentMovies(u.getId(), begin, limit);
+                results = mUserDAO.recentMovies(id, begin, limit);
                 break;
             case "favourites":
-                results = mUserDAO.favouriteMovies(u.getId(), begin, limit);
+                results = mUserDAO.favouriteMovies(id, begin, limit);
                 break;
             case "watchlist":
-                results = mUserDAO.watchlist(u.getId(), begin, limit);
+                results = mUserDAO.watchlist(id, begin, limit);
                 break;
             case "recommended":
-                results = mUserDAO.recommendedMovies(u.getId(), begin, limit);
+                results = mUserDAO.recommendedMovies(id, begin, limit);
                 break;
             default:
                 throw new Exception("No such type");
@@ -482,8 +496,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Object friendsList(String token, int begin, int limit) throws Exception {
-        MUser u = mUserDAO.validateToken(token);
-        List<MUser> friends = mUserDAO.listFriends(u.getId(), begin, limit);
+        Integer id = getUserIdByToken(token);
+        List<MUser> friends = mUserDAO.listFriends(id, begin, limit);
         List<Map> l = new ArrayList<>();
 
         friends.forEach(x -> {
@@ -499,7 +513,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List search(String token, String name) throws Exception {
-        mUserDAO.validateToken(token);
+        getUserIdByToken(token);
 
         if (name == null || name.equals(""))
             return null;
@@ -549,9 +563,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object feedEntries(String token, Integer page) throws Exception{
-        MUser u = mUserDAO.validateToken(token);
+        Integer id = getUserIdByToken(token);
 
-        List<Map> feedEntries = mUserDAO.getFeedEntries(u.getId(), page * 50, 50);
+        List<Map> feedEntries = mUserDAO.getFeedEntries(id, page * 50, 50);
         boolean moreEntries = !(feedEntries.size() < 50);
 
         Map<String, Object> res = new HashMap<>();
@@ -564,7 +578,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object searchPage(String token) throws Exception {
-        mUserDAO.validateToken(token);
+        getUserIdByToken(token);
 
         String cached = redisCache.get("usersSearchPageInfo");
         if (cached != null)
