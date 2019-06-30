@@ -132,12 +132,12 @@
     }
 
     @media(min-width: 768px) {
-        font-size: 15pt;
+        font-size: 12pt;
         padding-bottom: 30px;
     }
 
     @media(min-width: 375px) and (max-width: 768px) {
-        font-size: 12pt;
+        font-size: 10pt;
         padding-bottom: 20px;
     }
 
@@ -210,7 +210,7 @@
 
 %post-text{
     @media(min-width: 767px) {
-        font-size: 15pt;
+        font-size: 12pt;
         /* use this value to count block height */
         line-height: 1.2em;
         /* max-height = line-height (1.2) * lines max number (3) */
@@ -218,7 +218,7 @@
     }
 
     @media(min-width: 375px) and (max-width: 767px) {
-        font-size: 12pt;
+        font-size: 10pt;
         /* use this value to count block height */
         line-height: 1.2em;
         /* max-height = line-height (1.2) * lines max number (3) */

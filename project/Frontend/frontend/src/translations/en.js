@@ -87,11 +87,11 @@ export const en = {
     releasedMovies: "Released Movies",
     //Feed
     newReleasesU: 'NEW RELEASES',
-    view: ' has watched ',
-    view_rate: ' has watched and rated',
-    favorite_pre: ' has added ',
-    favorite_suf: ' to Favorites',
-    comment: ' has commented on ',
+    view: 'has watched',
+    view_rate: 'has watched and rated',
+    favorite_pre: 'has added',
+    favorite_suf: 'to Favorites',
+    comment: 'has commented on',
     show_more: 'show more',
     show_less: 'show less',
     //member page

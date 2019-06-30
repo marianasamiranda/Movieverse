@@ -30,38 +30,19 @@ import java.lang.management.ManagementFactory;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"data", "controller", "business", "log"})
-//@ComponentScan({"controller","security.*"})
-//@EntityScan("security.domain")
-//@EnableJpaRepositories("security.repository")
+
 @EnableTransactionManagement
 @EnableRetry
 @EnableScheduling
 public class Application {
 
-//    @Bean
-//    @Primary
-//    @ConfigurationProperties(prefix = "spring.datasource")
-//    public DataSource mainDataSource() {
-//        return DataSourceBuilder.create().type(HikariDataSource.class).build();
-//    }
-
-/*
-    @Autowired
-    private EntityManager entityManager;
-
-
-    @Bean
-    public EntityManager entityManager(){
-        return Persistence.createEntityManagerFactory("movieverse").createEntityManager();
-    }
-*/
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
         em.setPersistenceUnitName("movieverse");
-        em.setPackagesToScan("controller2", "data.daos.*", "data.daos.impl.*", "controller","business");
+        em.setPackagesToScan("data.daos.*", "data.daos.impl.*", "controller","business");
         return em;
     }
 
@@ -80,21 +61,7 @@ public class Application {
         return factory;
     }
 */
- /*
-    @PersistenceContext(unitName = "movieverse")
-    private EntityManager entityManager;
 
-
-    */
-
-    /*
-    @Bean
-    public LocalEntityManagerFactoryBean geEntityManagerFactoryBean() {
-       LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
-       factoryBean.setPersistenceUnitName("movieverse");
-       return factoryBean;
-    }
-    */
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

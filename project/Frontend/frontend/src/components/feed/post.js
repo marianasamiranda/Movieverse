@@ -41,7 +41,7 @@ function PostHeader(props){
                   {user}
                 </b>
               </Link>
-              {action}
+              {' ' + action + ' '}
               <Link to={'/movie/' + movieId}>
                 <b className="red">
                 {movie}
