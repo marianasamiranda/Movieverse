@@ -798,7 +798,8 @@ public class MovieServiceImpl implements MovieService {
 
         movie.removeWatchCount();
         user.removeMovieCount();
-        user.removeMinutesCount(movie.getRuntime());
+        int runtime = movie.getRuntime() == null ? 0 : movie.getRuntime();
+        user.removeMinutesCount(runtime);
 
         if (userMovie.getFavourite()) {
             user.removeFavouriteCount();
