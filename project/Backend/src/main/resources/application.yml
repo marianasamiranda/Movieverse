@@ -5,7 +5,7 @@ spring:
       minimum-idle: 1
       maximum-pool-size: 5
     driver-class-name: org.postgresql.Driver
-    jdbc-url: jdbc:postgresql://localhost:5432/authdb
+    jdbc-url: jdbc:postgresql://postgresql:5432/authdb
     username: postgres
     password: postgres
     initialization-mode: always
@@ -17,11 +17,11 @@ spring:
 # --- server
 
 redis:
-  host: 'localhost'
+  host: 'redis'
   port: 6379
 
 elasticsearch:
-  host: 'localhost'
+  host: 'elasticsearch'
   port: 9200
 
 admin_password: 'admin123'

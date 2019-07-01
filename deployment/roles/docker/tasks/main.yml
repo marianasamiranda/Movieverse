@@ -40,7 +40,3 @@
     build:
       path: movieverse/frontend/
     source: build
-
-- name: Run docker compose
-  docker_service:
-    project_src: movieverse/

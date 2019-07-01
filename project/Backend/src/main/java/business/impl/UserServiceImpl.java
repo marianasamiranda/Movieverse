@@ -295,7 +295,7 @@ public class UserServiceImpl implements UserService {
     public String newAvatar(String token, MultipartFile file) throws Exception {
         MUser u = mUserDAO.validateToken(token);
 
-        String path = "../Frontend/frontend/public/avatars/";
+        String path = "/avatars/";
         String filename = u.getUsername() + "." +
                 StringUtils.getFilenameExtension(file.getOriginalFilename());
         String p = path + filename;

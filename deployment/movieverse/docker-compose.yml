@@ -24,16 +24,29 @@ services:
     image: nginx:latest
     container_name: loadbalancer
     ports:
-      - "10000:80"
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
   frontend:
     image: frontend
     container_name: frontend
     ports:
       - "80:80"
-  movieverse:
+    volumes:
+      - avatars:/usr/share/nginx/html/static/avatars
+  movieverse1:
     image: movieverse
-    container_name: movieverse
-    ports:
-      - "8080:8080"
+    container_name: movieverse1
     expose:
       - 8080
+    volumes:
+      - avatars:/avatars
+  movieverse2:
+    image: movieverse
+    container_name: movieverse2
+    expose:
+      - 8080
+    volumes:
+      - avatars:/avatars
+volumes:
+  avatars:

@@ -16,7 +16,7 @@ import { ar } from './translations/ar'
 
 export const backend = 'http://localhost:8080'
 
-export const avatars = window.location.origin + "/avatars/"
+export const avatars = window.location.origin + "/static/avatars/"
 export const badges_location = window.location.origin + "/badges/"
 
 export const genres = [

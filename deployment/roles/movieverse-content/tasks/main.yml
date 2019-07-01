@@ -1,5 +1,8 @@
 ---
 
+# - name: Download content from bucket
+#   command: gsutil cp gs://'{{ bucket_name }}'/* .
+
 - name: Download tar
   copy:
     src: '{{ tar_name }}'
