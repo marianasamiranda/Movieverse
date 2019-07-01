@@ -6,8 +6,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import MovieCard from './movie-card'
-import Button from 'react-bootstrap/Button'
-import Flag from './flag'
 import Axios from 'axios'
 import { backend, avatars, labels } from '../var'
 import { getToken } from '../cookies';
@@ -68,8 +66,6 @@ export default class FindPeople extends Component {
   }
 
   buildAvatars(data) {
-    console.log(data);
-    
     let l = [], i = 0
     data.forEach(x => {
       l.push(
@@ -101,22 +97,6 @@ export default class FindPeople extends Component {
     let to_render
 
     if (this.state.results) {
-      //let results = [], i = 0
-      //Object.entries(this.state.results).forEach(x => {
-      //  results.push(
-      //    <Col lg="2" md="3" xs="4" key={i++}>
-      //      <MovieCard small
-      //        img={avatars + x[1].avatar}
-      //        title={x[1].username}
-      //        country={x[1].country}
-      //        info={x[1].name}
-      //        user
-      //      />
-      //    </Col>
-      //  )
-      //})
-      console.log(this.state.results);
-      
       to_render =
         <Container className="container-padding">
           <Row>

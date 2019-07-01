@@ -80,11 +80,6 @@ export default class MovieEvaluation extends Component {
     Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
-    .then(function(response) {
-      console.log('saved successfully')}
-    ).catch((e) =>
-      console.log(e)
-    )
   }
 
   handleFavourited() {
@@ -119,11 +114,6 @@ export default class MovieEvaluation extends Component {
     Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
-    .then(function(response) {
-      console.log('saved successfully')}
-    ).catch((e) =>
-      console.log(e)
-    )
   }
 
   handleAddedWatchlist() {
@@ -165,10 +155,7 @@ export default class MovieEvaluation extends Component {
     Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
-    .then(function(response) {
-      console.log('saved successfully')}
-    ).catch((e) =>
-      console.log(e)
+    .then(function(response) {}
     )
   }
 
@@ -200,11 +187,6 @@ export default class MovieEvaluation extends Component {
     Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
-    .then(function(response) {
-      console.log('saved successfully')}
-    ).catch((e) =>
-      console.log(e)
-    )
   }
 
   onStarHover(nextValue, prevValue, name) {
@@ -228,11 +210,6 @@ export default class MovieEvaluation extends Component {
     Axios.patch(backend + '/movie/' + this.state.movieId,
     f,
     { headers: { Authorization: "Bearer " + getToken() } })
-    .then(function(response) {
-      console.log('saved successfully')}
-    ).catch((e) =>
-      console.log(e)
-    )
   }
 
   handleShowNotLoggedInModal() {

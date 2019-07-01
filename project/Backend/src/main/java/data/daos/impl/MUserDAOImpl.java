@@ -54,11 +54,8 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
 
     public MUser validateToken(String token) throws InvalidTokenException {
         MUser u = queryMUser("token='" + token + "'");
-        if (u == null) {
-            System.out.println("INVALID TOKEN==============================");
+        if (u == null)
             throw new InvalidTokenException();
-        }
-        System.out.println("NOT INVALID TOKEN==============================");
         return u;
     }
 
@@ -237,11 +234,8 @@ public class MUserDAOImpl extends DAOImpl<Integer , MUser> implements MUserDAO {
                                    .setParameter(3, limit);
 
         List<Object[]> l = query.getResultList();
-        l.forEach(x -> System.out.println(x[0]));
         return dataUtil.queryListToListMap(l, Arrays.asList("id", "poster"));
     }
-
-
 
 
     public int totalNumberOfLikes() {

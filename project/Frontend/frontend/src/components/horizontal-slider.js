@@ -17,10 +17,9 @@ export default class HorizontalSlider extends Component {
 
 
   render() {
-    console.log(this.state.content)
     var content = this.state.content.map(function(entry, i) {
       return <div className="hitem" key={i}>
-        <a href={entry.href} target="_blank">
+        <a href={entry.href} target="_blank" rel="noopener noreferrer">
           <Image className="movieThumbnail" src={entry.src} />
         </a>
       </div>

@@ -116,8 +116,6 @@ public class Tasks {
     //@Scheduled(cron = "0 0 1 * * ?")
     @Scheduled(cron = EVERY_DAY_1AM)
     public void downloadAndPopulateInfo() throws Exception {
-        System.out.println("Populate Badges");
-
         String path = new File("").getCanonicalPath();
         Runtime.getRuntime().exec("python " + path +"/scripts/populate_badges.py" );
         Runtime.getRuntime().exec("python " + path +"/scripts/populate_countries.py" );

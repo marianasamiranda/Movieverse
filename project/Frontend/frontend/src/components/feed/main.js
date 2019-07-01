@@ -12,7 +12,6 @@ export default class Main extends Component {
 
   constructor(props){
     super(props)
-    console.log(props)
     this.state = {
       user: props.user,
       currentPage: 0,
@@ -28,7 +27,7 @@ export default class Main extends Component {
     if(this.state.entriesNotRendered.length > 8){
         let nextEntries = this.state.entriesNotRendered.slice(0,8);
         var entries = this.state.entriesRendered
-        nextEntries.map( (entry) => {
+        nextEntries.forEach( (entry) => {
             entries.push(entry)
         } )
 
@@ -51,7 +50,7 @@ export default class Main extends Component {
             var nextEntries = x.data.entries.slice(0,8)
 
 
-            nextEntries.map( (entry) => {
+            nextEntries.forEach( (entry) => {
                 entries.push(entry)
             } )
             
@@ -67,16 +66,6 @@ export default class Main extends Component {
 
   render() {
     const loader = <div className="loader">{labels[this.props.lang].loading} ...</div>;
-    // let entries = []
-    
-    // this.state.entries.forEach(element => {
-    //   entries.push(
-    //     <Post
-    //       data = {element}
-    //     >
-    //     </Post>
-    //   )
-    // });
 
     return (
       <div className="main">
@@ -97,6 +86,7 @@ export default class Main extends Component {
                         <Post
                           data={element}
                           lang={this.props.lang}
+                          key={this.state.entriesRendered.indexOf(element)}
                         >
                         </Post>
                       )
@@ -104,9 +94,6 @@ export default class Main extends Component {
                   }
               </InfiniteScroll>
           }
-          {/* <div className="feed-container" style={{display: 'flex', justifyContent: 'center',}}>
-            <input type="button" className="button" value={labels[this.props.lang].loadMore + "  ..."}></input>
-          </div> */}
           
       </div>
     )  

@@ -41,6 +41,7 @@ class App extends Component {
       setUsername(username)
       this.setState({
         logged: !this.state.logged,
+        avatar: undefined,
         username: username,
         admin: false
       })
@@ -88,8 +89,6 @@ class App extends Component {
         { name: labels[this.state.language].movies, url: '/movies', logged: false },
         { name: labels[this.state.language].nowPlaying, url: '/showtimes', logged: false },
         { name: labels[this.state.language].people, url: '/people', logged: false },
-        // { name: 'Feed', url: '/feed', logged: false },
-        // { name: 'Actor', url: '/actor', logged: false },
         { name: labels[this.state.language].users, url: '/users', logged: true },
         { name: labels[this.state.language].tour, url: '/tour', logged: false },
       ]
@@ -98,7 +97,7 @@ class App extends Component {
           <FrontPage handleSession={this.handleSession} lang={this.state.language} />} 
         />
       }
-      else { //TODO change to Feed
+      else {
         mainPage = <Route exact path="/" 
                 render={() => <Feed lang={this.state.language}/>} />
       }

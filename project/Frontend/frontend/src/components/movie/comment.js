@@ -40,35 +40,25 @@ export default class Comment extends Component {
     let token = getToken()
 
     if(this.state.liked === false) {
-
       Axios.post(backend + '/movie/comment/' + this.props.id + '/like',
         {},
         { headers: { Authorization: "Bearer " + token } })
-      .then((response) =>
-        console.log(response)
-      ).catch((e) =>
-        console.log(e.response)
-      )
-      this.setState({
-        likes: this.state.likes + 1,
-        liked: true
-      });
-    }
+      .then(() =>
+        this.setState({
+          likes: this.state.likes + 1,
+          liked: true
+        })
+    )}
     else {
-      
       Axios.post(backend + '/movie/comment/' + this.props.id + '/dislike',
         {},
         { headers: { Authorization: "Bearer " + token } })
-      .then((response) =>
-        console.log(response)
-      ).catch((e) =>
-        console.log(e.response)
-      )
-      this.setState({
-        likes: this.state.likes - 1,
-        liked: false
-      });
-    }
+      .then(() =>
+        this.setState({
+          likes: this.state.likes - 1,
+          liked: false
+        })
+      )}
   }
 
   getComment = (newComment) => {
@@ -98,9 +88,7 @@ export default class Comment extends Component {
         replies: [...prevState.replies, element],
         numberReplies: self.state.numberReplies + 1
       }))
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   getMoreComments(page) {
@@ -132,10 +120,7 @@ export default class Comment extends Component {
         moreReplies: response.data.moreReplies,
         showingReplies: true
       });
-    }
-    ).catch((e) =>
-      console.log(e.response)
-    )
+    })
   }
 
   handleReply() {

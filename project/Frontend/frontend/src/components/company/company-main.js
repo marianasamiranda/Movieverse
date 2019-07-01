@@ -31,7 +31,7 @@ export default class CompanyMain extends Component{
         if(this.state.moviesNotRendered.length > 8){
             let nextMovies = this.state.moviesNotRendered.slice(0,8);
             var movies = this.state.moviesRendered
-            nextMovies.map( (movie) => {
+            nextMovies.forEach( (movie) => {
                 movies.push(movie)
             } )
 
@@ -51,7 +51,7 @@ export default class CompanyMain extends Component{
                 var nextMovies = x.data.movies.slice(0,8)
 
 
-                nextMovies.map( (movie) => {
+                nextMovies.forEach( (movie) => {
                     movies.push(movie)
                 } )
                 
@@ -86,7 +86,7 @@ export default class CompanyMain extends Component{
                 </Container>
             </div>
             {
-                this.state.description != "" ? (
+                this.state.description !== "" ? (
                     <div>
                         <h4 className="title-member-company-18">
                             {labels[this.props.lang].description}

@@ -3,7 +3,7 @@ import Axios from 'axios'
 import CompanyMain from './company-main'
 import CompanyAside from './company-aside'
 import CompanyInfo from './company-info'
-import {backend, labels} from '../../var'
+import {backend} from '../../var'
 import '../../styles/MemberCompany.css'
 import Loading from '../aux_pages/loading'
 import NotFoundError from '../aux_pages/notFoundError'
@@ -37,6 +37,7 @@ export default class Company extends Component{
             movies: x.data.movies,
             moreMovies: x.data.moreMovies
           })
+          
         })
         .catch(x => this.setState({
             error: true

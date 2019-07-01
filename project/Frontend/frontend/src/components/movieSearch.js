@@ -107,15 +107,12 @@ export default class MovieSearch extends Component {
     query += (this.state.sort ? '&sort=' + this.state.sort : '')    
 
     Axios.get(backend + '/movie/search' + query).then(x => {
-      console.log('search');
-      
       this.setState({
         results: x.data,
         next: 1,
         cards: [],
       })      
     })
-    
   }
 
   buildCards(movies, isSearch, i) {

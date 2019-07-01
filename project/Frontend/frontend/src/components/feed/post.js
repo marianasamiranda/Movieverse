@@ -17,7 +17,6 @@ function ProfilePhoto(props){
 
 function PostHeader(props){
   let user = props.user
-  let userId = props.userId
   let movie = props.movie
   let movieId = props.movieId
   let date = props.date
@@ -47,6 +46,7 @@ function PostHeader(props){
                 {movie}
                 </b>
               </Link>
+              &ensp;
               {suffix}
             </div>
             <div>
@@ -277,7 +277,6 @@ export default class Post extends Component {
   }
 
   render() {
-    console.log(this.state.data.rating)
     var type, action, suffix, movieposter, date;
     var avatar = avatars + this.state.data.avatar;
     switch(this.state.data.type){

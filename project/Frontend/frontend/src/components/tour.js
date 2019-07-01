@@ -102,7 +102,7 @@ export default class Tour extends Component {
                   </Row>
                   <Row>
                     <Col md="7">
-                      feed img
+                      <img src={require('../img/tour/feed.png')} alt="Feed" width="100%" />
                     </Col>
                     <Col md="5">
                       {labels[this.props.lang].feedSection1}

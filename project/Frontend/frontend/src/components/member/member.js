@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import Container from 'react-bootstrap/Container';
-import MovieCard from '../movie-card'
-import logo from '../../img/logo.png'
 import Axios from 'axios'
 import MemberMain from './member-main'
 import MemberAside from './member-aside'
 import MemberInfo from './member-info'
-import {backend, labels} from '../../var'
+import {backend} from '../../var'
 import '../../styles/MemberCompany.css'
 import Loading from '../aux_pages/loading'
 import NotFoundError from '../aux_pages/notFoundError'
@@ -30,7 +27,7 @@ export default class Member extends Component{
         return await Axios.get(backend + '/member/' + id).then(x => {
 
           var backdrops = []  
-          x.data.backdrops.map(path => {
+          x.data.backdrops.forEach(path => {
             let shortImage = "https://image.tmdb.org/t/p/w200" + path
             let largeImage = "https://image.tmdb.org/t/p/w500" + path
             backdrops.push({"href": largeImage, "src": shortImage})

@@ -119,7 +119,7 @@ public class DataUtil {
             "AS (" +
                 "SELECT username, Muser.name, avatar, alphacode, gender, likescount " +
                 "FROM Muser " +
-                "JOIN Country ON Country.id = Muser.id " +
+                "JOIN Country ON Country.id = Muser.countryid " +
                 "ORDER BY likescount " +
                 "LIMIT 100" +
             ")"
@@ -283,7 +283,7 @@ public class DataUtil {
         List<String> views = Arrays.asList(
             "LatestMovies", "PopularMovies", "UpcomingMovies", "BornToday", "UpcomingMovies",
                 "BornToday", "MostCredits", "TotalWatchedHours", "TotalLikes", "CountryCount",
-                "GenderCount"
+                "GenderCount", "TopLikedUsers"
         );
 
         views.forEach(x -> entityManager.createNativeQuery("REFRESH MATERIALIZED VIEW " + x).executeUpdate());
@@ -326,16 +326,12 @@ public class DataUtil {
 
     public List<Map> queryListToListMap(List<Object[]> objects, List params) {
         List l = new ArrayList();
-        /*if (!objects.isEmpty())
-            System.out.println(objects.get(0)[params.indexOf("timestmp")].toString());*/
         objects.forEach(x -> {
             Map m = new HashMap();
             params.forEach(p -> {
-                System.out.println(x[params.indexOf(p)]);
                 m.put(p, x[params.indexOf(p)]);});
             l.add(m);
         });
-        System.out.println(l.toString());
         return l;
     }
 }

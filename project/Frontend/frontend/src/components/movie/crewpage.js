@@ -40,9 +40,6 @@ export default class CrewPage extends Component {
         movieYear: y.data.year
       });
     })
-    .catch((e) =>
-      console.log(e)
-    )
   }
 
   loadCast() {
@@ -57,9 +54,7 @@ export default class CrewPage extends Component {
         castPage: self.state.castPage + 1
       })
 
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   loadCrew() {
@@ -74,9 +69,7 @@ export default class CrewPage extends Component {
         crewPage: self.state.crewPage + 1
       })
 
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   handleSelect(eventKey) {

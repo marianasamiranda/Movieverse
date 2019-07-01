@@ -9,7 +9,6 @@ export default class Aside extends Component {
     this.state = {
       movies: props.movies,
     }
-    console.log(props.movies)
   }
 
   render() {

@@ -52,9 +52,7 @@ export default class DiscussionBox extends Component {
         moreComments: response.data.moreComments,
         currentPage: self.state.currentPage + 1
       });
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   getComment = (newComment) => {
@@ -83,9 +81,7 @@ export default class DiscussionBox extends Component {
       self.setState(prevState => ({
         comments: [element, ...prevState.comments]
       }))
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
   
   render() {

@@ -31,7 +31,6 @@ export default class PeopleSearch extends Component {
     document.title = "Showtimes - " + this.state.theater + " | Movieverse"
     this.getShowtimes(this.state.theater)
     const t = queryString.parse(this.props.location.search)
-    console.log(t.name);
 
     if (t.name) {
       this.handleTheater({value: t.name})

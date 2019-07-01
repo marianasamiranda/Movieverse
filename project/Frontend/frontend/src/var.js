@@ -208,7 +208,6 @@ export const badges = [
 
 export const labels = {
   en: en,
-  en: en,
   pt: pt,
   de: de,
   el: el,

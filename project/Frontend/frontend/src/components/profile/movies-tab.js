@@ -85,9 +85,7 @@ export default class MoviesCard extends Component {
   }
 
   scrollCard() {
-    setTimeout(() => {
-      console.log("asdasdasd");
-      
+    setTimeout(() => {      
       if (this.card !== undefined) {
         this.card.scroll({top: this.card.scrollHeight, behavior: 'smooth'})
         this.setState({

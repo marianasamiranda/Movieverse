@@ -23,7 +23,7 @@ public class Showtime {
 	
 	private Theater theater;
 	
-	private java.util.Date date;
+	private String date;
 	
 	private void setId(int value) {
 		this.id = value;
@@ -37,11 +37,11 @@ public class Showtime {
 		return getId();
 	}
 	
-	public void setDate(java.util.Date value) {
+	public void setDate(String value) {
 		this.date = value;
 	}
 	
-	public java.util.Date getDate() {
+	public String getDate() {
 		return date;
 	}
 	

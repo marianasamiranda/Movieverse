@@ -127,7 +127,7 @@ export default class NavBar extends Component {
     let langDropdownItems = []
     languages.forEach(x => {
       langDropdownItems.push(                
-        <NavDropdown.Item onSelect={() => this.props.changeLanguage(x.code)}>
+        <NavDropdown.Item onSelect={() => this.props.changeLanguage(x.code)} key={languages.indexOf(x)}>
           <Flag language country={x.code}/> 
           {x.name}
         </NavDropdown.Item>

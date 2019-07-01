@@ -782,7 +782,7 @@ public class MovieServiceImpl implements MovieService {
         userMovie.setStatus(true);
         userMovie.setDateWatched(new Date());
 
-        int runtime = movie.getRuntime() == null ? 0 : movie.getRuntime();
+        int runtime = movie.getRuntime() == null ? 90 : movie.getRuntime();
 
         updateMovieHoursAchievements(user, runtime);
 
@@ -798,7 +798,7 @@ public class MovieServiceImpl implements MovieService {
 
         movie.removeWatchCount();
         user.removeMovieCount();
-        int runtime = movie.getRuntime() == null ? 0 : movie.getRuntime();
+        int runtime = movie.getRuntime() == null ? 90 : movie.getRuntime();
         user.removeMinutesCount(runtime);
 
         if (userMovie.getFavourite()) {

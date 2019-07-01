@@ -24,34 +24,26 @@ export default class Feed extends Component {
     };
 
     async getFeedInfo(user) {
-      console.log(user)
       const token = getToken()
       let query = ""
   
       return Axios.get(backend + '/user/feed' + query, 
           { headers: { Authorization: "Bearer " + token } }).then(x => {
         
-        console.log(x.data)
-        console.log(x.data['upcomingMovies'])
-        console.log(x.data['feedEntries'])
-        console.log(x.data['moreEntries'])
         this.setState({
           upcomings: x.data['upcomingMovies'],
           feedEntries: x.data['feedEntries'],
           moreEntries: x.data['moreEntries'],
           user: x.data['self'] ? undefined : user
         })
-        console.log(x.data)
       })
       .catch(x => {
-        console.log(x)
         if (x.response.data === 'Wrong token') {
           this.setState({
             noAuth: true
           })
         }
         else {
-          console.log(x)
           this.setState({
             noUser: true
           })
@@ -80,7 +72,6 @@ export default class Feed extends Component {
                   lang={this.props.lang}
                   entries={this.state.feedEntries}
                   moreEntries={this.state.moreEntries}
-                  lang={this.props.lang}
                 >
                 </Main>
           

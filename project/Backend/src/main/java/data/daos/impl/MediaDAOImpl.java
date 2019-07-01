@@ -32,8 +32,6 @@ public class MediaDAOImpl extends DAOImpl<Integer , Media> implements MediaDAO {
 
         results.forEach((record) -> {
             String path = (String) record;
-            System.out.println(path);
-
             res.add(path);
         });
 

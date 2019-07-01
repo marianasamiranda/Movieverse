@@ -38,14 +38,11 @@ export default class Reply extends Component {
         {},
         { headers: { Authorization: "Bearer " + token } })
       .then((response) =>
-        console.log(response)
-      ).catch((e) =>
-        console.log(e.response)
+        this.setState({
+          likes: this.state.likes + 1,
+          liked: true
+        })
       )
-      this.setState({
-        likes: this.state.likes + 1,
-        liked: true
-      });
     }
     else {
       
@@ -53,14 +50,11 @@ export default class Reply extends Component {
         {},
         { headers: { Authorization: "Bearer " + token } })
       .then((response) =>
-        console.log(response)
-      ).catch((e) =>
-        console.log(e.response)
+        this.setState({
+          likes: this.state.likes - 1,
+          liked: false
+        })
       )
-      this.setState({
-        likes: this.state.likes - 1,
-        liked: false
-      });
     }
   }
 

@@ -48,9 +48,6 @@ export default class MediaPage extends Component {
         movieYear: y.data.year
       });
     })
-    .catch((e) =>
-      console.log(e)
-    )
   }
 
   loadVideos() {
@@ -76,9 +73,7 @@ export default class MediaPage extends Component {
         videosPage: self.state.videosPage + 1
       })
 
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   loadBackdrops() {
@@ -104,9 +99,7 @@ export default class MediaPage extends Component {
         backdropsPage: self.state.backdropsPage + 1
       })
 
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   loadPosters() {
@@ -131,9 +124,7 @@ export default class MediaPage extends Component {
         postersPage: self.state.postersPage + 1
       })
 
-    }).catch((e) =>
-      console.log(e)
-    )
+    })
   }
 
   handleSelect(eventKey) {

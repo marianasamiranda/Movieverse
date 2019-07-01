@@ -66,7 +66,7 @@ export default class FriendsCard extends Component {
             loading: false,
             showMore: x.data.length === 24
           })
-        }).catch(x => console.log(x.response.data))
+        })
     }
     else {
       this.setState({

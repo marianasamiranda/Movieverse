@@ -36,7 +36,7 @@ export default class MemberMain extends Component{
         if(this.state.moviesNotRendered.length > 8){
             let nextMovies = this.state.moviesNotRendered.slice(0,8);
             var movies = this.state.moviesRendered
-            nextMovies.map( (movie) => {
+            nextMovies.forEach( (movie) => {
                 movies.push(movie)
             } )
 
@@ -56,7 +56,7 @@ export default class MemberMain extends Component{
                 var nextMovies = x.data.movies.slice(0,8)
 
 
-                nextMovies.map( (movie) => {
+                nextMovies.forEach( (movie) => {
                     movies.push(movie)
                 } )
                 
