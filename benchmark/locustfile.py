@@ -12,6 +12,21 @@ def frontpage(l):
     l.client.get('/')
     logging.info(str(begin) + ',frontpage,' + str(time() - begin))
 
+def register(l):
+    data =  {
+        'username': l.username, 
+        'password': l.password, 
+        'name': l.username,
+        'email': l.username + '@email.com', 
+        'country': 'PT', 
+        'birthdate': '2019-07-01T15:18:22.358Z', 
+        'gender': 'M'
+    }
+    begin = time()
+    r = l.client.post('/register', json=data)
+    logging.info(str(begin) + ',register,' + str(time() - begin))
+
+
 def login(l):
     data = {'username': l.username, 'password': l.password}
     begin = time()
@@ -65,21 +80,20 @@ def feed(l):
     l.client.get('/user/feed', headers=l.authHeader)
     logging.info(str(begin) + ',feed,' + str(time() - begin))
 
-#TODO remaining methods
 
 
 class UserBehavior(TaskSet):
     tasks = {news: 1, profile: 1, showtimes: 1, movie: 1, member: 1, movieSearch: 1, peopleSearch: 1, feed: 1}
     authHeader = None
-    username = None
-    password = None
     movieIds = [120, 155, 161, 680, 862, 954, 19995, 299534]  # temporary data
     memberIds = [31, 287, 1245, 1327, 1461, 3894, 5064, 6193]  # temporary data
-    faker = Faker()
 
     def on_start(self):
         frontpage(self)
-        (self.username, self.password) = data.CREDENTIALS.pop()
+        self.faker = Faker()
+        self.username = self.faker.user_name() + str(random.randint(1, 9999))
+        self.password = '$2a$10$rzUH4ldkL9qQnuSWp/USAumUXBMA6chjBqhkFFBJCgk6DK2wibBNS'
+        register(self)
         token = login(self)
         self.authHeader = {"authorization": "Bearer " + token}
 
