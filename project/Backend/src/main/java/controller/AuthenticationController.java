@@ -32,6 +32,7 @@ public class AuthenticationController {
     @LogMethod
     @RequestMapping(method = POST, value = "/register")
     public ResponseEntity<Object> register(@RequestBody Map body) {
+        System.out.println(body);
         String email = (String)body.get("email");
         String username = (String) body.get("username");
         String name = (String) body.get("name");

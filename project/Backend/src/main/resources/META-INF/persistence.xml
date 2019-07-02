@@ -45,7 +45,7 @@
 			<!--<property name="hibernate.hbm2ddl.auto"> update</property>-->
 			<property name="hibernate.hbm2ddl.auto"  value="update"/>
 			<!--<property name="hibernate.hbm2ddl.auto"> create-drop</property>-->
-			<property name="hibernate.show_sql"  value="false"/>
+			<property name="hibernate.show_sql"  value="true"/>
 			<property name="format_sql"  value="false"/> <!-- Show SQL formatted -->
 			<property name="hibernate.query.substitutions"  value="true 1, false 0, yes 'Y', no 'N'"/>
 			<!-- mapping files -->

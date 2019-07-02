@@ -12,10 +12,5 @@ License Type: Academic
 			</generator>
 		</id>
 		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
-		<set name="movies" table="MovieGenre" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="GenreId" not-null="true"/>
-			<many-to-many column="MovieId" class="data.entities.Movie">
-			</many-to-many>
-		</set>
 	</class>
 </hibernate-mapping>
